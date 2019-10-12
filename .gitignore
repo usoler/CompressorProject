@@ -1,9 +1,6 @@
 src/.DS_Store
 
 src/main/.DS_Store
-/.idea/
 /out/
 
 .DS_Store
-
-*.xml
