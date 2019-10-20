@@ -3,13 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/input/testFolder/test 3.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/Fichero.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,10 +47,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
