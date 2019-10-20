@@ -32,12 +32,25 @@ public class Trie {
         return Objects.nonNull(this.root.lookup(word, 0));
     }
 
+    public boolean remove(String word) {
+        if (Objects.isNull(word)) {
+            return false;
+        }
+
+        if (this.root.remove(word, 0)) {
+            --this.size;
+            return true;
+        }
+
+        return false;
+    }
+
     public void printTrie() { // TODO: eliminar, es solo para testear
         System.out.println("Root");
         Map<Character, TrieNode> children = this.root.getChildren();
 
         for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-            System.out.println(entry.getKey());
+            System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
             printRecursive(entry.getValue());
         }
     }
@@ -46,7 +59,7 @@ public class Trie {
         Map<Character, TrieNode> children = node.getChildren();
         if (Objects.nonNull(children)) {
             for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-                System.out.println(entry.getKey());
+                System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
                 printRecursive(entry.getValue());
             }
         }

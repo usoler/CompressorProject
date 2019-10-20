@@ -6,15 +6,21 @@ import java.util.Objects;
 
 public class TrieNode {
     private char character;
+    private int occurances;
     private Map<Character, TrieNode> children;
 
     TrieNode(char character) {
         this.character = character;
-        children = null;
+        this.occurances = 0;
+        this.children = null;
     }
 
     public Map<Character, TrieNode> getChildren() {
         return this.children;
+    }
+
+    public int getOccurances() {
+        return this.occurances;
     }
 
     public boolean insert(String word, int position) {
@@ -35,7 +41,10 @@ public class TrieNode {
             children.put(currentCharacter, node);
         }
 
+        ++this.occurances;
+
         if (position == word.length() - 1) {
+            ++node.occurances;
             return true;
         } else {
             return node.insert(word, position + 1);
@@ -59,6 +68,36 @@ public class TrieNode {
                 return node.lookup(word, position + 1);
             }
         }
+    }
+
+    public boolean remove(String word, int position) {
+        if (Objects.isNull(this.children) || Objects.isNull(word)) {
+            return false;
+        }
+
+        char currentCharacter = word.charAt(position);
+        TrieNode node = this.children.get(currentCharacter);
+
+        boolean result;
+        if (Objects.isNull(node)) {
+            return false;
+        } else if (position == word.length() - 1) {
+            int before = node.occurances;
+            --node.occurances;
+            result = before > 0;
+        } else {
+            --node.occurances;
+            result = node.remove(word, position + 1);
+        }
+
+        if (Objects.isNull(node.children) && node.occurances == 0) {
+            this.children.remove(node.character);
+            if (this.children.size() == 0) {
+                this.children = null;
+            }
+        }
+
+        return result;
     }
 
 

@@ -9,19 +9,16 @@ public class Main {
 
         // Example Trie Data Structure
         Trie trie = new Trie();
-        trie.insert("example");
+        trie.insert("ex");
         trie.insert("exam");
-        trie.insert("an");
-        trie.insert("analphabet");
-        trie.insert("alpha");
-        trie.insert("alphabet");
+        trie.insert("example");
+        trie.insert("coco");
 
         trie.printTrie();
 
-        if (trie.contains("bet")) {
-            System.out.println("True");
-        } else {
-            System.out.println("False");
-        }
+        trie.remove("exam");
+        trie.remove("example");
+
+        trie.printTrie();
     }
 }

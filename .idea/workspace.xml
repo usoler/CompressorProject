@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieNodeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +69,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound">
+  <component name="RunManager" selected="Application.APP">
+    <configuration name="APP" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TrieTest.verify_contains_returnsFalse_whenNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CompressorProject" />
       <extension name="coverage">
@@ -152,6 +157,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.APP" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenNotFound" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsBlank" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsNull" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
