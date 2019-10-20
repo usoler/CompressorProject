@@ -1,4 +1,5 @@
-import domain.Reader;
+import domain.fileManager.FileManager;
+import domain.fileManager.FileReader;
 
 public class Main {
 
@@ -6,8 +7,6 @@ public class Main {
         // Example
         MyLoggerExample logger = new MyLoggerExample();
         logger.showLogs();
-        Reader reader = new Reader();
-        //reader.readSpecificFile("input/test.txt");
-        reader.readAllFilesFromFolder("input");
+        FileManager.readAndWriteFolder("input");
     }
 }
