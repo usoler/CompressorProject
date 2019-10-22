@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/testFolder/test 3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/output/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/Fichero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

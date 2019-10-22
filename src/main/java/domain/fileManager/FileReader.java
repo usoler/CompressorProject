@@ -9,30 +9,46 @@ import java.util.*;
 public class FileReader {
 
     static private Scanner scanner;
+    static private FileCreator fileCreator;
 
-    public static String readSpecificFile(String filePathname)
+    public FileReader()
+    {
+        scanner = null;
+        fileCreator = new FileCreator();
+    }
+
+    public static void readSpecificFile(String filePathname, FileManager fileManager)
     {
         File file = new File(filePathname);
-        InputStream inputStream = null;
-        String data = null;
-        try {
-            inputStream = new FileInputStream(file);
-            scanner = new Scanner(inputStream).useDelimiter("\\A");
-            data = scanner.hasNext() ? scanner.next() : "";
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        if (file.isDirectory())
+        {
+            System.out.println("You are reading a Folder. Reading Folder instead");
+            readAllFilesFromFolder(filePathname,fileManager);
+        }
+        else
+        {
+            InputStream inputStream = null;
+            String data = null;
             try {
-                if (inputStream != null)
-                    inputStream.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                inputStream = new FileInputStream(file);
+                scanner = new Scanner(inputStream).useDelimiter("\\A");
+                data = scanner.hasNext() ? scanner.next() : "";
+                fileCreator.createFileImpl(data,filePathname, fileManager);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (inputStream != null)
+                        inputStream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
-        return data;
+
 
     }
-    public static List<String> readAllFilesFromFolder(String folderPathName)
+    public static void readAllFilesFromFolder(String folderPathName, FileManager fileManager)
     {
         File folder = new File(folderPathName);
         File [] listOfFiles = folder.listFiles();
@@ -40,21 +56,19 @@ public class FileReader {
         List<String> listOfStrings = new ArrayList<String>();
         InputStream inputStream = null;
         String data = null;
+        String filePathname = null;
         for (File file : listOfFiles)
         {
-
-            if (file.isFile())
+            filePathname = folderPathName + "/" + file.getName();
+            if (file.isFile() )
             {
-
                 try {
 
                     System.out.println(file.getName());
                     inputStream = new FileInputStream(file);
                     scanner = new Scanner(inputStream).useDelimiter("\\A");
                     data = scanner.hasNext() ? scanner.next() : "";
-                    listOfStrings.add(data);
-
-
+                    fileCreator.createFileImpl(data,filePathname, fileManager);
                 } catch (IOException e){
                     e.printStackTrace();
                 }finally {
@@ -70,12 +84,9 @@ public class FileReader {
             }
             else if (file.isDirectory())
             {
-                String newPathname = folderPathName + "/" + file.getName();
-                listOfStrings.addAll(readAllFilesFromFolder(newPathname));
-
+                readAllFilesFromFolder(filePathname, fileManager);
             }
         }
-        return listOfStrings;
     }
 
 
