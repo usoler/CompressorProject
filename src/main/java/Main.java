@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 import domain.fileManager.FileImpl;
 import domain.fileManager.FileManager;
 
 import java.io.IOException;
 import java.util.List;
 
-=======
 import domain.dataStructure.Trie;
->>>>>>> oriol
 
 public class Main {
 
@@ -15,7 +12,7 @@ public class Main {
         // Example
         MyLoggerExample logger = new MyLoggerExample();
         logger.showLogs();
-<<<<<<< HEAD
+
         FileManager fileManager = new FileManager();
 
         fileManager.readFolder("input");
@@ -28,9 +25,6 @@ public class Main {
             fileManager.writeFile(filesRead.get(0),true);
             //TODO BETTER VERSION FOR WRITING
         }
-
-
-=======
 
         // Example Trie Data Structure
         Trie trie = new Trie();
@@ -45,6 +39,6 @@ public class Main {
         trie.remove("example");
 
         trie.printTrie();
->>>>>>> oriol
+
     }
 }

@@ -1,98 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/output/test.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/testFolder/test 3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/Fichero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
->>>>>>> Ángel
-=======
+    <list default="true" id="1dcfdf56-05ec-49da-9d55-0c6bb6ee4951" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
->>>>>>> oriol
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="JUnit4 Test Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1S6dFe0PN9TtUyjCcflLm8845XT" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="domain.dataStructure" />
-      <recent name="data" />
-      <recent name="domain" />
-      <recent name="presentation" />
-      <recent name="" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/java" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-<<<<<<< HEAD
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\input\testFolder" />
-      <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\input" />
-      <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\src\test\java" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
-=======
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
->>>>>>> oriol
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -106,127 +23,17 @@
       </list>
     </option>
   </component>
-<<<<<<< HEAD
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-=======
-  <component name="RunManager" selected="Application.APP">
-    <configuration name="APP" type="Application" factoryName="Application">
->>>>>>> oriol
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-<<<<<<< HEAD
-    <configuration name="ReadFileExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ReadFileExample" />
-      <module name="CompressorProject" />
-=======
-    <configuration name="TrieTest.verify_contains_returnsFalse_whenNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenNotFound" />
-      <option name="TEST_OBJECT" value="method" />
->>>>>>> oriol
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-<<<<<<< HEAD
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.ReadFileExample" />
-=======
-    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsBlank" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsBlank" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsEmpty" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsNull" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieTest.verify_contains_returnsTrue_whenIsFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsTrue_whenIsFound" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.APP" />
-      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenNotFound" />
-      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsBlank" />
-      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" />
-      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsNull" />
-      <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenNotFound" />
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsBlank" />
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" />
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsNull" />
->>>>>>> oriol
       </list>
     </recent_temporary>
   </component>
@@ -235,11 +42,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="" />
-      <created>1570887876651</created>
+      <changelist id="1dcfdf56-05ec-49da-9d55-0c6bb6ee4951" name="Default Changelist" comment="" />
+      <created>1571938906357</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1570887876651</updated>
+      <updated>1571938906357</updated>
     </task>
     <servers />
   </component>
@@ -248,15 +55,10 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
