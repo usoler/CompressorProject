@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/output/test.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -28,6 +29,12 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 >>>>>>> Ángel
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
+>>>>>>> oriol
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,8 +45,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -63,22 +70,28 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="domain.dataStructure" />
       <recent name="data" />
       <recent name="domain" />
       <recent name="presentation" />
       <recent name="" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
+<<<<<<< HEAD
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\input\testFolder" />
       <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\input" />
       <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\src\test\java" />
       <recent name="$PROJECT_DIR$/src/main/java" />
+=======
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+>>>>>>> oriol
     </key>
   </component>
   <component name="RunDashboard">
@@ -93,27 +106,127 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+=======
+  <component name="RunManager" selected="Application.APP">
+    <configuration name="APP" type="Application" factoryName="Application">
+>>>>>>> oriol
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <configuration name="ReadFileExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ReadFileExample" />
       <module name="CompressorProject" />
+=======
+    <configuration name="TrieTest.verify_contains_returnsFalse_whenNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.dataStructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
+      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenNotFound" />
+      <option name="TEST_OBJECT" value="method" />
+>>>>>>> oriol
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.ReadFileExample" />
+=======
+    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsBlank" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.dataStructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
+      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsBlank" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.dataStructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
+      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsEmpty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrieTest.verify_contains_returnsFalse_whenWordIsNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.dataStructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
+      <option name="METHOD_NAME" value="verify_contains_returnsFalse_whenWordIsNull" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrieTest.verify_contains_returnsTrue_whenIsFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.dataStructure.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
+      <option name="METHOD_NAME" value="verify_contains_returnsTrue_whenIsFound" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.APP" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenNotFound" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsBlank" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsNull" />
+      <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TrieTest.verify_contains_returnsTrue_whenIsFound" />
+        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenNotFound" />
+        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsBlank" />
+        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsEmpty" />
+        <item itemvalue="JUnit.TrieTest.verify_contains_returnsFalse_whenWordIsNull" />
+>>>>>>> oriol
       </list>
     </recent_temporary>
   </component>
