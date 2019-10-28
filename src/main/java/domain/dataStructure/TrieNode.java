@@ -7,12 +7,14 @@ import java.util.Objects;
 public class TrieNode {
     private char character;
     private int occurances;
+    private int index;
     private Map<Character, TrieNode> children;
 
     TrieNode(char character) {
         this.character = character;
         this.occurances = 0;
         this.children = null;
+        this.index = 0;
     }
 
     public Map<Character, TrieNode> getChildren() {

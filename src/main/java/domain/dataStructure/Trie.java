@@ -6,7 +6,6 @@ import java.util.Objects;
 public class Trie {
     private TrieNode root;
     private int size;
-
     public Trie() {
         this.root = new TrieNode((char) 0);
         this.size = 0;
