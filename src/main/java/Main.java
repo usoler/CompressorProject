@@ -1,3 +1,8 @@
+import domain.algorithms.Algorithm;
+import domain.algorithms.lossless.Lz78;
+import domain.algorithms.lossless.Lzss;
+import domain.algorithms.lossless.Lzw;
+import domain.algorithms.lossy.Jpeg;
 import domain.dataStructure.Trie;
 
 public class Main {
@@ -22,5 +27,19 @@ public class Main {
         System.out.println(String.format("Index of 'and': %s", trie.getIndexOf("and")));
         System.out.println(String.format("Index of 'hol': %s", trie.getIndexOf("hol")));
         System.out.println(String.format("Index of 'hola': %s", trie.getIndexOf("hola")));
+
+
+        Algorithm algorithm = new Algorithm();
+        algorithm.setAlgorithmInterface(new Lz78());
+        algorithm.encodeFile(null);
+
+        algorithm.setAlgorithmInterface(new Lzss());
+        algorithm.decodeFile(null);
+
+        algorithm.setAlgorithmInterface(new Lzw());
+        algorithm.encodeFile(null);
+
+        algorithm.setAlgorithmInterface(new Jpeg());
+        algorithm.decodeFile(null);
     }
 }
