@@ -11,7 +11,6 @@ public class TrieNode {
     private char character;
     private int index;
     private int occurances;
-    private int index;
     private Map<Character, TrieNode> children;
 
     // *****************************************************************

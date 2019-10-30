@@ -45,18 +45,18 @@ public class Main {
         algorithm.decodeFile(null);
     }
 
-
-    static public void prueba(int ogt)
-    {
-        ogt = 3;
-    }
-
-
+/*
     static public void LZ78Test()
     {
         Lz78 algorithm = new Lz78();
         algorithm.createDictionary("abracadabra");
         algorithm.printDictionary();
+    }
+    */
+
+    static public void testLZ78()
+    {
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -76,11 +76,10 @@ public class Main {
             fileManager.writeFile(filesRead.get(0),true);
             //TODO BETTER VERSION FOR WRITING
         }
-        int ogt= 2;
-        System.out.println(ogt);
-        prueba(ogt);
-        System.out.println(ogt);
-        LZ78Test();
+
+        Algorithm algorithm = new Algorithm();
+        algorithm.encodeFile("abracadabra");
+        //LZ78Test();
         //trieTest();
     }
 }

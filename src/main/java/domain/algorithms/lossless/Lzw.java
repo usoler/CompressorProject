@@ -11,7 +11,7 @@ public class Lzw extends Lz78 {
     }
 
     @Override
-    public void encode(File file) {
+    public void encode(String file) {
         // ENCODING WITH LZW
         System.out.println("Encoding file with LZW");
     }

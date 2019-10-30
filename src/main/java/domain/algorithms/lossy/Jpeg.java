@@ -7,7 +7,7 @@ import java.io.File;
 public class Jpeg implements AlgorithmInterface {
 
     @Override
-    public void encode(File file) {
+    public void encode(String file) {
         // ENCODING WITH JPEG
         System.out.println("Encoding file with JPEG");
     }

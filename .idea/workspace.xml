@@ -5,8 +5,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/AlgorithmInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/AlgorithmInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,6 +19,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="293" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -114,5 +122,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CompressorProject2$Main.ic" NAME="Main Coverage Results" MODIFIED="1572464417627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
