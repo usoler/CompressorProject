@@ -1,9 +1,7 @@
 package domain.algorithms;
 
-import java.io.File;
-
 public interface AlgorithmInterface {
-    public void encode(File file);
+    public void encode(String text);
 
-    public void decode(File file);
+    public void decode(String text);
 }

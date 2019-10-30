@@ -1,9 +1,5 @@
 package domain.algorithms.lossless;
 
-import domain.algorithms.AlgorithmInterface;
-
-import java.io.File;
-
 public class Lzw extends Lz78 {
 
     public Lzw() {
@@ -11,13 +7,13 @@ public class Lzw extends Lz78 {
     }
 
     @Override
-    public void encode(File file) {
+    public void encode(String text) {
         // ENCODING WITH LZW
         System.out.println("Encoding file with LZW");
     }
 
     @Override
-    public void decode(File file) {
+    public void decode(String text) {
         // DECODING WITH LZW
         System.out.println("Decoding file with LZW");
     }

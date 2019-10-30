@@ -1,23 +1,21 @@
 package domain.algorithms.lossless;
 
-import domain.algorithms.AlgorithmInterface;
-
-import java.io.File;
+import domain.dataStructure.Trie;
 
 public class Lzss extends Lz {
 
     public Lzss() {
-        // Empty
+        this.dictionary = new Trie();
     }
 
     @Override
-    public void encode(File file) {
+    public void encode(String text) {
         // ENCODING WITH LZSS
         System.out.println("Encoding file with LZSS");
     }
 
     @Override
-    public void decode(File file) {
+    public void decode(String text) {
         // DECODING WITH LZSS
         System.out.println("Decoding file with LZSS");
     }
