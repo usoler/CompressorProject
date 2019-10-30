@@ -1,6 +1,7 @@
 package domain.algorithms.lossless;
 
-import domain.algorithms.Algorithm;
+import domain.algorithms.AlgorithmInterface;
 
-public abstract class Lz extends Algorithm {
+public abstract class Lz implements AlgorithmInterface {
+
 }
