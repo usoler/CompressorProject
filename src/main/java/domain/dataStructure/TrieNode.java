@@ -5,28 +5,50 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TrieNode {
+    // *****************************************************************
+    //  State
+    // *****************************************************************
     private char character;
+    private int index;
     private int occurances;
     private Map<Character, TrieNode> children;
 
+    // *****************************************************************
+    //  Constructor
+    // *****************************************************************
     TrieNode(char character) {
         this.character = character;
+        this.index = -1; // NULL
         this.occurances = 0;
         this.children = null;
     }
 
-    public Map<Character, TrieNode> getChildren() {
-        return this.children;
+    // *****************************************************************
+    //  Getters
+    // *****************************************************************
+    public char getCharacter() {
+        return this.character;
+    }
+
+    public int getIndex() {
+        return this.index;
     }
 
     public int getOccurances() {
         return this.occurances;
     }
 
-    public boolean insert(String word, int position) {
+    public Map<Character, TrieNode> getChildren() {
+        return this.children;
+    }
+
+    // *****************************************************************
+    //  Public methods
+    // *****************************************************************
+    public int insert(String word, int position, int index) {
         if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty() || position >= word.length()
                 || position < 0) {
-            return false;
+            return -1;
         }
 
         if (this.children == null) {
@@ -43,11 +65,12 @@ public class TrieNode {
 
         ++this.occurances;
 
-        if (position == word.length() - 1) {
+        if (position == word.length() - 1) { // Last char
+            node.index = index;
             ++node.occurances;
-            return true;
+            return node.index;
         } else {
-            return node.insert(word, position + 1);
+            return node.insert(word, position + 1, index);
         }
     }
 
@@ -69,38 +92,6 @@ public class TrieNode {
             }
         }
     }
-
-    public boolean remove(String word, int position) {
-        if (Objects.isNull(this.children) || Objects.isNull(word)) {
-            return false;
-        }
-
-        char currentCharacter = word.charAt(position);
-        TrieNode node = this.children.get(currentCharacter);
-
-        boolean result;
-        if (Objects.isNull(node)) {
-            return false;
-        } else if (position == word.length() - 1) {
-            int before = node.occurances;
-            --node.occurances;
-            result = before > 0;
-        } else {
-            --node.occurances;
-            result = node.remove(word, position + 1);
-        }
-
-        if (Objects.isNull(node.children) && node.occurances == 0) {
-            this.children.remove(node.character);
-            if (this.children.size() == 0) {
-                this.children = null;
-            }
-        }
-
-        return result;
-    }
-
-
 }
 
 

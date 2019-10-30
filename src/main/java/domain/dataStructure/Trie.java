@@ -4,24 +4,46 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Trie {
+    // *****************************************************************
+    //  State
+    // *****************************************************************
     private TrieNode root;
     private int size;
 
+    // *****************************************************************
+    //  Constructor
+    // *****************************************************************
     public Trie() {
         this.root = new TrieNode((char) 0);
         this.size = 0;
     }
 
-    public boolean insert(String word) {
+    // *****************************************************************
+    //  Getters
+    // *****************************************************************
+    public TrieNode getRoot() {
+        return this.root;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    // *****************************************************************
+    //  Public methods
+    // *****************************************************************
+    public int insert(String word) {
         if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
-            return false;
+            return -1;
         }
 
-        if (this.root.insert(word, 0)) {
+        int nextIndex = this.size + 1;
+
+        if (this.root.insert(word, 0, nextIndex) > 0) {
             ++this.size;
         }
 
-        return true;
+        return nextIndex;
     }
 
     public boolean contains(String word) {
@@ -32,34 +54,32 @@ public class Trie {
         return Objects.nonNull(this.root.lookup(word, 0));
     }
 
-    public boolean remove(String word) {
-        if (Objects.isNull(word)) {
-            return false;
-        }
-
-        if (this.root.remove(word, 0)) {
-            --this.size;
-            return true;
-        }
-
-        return false;
-    }
-
     public void printTrie() { // TODO: eliminar, es solo para testear
         System.out.println("Root");
         Map<Character, TrieNode> children = this.root.getChildren();
 
         for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-            System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
+            System.out.println(String.format("Key '%s' : '%s' occurances", entry.getKey(), entry.getValue().getOccurances()));
             printRecursive(entry.getValue());
         }
     }
 
+    public int getIndexOf(String word) {
+        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
+            return -1;
+        }
+
+        return this.root.lookup(word, 0).getIndex();
+    }
+
+    // *****************************************************************
+    //  Private methods
+    // *****************************************************************
     private void printRecursive(TrieNode node) { // TODO: eliminar, es solo para testear
         Map<Character, TrieNode> children = node.getChildren();
         if (Objects.nonNull(children)) {
             for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-                System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
+                System.out.println(String.format("Key '%s' : '%s' occurances", entry.getKey(), entry.getValue().getOccurances()));
                 printRecursive(entry.getValue());
             }
         }
