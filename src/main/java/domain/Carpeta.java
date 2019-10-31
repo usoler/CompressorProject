@@ -1,20 +1,26 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
 
 public class Carpeta {
     private String name, format;
     private int size;
-    private Set<Fichero> files;
-    private Set<Carpeta> folders;
+    private ArrayList<Fichero> files;
+    private ArrayList<Carpeta> folders;
 
-    public Carpeta(String name, String format, int size, Set<Fichero> files, Set<Carpeta> folders) {
+    public Carpeta(String name, String format) {
         this.name = name;
         this.format = format;
-        this.size = size;
-        this.files = files;
-        this.folders = folders;
+        this.size = 0;
+        files = new ArrayList<>();
+        folders = new ArrayList<>();
+    }
+
+    public Carpeta(String name, String format, ArrayList<Fichero> files, ArrayList<Carpeta> folders) {
+        this(name, format);
+        setFiles(files);
+        setFolders(folders);
     }
 
     public String getName() {
@@ -37,24 +43,47 @@ public class Carpeta {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public Set<Fichero> getFiles() {
+    public ArrayList<Fichero> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<Fichero> files) {
-        this.files = files;
+    public void setFiles(ArrayList<Fichero> files) {
+        for (Fichero f: this.files) {
+            size -= f.getSize();
+        }
+        if (!Objects.isNull(files)) {
+            this.files = files;
+            for (Fichero f: files) {
+                size += f.getSize();
+            }
+        }
     }
 
-    public Set<Carpeta> getFolders() {
+    public ArrayList<Carpeta> getFolders() {
         return folders;
     }
 
-    public void setFolders(Set<Carpeta> folders) {
-        this.folders = folders;
+    public void setFolders(ArrayList<Carpeta> folders) {
+        for (Carpeta c: this.folders) {
+            size -= c.getSize();
+        }
+        if (!Objects.isNull(folders)) {
+            this.folders = folders;
+            for (Carpeta c: folders){
+                size += c.getSize();
+            }
+        }
+    }
+
+    public void addFile(Fichero file) {
+        files.add(file);
+        size += file.getSize();
+        file.setFolder(this);
+    }
+
+    public void addFolder(Carpeta folder) {
+        folders.add(folder);
+        size += folder.getSize();
     }
 
     @Override
