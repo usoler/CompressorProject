@@ -24,7 +24,7 @@ public class FileManager {
     {
         for (FileImpl file : listOfFiles)
         {
-            if (file.GetPathname() == pathname){
+            if (file.GetPathname().equals(pathname)){
                 return file;
             }
         }

@@ -62,9 +62,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // Example
         MyLoggerExample logger = new MyLoggerExample();
-        abracadabraLZ78Test();
+        //abracadabraLZ78Test();
+        test2LZ78Test();
         logger.showLogs();
-
+/*
         FileManager fileManager = new FileManager();
         fileManager.readFolder("input");
         List<FileImpl> filesRead = null;
@@ -76,6 +77,7 @@ public class Main {
             fileManager.writeFile(filesRead.get(0),true);
             //TODO BETTER VERSION FOR WRITING
         }
+        */
 
         //Algorithm algorithm = new Algorithm();
         //String result = algorithm.encodeFile("abracadabra");
@@ -99,6 +101,27 @@ public class Main {
 
         String resultDecoding = algorithm.decodeFile(file.GetData());
         String pathnameDecoded = "output/LZ78Test/Decoded(abracadabra)";
+        fileManager.createFile(resultDecoding,pathnameDecoded);
+        fileManager.writeFile(pathnameDecoded,false);
+    }
+
+    public static void test2LZ78Test() throws IOException{
+        FileManager fileManager = new FileManager();
+        fileManager.readFolder("input");
+        System.out.println(fileManager.getListOfFiles().get(1).GetPathname());
+        Algorithm algorithm = new Algorithm();
+
+        FileImpl fileTest2 = fileManager.getFile("input/test2.txt");
+
+        String resultEncoding = algorithm.encodeFile(fileTest2.GetData());
+        String pathnameEncoded = "output/LZ78Test/Encoded(test2)";
+        fileManager.createFile(resultEncoding,pathnameEncoded);
+        fileManager.writeFile(pathnameEncoded,false);
+
+        FileImpl file = fileManager.getFile(pathnameEncoded);
+
+        String resultDecoding = algorithm.decodeFile(file.GetData());
+        String pathnameDecoded = "output/LZ78Test/Decoded(test2)";
         fileManager.createFile(resultDecoding,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
     }

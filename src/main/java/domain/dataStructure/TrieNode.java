@@ -47,7 +47,7 @@ public class TrieNode {
     //  Public methods
     // *****************************************************************
     public int insert(String word, int position, int index) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty() || position >= word.length()
+        if (word == null || position >= word.length()
                 || position < 0) {
             return -1;
         }
@@ -76,7 +76,7 @@ public class TrieNode {
     }
 
     public TrieNode lookup(String word, int position) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty() || position >= word.length()
+        if (word == null || position >= word.length()
                 || position < 0 || Objects.isNull(this.children)) {
             return null;
         }

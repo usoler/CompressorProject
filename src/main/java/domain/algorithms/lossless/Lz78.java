@@ -25,13 +25,17 @@ public class Lz78 extends Lz {
             String word = Character.toString(c);
             while (encodingDictionary.contains(word) && i < length)
             {
-                if (index == 0)
+                index = encodingDictionary.getIndexOf(word);
+                if (i+1 < length)
                 {
-                    index = encodingDictionary.getIndexOf(word);
+                    ++i;
+                    c = file.charAt(i);
+                    word+=c;
                 }
-                ++i;
-                c = file.charAt(i);
-                word+=c;
+                else
+                {
+                    ++i;
+                }
 
             }
             if (i <  length) {
@@ -50,7 +54,10 @@ public class Lz78 extends Lz {
                 newText+=Integer.toString(index);
             }
             newText+=';';
-            newText+=c;
+            if (i < length)
+            {
+                newText+=c;
+            }
         }
         return newText;
     }
@@ -62,6 +69,7 @@ public class Lz78 extends Lz {
         decodingDictionary = new HashMap<>();
         int length = file.length();
         int i = 0;
+        int index = -1;
         int mapIndex = 1;
         while (i < length)
         {
@@ -74,27 +82,31 @@ public class Lz78 extends Lz {
                 integer +=c;
                 ++i;
             }
-            int index = Integer.parseInt(integer);
+            index = Integer.parseInt(integer);
             ++i;
-            c = file.charAt(i);
-            String word;
-            if (index != 0)
-            {
-                word = decodingDictionary.get(index);
-                word +=c;
+            if (i < length) {
+                c = file.charAt(i);
+                String word;
+                if (index != 0) {
+                    word = decodingDictionary.get(index);
+                    word += c;
+                } else {
+                    word = Character.toString(c);
+                }
+                decodingDictionary.put(mapIndex, word);
+                ++mapIndex;
+                ++i;
+                index = -1;
             }
-            else
-            {
-                word = Character.toString(c);
-            }
-            decodingDictionary.put(mapIndex,word);
-            ++mapIndex;
-            ++i;
         }
         String newText = decodingDictionary.get(1);
         for (int j = 2; j < mapIndex; ++j)
         {
             newText += decodingDictionary.get(j);
+        }
+        if (index != -1)
+        {
+            newText += decodingDictionary.get(index);
         }
         return newText;
     }

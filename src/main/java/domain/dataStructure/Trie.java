@@ -33,7 +33,7 @@ public class Trie {
     //  Public methods
     // *****************************************************************
     public int insert(String word) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
+        if (word == null) {
             return -1;
         }
 
@@ -47,7 +47,7 @@ public class Trie {
     }
 
     public boolean contains(String word) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
+        if (word == null) {
             return false;
         }
 
@@ -65,7 +65,7 @@ public class Trie {
     }
 
     public int getIndexOf(String word) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
+        if (word == null) {
             return -1;
         }
 
