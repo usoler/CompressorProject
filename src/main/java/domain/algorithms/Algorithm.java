@@ -21,7 +21,7 @@ public class Algorithm {
         return this.algorithmInterface.encode(file);
     }
 
-    public void decodeFile(String file) {
-        this.algorithmInterface.decode(file);
+    public String decodeFile(String file) {
+        return this.algorithmInterface.decode(file);
     }
 }

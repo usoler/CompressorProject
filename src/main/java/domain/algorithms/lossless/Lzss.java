@@ -18,8 +18,9 @@ public class Lzss extends Lz {
     }
 
     @Override
-    public void decode(String file) {
+    public String decode(String file) {
         // DECODING WITH LZSS
         System.out.println("Decoding file with LZSS");
+        return null;
     }
 }

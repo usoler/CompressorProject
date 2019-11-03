@@ -28,7 +28,12 @@ public class FileManager {
                 return file;
             }
         }
+        System.out.println("File not Found");
         return null;
+    }
+
+    public FileImpl getFile(String pathname){
+        return findFileWithPathname(pathname);
     }
 
     public void readFile(String pathname){
@@ -46,10 +51,6 @@ public class FileManager {
 
     public void writeFile(String pathname, boolean append_value)throws  IOException{
         FileImpl file = findFileWithPathname(pathname);
-        if (file == null)
-        {
-            System.out.println("File not Found");
-        }
         fileWriter.writeToFile(file,append_value);
 
     }

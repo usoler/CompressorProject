@@ -89,9 +89,17 @@ public class Main {
     public static void abracadabraLZ78Test()throws IOException{
         FileManager fileManager = new FileManager();
         Algorithm algorithm = new Algorithm();
-        String result = algorithm.encodeFile("abracadabra");
-        String pathname = "output/LZ78Test/Enconded(abracadabra)";
-        fileManager.createFile(result,pathname);
-        fileManager.writeFile(pathname,false);
+
+        String resultEncoding = algorithm.encodeFile("abracadabra");
+        String pathnameEncoded = "output/LZ78Test/Encoded(abracadabra)";
+        fileManager.createFile(resultEncoding,pathnameEncoded);
+        fileManager.writeFile(pathnameEncoded,false);
+
+        FileImpl file = fileManager.getFile(pathnameEncoded);
+
+        String resultDecoding = algorithm.decodeFile(file.GetData());
+        String pathnameDecoded = "output/LZ78Test/Decoded(abracadabra)";
+        fileManager.createFile(resultDecoding,pathnameDecoded);
+        fileManager.writeFile(pathnameDecoded,false);
     }
 }

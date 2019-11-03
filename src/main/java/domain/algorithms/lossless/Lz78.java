@@ -56,7 +56,7 @@ public class Lz78 extends Lz {
     }
 
     @Override
-    public void decode(String file) {
+    public String decode(String file) {
         // DECODING WITH LZ78
         System.out.println("Decoding file with LZ78");
         decodingDictionary = new HashMap<>();
@@ -91,33 +91,14 @@ public class Lz78 extends Lz {
             ++mapIndex;
             ++i;
         }
-        System.out.println("Decoded file with LZ78");
-        System.out.println(decodingDictionary.get(1));
-        System.out.println(decodingDictionary.get(2));
-        System.out.println(decodingDictionary.get(3));
-        System.out.println(decodingDictionary.get(4));
-        System.out.println(decodingDictionary.get(5));
-        System.out.println(decodingDictionary.get(6));
-        System.out.println(decodingDictionary.get(7));
+        String newText = decodingDictionary.get(1);
+        for (int j = 2; j < mapIndex; ++j)
+        {
+            newText += decodingDictionary.get(j);
+        }
+        return newText;
     }
 
-    private void testAbracadabra()
-    {
-        System.out.println("Encoded file with LZ78");
-        System.out.println(encodingDictionary.getIndexOf("a"));
-        System.out.println( encodingDictionary.getIndexOf("b"));
-        System.out.println( encodingDictionary.getIndexOf("r"));
-        System.out.println(encodingDictionary.getIndexOf("ac"));
-        System.out.println(encodingDictionary.getIndexOf("ad"));
-        System.out.println(encodingDictionary.getIndexOf("ab"));
-        System.out.println( encodingDictionary.getIndexOf("ra"));
-    }
-    /*
 
 
-    public void printDictionary() {
-        dictionary.printTrie();
-    }
-
-    */
 }

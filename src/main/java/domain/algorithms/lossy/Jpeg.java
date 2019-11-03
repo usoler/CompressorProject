@@ -14,8 +14,9 @@ public class Jpeg implements AlgorithmInterface {
     }
 
     @Override
-    public void decode(String file) {
+    public String decode(String file) {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
+        return null;
     }
 }
