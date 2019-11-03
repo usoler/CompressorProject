@@ -10,25 +10,53 @@ import java.util.List;
 public class FileManager {
     static private FileReader fileReader;
     static private FileWriterImpl fileWriter;
+    static private FileCreator fileCreator;
     private List<FileImpl> listOfFiles;
 
     public FileManager(){
         listOfFiles = new ArrayList<FileImpl>();
-        fileReader = new FileReader();
+        fileCreator = new FileCreator(this);
+        fileReader = new FileReader(fileCreator);
         fileWriter = new FileWriterImpl();
     }
 
+    private FileImpl findFileWithPathname(String pathname)
+    {
+        for (FileImpl file : listOfFiles)
+        {
+            if (file.GetPathname() == pathname){
+                return file;
+            }
+        }
+        return null;
+    }
+
     public void readFile(String pathname){
-        fileReader.readSpecificFile(pathname,this);
+        fileReader.readSpecificFile(pathname);
+    }
+
+    public void createFile(String fileText, String pathname)
+    {
+        fileCreator.createFileImpl(fileText,pathname);
     }
 
     public static void writeFile(FileImpl file,boolean append_value)throws IOException{
         fileWriter.writeToFile(file,append_value);
     }
 
+    public void writeFile(String pathname, boolean append_value)throws  IOException{
+        FileImpl file = findFileWithPathname(pathname);
+        if (file == null)
+        {
+            System.out.println("File not Found");
+        }
+        fileWriter.writeToFile(file,append_value);
+
+    }
+
 
     public void readFolder(String pathname) {
-        fileReader.readAllFilesFromFolder(pathname,this);
+        fileReader.readAllFilesFromFolder(pathname);
     }
 
     public static void writeFolder(File file, boolean append_value) throws IOException{

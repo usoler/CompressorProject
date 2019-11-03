@@ -7,11 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Algorithm {
-    private Map<Integer, String> decodingDictionary;
     private AlgorithmInterface algorithmInterface;
 
     public Algorithm() {
-        this.decodingDictionary = new HashMap<>();
         this.algorithmInterface = new Lz78();
     }
 
@@ -19,11 +17,11 @@ public class Algorithm {
         this.algorithmInterface = algorithmInterface;
     }
 
-    public void encodeFile(String file) {
-        this.algorithmInterface.encode(file);
+    public String encodeFile(String file) {
+        return this.algorithmInterface.encode(file);
     }
 
-    public void decodeFile(File file) {
+    public void decodeFile(String file) {
         this.algorithmInterface.decode(file);
     }
 }

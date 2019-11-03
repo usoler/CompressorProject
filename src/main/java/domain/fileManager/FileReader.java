@@ -11,19 +11,19 @@ public class FileReader {
     static private Scanner scanner;
     static private FileCreator fileCreator;
 
-    public FileReader()
+    public FileReader(FileCreator _fileCreator)
     {
         scanner = null;
-        fileCreator = new FileCreator();
+        fileCreator = _fileCreator;
     }
 
-    public static void readSpecificFile(String filePathname, FileManager fileManager)
+    public static void readSpecificFile(String filePathname)
     {
         File file = new File(filePathname);
         if (file.isDirectory())
         {
             System.out.println("You are reading a Folder. Reading Folder instead");
-            readAllFilesFromFolder(filePathname,fileManager);
+            readAllFilesFromFolder(filePathname);
         }
         else
         {
@@ -33,7 +33,7 @@ public class FileReader {
                 inputStream = new FileInputStream(file);
                 scanner = new Scanner(inputStream).useDelimiter("\\A");
                 data = scanner.hasNext() ? scanner.next() : "";
-                fileCreator.createFileImpl(data,filePathname, fileManager);
+                fileCreator.createFileImpl(data,filePathname);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -48,7 +48,7 @@ public class FileReader {
 
 
     }
-    public static void readAllFilesFromFolder(String folderPathName, FileManager fileManager)
+    public static void readAllFilesFromFolder(String folderPathName)
     {
         File folder = new File(folderPathName);
         File [] listOfFiles = folder.listFiles();
@@ -68,7 +68,7 @@ public class FileReader {
                     inputStream = new FileInputStream(file);
                     scanner = new Scanner(inputStream).useDelimiter("\\A");
                     data = scanner.hasNext() ? scanner.next() : "";
-                    fileCreator.createFileImpl(data,filePathname, fileManager);
+                    fileCreator.createFileImpl(data,filePathname);
                 } catch (IOException e){
                     e.printStackTrace();
                 }finally {
@@ -84,7 +84,7 @@ public class FileReader {
             }
             else if (file.isDirectory())
             {
-                readAllFilesFromFolder(filePathname, fileManager);
+                readAllFilesFromFolder(filePathname);
             }
         }
     }

@@ -11,13 +11,14 @@ public class Lzss extends Lz {
     }
 
     @Override
-    public void encode(String file) {
+    public String encode(String file) {
         // ENCODING WITH LZSS
         System.out.println("Encoding file with LZSS");
+        return null;
     }
 
     @Override
-    public void decode(File file) {
+    public void decode(String file) {
         // DECODING WITH LZSS
         System.out.println("Decoding file with LZSS");
     }

@@ -62,10 +62,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // Example
         MyLoggerExample logger = new MyLoggerExample();
+        abracadabraLZ78Test();
         logger.showLogs();
 
         FileManager fileManager = new FileManager();
-
         fileManager.readFolder("input");
         List<FileImpl> filesRead = null;
         filesRead = fileManager.getListOfFiles();
@@ -77,9 +77,21 @@ public class Main {
             //TODO BETTER VERSION FOR WRITING
         }
 
-        Algorithm algorithm = new Algorithm();
-        algorithm.encodeFile("abracadabra");
+        //Algorithm algorithm = new Algorithm();
+        //String result = algorithm.encodeFile("abracadabra");
+        //fileManager.createFile(result,"output/LZ78Test/abracadabra");
+        //fileManager.writeFile("output/LZ78Test/abracadabra",true);
+        //algorithm.decodeFile("0;a0;b0;r1;c1;d1;b3;a");
         //LZ78Test();
         //trieTest();
+    }
+
+    public static void abracadabraLZ78Test()throws IOException{
+        FileManager fileManager = new FileManager();
+        Algorithm algorithm = new Algorithm();
+        String result = algorithm.encodeFile("abracadabra");
+        String pathname = "output/LZ78Test/Enconded(abracadabra)";
+        fileManager.createFile(result,pathname);
+        fileManager.writeFile(pathname,false);
     }
 }
