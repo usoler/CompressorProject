@@ -1,6 +1,13 @@
 package domain.algorithms.lossless;
 
-import domain.algorithms.Algorithm;
+import domain.algorithms.AlgorithmInterface;
+import domain.dataStructure.Trie;
 
-public abstract class Lz extends Algorithm {
+import java.util.Map;
+
+public abstract class Lz implements AlgorithmInterface {
+    protected Trie encodingDictionary;
+    protected Map<Integer, String> decodingDictionary;
+
+
 }
