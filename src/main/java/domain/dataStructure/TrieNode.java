@@ -32,6 +32,7 @@ public class TrieNode {
         this.index = -1; // NULL
         this.occurances = 0;
         this.children = null;
+        this.index = 0;
     }
 
     // *****************************************************************
@@ -66,7 +67,7 @@ public class TrieNode {
      * @return the index of the inserted word
      */
     public int insert(String word, int position, int index) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty() || position >= word.length()
+        if (word == null || position >= word.length()
                 || position < 0) {
             LOGGER.warn(String.format("The word '%s' could not be inserted", word));
             return -1;
@@ -114,7 +115,7 @@ public class TrieNode {
      * @return the trie node of the last character of the word
      */
     public TrieNode lookup(String word, int position) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty() || position >= word.length()
+        if (word == null || position >= word.length()
                 || position < 0 || Objects.isNull(this.children)) {
             LOGGER.warn(String.format("The word '%s' could not be searched", word));
             return null;
