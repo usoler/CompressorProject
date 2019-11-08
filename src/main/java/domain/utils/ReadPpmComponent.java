@@ -21,9 +21,9 @@ public class ReadPpmComponent {
             String[] rows = lines[INITIAL_DATA_ROW + i].split("\\s+");
 
             for (int j = 0; j < width * 3; j += 3) {
-                int red = Integer.parseInt(rows[j]);
-                int green = Integer.parseInt(rows[j + 1]);
-                int blue = Integer.parseInt(rows[j + 2]);
+                float red = Float.parseFloat(rows[j]);
+                float green = Float.parseFloat(rows[j + 1]);
+                float blue = Float.parseFloat(rows[j + 2]);
 
                 Pixel pixel = new Pixel(red, green, blue);
                 pixels.setElementAt(pixel, i, j / 3);

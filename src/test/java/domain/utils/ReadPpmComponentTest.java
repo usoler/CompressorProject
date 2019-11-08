@@ -8,9 +8,10 @@ import org.junit.Test;
 
 public class ReadPpmComponentTest {
     private static final String pathTest = "input/prueba.ppm";
-
     private static final int NUM_OF_ROWS = 2;
     private static final int NUM_OF_COLUMNS = 3;
+
+    // TODO: corner cases
 
     @Test
     public void verify_readPpmFile_returnsMatrixOfPixels_whenIsRead() throws Exception {

@@ -1,17 +1,17 @@
 package domain.dataObjects;
 
 public class Pixel {
-    private int x;
-    private int y;
-    private int z;
+    private float x;
+    private float y;
+    private float z;
 
-    public Pixel(int x, int y, int z) {
+    public Pixel(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -19,7 +19,7 @@ public class Pixel {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -27,7 +27,7 @@ public class Pixel {
         this.y = y;
     }
 
-    public int getZ() {
+    public float getZ() {
         return z;
     }
 
