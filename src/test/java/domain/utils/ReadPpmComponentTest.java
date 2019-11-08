@@ -24,7 +24,7 @@ public class ReadPpmComponentTest {
         Matrix<Pixel> expected = mockValidPixelMatrix();
 
         // Test
-        Matrix<Pixel> response = readPpmComponent.readPpmFile(fileManager.getFile(pathTest));
+        Matrix<Pixel> response = readPpmComponent.readPpmFile(fileManager.getFile(pathTest).GetData());
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));

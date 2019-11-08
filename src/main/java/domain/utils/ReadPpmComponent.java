@@ -2,13 +2,11 @@ package domain.utils;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
-import domain.fileManager.FileImpl;
 
 public class ReadPpmComponent {
     private static final int INITIAL_DATA_ROW = 3;
 
-    public Matrix<Pixel> readPpmFile(FileImpl file) throws Exception {
-        String data = file.GetData();
+    public Matrix<Pixel> readPpmFile(String data) throws Exception {
         String[] lines = data.split("\r\n");
         String[] dimensions = lines[1].split(" ");
 
