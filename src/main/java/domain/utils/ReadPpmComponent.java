@@ -7,7 +7,7 @@ public class ReadPpmComponent {
     private static final int INITIAL_DATA_ROW = 3;
 
     public Matrix<Pixel> readPpmFile(String data) throws Exception {
-        String[] lines = data.split("\r\n");
+        String[] lines = data.split("\r?\n");
         String[] dimensions = lines[1].split(" ");
 
         int width = Integer.parseInt(dimensions[0]);
