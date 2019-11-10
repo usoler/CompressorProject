@@ -5,13 +5,18 @@ import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.utils.ConversorYCbCrComponent;
+import domain.utils.DCTComponent;
 import domain.utils.DownsamplingComponent;
 import domain.utils.ReadPpmComponent;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Jpeg implements AlgorithmInterface {
     private static final ReadPpmComponent readPpmComponent = new ReadPpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
+    private static final DCTComponent dctComponent = new DCTComponent();
 
     @Override
     public String encode(String file) throws Exception {
@@ -48,8 +53,21 @@ public class Jpeg implements AlgorithmInterface {
 
                 MacroBlockYCbCr macroBlockYCbCr = downsamplingComponent.downsampling(matrix16x16);
 
+                List<Matrix<Float>> blocksOf8x8 = new LinkedList<Matrix<Float>>();
                 // 3. Discrete Cosine Transform (DCT)
-                // .........................
+                // Y Blocks
+                for (int m = 0; m < macroBlockYCbCr.getyBlocks().size(); ++m) {
+                    blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getyBlocks().get(m)));
+                }
+
+                // Cb block
+                blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCbBlock()));
+
+                // Cr block
+                blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCrBlock()));
+
+                // 4. Quantization
+                // ................
 
                 x += 16;
             }
