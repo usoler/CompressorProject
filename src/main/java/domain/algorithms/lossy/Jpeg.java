@@ -4,10 +4,7 @@ import domain.algorithms.AlgorithmInterface;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
-import domain.utils.ConversorYCbCrComponent;
-import domain.utils.DCTComponent;
-import domain.utils.DownsamplingComponent;
-import domain.utils.ReadPpmComponent;
+import domain.utils.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +14,7 @@ public class Jpeg implements AlgorithmInterface {
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
     private static final DCTComponent dctComponent = new DCTComponent();
+    private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
 
     @Override
     public String encode(String file) throws Exception {
@@ -53,8 +51,8 @@ public class Jpeg implements AlgorithmInterface {
 
                 MacroBlockYCbCr macroBlockYCbCr = downsamplingComponent.downsampling(matrix16x16);
 
-                List<Matrix<Float>> blocksOf8x8 = new LinkedList<Matrix<Float>>();
                 // 3. Discrete Cosine Transform (DCT)
+                List<Matrix<Float>> blocksOf8x8 = new LinkedList<Matrix<Float>>();
                 // Y Blocks
                 for (int m = 0; m < macroBlockYCbCr.getyBlocks().size(); ++m) {
                     blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getyBlocks().get(m)));
@@ -67,7 +65,13 @@ public class Jpeg implements AlgorithmInterface {
                 blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCrBlock()));
 
                 // 4. Quantization
-                // ................
+                List<Matrix<Float>> quantizedBlocks = new LinkedList<Matrix<Float>>();
+                for (int n = 0; n < blocksOf8x8.size(); ++n) {
+                    quantizedBlocks.add(quantizationComponent.quantizeMatrix(blocksOf8x8.get(n)));
+                }
+
+                // 5. Entropy Coding
+                // ..............
 
                 x += 16;
             }
