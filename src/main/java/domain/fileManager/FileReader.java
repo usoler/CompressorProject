@@ -31,9 +31,12 @@ public class FileReader {
             String data = null;
             try {
                 inputStream = new FileInputStream(file);
+                long timeStart = System.currentTimeMillis();
                 scanner = new Scanner(inputStream).useDelimiter("\\A");
                 data = scanner.hasNext() ? scanner.next() : "";
-                fileCreator.createFileImpl(data,filePathname);
+                fileCreator.createFileImpl(data.getBytes(),filePathname);
+                long timeEnd = System.currentTimeMillis();
+                System.out.println("Time in Scanner: " + (timeEnd-timeStart) );
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -66,9 +69,12 @@ public class FileReader {
 
                     System.out.println(file.getName());
                     inputStream = new FileInputStream(file);
+                    long timeStart = System.currentTimeMillis();
                     scanner = new Scanner(inputStream).useDelimiter("\\A");
                     data = scanner.hasNext() ? scanner.next() : "";
-                    fileCreator.createFileImpl(data,filePathname);
+                    fileCreator.createFileImpl(data.getBytes(),filePathname);
+                    long timeEnd = System.currentTimeMillis();
+                    System.out.println("Time in Scanner: " + (timeEnd-timeStart) );
                 } catch (IOException e){
                     e.printStackTrace();
                 }finally {

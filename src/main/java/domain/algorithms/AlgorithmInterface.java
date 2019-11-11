@@ -1,9 +1,9 @@
 package domain.algorithms;
 
-import java.io.File;
+import java.io.*;
 
 public interface AlgorithmInterface {
-    public String encode(String file);
+    public byte[] encode(byte[] file) throws IOException;
 
-    public String decode(String file);
+    public byte[] decode(byte[] file) throws UnsupportedEncodingException;
 }

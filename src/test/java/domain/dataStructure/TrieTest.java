@@ -43,48 +43,48 @@ public class TrieTest {
         int response = this.trie.insert(this.word);
 
         Assert.assertEquals(validIndex, response);
-        Assert.assertTrue(this.trie.contains(this.word));
+        Assert.assertNotNull(this.trie.contains(this.word));
     }
     // ********************************************************************************
 
     // *********************************** CONTAINS ***********************************
     @Test
-    public void verify_contains_returnsFalse_whenWordIsNull() {
-        boolean response = this.trie.contains(null);
+    public void verify_contains_returnsNull_whenWordIsNull() {
+        TrieNode response  = this.trie.contains(null);
 
-        Assert.assertFalse(response);
+        Assert.assertNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenWordIsEmpty() {
-        boolean response = this.trie.contains("");
+    public void verify_contains_returnsNotNull_whenWordIsEmpty() {
+        TrieNode response = this.trie.contains("");
 
-        Assert.assertFalse(response);
+        Assert.assertNotNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenWordIsBlank() {
-        boolean response = this.trie.contains("   ");
+    public void verify_contains_returnsNotNull_whenWordIsBlank() {
+        TrieNode response = this.trie.contains("");
 
-        Assert.assertFalse(response);
+        Assert.assertNotNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenNotFound() {
-        boolean response = this.trie.contains(this.word);
+    public void verify_contains_returnsNull_whenNotFound() {
+        TrieNode response = this.trie.contains("");
 
-        Assert.assertFalse(response);
+        Assert.assertNull(response);
     }
 
     @Test
-    public void verify_contains_returnsTrue_whenIsFound() {
+    public void verify_contains_returnsNotNull_whenIsFound() {
         // Mock
         this.trie.insert(this.word);
 
         // Test
-        boolean response = this.trie.contains(this.word);
+        TrieNode response = this.trie.contains("");
 
-        Assert.assertTrue(response);
+        Assert.assertNotNull(response);
     }
     // ********************************************************************************
 }

@@ -2,9 +2,10 @@ package domain.algorithms;
 
 import domain.algorithms.lossless.Lz78;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 
 public class Algorithm {
     private AlgorithmInterface algorithmInterface;
@@ -17,11 +18,11 @@ public class Algorithm {
         this.algorithmInterface = algorithmInterface;
     }
 
-    public String encodeFile(String file) {
+    public byte[] encodeFile(byte[] file) throws IOException {
         return this.algorithmInterface.encode(file);
     }
 
-    public String decodeFile(String file) {
+    public byte[] decodeFile(byte[] file) throws UnsupportedEncodingException {
         return this.algorithmInterface.decode(file);
     }
 }

@@ -4,6 +4,8 @@ import domain.algorithms.AlgorithmInterface;
 import domain.dataStructure.Trie;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +31,7 @@ public class Lzw extends Lz78 {
     }
 
     @Override
-    public String encode(String file) {
+    public byte[] encode(byte[] data) {
         // ENCODING WITH LZW
         System.out.println("Encoding file with LZW");
         encodingDictionary = new Trie();
@@ -59,8 +61,8 @@ public class Lzw extends Lz78 {
     }
 
     @Override
-    public String decode(String file) {
-        // ENCODING WITH LZW
+    public byte[] decode(byte[] file) {
+        // DECODING WITH LZW
         System.out.println("Decoding file with LZW");
         if (file.length() == 0) {
             return "";
