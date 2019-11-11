@@ -4,45 +4,62 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Trie {
+    // *****************************************************************
+    //  State
+    // *****************************************************************
     private TrieNode root;
     private int size;
 
+    // *****************************************************************
+    //  Constructor
+    // *****************************************************************
     public Trie() {
         this.root = new TrieNode((char) 0);
         this.size = 0;
     }
 
-    public boolean insert(String word) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
-            return false;
+    // *****************************************************************
+    //  Getters
+    // *****************************************************************
+    public TrieNode getRoot() {
+        return this.root;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+    // *****************************************************************
+    //  Public methods
+    // *****************************************************************
+    public int insert(String word) {
+        if (word == null) {
+            return -1;
         }
 
-        if (this.root.insert(word, 0)) {
+        int nextIndex = this.size + 1;
+
+        if (this.root.insert(word, 0, nextIndex) > 0) {
             ++this.size;
         }
 
-        return true;
+        return nextIndex;
     }
 
-    public boolean contains(String word) {
-        if (Objects.isNull(word) || word.isEmpty() || word.trim().isEmpty()) {
-            return false;
+    public TrieNode contains(String word) {
+        if (word == null) {
+            return null;
         }
 
-        return Objects.nonNull(this.root.lookup(word, 0));
+        return contains(word, this.root,0);
     }
 
-    public boolean remove(String word) {
-        if (Objects.isNull(word)) {
-            return false;
+    public TrieNode contains(String word, TrieNode node, int position ) {
+        if (word == null) {
+            return null;
         }
 
-        if (this.root.remove(word, 0)) {
-            --this.size;
-            return true;
-        }
-
-        return false;
+        return node.lookup(word, position);
     }
 
     public void printTrie() { // TODO: eliminar, es solo para testear
@@ -50,16 +67,35 @@ public class Trie {
         Map<Character, TrieNode> children = this.root.getChildren();
 
         for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-            System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
+            System.out.println(String.format("Key '%s' : '%s' occurances", entry.getKey(), entry.getValue().getOccurances()));
             printRecursive(entry.getValue());
         }
     }
 
+    public int getIndexOf(String word) {
+        if (word == null) {
+            return -1;
+        }
+
+        return getIndexOf(word,this.root,0);
+    }
+
+    public int getIndexOf(String word, TrieNode node, int position) {
+        if (word == null) {
+            return -1;
+        }
+
+        return node.lookup(word, position).getIndex();
+    }
+
+    // *****************************************************************
+    //  Private methods
+    // *****************************************************************
     private void printRecursive(TrieNode node) { // TODO: eliminar, es solo para testear
         Map<Character, TrieNode> children = node.getChildren();
         if (Objects.nonNull(children)) {
             for (Map.Entry<Character, TrieNode> entry : children.entrySet()) {
-                System.out.println(String.format("%s : %s", entry.getKey(), entry.getValue().getOccurances()));
+                System.out.println(String.format("Key '%s' : '%s' occurances", entry.getKey(), entry.getValue().getOccurances()));
                 printRecursive(entry.getValue());
             }
         }
