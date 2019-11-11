@@ -185,9 +185,7 @@ public class Lz78 extends Lz {
         char c = 0;
         long index = 0;
         int index2 = 0;
-        boolean first = true;
-        String newText = null;
-
+        StringBuffer stringBuffer = new StringBuffer();
         while (i < length)
         {
 
@@ -234,7 +232,6 @@ public class Lz78 extends Lz {
             if (i < length)
             {
                 character = bytes[i];
-                //short charact = character & 0xFF;
                 c = (char)(0xff & character);
                 String word;
                 if (index != 0)
@@ -246,15 +243,7 @@ public class Lz78 extends Lz {
                 {
                     word= Character.toString(c);
                 }
-                if (first)
-                {
-                    first = false;
-                    newText = word;
-                }
-                else
-                {
-                    newText+= word;
-                }
+                stringBuffer.append(word);
                 decodingDictionary.put(mapIndex, word);
                 ++mapIndex;
                 ++i;
@@ -263,20 +252,7 @@ public class Lz78 extends Lz {
 
         }
 
-
-
-        /*
-        for (int j = 2; j < mapIndex; ++j)
-        {
-            newText += decodingDictionary.get(j);
-        }
-        if (index != -1)
-        {
-            newText += decodingDictionary.get(index);
-        }
-
-         */
-        return newText.getBytes();
+        return stringBuffer.toString().getBytes();
     }
 
     static private String bytesToBinary(byte[] bytes)

@@ -75,10 +75,6 @@ public class Main {
         test2LZ78Test();
         logger.showLogs();
 
-        char c =234;
-        byte b = (byte)c;
-        System.out.println(c);
-        System.out.println(b);
 
 
 
@@ -158,47 +154,15 @@ public class Main {
         fileManager.createFile(result,pathnameEncoded);
         fileManager.writeFile(pathnameEncoded,false);
 
-        FileImpl file = fileManager.getFile(pathnameEncoded);
-        byte[] resultDecoded = algorithm.decodeFile(file.getData());
 
+        fileManager.readFolder("output");
+
+        FileImpl fileTest2 = fileManager.getFile("output/LZ78Test/"+filename+".LZ78");
+        byte[] resultDecoded = algorithm.decodeFile(fileTest2.getData());
 
         String pathnameDecoded = "output/LZ78Test/(Decoded)"+filename;
         fileManager.createFile(resultDecoded,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
-
-
-
-
-
-
-        /*
-        String pathnameFolder = "input";
-        String filename = "2500.txt";
-        FileManager fileManager = new FileManager();
-        fileManager.readFolder(pathnameFolder);
-        System.out.println(fileManager.getListOfFiles().get(1).getPathname());
-        Algorithm algorithm = new Algorithm();
-
-        FileImpl fileTest2 = fileManager.getFile("input/"+filename);
-
-        String pathnameEncoded = "output/LZ78Test/Encoded("+filename+")";
-        algorithm.encodeFile(fileTest2.getData(),pathnameEncoded);
-
-        //fileManager.createCompressedFile(resultEncoding,pathnameEncoded);
-        //fileManager.writeCompressedFile(pathnameEncoded,false);
-
-        //FileImpl file = fileManager.getFile(pathnameEncoded);
-        fileManager.readFolder("output");
-        //CompressedFile fileTest2Compressed = fileManager.getCompressedFile("output/"+filename);
-/*
-
-        String resultDecoding = algorithm.decodeFile(fileTest2Compressed);
-        String pathnameDecoded = "output/LZ78Test/Decoded("+filename+")";
-        fileManager.createFile(resultDecoding,pathnameDecoded);
-        fileManager.writeFile(pathnameDecoded,false);
-
-
-         */
 
 
     }

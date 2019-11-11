@@ -2,41 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/output/2500.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/LZ78Test/(Decoded)2500.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/LZ78Test/(Decoded)verybig.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/LZ78Test/2500.txt.LZ78" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/LZ78Test/verybig.txt.LZ78" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Decoded(2500.txt)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Decoded(abracadabra)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Decoded(test2)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Decoded(testn)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(2500)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(2500.txt)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(abracadabra)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(test)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(test2)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Encoded(testn)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/Enconded(abracadabra)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/abracadabra" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/abracadabra2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/LZ78Test/(Decoded)2500.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/LZ78Test/2500.txt.LZ78" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/test.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/AlgorithmInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/AlgorithmInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,6 +44,9 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/input" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
