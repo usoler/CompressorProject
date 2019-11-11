@@ -4,10 +4,14 @@ import domain.algorithms.lossless.Lzss;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
+
+import domain.fileManager.CompressedFile;
 import domain.fileManager.FileImpl;
 
 import domain.fileManager.FileManager;
@@ -32,6 +36,7 @@ public class Main {
         System.out.println(String.format("Index of 'hol': %s", trie.getIndexOf("hol")));
         System.out.println(String.format("Index of 'hola': %s", trie.getIndexOf("hola")));
 
+/*
 
         Algorithm algorithm = new Algorithm();
         algorithm.setAlgorithmInterface(new Lz78());
@@ -45,6 +50,8 @@ public class Main {
 
         algorithm.setAlgorithmInterface(new Jpeg());
         algorithm.decodeFile(null);
+
+ */
     }
 
 /*
@@ -67,21 +74,14 @@ public class Main {
         //abracadabraLZ78Test();
         test2LZ78Test();
         logger.showLogs();
-        byte[] bytes = {1,1,1,0};
-        String s = new String(bytes,"UTF-32");
-        System.out.println(s);
-        byte[] bytes1 = s.getBytes("UTF-8");
-        byte[] bytes2 = s.getBytes("UTF-16");
-        byte[] bytes3 = s.getBytes("UTF-32");
-        byte[] bytes4 = s.getBytes();
 
-        System.out.println(bytesToBinary(bytes1));
-        System.out.println(bytesToBinary(bytes2));
-        System.out.println(bytesToBinary(bytes3));
-        System.out.println(bytesToBinary(bytes4));
+        char c =234;
+        byte b = (byte)c;
+        System.out.println(c);
+        System.out.println(b);
 
 
-/*
+
         FileManager fileManager = new FileManager();
         fileManager.readFolder("input");
         List<FileImpl> filesRead = null;
@@ -93,7 +93,7 @@ public class Main {
             fileManager.writeFile(filesRead.get(0),true);
             //TODO BETTER VERSION FOR WRITING
         }
-        */
+
 
         //Algorithm algorithm = new Algorithm();
         //String result = algorithm.encodeFile("abracadabra");
@@ -108,6 +108,7 @@ public class Main {
         FileManager fileManager = new FileManager();
         Algorithm algorithm = new Algorithm();
 
+        /*
         String resultEncoding = algorithm.encodeFile("abracadabra");
         String pathnameEncoded = "output/LZ78Test/Encoded(abracadabra)";
         fileManager.createFile(resultEncoding,pathnameEncoded);
@@ -119,7 +120,11 @@ public class Main {
         String pathnameDecoded = "output/LZ78Test/Decoded(abracadabra)";
         fileManager.createFile(resultDecoding,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
+
+         */
     }
+
+
 
     static private String bytesToBinary(byte[] bytes)
     {
@@ -139,24 +144,62 @@ public class Main {
 
     public static void test2LZ78Test() throws IOException{
         String pathnameFolder = "input";
+        String filename = "verybig.txt";
+
+        FileManager fileManager = new FileManager();
+        fileManager.readFolder(pathnameFolder);
+        Algorithm algorithm = new Algorithm();
+
+        FileImpl fileTest = fileManager.getFile("input/"+filename);
+
+        String pathnameEncoded = "output/LZ78Test/"+filename+".LZ78";
+
+        byte[] result = algorithm.encodeFile(fileTest.getData());
+        fileManager.createFile(result,pathnameEncoded);
+        fileManager.writeFile(pathnameEncoded,false);
+
+        FileImpl file = fileManager.getFile(pathnameEncoded);
+        byte[] resultDecoded = algorithm.decodeFile(file.getData());
+
+
+        String pathnameDecoded = "output/LZ78Test/(Decoded)"+filename;
+        fileManager.createFile(resultDecoded,pathnameDecoded);
+        fileManager.writeFile(pathnameDecoded,false);
+
+
+
+
+
+
+        /*
+        String pathnameFolder = "input";
         String filename = "2500.txt";
         FileManager fileManager = new FileManager();
         fileManager.readFolder(pathnameFolder);
-        System.out.println(fileManager.getListOfFiles().get(1).GetPathname());
+        System.out.println(fileManager.getListOfFiles().get(1).getPathname());
         Algorithm algorithm = new Algorithm();
 
         FileImpl fileTest2 = fileManager.getFile("input/"+filename);
 
-        String resultEncoding = algorithm.encodeFile(fileTest2.GetData());
         String pathnameEncoded = "output/LZ78Test/Encoded("+filename+")";
-        fileManager.createFile(resultEncoding,pathnameEncoded);
-        fileManager.writeFile(pathnameEncoded,false);
+        algorithm.encodeFile(fileTest2.getData(),pathnameEncoded);
 
-        FileImpl file = fileManager.getFile(pathnameEncoded);
+        //fileManager.createCompressedFile(resultEncoding,pathnameEncoded);
+        //fileManager.writeCompressedFile(pathnameEncoded,false);
 
-        String resultDecoding = algorithm.decodeFile(file.GetData());
+        //FileImpl file = fileManager.getFile(pathnameEncoded);
+        fileManager.readFolder("output");
+        //CompressedFile fileTest2Compressed = fileManager.getCompressedFile("output/"+filename);
+/*
+
+        String resultDecoding = algorithm.decodeFile(fileTest2Compressed);
         String pathnameDecoded = "output/LZ78Test/Decoded("+filename+")";
         fileManager.createFile(resultDecoding,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
+
+
+         */
+
+
     }
 }

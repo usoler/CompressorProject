@@ -46,12 +46,20 @@ public class Trie {
         return nextIndex;
     }
 
-    public boolean contains(String word) {
+    public TrieNode contains(String word) {
         if (word == null) {
-            return false;
+            return null;
         }
 
-        return Objects.nonNull(this.root.lookup(word, 0));
+        return contains(word, this.root,0);
+    }
+
+    public TrieNode contains(String word, TrieNode node, int position ) {
+        if (word == null) {
+            return null;
+        }
+
+        return node.lookup(word, position);
     }
 
     public void printTrie() { // TODO: eliminar, es solo para testear
@@ -69,7 +77,15 @@ public class Trie {
             return -1;
         }
 
-        return this.root.lookup(word, 0).getIndex();
+        return getIndexOf(word,this.root,0);
+    }
+
+    public int getIndexOf(String word, TrieNode node, int position) {
+        if (word == null) {
+            return -1;
+        }
+
+        return node.lookup(word, position).getIndex();
     }
 
     // *****************************************************************

@@ -3,6 +3,8 @@ package domain.algorithms.lossless;
 import domain.algorithms.AlgorithmInterface;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class Lzss extends Lz {
 
@@ -11,14 +13,14 @@ public class Lzss extends Lz {
     }
 
     @Override
-    public String encode(String file) {
+    public byte[] encode(byte[] data) {
         // ENCODING WITH LZSS
         System.out.println("Encoding file with LZSS");
         return null;
     }
 
     @Override
-    public String decode(String file) {
+    public byte[] decode(byte[] data) {
         // DECODING WITH LZSS
         System.out.println("Decoding file with LZSS");
         return null;
