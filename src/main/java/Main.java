@@ -17,6 +17,8 @@ import domain.fileManager.FileImpl;
 import domain.fileManager.FileManager;
 import domain.dataStructure.Trie;
 
+import javax.sound.midi.Soundbank;
+
 public class Main {
 
     static private void trieTest() throws UnsupportedEncodingException {
@@ -73,6 +75,7 @@ public class Main {
         MyLoggerExample logger = new MyLoggerExample();
         //abracadabraLZ78Test();
         test2LZ78Test();
+        test2LZWTest();
         logger.showLogs();
 
 
@@ -163,6 +166,49 @@ public class Main {
         String pathnameDecoded = "output/LZ78Test/(Decoded)"+filename;
         fileManager.createFile(resultDecoded,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
+
+
+    }
+
+
+    public static void test2LZWTest() throws IOException{
+        System.out.println("----------------------------------------- Test LZW ----------------------------------------");
+        String pathnameFolder = "input";
+        String filename = "testn.txt";
+
+        FileManager fileManager = new FileManager();
+        fileManager.readFolder(pathnameFolder);
+
+        Lzw algorithm = new Lzw();
+        long start, end;
+
+        FileImpl fileTest = fileManager.getFile("input/"+filename);
+
+        String pathnameEncoded = "output/LZWTest/"+filename+".LZW";
+
+        start = System.currentTimeMillis();
+        byte[] result = algorithm.encode(fileTest.getData());
+        end = System.currentTimeMillis();
+        System.out.println("t time encode: " + (end-start));
+
+        fileManager.createFile(result,pathnameEncoded);
+        fileManager.writeFile(pathnameEncoded,false);
+
+
+        fileManager.readFolder("output");
+
+        FileImpl fileTest2 = fileManager.getFile("output/LZWTest/"+filename+".LZW");
+
+        start = System.currentTimeMillis();
+        byte[] resultDecoded = algorithm.decode(fileTest2.getData());
+        end = System.currentTimeMillis();
+        System.out.println("t decode: " + (end-start));
+
+        String pathnameDecoded = "output/LZWTest/(Decoded)"+filename;
+        fileManager.createFile(resultDecoded,pathnameDecoded);
+        fileManager.writeFile(pathnameDecoded,false);
+
+        System.out.println("------------------------------------- End test LZW --------------------------------------");
 
 
     }

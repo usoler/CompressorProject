@@ -2,10 +2,12 @@ package domain.algorithms.lossless;
 
 import domain.algorithms.AlgorithmInterface;
 import domain.dataStructure.Trie;
+import domain.dataStructure.TrieNode;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,61 +20,63 @@ public class Lzw extends Lz78 {
         super();
     }
 
-    private void initializeDecodingDictionary(Map<Integer, String > decodingDictionary) {
+    private void initializeDecodingDictionary() {
+        decodingDictionary = new HashMap<>();
         for (int i = 0; i < ASCII_LENGTH; i++) {
             decodingDictionary.put(i, Character.toString((char)i));
         }
     }
 
-    private void initializeEncodingDictionary(Trie encodingDictionary) {
+    private void initializeEncodingDictionary() {
+        encodingDictionary = new Trie();
         for (int i = 0; i < ASCII_LENGTH; i++) {
             encodingDictionary.insert(Character.toString((char)i));
         }
     }
 
     @Override
-    public byte[] encode(byte[] data) {
+    public byte[] encode(byte[] data) throws IOException {
         // ENCODING WITH LZW
         System.out.println("Encoding file with LZW");
-        encodingDictionary = new Trie();
-        initializeEncodingDictionary(encodingDictionary);
+        initializeEncodingDictionary();
+        String file = new String(data, StandardCharsets.UTF_8);
+        ArrayList<Integer> codes = new ArrayList<>();
 
-        StringBuilder newText = new StringBuilder();
         int i = 0;
         while (i < file.length()) {
             StringBuilder word = new StringBuilder();
-            boolean found = encodingDictionary.contains(word.append(file.charAt(i)).toString());
-            while (i + 1 < file.length() && (found = encodingDictionary.contains(word.append(file.charAt(i+1)).toString()))) {
+            TrieNode node = encodingDictionary.contains(word.append(file.charAt(i)).toString());
+            int position = 1;
+            while (i + 1 < file.length() &&
+                    (node = encodingDictionary.contains(word.append(file.charAt(i+1)).toString(), node, position)) != null) {
                 ++i;
+                ++position;
             }
-            if (!found) {
+            if (node == null) {
                 encodingDictionary.insert(word.toString());
-                newText.append(encodingDictionary.getIndexOf(word.deleteCharAt(word.length()-1).toString())-1);
-                newText.append(';');
+                codes.add(encodingDictionary.getIndexOf(word.deleteCharAt(word.length()-1).toString())-1);
             }
             else {
-                newText.append(encodingDictionary.getIndexOf(word.toString())-1);
-                newText.append(';');
+                codes.add(encodingDictionary.getIndexOf(word.toString())-1);
             }
             ++i;
         }
 
-        return newText.toString();
+        return intArrayToByteArray(codes);
     }
 
     @Override
-    public byte[] decode(byte[] file) {
+    public byte[] decode(byte[] file) throws UnsupportedEncodingException {
         // DECODING WITH LZW
         System.out.println("Decoding file with LZW");
-        if (file.length() == 0) {
-            return "";
-        }
-        HashMap<Integer, String> decodingDictionary = new HashMap<>();
-        initializeDecodingDictionary(decodingDictionary);
+        initializeDecodingDictionary();
         StringBuilder newText = new StringBuilder();
-        char firstCharacter;
-        int[] codes = Arrays.stream(file.split(";")).mapToInt(Integer::parseInt).toArray();
-        newText.append(decodingDictionary.get(codes[0]));
+        int[] codes = byteArrayToIntArray(file);
+
+        if (codes.length > 0) {
+            newText.append(decodingDictionary.get(codes[0]));
+        }
+
         for (int i = 1; i < codes.length; i++) {
             StringBuilder word = new StringBuilder();
             if (decodingDictionary.containsKey(codes[i])) {
@@ -86,35 +90,28 @@ public class Lzw extends Lz78 {
             decodingDictionary.put(decodingDictionary.size(), decodingDictionary.get(codes[i-1]) + word.charAt(0));
         }
 
-        return newText.toString();
-        /*System.out.println("Decoding file with LZW");
-        if (file.length() <= 0) {
-            return "";
-        }
-        HashMap<Integer, String> decodingDictionary = new HashMap<>();
-        initializeDecodingDictionary(decodingDictionary);
-        int[] codes = Arrays.stream(file.split(";")).mapToInt(Integer::parseInt).toArray();
-        String newText = "";
-        int oldCode = codes[0];
-        String character = decodingDictionary.get(oldCode);
-        newText += character;
-        int i = 1;
-        while (i < codes.length) {
-            int newCode = codes[i];
-            String word = "";
-            if (decodingDictionary.containsKey(newCode)) {
-                word = decodingDictionary.get(newCode);
-            }
-            else {
-                word = decodingDictionary.get(oldCode);
-                word += character;
-            }
-            newText += word;
-            character = Character.toString(word.charAt(0));
-            decodingDictionary.put(decodingDictionary.size(), decodingDictionary.get(oldCode) + character);
-            oldCode = newCode;
-            ++i;
-        }
-        return newText;*/
+        return newText.toString().getBytes();
     }
+
+    private static int[] byteArrayToIntArray(byte[] bytes) {
+        int[] numbers = new int[bytes.length/4];
+        for (int i = 0; i < bytes.length; i += 4) {
+            ByteBuffer wrapped = ByteBuffer.wrap(new byte[] {bytes[i], bytes[i+1], bytes[i+2], bytes[i+3]});
+            numbers[i/4] = wrapped.getInt();
+        }
+        return numbers;
+    }
+
+    private static byte[] intArrayToByteArray(ArrayList<Integer> code) {
+        byte[] byteArray = new byte[code.size()*4];
+        for (int i = 0; i < code.size(); i++) {
+            byte[] number = ByteBuffer.allocate(4).putInt(code.get(i)).array();
+            byteArray[i*4] = number[0];
+            byteArray[i*4 + 1] = number[1];
+            byteArray[i*4 + 2] = number[2];
+            byteArray[i*4 + 3] = number[3];
+        }
+        return byteArray;
+    }
+
 }
