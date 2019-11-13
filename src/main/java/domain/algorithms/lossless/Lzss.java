@@ -11,7 +11,7 @@ public class Lzss extends Lz {
     }
 
     @Override
-    public String encode(String file) {
+    public byte[] encode(String file) {
         // ENCODING WITH LZSS
         System.out.println("Encoding file with LZSS");
         return null;

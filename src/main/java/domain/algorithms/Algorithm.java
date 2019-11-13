@@ -18,7 +18,7 @@ public class Algorithm {
         this.algorithmInterface = algorithmInterface;
     }
 
-    public String encodeFile(String file) throws Exception {
+    public byte[] encodeFile(String file) throws Exception {
         return this.algorithmInterface.encode(file);
     }
 

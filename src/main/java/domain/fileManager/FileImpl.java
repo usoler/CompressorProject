@@ -1,26 +1,21 @@
 package domain.fileManager;
 
-import java.io.InputStream;
-import java.util.Scanner;
-
-
 public class FileImpl {
 
-    private String data;
-    private String pathname;
-    public FileImpl(String string,String i_pathname)
-    {
+    protected String pathname;
+    private byte[] data;
+
+    public FileImpl(byte[] i_data, String i_pathname) {
         System.out.println("Fichero generado correctamente");
-        data = string;
-        pathname=i_pathname;
+        data = i_data;
+        pathname = i_pathname;
     }
 
-    public String GetData()
-    {
+    public byte[] getData() {
         return data;
     }
-    public String GetPathname()
-    {
+
+    public String getPathname() {
         return pathname;
     }
 }

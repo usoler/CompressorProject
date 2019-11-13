@@ -40,7 +40,7 @@ public class FileManager {
         fileReader.readSpecificFile(pathname);
     }
 
-    public void createFile(String fileText, String pathname)
+    public void createFile(byte[] data, String pathname)
     {
         fileCreator.createFileImpl(fileText,pathname);
     }

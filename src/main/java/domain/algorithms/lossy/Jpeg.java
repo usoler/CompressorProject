@@ -1,11 +1,13 @@
 package domain.algorithms.lossy;
 
 import domain.algorithms.AlgorithmInterface;
+import domain.dataObjects.CoefficientEnum;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.utils.*;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,11 +17,16 @@ public class Jpeg implements AlgorithmInterface {
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
     private static final DCTComponent dctComponent = new DCTComponent();
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
+    private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
+    private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
 
     @Override
-    public String encode(String file) throws Exception {
+    public byte[] encode(String file) throws Exception {
         // ENCODING WITH JPEG
         System.out.println("Encoding file with JPEG");
+
+        float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
+        StringBuffer buffer = new StringBuffer();
 
         // 0. Read BMP file
         Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFile(file);
@@ -71,7 +78,68 @@ public class Jpeg implements AlgorithmInterface {
                 }
 
                 // 5. Entropy Coding
-                // ..............
+                // 5.1 Zig Zag Vector
+                for (int m = 0; m < quantizedBlocks.size(); ++m) {
+                    float[] zigZagValues = zigZagComponent.makeZigZag(quantizedBlocks.get(m));
+
+                    int n;
+                    CoefficientEnum coefficientEnum;
+                    if (m < 4) {
+                        n = 0;
+                        coefficientEnum = CoefficientEnum.LUMINANCE;
+                    } else if (m == 4) {
+                        n = 1;
+                        coefficientEnum = CoefficientEnum.CHROMINANCE;
+                    } else {
+                        n = 2;
+                        coefficientEnum = CoefficientEnum.CHROMINANCE;
+                    }
+
+                    // Process DC value
+                    float dpcmDC = zigZagValues[0] - lastDC[n];
+                    lastDC[n] = zigZagValues[0];
+
+                    buffer = huffmanComponent.encodeDC(Math.round(dpcmDC), buffer);
+
+                    // Process 63 AC values
+                    // First, check EOB
+                    int countZerosEOB = 0;
+                    boolean foundEOB = false;
+                    for (int w = zigZagValues.length - 1; w >= 0 && !foundEOB; --w) {
+                        if (zigZagValues[w] == 0) {
+                            ++countZerosEOB;
+                        } else {
+                            foundEOB = true;
+                        }
+                    }
+
+                    int numOfPreZeros = 0;
+                    for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
+                        if (numOfPreZeros > 15) { // Catch ZRL case
+                            if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
+                                buffer.append("11111111001");
+                            } else {
+                                buffer.append("1111111010");
+                            }
+                            numOfPreZeros = 0;
+                        } else {
+                            float valueAC = zigZagValues[w];
+                            if (valueAC != 0) {
+                                buffer = huffmanComponent.encodeAC(Math.round(valueAC), numOfPreZeros, coefficientEnum, buffer);
+                                numOfPreZeros = 0;
+                            } else {
+                                ++numOfPreZeros;
+                            }
+                        }
+                    }
+
+                    // Set EOB
+                    if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
+                        buffer.append("1010");
+                    } else {
+                        buffer.append("00");
+                    }
+                }
 
                 x += 16;
             }
@@ -79,7 +147,23 @@ public class Jpeg implements AlgorithmInterface {
             y += 16;
         }
 
-        return null;
+        // TODO: optimizar ??
+        StringBuffer extendedBuffer = new StringBuffer();
+        int counter = 0;
+        while ((buffer.length() + extendedBuffer.length() + 3) % 8 != 0) {
+            extendedBuffer.append("0");
+            ++counter;
+        }
+
+        String extensionOfZeros = bitExtension(Integer.toBinaryString(counter), 3);
+
+        StringBuffer responseBuffer = new StringBuffer(extensionOfZeros);
+        responseBuffer.append(extendedBuffer.toString());
+        responseBuffer.append(buffer.toString());
+
+        //return responseBuffer.toString();
+//        return responseBuffer.toString().getBytes("US-ASCII");
+        return new BigInteger(responseBuffer.toString(), 2).toByteArray();
     }
 
     @Override
@@ -87,5 +171,17 @@ public class Jpeg implements AlgorithmInterface {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
         return null;
+    }
+
+    private String bitExtension(String bits, int size) {
+        StringBuffer buffer = new StringBuffer();
+
+        for (int i = 0; i < size - bits.length(); ++i) {
+            buffer.append(0);
+        }
+
+        buffer.append(bits);
+
+        return buffer.toString();
     }
 }

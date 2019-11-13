@@ -14,7 +14,7 @@ import domain.dataStructure.Trie;
 public class Lz78 extends Lz {
 
     @Override
-    public String encode(String file) throws UnsupportedEncodingException {
+    public byte[] encode(String file) throws UnsupportedEncodingException {
 //        // ENCODING WITH LZ78
 //        System.out.println("Encoding file with LZ78");
 //        encodingDictionary = new Trie();
@@ -97,7 +97,7 @@ public class Lz78 extends Lz {
 //
 //
 //        }
-        return "";
+        return null;
     }
 
     /*
