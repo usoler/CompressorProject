@@ -127,7 +127,7 @@ public class Lz78 extends Lz {
         return byteArray;
     }
 
-    static private byte[] ArrayListBytetoByteArray(ArrayList<Byte> bytes)
+    static protected byte[] ArrayListBytetoByteArray(ArrayList<Byte> bytes)
     {
         byte[] result = new byte[bytes.size()];
         for(int j = 0; j < bytes.size(); j++) {
@@ -136,7 +136,7 @@ public class Lz78 extends Lz {
         return result;
     }
 
-    static private byte[] transformIntToByteArray(int index, int extraBytesNeeded)
+    static protected byte[] transformIntToByteArray(int index, int extraBytesNeeded)
     {
         byte[] bytes = ByteBuffer.allocate(4).putInt(index).array();
         switch (extraBytesNeeded)

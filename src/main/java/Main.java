@@ -174,7 +174,7 @@ public class Main {
     public static void test2LZWTest() throws IOException{
         System.out.println("----------------------------------------- Test LZW ----------------------------------------");
         String pathnameFolder = "input";
-        String filename = "testn.txt";
+        String filename = "lotr.txt";
 
         FileManager fileManager = new FileManager();
         fileManager.readFolder(pathnameFolder);
@@ -189,7 +189,7 @@ public class Main {
         start = System.currentTimeMillis();
         byte[] result = algorithm.encode(fileTest.getData());
         end = System.currentTimeMillis();
-        System.out.println("t time encode: " + (end-start));
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> t encode: " + (end-start));
 
         fileManager.createFile(result,pathnameEncoded);
         fileManager.writeFile(pathnameEncoded,false);
@@ -202,7 +202,7 @@ public class Main {
         start = System.currentTimeMillis();
         byte[] resultDecoded = algorithm.decode(fileTest2.getData());
         end = System.currentTimeMillis();
-        System.out.println("t decode: " + (end-start));
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> t decode: " + (end-start));
 
         String pathnameDecoded = "output/LZWTest/(Decoded)"+filename;
         fileManager.createFile(resultDecoded,pathnameDecoded);
