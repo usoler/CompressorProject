@@ -1,6 +1,6 @@
 package domain.algorithms;
 
-import domain.algorithms.lossless.Lz78;
+import domain.algorithms.lossy.Jpeg;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -11,14 +11,14 @@ public class Algorithm {
     private AlgorithmInterface algorithmInterface;
 
     public Algorithm() {
-        this.algorithmInterface = new Lz78();
+        this.algorithmInterface = new Jpeg();
     }
 
     public void setAlgorithmInterface(AlgorithmInterface algorithmInterface) {
         this.algorithmInterface = algorithmInterface;
     }
 
-    public byte[] encodeFile(String file) throws Exception {
+    public byte[] encodeFile(byte[] file) throws Exception {
         return this.algorithmInterface.encode(file);
     }
 

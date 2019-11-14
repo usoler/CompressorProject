@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class Main {
-    private static final String pathTest = "input/16x16.ppm";
+    private static final String pathTest = "input/blackbuck.ascii.ppm";
 
     public static void main(String[] args) throws IOException {
         FileManager fileManager = new FileManager();
@@ -13,10 +13,10 @@ public class Main {
 
         Jpeg algorithm = new Jpeg();
 
-        String pathnameEncoded = "output/JPEGTest/16x16.jpeg";
+        String pathnameEncoded = "output/JPEGTest/blackbuck.ascii.jpeg";
 
         try {
-            byte[] response = algorithm.encode(fileManager.getFile(pathTest).GetData());
+            byte[] response = algorithm.encode(fileManager.getFile(pathTest).getData());
             fileManager.createFile(response, pathnameEncoded);
             fileManager.writeFile(pathnameEncoded, false);
 

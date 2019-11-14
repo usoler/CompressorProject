@@ -8,6 +8,7 @@ import domain.dataStructure.Matrix;
 import domain.utils.*;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,15 +22,16 @@ public class Jpeg implements AlgorithmInterface {
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
 
     @Override
-    public byte[] encode(String file) throws Exception {
+    public byte[] encode(byte[] data) throws Exception {
         // ENCODING WITH JPEG
         System.out.println("Encoding file with JPEG");
+        String file = new String(data, StandardCharsets.UTF_8);
 
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
         // 0. Read BMP file
-        Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFile(file);
+        Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
 
         // 1. Color conversion
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);

@@ -12,23 +12,23 @@ public class ReadPpmComponentTest {
     private static final int NUM_OF_COLUMNS = 3;
 
     // TODO: corner cases
-
-    @Test
-    public void verify_readPpmFile_returnsMatrixOfPixels_whenIsRead() throws Exception {
-        // Mocks
-        FileManager fileManager = new FileManager();
-        fileManager.readFile(pathTest);
-
-        ReadPpmComponent readPpmComponent = new ReadPpmComponent();
-
-        Matrix<Pixel> expected = mockValidPixelMatrix();
-
-        // Test
-        Matrix<Pixel> response = readPpmComponent.readPpmFile(fileManager.getFile(pathTest).GetData());
-
-        Assert.assertNotNull(response);
-        Assert.assertTrue(expected.equals(response));
-    }
+//
+//    @Test
+//    public void verify_readPpmFile_returnsMatrixOfPixels_whenIsRead() throws Exception {
+//        // Mocks
+//        FileManager fileManager = new FileManager();
+//        fileManager.readFile(pathTest);
+//
+//        ReadPpmComponent readPpmComponent = new ReadPpmComponent();
+//
+//        Matrix<Pixel> expected = mockValidPixelMatrix();
+//
+//        // Test
+//        Matrix<Pixel> response = readPpmComponent.readPpmFile(fileManager.getFile(pathTest).GetData());
+//
+//        Assert.assertNotNull(response);
+//        Assert.assertTrue(expected.equals(response));
+//    }
 
     private Matrix<Pixel> mockValidPixelMatrix() {
         Matrix<Pixel> pixels = new Matrix<Pixel>(NUM_OF_ROWS, NUM_OF_COLUMNS, new Pixel[NUM_OF_ROWS][NUM_OF_COLUMNS]);
