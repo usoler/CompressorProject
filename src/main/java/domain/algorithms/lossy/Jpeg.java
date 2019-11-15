@@ -148,7 +148,7 @@ public class Jpeg implements AlgorithmInterface {
 
             y += 16;
         }
-
+/*
         // TODO: optimizar ??
         StringBuffer extendedBuffer = new StringBuffer();
         int counter = 0;
@@ -163,9 +163,8 @@ public class Jpeg implements AlgorithmInterface {
         responseBuffer.append(extendedBuffer.toString());
         responseBuffer.append(buffer.toString());
 
-        //return responseBuffer.toString();
-//        return responseBuffer.toString().getBytes("US-ASCII");
-        return new BigInteger(responseBuffer.toString(), 2).toByteArray();
+        return new BigInteger(responseBuffer.toString(), 2).toByteArray();*/
+        return new BigInteger(buffer.toString(), 2).toByteArray();
     }
 
     @Override
@@ -174,10 +173,10 @@ public class Jpeg implements AlgorithmInterface {
         System.out.println("Decoding file with JPEG");
 
         // 0. Read JPEG file
-        String binary = new BigInteger(data).toString(2); // FIXME: elimina los 0 a la izq. Hay que anadirlos antes de seguir
+        String binary = new BigInteger(data).toString(2);
         StringBuffer dataBuffer = new StringBuffer(binary);
         StringBuffer workingBuffer = new StringBuffer();
-        // 1. Entropy decoding // TODO: eliminar zeros de relleno!
+        // 1. Entropy decoding
         boolean finish = false;
         while (!finish) {
             // 4 blocks Luminance Y
@@ -194,7 +193,10 @@ public class Jpeg implements AlgorithmInterface {
                 String columnBinary = dataBuffer.substring(k, k + numOfBits); // TODO: mirar si funciona, adaptar si no
                 int dc = huffmanComponent.decodeDC(numOfBits, Integer.parseInt(columnBinary, 2));
 
+                // TODO: controlar ZLR y EOB
                 // AC coefficients
+
+
             }
 
             // 1 block Cb

@@ -22,7 +22,7 @@ public class Algorithm {
         return this.algorithmInterface.encode(file);
     }
 
-    public String decodeFile(String file) throws UnsupportedEncodingException {
+    public byte[] decodeFile(byte[] file) throws Exception {
         return this.algorithmInterface.decode(file);
     }
 }

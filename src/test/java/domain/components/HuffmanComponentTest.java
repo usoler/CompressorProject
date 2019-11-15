@@ -15,7 +15,6 @@ public class HuffmanComponentTest {
         StringBuffer buffer = new StringBuffer();
         int dc = 1118;
         StringBuffer expected = new StringBuffer("11111111111010001011110");
-        // 111111111110|01110100010
 
         // Test
         StringBuffer response = huffmanComponent.encodeDC(dc, buffer);
@@ -58,6 +57,32 @@ public class HuffmanComponentTest {
 
         Assert.assertNotNull(response);
         Assert.assertTrue((expected.toString()).equals(response.toString()));
+    }
+
+    @Test
+    public void verify_getNumOfBitsOfColumn_returnsNumberColumnInTable_whenHuffmanValueIsValid() throws Exception {
+        // Mock
+        HuffmanComponent huffmanComponent = new HuffmanComponent();
+        int expected = 11;
+
+        // Test
+        int response = huffmanComponent.getNumOfBitsOfColumn("111111111110");
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(expected, response);
+    }
+
+    @Test
+    public void verify_decodeDC_returnsDCValue_whenParamsRowAndColumnAreValid() throws Exception {
+        // Mock
+        HuffmanComponent huffmanComponent = new HuffmanComponent();
+        int expected = 1118;
+
+        // Test
+        int response = huffmanComponent.decodeDC(11, Integer.parseInt("10001011110",2));
+
+        Assert.assertNotNull(response);
+        Assert.assertEquals(expected, response);
     }
 
 }
