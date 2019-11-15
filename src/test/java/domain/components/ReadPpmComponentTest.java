@@ -1,10 +1,7 @@
-package domain.utils;
+package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
-import domain.fileManager.FileManager;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class ReadPpmComponentTest {
     private static final String pathTest = "input/prueba.ppm";

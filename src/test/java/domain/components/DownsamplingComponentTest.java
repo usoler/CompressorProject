@@ -1,4 +1,4 @@
-package domain.utils;
+package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;

@@ -1,4 +1,4 @@
-package domain.utils;
+package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
 import org.junit.Assert;

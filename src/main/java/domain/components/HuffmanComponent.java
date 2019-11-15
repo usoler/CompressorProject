@@ -1,4 +1,4 @@
-package domain.utils;
+package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
 import javafx.util.Pair;
@@ -36,6 +36,133 @@ public class HuffmanComponent {
         buffer.append(binaryTableColumn);
 
         return buffer;
+    }
+
+    public int getNumOfBitsOfColumn(String huffmanValue) {
+        switch (huffmanValue) {
+            case "0":
+                return 0;
+            case "10":
+                return 1;
+            case "110":
+                return 2;
+            case "1110":
+                return 3;
+            case "11110":
+                return 4;
+            case "111110":
+                return 5;
+            case "1111110":
+                return 6;
+            case "11111110":
+                return 7;
+            case "111111110":
+                return 8;
+            case "1111111110":
+                return 9;
+            case "11111111110":
+                return 10;
+            case "111111111110":
+                return 11;
+            case "1111111111110":
+                return 12;
+            case "11111111111110":
+                return 13;
+            case "111111111111110":
+                return 14;
+            case "1111111111111110":
+                return 15;
+            case "11111111111111110":
+                return 16;
+            default:
+                return -1;
+        }
+    }
+
+    public int decodeDC(int row, int column) throws Exception {
+        switch (row) {
+            case 0:
+                return 0;
+            case 1:
+                if (column >= 1) {
+                    return 1;
+                }
+                return -1;
+            case 2:
+                if (column >= 2) {
+                    return column;
+                }
+                return column - 3;
+            case 3:
+                if (column >= 4) {
+                    return column;
+                }
+                return column - 7;
+            case 4:
+                if (column >= 8) {
+                    return column;
+                }
+                return column - 15;
+            case 5:
+                if (column >= 16) {
+                    return column;
+                }
+                return column - 31;
+            case 6:
+                if (column >= 32) {
+                    return column;
+                }
+                return column - 63;
+            case 7:
+                if (column >= 64) {
+                    return column;
+                }
+                return column - 127;
+            case 8:
+                if (column >= 128) {
+                    return column;
+                }
+                return column - 255;
+            case 9:
+                if (column >= 256) {
+                    return column;
+                }
+                return column - 511;
+            case 10:
+                if (column >= 512) {
+                    return column;
+                }
+                return column - 1023;
+            case 11:
+                if (column >= 1024) {
+                    return column;
+                }
+                return column - 2047;
+            case 12:
+                if (column >= 2048) {
+                    return column;
+                }
+                return column - 4095;
+            case 13:
+                if (column >= 4096) {
+                    return column;
+                }
+                return column - 8191;
+            case 14:
+                if (column >= 8192) {
+                    return column;
+                }
+                return column - 16383;
+            case 15:
+                if (column >= 16384) {
+                    return column;
+                }
+                return column - 32767;
+            case 16:
+                return 32768;
+            default:
+                throw new Exception();
+        }
     }
 
     private String bitExtension(String bits, int size) {

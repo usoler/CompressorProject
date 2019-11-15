@@ -1,11 +1,11 @@
 package domain.algorithms.lossy;
 
 import domain.algorithms.AlgorithmInterface;
+import domain.components.*;
 import domain.dataObjects.CoefficientEnum;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
-import domain.utils.*;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -169,9 +169,41 @@ public class Jpeg implements AlgorithmInterface {
     }
 
     @Override
-    public String decode(String file) {
+    public byte[] decode(byte[] data) throws Exception {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
+
+        // 0. Read JPEG file
+        String binary = new BigInteger(data).toString(2); // FIXME: elimina los 0 a la izq. Hay que anadirlos antes de seguir
+        StringBuffer dataBuffer = new StringBuffer(binary);
+        StringBuffer workingBuffer = new StringBuffer();
+        // 1. Entropy decoding // TODO: eliminar zeros de relleno!
+        boolean finish = false;
+        while (!finish) {
+            // 4 blocks Luminance Y
+            for (int i = 0; i < 4; ++i) {
+                // DC coefficient
+                int k = 0;
+                int numOfBits = -1;
+                while (numOfBits == -1) {
+                    workingBuffer.append(dataBuffer.charAt(k));
+                    numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
+                    ++k;
+                }
+
+                String columnBinary = dataBuffer.substring(k, k + numOfBits); // TODO: mirar si funciona, adaptar si no
+                int dc = huffmanComponent.decodeDC(numOfBits, Integer.parseInt(columnBinary, 2));
+
+                // AC coefficients
+            }
+
+            // 1 block Cb
+
+            // 1 block Cr
+
+        }
+
+
         return null;
     }
 
