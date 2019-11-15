@@ -1,6 +1,7 @@
 package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
+import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -79,10 +80,38 @@ public class HuffmanComponentTest {
         int expected = 1118;
 
         // Test
-        int response = huffmanComponent.decodeDC(11, Integer.parseInt("10001011110",2));
+        int response = huffmanComponent.decodeDC(11, Integer.parseInt("10001011110", 2));
 
         Assert.assertNotNull(response);
         Assert.assertEquals(expected, response);
+    }
+
+    @Test
+    public void verify_getPreZerosAndRowOfValueLuminance_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid() {
+        // Mock
+        HuffmanComponent huffmanComponent = new HuffmanComponent();
+        String huffmanCode = "11011";
+        Pair<Integer, Integer> expected = new Pair<Integer, Integer>(1, 2);
+
+        // Test
+        Pair<Integer, Integer> response = huffmanComponent.getPreZerosAndRowOfValueLuminance(huffmanCode);
+
+        Assert.assertNotNull(response);
+        Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_getPreZerosAndRowOfValueChrominance_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid() {
+        // Mock
+        HuffmanComponent huffmanComponent = new HuffmanComponent();
+        String huffmanCode = "111111110110";
+        Pair<Integer, Integer> expected = new Pair<Integer, Integer>(2,4);
+
+        // Test
+        Pair<Integer, Integer> response = huffmanComponent.getPreZerosAndRowOfValueChrominance(huffmanCode);
+
+        Assert.assertNotNull(response);
+        Assert.assertTrue(expected.equals(response));
     }
 
 }

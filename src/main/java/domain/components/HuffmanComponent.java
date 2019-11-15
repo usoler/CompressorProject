@@ -79,8 +79,335 @@ public class HuffmanComponent {
         }
     }
 
-    public Pair<Integer, Integer> getPreZerosAndRowOfValueY(String huffmanValue) {
-        switch (huffmanValue) {
+    public Pair<Integer, Integer> getPreZerosAndRowOfValueChrominance(String huffmanValue) {
+        switch (huffmanValue) { // TODO: control casos ZRL y EOB
+            case "01":
+                return new Pair<Integer, Integer>(0, 1);
+            case "100":
+                return new Pair<Integer, Integer>(0, 2);
+            case "1010":
+                return new Pair<Integer, Integer>(0, 3);
+            case "11000":
+                return new Pair<Integer, Integer>(0, 4);
+            case "11001":
+                return new Pair<Integer, Integer>(0, 5);
+            case "111000":
+                return new Pair<Integer, Integer>(0, 6);
+            case "1111000":
+                return new Pair<Integer, Integer>(0, 7);
+            case "111110100":
+                return new Pair<Integer, Integer>(0, 8);
+            case "1111110110":
+                return new Pair<Integer, Integer>(0, 9);
+            case "111111110100":
+                return new Pair<Integer, Integer>(0, 10);
+            case "1011":
+                return new Pair<Integer, Integer>(1, 1);
+            case "111001":
+                return new Pair<Integer, Integer>(1, 2);
+            case "11110110":
+                return new Pair<Integer, Integer>(1, 3);
+            case "111110101":
+                return new Pair<Integer, Integer>(1, 4);
+            case "11111110110":
+                return new Pair<Integer, Integer>(1, 5);
+            case "111111110101":
+                return new Pair<Integer, Integer>(1, 6);
+            case "111111110001000":
+                return new Pair<Integer, Integer>(1, 7);
+            case "111111110001001":
+                return new Pair<Integer, Integer>(1, 8);
+            case "111111110001010":
+                return new Pair<Integer, Integer>(1, 9);
+            case "111111110001011":
+                return new Pair<Integer, Integer>(1, 10);
+            case "11010":
+                return new Pair<Integer, Integer>(2, 1);
+            case "11110111":
+                return new Pair<Integer, Integer>(2, 2);
+            case "1111110111":
+                return new Pair<Integer, Integer>(2, 3);
+            case "111111110110":
+                return new Pair<Integer, Integer>(2, 4);
+            case "111111111000010":
+                return new Pair<Integer, Integer>(2, 5);
+            case "1111111110001100":
+                return new Pair<Integer, Integer>(2, 6);
+            case "1111111110001101":
+                return new Pair<Integer, Integer>(2, 7);
+            case "1111111110001110":
+                return new Pair<Integer, Integer>(2, 8);
+            case "1111111110001111":
+                return new Pair<Integer, Integer>(2, 9);
+            case "1111111110010000":
+                return new Pair<Integer, Integer>(2, 10);
+            case "11011":
+                return new Pair<Integer, Integer>(3, 1);
+            case "11111000":
+                return new Pair<Integer, Integer>(3, 2);
+            case "1111111000":
+                return new Pair<Integer, Integer>(3, 3);
+            case "111111110111":
+                return new Pair<Integer, Integer>(3, 4);
+            case "1111111110010001":
+                return new Pair<Integer, Integer>(3, 5);
+            case "1111111110010010":
+                return new Pair<Integer, Integer>(3, 6);
+            case "1111111110010011":
+                return new Pair<Integer, Integer>(3, 7);
+            case "1111111110010100":
+                return new Pair<Integer, Integer>(3, 8);
+            case "1111111110010101":
+                return new Pair<Integer, Integer>(3, 9);
+            case "1111111110010110":
+                return new Pair<Integer, Integer>(3, 10);
+            case "111010":
+                return new Pair<Integer, Integer>(4, 1);
+            case "111110110":
+                return new Pair<Integer, Integer>(4, 2);
+            case "1111111110010111":
+                return new Pair<Integer, Integer>(4, 3);
+            case "1111111110011000":
+                return new Pair<Integer, Integer>(4, 4);
+            case "1111111110011001":
+                return new Pair<Integer, Integer>(4, 5);
+            case "1111111110011010":
+                return new Pair<Integer, Integer>(4, 6);
+            case "1111111110011011":
+                return new Pair<Integer, Integer>(4, 7);
+            case "1111111110011100":
+                return new Pair<Integer, Integer>(4, 8);
+            case "1111111110011101":
+                return new Pair<Integer, Integer>(4, 9);
+            case "1111111110011110":
+                return new Pair<Integer, Integer>(4, 10);
+            case "111011":
+                return new Pair<Integer, Integer>(5, 1);
+            case "1111111001":
+                return new Pair<Integer, Integer>(5, 2);
+            case "1111111110011111":
+                return new Pair<Integer, Integer>(5, 3);
+            case "1111111110100000":
+                return new Pair<Integer, Integer>(5, 4);
+            case "1111111110100001":
+                return new Pair<Integer, Integer>(5, 5);
+            case "1111111110100010":
+                return new Pair<Integer, Integer>(5, 6);
+            case "1111111110100011":
+                return new Pair<Integer, Integer>(5, 7);
+            case "1111111110100100":
+                return new Pair<Integer, Integer>(5, 8);
+            case "1111111110100101":
+                return new Pair<Integer, Integer>(5, 9);
+            case "1111111110100110":
+                return new Pair<Integer, Integer>(5, 10);
+            case "1111001":
+                return new Pair<Integer, Integer>(6, 1);
+            case "11111110111":
+                return new Pair<Integer, Integer>(6, 2);
+            case "1111111110100111":
+                return new Pair<Integer, Integer>(6, 3);
+            case "1111111110101000":
+                return new Pair<Integer, Integer>(6, 4);
+            case "1111111110101001":
+                return new Pair<Integer, Integer>(6, 5);
+            case "1111111110101010":
+                return new Pair<Integer, Integer>(6, 6);
+            case "1111111110101011":
+                return new Pair<Integer, Integer>(6, 7);
+            case "1111111110101100":
+                return new Pair<Integer, Integer>(6, 8);
+            case "1111111110101101":
+                return new Pair<Integer, Integer>(6, 9);
+            case "1111111110101110":
+                return new Pair<Integer, Integer>(6, 10);
+            case "1111010":
+                return new Pair<Integer, Integer>(7, 1);
+            case "11111111000":
+                return new Pair<Integer, Integer>(7, 2);
+            case "1111111110101111":
+                return new Pair<Integer, Integer>(7, 3);
+            case "1111111110110000":
+                return new Pair<Integer, Integer>(7, 4);
+            case "1111111110110001":
+                return new Pair<Integer, Integer>(7, 5);
+            case "1111111110110010":
+                return new Pair<Integer, Integer>(7, 6);
+            case "1111111110110011":
+                return new Pair<Integer, Integer>(7, 7);
+            case "1111111110110100":
+                return new Pair<Integer, Integer>(7, 8);
+            case "1111111110110101":
+                return new Pair<Integer, Integer>(7, 9);
+            case "1111111110110110":
+                return new Pair<Integer, Integer>(7, 10);
+            case "11111001":
+                return new Pair<Integer, Integer>(8, 1);
+            case "1111111110110111":
+                return new Pair<Integer, Integer>(8, 2);
+            case "1111111110111000":
+                return new Pair<Integer, Integer>(8, 3);
+            case "1111111110111001":
+                return new Pair<Integer, Integer>(8, 4);
+            case "1111111110111010":
+                return new Pair<Integer, Integer>(8, 5);
+            case "1111111110111011":
+                return new Pair<Integer, Integer>(8, 6);
+            case "1111111110111100":
+                return new Pair<Integer, Integer>(8, 7);
+            case "1111111110111101":
+                return new Pair<Integer, Integer>(8, 8);
+            case "1111111110111110":
+                return new Pair<Integer, Integer>(8, 9);
+            case "1111111110111111":
+                return new Pair<Integer, Integer>(8, 10);
+            case "111110111":
+                return new Pair<Integer, Integer>(9, 1);
+            case "1111111111000000":
+                return new Pair<Integer, Integer>(9, 2);
+            case "1111111111000001":
+                return new Pair<Integer, Integer>(9, 3);
+            case "1111111111000010":
+                return new Pair<Integer, Integer>(9, 4);
+            case "1111111111000011":
+                return new Pair<Integer, Integer>(9, 5);
+            case "1111111111000100":
+                return new Pair<Integer, Integer>(9, 6);
+            case "1111111111000101":
+                return new Pair<Integer, Integer>(9, 7);
+            case "1111111111000110":
+                return new Pair<Integer, Integer>(9, 8);
+            case "1111111111000111":
+                return new Pair<Integer, Integer>(9, 9);
+            case "1111111111001000":
+                return new Pair<Integer, Integer>(9, 10);
+            case "111111000":
+                return new Pair<Integer, Integer>(10, 1);
+            case "1111111111001001":
+                return new Pair<Integer, Integer>(10, 2);
+            case "1111111111001010":
+                return new Pair<Integer, Integer>(10, 3);
+            case "1111111111001011":
+                return new Pair<Integer, Integer>(10, 4);
+            case "1111111111001100":
+                return new Pair<Integer, Integer>(10, 5);
+            case "1111111111001101":
+                return new Pair<Integer, Integer>(10, 6);
+            case "1111111111001110":
+                return new Pair<Integer, Integer>(10, 7);
+            case "1111111111001111":
+                return new Pair<Integer, Integer>(10, 8);
+            case "1111111111010000":
+                return new Pair<Integer, Integer>(10, 9);
+            case "1111111111010001":
+                return new Pair<Integer, Integer>(10, 10);
+            case "111111001":
+                return new Pair<Integer, Integer>(11, 1);
+            case "1111111111010010":
+                return new Pair<Integer, Integer>(11, 2);
+            case "1111111111010011":
+                return new Pair<Integer, Integer>(11, 3);
+            case "1111111111010100":
+                return new Pair<Integer, Integer>(11, 4);
+            case "1111111111010101":
+                return new Pair<Integer, Integer>(11, 5);
+            case "1111111111010110":
+                return new Pair<Integer, Integer>(11, 6);
+            case "1111111111010111":
+                return new Pair<Integer, Integer>(11, 7);
+            case "1111111111011000":
+                return new Pair<Integer, Integer>(11, 8);
+            case "1111111111011001":
+                return new Pair<Integer, Integer>(11, 9);
+            case "1111111111011010":
+                return new Pair<Integer, Integer>(11, 10);
+            case "111111010":
+                return new Pair<Integer, Integer>(12, 1);
+            case "1111111111011011":
+                return new Pair<Integer, Integer>(12, 2);
+            case "1111111111011100":
+                return new Pair<Integer, Integer>(12, 3);
+            case "1111111111011101":
+                return new Pair<Integer, Integer>(12, 4);
+            case "1111111111011110":
+                return new Pair<Integer, Integer>(12, 5);
+            case "1111111111011111":
+                return new Pair<Integer, Integer>(12, 6);
+            case "1111111111100000":
+                return new Pair<Integer, Integer>(12, 7);
+            case "1111111111100001":
+                return new Pair<Integer, Integer>(12, 8);
+            case "1111111111100010":
+                return new Pair<Integer, Integer>(12, 9);
+            case "1111111111100011":
+                return new Pair<Integer, Integer>(12, 10);
+            case "11111111001":
+                return new Pair<Integer, Integer>(13, 1);
+            case "1111111111100100":
+                return new Pair<Integer, Integer>(13, 2);
+            case "1111111111100101":
+                return new Pair<Integer, Integer>(13, 3);
+            case "1111111111100110":
+                return new Pair<Integer, Integer>(13, 4);
+            case "1111111111100111":
+                return new Pair<Integer, Integer>(13, 5);
+            case "1111111111101000":
+                return new Pair<Integer, Integer>(13, 6);
+            case "1111111111101001":
+                return new Pair<Integer, Integer>(13, 7);
+            case "1111111111101010":
+                return new Pair<Integer, Integer>(13, 8);
+            case "1111111111101011":
+                return new Pair<Integer, Integer>(13, 9);
+            case "1111111111101100":
+                return new Pair<Integer, Integer>(13, 10);
+            case "11111111100000":
+                return new Pair<Integer, Integer>(14, 1);
+            case "1111111111101101":
+                return new Pair<Integer, Integer>(14, 2);
+            case "1111111111101110":
+                return new Pair<Integer, Integer>(14, 3);
+            case "1111111111101111":
+                return new Pair<Integer, Integer>(14, 4);
+            case "1111111111110000":
+                return new Pair<Integer, Integer>(14, 5);
+            case "1111111111110001":
+                return new Pair<Integer, Integer>(14, 6);
+            case "1111111111110010":
+                return new Pair<Integer, Integer>(14, 7);
+            case "1111111111110011":
+                return new Pair<Integer, Integer>(14, 8);
+            case "1111111111110100":
+                return new Pair<Integer, Integer>(14, 9);
+            case "1111111111110101":
+                return new Pair<Integer, Integer>(14, 10);
+            case "111111111000011":
+                return new Pair<Integer, Integer>(15, 1);
+            case "111111111010110":
+                return new Pair<Integer, Integer>(15, 2);
+            case "1111111111110111":
+                return new Pair<Integer, Integer>(15, 3);
+            case "1111111111111000":
+                return new Pair<Integer, Integer>(15, 4);
+            case "1111111111111001":
+                return new Pair<Integer, Integer>(15, 5);
+            case "1111111111111010":
+                return new Pair<Integer, Integer>(15, 6);
+            case "1111111111111011":
+                return new Pair<Integer, Integer>(15, 7);
+            case "1111111111111100":
+                return new Pair<Integer, Integer>(15, 8);
+            case "1111111111111101":
+                return new Pair<Integer, Integer>(15, 9);
+            case "1111111111111110":
+                return new Pair<Integer, Integer>(15, 10);
+            default:
+                return new Pair<Integer, Integer>(-1, -1);
+        }
+    }
+
+    public Pair<Integer, Integer> getPreZerosAndRowOfValueLuminance(String huffmanValue) {
+        switch (huffmanValue) {  // TODO: anadir ZRL y EOB control
             case "00":
                 return new Pair<Integer, Integer>(0, 1);
             case "01":
@@ -404,6 +731,11 @@ public class HuffmanComponent {
             default:
                 return new Pair<Integer, Integer>(-1, -1);
         }
+    }
+
+    public int decodeAC(String huffmanValue) {
+        ∫
+
     }
 
     public int decodeDC(int row, int column) throws Exception {

@@ -6,6 +6,7 @@ import domain.dataObjects.CoefficientEnum;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
+import javafx.util.Pair;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -195,6 +196,10 @@ public class Jpeg implements AlgorithmInterface {
 
                 // TODO: controlar ZLR y EOB
                 // AC coefficients
+                boolean endOfBlock = false;
+                for (int j = 0; j < 63 && !endOfBlock; ++j) {
+                    // TODO
+                }
 
 
             }
