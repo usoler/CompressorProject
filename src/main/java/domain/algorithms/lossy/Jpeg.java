@@ -260,11 +260,26 @@ public class Jpeg implements AlgorithmInterface {
             if (i == 5) {
                 i = 0;
 
-                // TODO: 2. Desquantization -- Check if it works
+                // 2. Desquantization
                 List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
                 for (int m = 0; m < quantizedBlocks.size(); ++m) {
                     blocksOf8x8.add(quantizationComponent.desquantizeMatrix(quantizedBlocks.get(m)));
                 }
+
+                // TODO: 3. Undo DCT -- Check if it works
+                // Y
+                MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
+                for (int m = 0; m < 4; ++m) {
+                    macroBlockYCbCr.addYBlock(dctComponent.undoDCT(blocksOf8x8.get(m)));
+                }
+
+                // Cb
+                macroBlockYCbCr.setCbBlock(dctComponent.undoDCT(blocksOf8x8.get(4)));
+
+                // Cr
+                macroBlockYCbCr.setCrBlock(dctComponent.undoDCT(blocksOf8x8.get(5)));
+
+
             } else {
                 ++i;
             }
@@ -274,7 +289,6 @@ public class Jpeg implements AlgorithmInterface {
             }
         }
 
-        // TODO: 3. Undo DCT
         // TODO: 4. Undo downsampling
         // TODO: 5. Undo Color Conversion
 

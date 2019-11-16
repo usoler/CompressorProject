@@ -36,6 +36,42 @@ public class DCTComponent {
         return dctMatrix;
     }
 
+    public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) {
+        Matrix<Float> matrix8x8 = new Matrix<Float>(8, 8, new Float[8][8]);
+
+        for (int x = 0; x < 8; ++x) {
+            for (int y = 0; y < 8; ++y) {
+
+                float sum = 0;
+                for (int u = 0; u < 8; ++u) {
+                    for (int v = 0; v < 8; ++v) {
+                        float cu = getCfValue(u);
+                        float cv = getCfValue(v);
+
+                        float dctPixel = dctMatrix.getElementAt(u, v);
+
+                        float term1 = ((2 * x) + 1) * u * (float) Math.PI;
+                        float cosinus1 = (float) Math.cos(term1 / 16f);
+
+                        float term2 = ((2 * y) + 1) * v * (float) Math.PI;
+                        float cosinus2 = (float) Math.cos(term2 / 16f);
+
+                        sum += (cu * cv * dctPixel * cosinus1 * cosinus2);
+                    }
+                }
+
+                float matrix8x8Pixel = (1f / 4f) * sum;
+                float roundedPixel = (Math.round((matrix8x8Pixel + 128f) * 100f) / 100f);
+                if (roundedPixel > 255f) {
+                    roundedPixel = 255f;
+                }
+                matrix8x8.setElementAt(roundedPixel, x, y);
+            }
+        }
+
+        return matrix8x8;
+    }
+
     private float getCfValue(int f) {
         if (f == 0) {
             return (1f / (float) Math.sqrt(2));
