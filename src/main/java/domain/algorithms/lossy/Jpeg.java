@@ -173,6 +173,8 @@ public class Jpeg implements AlgorithmInterface {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
 
+        int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
+
         // 0. Read JPEG file
         String binary = new BigInteger(data).toString(2);
         StringBuffer dataBuffer = new StringBuffer(binary);
@@ -180,76 +182,88 @@ public class Jpeg implements AlgorithmInterface {
 
         // 1. Entropy decoding
         boolean finish = false;
+        int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
+        int k = 0;
         while (!finish) {
-            int k = 0;
-            // 4 blocks Luminance Y
-            for (int i = 0; i < 4; ++i) {
-                // DC coefficient
-                List<Integer> zigZagValues = new LinkedList<Integer>();
-                //int k = 0;
-                int numOfBits = -1;
-                while (numOfBits == -1) {
+            workingBuffer = new StringBuffer();
+            
+            // DC coefficient
+            List<Integer> zigZagValues = new LinkedList<Integer>();
+            //int k = 0; -- delete ???
+            int numOfBits = -1;
+            while (numOfBits == -1) {
+                workingBuffer.append(dataBuffer.charAt(k));
+                numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
+                ++k;
+            }
+
+            String columnBinary = dataBuffer.substring(k, k + numOfBits);
+            int dc = huffmanComponent.decodeCoefficient(numOfBits, Integer.parseInt(columnBinary, 2));
+
+            int n;
+            if (i <= 3) {
+                n = 0;
+            } else if (i == 4) {
+                n = 1;
+            } else {
+                n = 2;
+            }
+
+            zigZagValues.add(dc + lastDC[n]);
+            lastDC[n] = dc + lastDC[n];
+            k += numOfBits;
+
+            // AC coefficients
+            boolean endOfBlock = false;
+            for (int j = 0; j < 63 && !endOfBlock; ++j) {
+                workingBuffer = new StringBuffer();
+                Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
+                while (preZerosAndRow.getKey() == -1) {
                     workingBuffer.append(dataBuffer.charAt(k));
-                    numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
+                    if (i < 4) {
+                        preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
+                    } else {
+                        preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueChrominance(workingBuffer.toString());
+                    }
                     ++k;
                 }
 
-                String columnBinary = dataBuffer.substring(k, k + numOfBits);
-                int dc = huffmanComponent.decodeCoefficient(numOfBits, Integer.parseInt(columnBinary, 2));
-
-                zigZagValues.add(dc);
-                k += numOfBits;
-
-                // AC coefficients
-                boolean endOfBlock = false;
-                for (int j = 0; j < 63 && !endOfBlock; ++j) {
-                    // TODO: check k !!! maybe wrong
-                    workingBuffer = new StringBuffer();
-                    Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
-                    while (preZerosAndRow.getKey() == -1) {
-                        workingBuffer.append(dataBuffer.charAt(k));
-                        preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
-                        ++k;
+                if (preZerosAndRow.getKey() == -2) {
+                    // TODO: ZLR, añadir 16 zeros y empezamos nueva iteracion - CHECKEAR
+                    for (int m = 0; m < 16; ++m) {
+                        zigZagValues.add(0);
+                    }
+                } else if (preZerosAndRow.getKey() == -3) {
+                    for (int m = zigZagValues.size() - 1; m < 63; ++m) {
+                        zigZagValues.add(0);
                     }
 
-                    if (preZerosAndRow.getKey() == -2) {
-                        // FIXME: ZLR, añadir 16 zeros y empezamos nueva iteracion
-                        for (int m = 0; m < 16; ++m) {
-                            zigZagValues.add(0);
-                        }
-                    } else if (preZerosAndRow.getKey() == -3) {
-                        for (int m = zigZagValues.size() - 1; m < 63; ++m) {
-                            zigZagValues.add(0);
-                        }
-
-                        endOfBlock = true;
-                    } else {
-                        //  CHEKME: controlar pre zeros
-                        for (int m = 0; m < preZerosAndRow.getKey(); ++m) {
-                            zigZagValues.add(0);
-                        }
-
-                        columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
-                        int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
-
-                        zigZagValues.add(ac);
-                        k += preZerosAndRow.getValue();
+                    endOfBlock = true;
+                } else {
+                    for (int m = 0; m < preZerosAndRow.getKey(); ++m) {
+                        zigZagValues.add(0);
                     }
+
+                    columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
+                    int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
+
+                    zigZagValues.add(ac);
+                    k += preZerosAndRow.getValue();
                 }
-                // TODO: Deshacer zigzag
-                //Matrix<Integer> quantizationBlock = zigZagComponent.undoZigZag(zigZagValues);
-
-
             }
 
-            // 1 block Cb
+            // TODO: Deshacer zigzag
+            //Matrix<Integer> quantizationBlock = zigZagComponent.undoZigZag(zigZagValues);
 
-            // 1 block Cr
+            if (i == 5) {
+                i = 0;
+            } else {
+                ++i;
+            }
 
-            if(k == dataBuffer.length()){
+            if (k == dataBuffer.length()) {
                 finish = true;
             }
-
         }
 
         return null;

@@ -1,9 +1,12 @@
 import domain.algorithms.lossy.Jpeg;
 import domain.fileManager.FileManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class Main {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
     //private static final String pathTest = "input/blackbuck.ascii.ppm";
     private static final String pathTest = "input/16x16.ppm";
 
@@ -26,6 +29,7 @@ public class Main {
             byte[] responseDecode = algorithm.decode(fileManager.getFile(pathnameEncoded).getData());
 
         } catch (Exception ex) {
+            LOGGER.debug(ex.getMessage());
             throw new IOException();
         }
 
