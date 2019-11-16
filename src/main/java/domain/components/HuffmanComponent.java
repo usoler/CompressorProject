@@ -32,6 +32,11 @@ public class HuffmanComponent {
         String huffmanEncoded = huffmanCodes.getKey();
         String binaryTableColumn = Integer.toBinaryString(huffmanCodes.getValue());
 
+        int tableRow = getTableRow(huffmanEncoded);
+        if (binaryTableColumn.length() < tableRow) {
+            binaryTableColumn = bitExtension(binaryTableColumn, tableRow);
+        }
+
         buffer.append(huffmanEncoded);
         buffer.append(binaryTableColumn);
 
@@ -80,7 +85,11 @@ public class HuffmanComponent {
     }
 
     public Pair<Integer, Integer> getPreZerosAndRowOfValueChrominance(String huffmanValue) {
-        switch (huffmanValue) { // TODO: control casos ZRL y EOB
+        switch (huffmanValue) {
+            case "1111111010": // ZRL
+                return new Pair<Integer, Integer>(-2, -2);
+            case "00": // EOB
+                return new Pair<Integer, Integer>(-3, -3);
             case "01":
                 return new Pair<Integer, Integer>(0, 1);
             case "100":
@@ -408,6 +417,10 @@ public class HuffmanComponent {
 
     public Pair<Integer, Integer> getPreZerosAndRowOfValueLuminance(String huffmanValue) {
         switch (huffmanValue) {  // TODO: anadir ZRL y EOB control
+            case "11111111001": // ZRL
+                return new Pair<Integer, Integer>(-2, -2);
+            case "1010": // EOB
+                return new Pair<Integer, Integer>(-3, -3);
             case "00":
                 return new Pair<Integer, Integer>(0, 1);
             case "01":
@@ -708,21 +721,21 @@ public class HuffmanComponent {
                 return new Pair<Integer, Integer>(14, 9);
             case "1111111111110100":
                 return new Pair<Integer, Integer>(14, 10);
-            case "11111111001":
-                return new Pair<Integer, Integer>(15, 1);
             case "1111111111110101":
-                return new Pair<Integer, Integer>(15, 2);
+                return new Pair<Integer, Integer>(15, 1);
             case "1111111111110110":
-                return new Pair<Integer, Integer>(15, 3);
+                return new Pair<Integer, Integer>(15, 2);
             case "1111111111110111":
-                return new Pair<Integer, Integer>(15, 4);
+                return new Pair<Integer, Integer>(15, 3);
             case "1111111111111000":
-                return new Pair<Integer, Integer>(15, 5);
+                return new Pair<Integer, Integer>(15, 4);
             case "1111111111111001":
-                return new Pair<Integer, Integer>(15, 6);
+                return new Pair<Integer, Integer>(15, 5);
             case "1111111111111010":
-                return new Pair<Integer, Integer>(15, 7);
+                return new Pair<Integer, Integer>(15, 6);
             case "1111111111111011":
+                return new Pair<Integer, Integer>(15, 7);
+            case "1111111111111100":
                 return new Pair<Integer, Integer>(15, 8);
             case "1111111111111101":
                 return new Pair<Integer, Integer>(15, 9);
@@ -733,12 +746,7 @@ public class HuffmanComponent {
         }
     }
 
-    public int decodeAC(String huffmanValue) {
-        ∫
-
-    }
-
-    public int decodeDC(int row, int column) throws Exception {
+    public int decodeCoefficient(int row, int column) throws Exception {
         switch (row) {
             case 0:
                 return 0;

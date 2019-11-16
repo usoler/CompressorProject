@@ -74,13 +74,13 @@ public class HuffmanComponentTest {
     }
 
     @Test
-    public void verify_decodeDC_returnsDCValue_whenParamsRowAndColumnAreValid() throws Exception {
+    public void verify_decodeCoefficient_returnsDCValue_whenParamsRowAndColumnAreValid() throws Exception {
         // Mock
         HuffmanComponent huffmanComponent = new HuffmanComponent();
         int expected = 1118;
 
         // Test
-        int response = huffmanComponent.decodeDC(11, Integer.parseInt("10001011110", 2));
+        int response = huffmanComponent.decodeCoefficient(11, Integer.parseInt("10001011110", 2));
 
         Assert.assertNotNull(response);
         Assert.assertEquals(expected, response);
@@ -105,7 +105,7 @@ public class HuffmanComponentTest {
         // Mock
         HuffmanComponent huffmanComponent = new HuffmanComponent();
         String huffmanCode = "111111110110";
-        Pair<Integer, Integer> expected = new Pair<Integer, Integer>(2,4);
+        Pair<Integer, Integer> expected = new Pair<Integer, Integer>(2, 4);
 
         // Test
         Pair<Integer, Integer> response = huffmanComponent.getPreZerosAndRowOfValueChrominance(huffmanCode);
