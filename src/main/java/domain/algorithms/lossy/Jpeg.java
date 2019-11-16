@@ -8,10 +8,8 @@ import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import javafx.util.Pair;
 
-import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,8 +81,8 @@ public class Jpeg implements AlgorithmInterface {
                 }
 
                 // 5. Entropy Coding
-                // 5.1 Zig Zag Vector
                 for (int m = 0; m < quantizedBlocks.size(); ++m) {
+                    // 5.1 Zig Zag Vector
                     float[] zigZagValues = zigZagComponent.makeZigZag(quantizedBlocks.get(m));
 
                     int n;
@@ -100,6 +98,7 @@ public class Jpeg implements AlgorithmInterface {
                         coefficientEnum = CoefficientEnum.CHROMINANCE;
                     }
 
+                    // 5.2 Huffman Encoding
                     // Process DC value
                     float dpcmDC = zigZagValues[0] - lastDC[n];
                     lastDC[n] = zigZagValues[0];
@@ -183,6 +182,7 @@ public class Jpeg implements AlgorithmInterface {
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
+        // 1.1 Huffman decoding
         List<Matrix<Integer>> quantizedBlocks = new LinkedList<Matrix<Integer>>();
         boolean finish = false;
         int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
@@ -254,11 +254,17 @@ public class Jpeg implements AlgorithmInterface {
                 }
             }
 
-            // TODO: Deshacer zigzag
+            // 1.2 Undo Zig Zag Vector
             quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
 
             if (i == 5) {
                 i = 0;
+
+                // TODO: 2. Desquantization -- Check if it works
+                List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
+                for (int m = 0; m < quantizedBlocks.size(); ++m) {
+                    blocksOf8x8.add(quantizationComponent.desquantizeMatrix(quantizedBlocks.get(m)));
+                }
             } else {
                 ++i;
             }
@@ -267,6 +273,10 @@ public class Jpeg implements AlgorithmInterface {
                 finish = true;
             }
         }
+
+        // TODO: 3. Undo DCT
+        // TODO: 4. Undo downsampling
+        // TODO: 5. Undo Color Conversion
 
         return null;
     }

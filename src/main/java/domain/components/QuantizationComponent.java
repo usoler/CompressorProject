@@ -96,4 +96,17 @@ public class QuantizationComponent {
         return quantizedMatrix;
     }
 
+    public Matrix<Integer> desquantizeMatrix(Matrix<Integer> quantizedMatrix) {
+        Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
+
+        for (int i = 0; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                int desquantizedPixel = Math.round(quantizedMatrix.getElementAt(i, j) * quantizationMatrix.getElementAt(i, j));
+                desquantizedMatrix.setElementAt(desquantizedPixel, i, j);
+            }
+        }
+
+        return desquantizedMatrix;
+    }
+
 }
