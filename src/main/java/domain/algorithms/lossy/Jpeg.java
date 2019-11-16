@@ -35,11 +35,6 @@ public class Jpeg implements AlgorithmInterface {
 
         // 0. Read BMP file
         Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte width = (byte) rgbMatrix.getNumberOfRows();
-        byte height = (byte) rgbMatrix.getNumberOfColumns();
-        byteArrayOutputStream.write(width);
-        byteArrayOutputStream.write(height);
 
         // 1. Color conversion
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
@@ -172,8 +167,7 @@ public class Jpeg implements AlgorithmInterface {
         responseBuffer.append(buffer.toString());
 
         return new BigInteger(responseBuffer.toString(), 2).toByteArray();*/
-        byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
-        return byteArrayOutputStream.toByteArray();
+        return new BigInteger(buffer.toString(), 2).toByteArray();
     }
 
     @Override
@@ -184,16 +178,8 @@ public class Jpeg implements AlgorithmInterface {
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
 
         // 0. Read JPEG file
-        byte[] widthByte = new byte[1];
-        widthByte[0] = data[0];
-        String widthBinary = new BigInteger(widthByte).toString(2);
-        byte[] heighthByte = new byte[1];
-        heighthByte[0] = data[1];
-        String heightBinary = new BigInteger(widthByte).toString(2);
-        int numOfRows = Integer.parseInt(widthBinary, 2);
-        int numOfCols = Integer.parseInt(heightBinary, 2);
-
-        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2, data.length)).toString(2));
+        String binary = new BigInteger(data).toString(2);
+        StringBuffer dataBuffer = new StringBuffer(binary);
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
@@ -269,7 +255,7 @@ public class Jpeg implements AlgorithmInterface {
             }
 
             // TODO: Deshacer zigzag
-            //quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues, numOfRows, numOfCols));
+            quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
 
             if (i == 5) {
                 i = 0;

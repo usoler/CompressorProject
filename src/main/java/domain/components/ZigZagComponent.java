@@ -31,8 +31,8 @@ public class ZigZagComponent {
     }
 
     // TODO: check if it works
-    public Matrix<Integer> undoZigZag(List<Integer> zigZagVector, int numOfRows, int numOfCols) {
-        Matrix<Integer> matrix8x8 = new Matrix<Integer>(numOfRows, numOfCols, new Integer[numOfRows][numOfCols]);
+    public Matrix<Integer> undoZigZag(List<Integer> zigZagVector) {
+        Matrix<Integer> matrix8x8 = new Matrix<Integer>(8, 8, new Integer[8][8]);
 
         for (int k = 0; k < zigZagVector.size(); ++k) {
             matrix8x8.setElementAt(zigZagVector.get(k), is[k], js[k]);
