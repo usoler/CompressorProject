@@ -23,7 +23,7 @@ public class Carpeta {
         setFolders(folders);
     }
 
-    public final String getName() {
+    public String getName() {
         return name;
     }
 
@@ -31,7 +31,7 @@ public class Carpeta {
         this.name = name;
     }
 
-    public final String getFormat() {
+    public String getFormat() {
         return format;
     }
 
@@ -39,15 +39,15 @@ public class Carpeta {
         this.format = format;
     }
 
-    public final int getSize() {
+    public int getSize() {
         return size;
     }
 
-    public final ArrayList<Fichero> getFiles() {
+    public ArrayList<Fichero> getFiles() {
         return files;
     }
 
-    public void setFiles(final ArrayList<Fichero> files) {
+    public void setFiles(ArrayList<Fichero> files) {
         for (Fichero f: this.files) {
             size -= f.getSize();
         }
@@ -59,7 +59,7 @@ public class Carpeta {
         }
     }
 
-    public final ArrayList<Carpeta> getFolders() {
+    public ArrayList<Carpeta> getFolders() {
         return folders;
     }
 
