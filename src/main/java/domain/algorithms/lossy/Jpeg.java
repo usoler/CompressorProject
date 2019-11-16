@@ -44,9 +44,7 @@ public class Jpeg implements AlgorithmInterface {
         int y = 0;
         for (int i = 0; i < numOfMacroBlockByColumn; ++i) {
             int x = 0;
-
             for (int j = 0; j < numOfMacroBlockByRow; ++j) {
-
                 Matrix<Pixel> matrix16x16 = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
                 int u = 0;
                 for (int k = y; k < y + 16; ++k) {
@@ -55,7 +53,6 @@ public class Jpeg implements AlgorithmInterface {
                         matrix16x16.setElementAt(yCbCrMatrix.getElementAt(k, s), u, v);
                         ++v;
                     }
-
                     ++u;
                 }
 
@@ -175,6 +172,7 @@ public class Jpeg implements AlgorithmInterface {
         System.out.println("Decoding file with JPEG");
 
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
+        List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
         // 0. Read JPEG file
         String binary = new BigInteger(data).toString(2);
@@ -266,7 +264,7 @@ public class Jpeg implements AlgorithmInterface {
                     blocksOf8x8.add(quantizationComponent.desquantizeMatrix(quantizedBlocks.get(m)));
                 }
 
-                // TODO: 3. Undo DCT -- Check if it works
+                // 3. Undo DCT
                 // Y
                 MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
                 for (int m = 0; m < 4; ++m) {
@@ -279,7 +277,9 @@ public class Jpeg implements AlgorithmInterface {
                 // Cr
                 macroBlockYCbCr.setCrBlock(dctComponent.undoDCT(blocksOf8x8.get(5)));
 
-
+                // 4. Undo downsampling
+                Matrix<Pixel> yCbCrMatrix16x16 = downsamplingComponent.upsampling(macroBlockYCbCr);
+                blocksOfPixelMatrix16x16.add(yCbCrMatrix16x16);
             } else {
                 ++i;
             }
@@ -289,8 +289,11 @@ public class Jpeg implements AlgorithmInterface {
             }
         }
 
-        // TODO: 4. Undo downsampling
-        // TODO: 5. Undo Color Conversion
+        // TODO: 5. Reconstuct Total Matrix
+        // ...
+
+        // TODO: 6. Undo Color Conversion
+        
 
         return null;
     }

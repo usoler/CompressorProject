@@ -51,4 +51,35 @@ public class DownsamplingComponent {
 
         return macroBlockYCbCr;
     }
+
+    public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) {
+        Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
+
+        for (int n = 0; n < NUM_8x8_BLOCKS; ++n) {
+            int k = ks[n];
+            float cb = macroBlockYCbCr.getCbBlock().getElementAt(ks[n], ss[n]);
+            float cr = macroBlockYCbCr.getCrBlock().getElementAt(ks[n], ss[n]);
+            for (int i = 0; i < 8; ++i) {
+                int s = ss[n];
+                for (int j = 0; j < 8; ++j) {
+                    // Luminance
+                    float luminance = macroBlockYCbCr.getyBlocks().get(n).getElementAt(i, j);
+
+                    // Chrominance
+                    if ((j != 0) && (j % 2 == 0)) {
+                        ++s;
+                        cb = macroBlockYCbCr.getCbBlock().getElementAt(k, s);
+                        cr = macroBlockYCbCr.getCrBlock().getElementAt(k, s);
+                    }
+                    if ((i % 2 != 0) && (j == 7)) {
+                        ++k;
+                    }
+
+                    yCbCrMatrix.setElementAt(new Pixel(luminance, cb, cr), i + is[n], j + js[n]);
+                }
+            }
+        }
+
+        return yCbCrMatrix;
+    }
 }
