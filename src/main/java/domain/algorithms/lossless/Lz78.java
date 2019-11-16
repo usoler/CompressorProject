@@ -114,6 +114,7 @@ public class Lz78 extends Lz {
             }
 
         }
+        encodingDictionary = null;
 
         byteArray = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(thirdExtraBytePosition).array();
         for (byte b: byteArray) bytes.add(0,b);
@@ -251,6 +252,7 @@ public class Lz78 extends Lz {
             }
 
         }
+        decodingDictionary = null;
 
         return stringBuffer.toString().getBytes();
     }

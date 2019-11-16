@@ -12,12 +12,7 @@ import java.util.HashMap;
 
 public class Lzw extends Lz78 {
 
-    //private static final int ASCII_LENGTH = 65536;
     private static final int ASCII_LENGTH = 256;
-
-    public Lzw() {
-        super();
-    }
 
     private void initializeDecodingDictionary() {
         decodingDictionary = new HashMap<>();
@@ -34,7 +29,7 @@ public class Lzw extends Lz78 {
     }
 
     @Override
-    public byte[] encode(byte[] data) throws IOException {
+    public byte[] encode(byte[] data) {
         // ENCODING WITH LZW
         System.out.println("Encoding file with LZW");
         initializeEncodingDictionary();
@@ -48,7 +43,6 @@ public class Lzw extends Lz78 {
         while (i < file.length()) {
             StringBuilder word = new StringBuilder();
             TrieNode node = encodingDictionary.contains(word.append(file.charAt(i)).toString());
-            //i = nextWordInDictionary(i, word, node, file);
             int position = 1;
             while (i + 1 < file.length() &&
                     (node = encodingDictionary.contains(word.append(file.charAt(i+1)).toString(), node, position)) != null) {
@@ -70,13 +64,12 @@ public class Lzw extends Lz78 {
 
             ++i;
         }
-
-        encodingDictionary = new Trie();
+        encodingDictionary = null;
         return codesToData(codes, oneByteNumbers, twoBytesNumbers, threeBytesNumbers);
     }
 
     @Override
-    public byte[] decode(byte[] file) throws UnsupportedEncodingException {
+    public byte[] decode(byte[] file) {
         // DECODING WITH LZW
         System.out.println("Decoding file with LZW");
         initializeDecodingDictionary();
@@ -98,8 +91,7 @@ public class Lzw extends Lz78 {
             newText.append(word);
             decodingDictionary.put(decodingDictionary.size(), decodingDictionary.get(codes.get(i-1)) + word.charAt(0));
         }
-
-        decodingDictionary = new HashMap<>();
+        decodingDictionary = null;
         return newText.toString().getBytes();
     }
 
@@ -130,75 +122,29 @@ public class Lzw extends Lz78 {
         return codes;
     }
 
-    /*private int nextWordInDictionary(int i, StringBuilder word, TrieNode node, String file) {
-        node = encodingDictionary.contains(word.append(file.charAt(i)).toString());
-        int position = 1;
-        while (i + 1 < file.length() &&
-                (node = encodingDictionary.contains(word.append(file.charAt(i+1)).toString(), node, position)) != null) {
-            ++i;
-            ++position;
-        }
-        return i;
-    }*/
-
-    private static byte[] codesToData(ArrayList<Integer> codes, int n1B, int n2B, int n3B) {
+    private static byte[] codesToData(ArrayList<Integer> codes, int oneByteNums, int twoByteNums, int threeByteNums) {
         ArrayList<Byte> arrayList = new ArrayList<>();
-        addIntToByteArrayList(n1B, 4, arrayList);
-        addIntToByteArrayList(n1B + n2B, 4, arrayList);
-        addIntToByteArrayList(n1B + n2B + n3B, 4, arrayList);
+        addIntToByteArrayList(oneByteNums, 4, arrayList);
+        addIntToByteArrayList(oneByteNums + twoByteNums, 4, arrayList);
+        addIntToByteArrayList(oneByteNums + twoByteNums + threeByteNums, 4, arrayList);
         int i = 0;
-        for (; i < n1B; ++i) {
+        for (; i < oneByteNums; ++i) {
             addIntToByteArrayList(codes.get(i), 1, arrayList);
         }
-        for (; i < n1B + n2B; ++i) {
+        for (; i < oneByteNums + twoByteNums; ++i) {
             addIntToByteArrayList(codes.get(i), 2, arrayList);
         }
-        for (; i < n1B + n2B + n3B; ++i) {
+        for (; i < oneByteNums + twoByteNums + threeByteNums; ++i) {
             addIntToByteArrayList(codes.get(i), 3, arrayList);
         }
         for (; i < codes.size(); ++i) {
             addIntToByteArrayList(codes.get(i), 1, arrayList);
         }
         return ArrayListBytetoByteArray(arrayList);
-        /*int length = 12 + n1B + n2B*2 + n3B*3 + (codes.size() - n1B - n2B - n3B)*4;
-        byte[] data = new byte[length];
-        int i = 0;
-        i = addIntToByteArray(n1B, 4, data, i);
-        i = addIntToByteArray(n1B + n2B, 4, data, i);
-        i = addIntToByteArray(n1B + n2B + n3B, 4, data, i);
-        int j = 0;
-        while (i < data.length && j < n1B) {
-            i = addIntToByteArray(codes.get(j), 1, data, i);
-            ++j;
-        }
-        while (i < data.length && j < n1B + n2B) {
-            i = addIntToByteArray(codes.get(j), 2, data, i);
-            ++j;
-        }
-        while (i < data.length && j < n1B + n2B + n3B) {
-            i = addIntToByteArray(codes.get(j), 3, data, i);
-            ++j;
-        }
-        while (i < data.length && j < codes.size()) {
-            i = addIntToByteArray(codes.get(j), 4, data, i);
-            ++j;
-        }
-        return data;*/
     }
 
-    private static int addIntToByteArray(int num, int bytesNum, byte[] dest, int index) {
-        byte[] element = transformIntToByteArray(num, bytesNum - 1);
-        int i = 0;
-        while (i < element.length && index < dest.length) {
-            dest[index] = element[i];
-            ++i;
-            ++index;
-        }
-        return index;
-    }
-
-    private static void addIntToByteArrayList(int num, int bytesNum, ArrayList<Byte> arrayList) {
-        byte[] number = transformIntToByteArray(num, bytesNum - 1);
+    private static void addIntToByteArrayList(int num, int bytesNeeded, ArrayList<Byte> arrayList) {
+        byte[] number = transformIntToByteArray(num, bytesNeeded - 1);
         for (byte b: number) arrayList.add(b);
     }
 }
