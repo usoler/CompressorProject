@@ -36,4 +36,42 @@ public class ConversorYCbCrComponent {
 
         return yCbCrMatrix;
     }
+
+    public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) {
+        int height = yCbCrMatrix.getNumberOfRows();
+        int width = yCbCrMatrix.getNumberOfColumns();
+        Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
+
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                Pixel pixel = yCbCrMatrix.getElementAt(i, j);
+                float red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
+                float green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (pixel.getZ() - 128f)) * 1000f) / 1000f;
+                float blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
+
+                if (red < 0) {
+                    red = 0;
+                }
+                if (green < 0) {
+                    green = 0;
+                }
+                if (blue < 0) {
+                    blue = 0;
+                }
+                if (red > 255f) {
+                    red = 255f;
+                }
+                if (green > 255f) {
+                    green = 255f;
+                }
+                if (blue > 255f) {
+                    blue = 255f;
+                }
+
+                rgbMatrix.setElementAt(new Pixel(red, green, blue), i, j);
+            }
+        }
+
+        return rgbMatrix;
+    }
 }

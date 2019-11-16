@@ -31,7 +31,7 @@ public class Jpeg implements AlgorithmInterface {
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
-        // 0. Read BMP file
+        // 0. Read PPM file
         Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
 
         // 1. Color conversion
@@ -292,8 +292,10 @@ public class Jpeg implements AlgorithmInterface {
         // TODO: 5. Reconstuct Total Matrix
         // ...
 
-        // TODO: 6. Undo Color Conversion
-        
+        // TODO: 6. Undo Color Conversion -- Check if it works
+        Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(blocksOfPixelMatrix16x16.get(0)); // TODO: change to global matrix yCbCr
+
+        // TODO: 7. Write PPM file
 
         return null;
     }
