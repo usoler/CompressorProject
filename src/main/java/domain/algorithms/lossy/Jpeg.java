@@ -8,8 +8,10 @@ import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import javafx.util.Pair;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class Jpeg implements AlgorithmInterface {
 
         // 0. Read PPM file
         Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte height = (byte) rgbMatrix.getNumberOfRows();
+        byte width = (byte) rgbMatrix.getNumberOfColumns();
+        byteArrayOutputStream.write(height);
+        byteArrayOutputStream.write(width);
 
         // 1. Color conversion
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
@@ -163,7 +170,9 @@ public class Jpeg implements AlgorithmInterface {
         responseBuffer.append(buffer.toString());
 
         return new BigInteger(responseBuffer.toString(), 2).toByteArray();*/
-        return new BigInteger(buffer.toString(), 2).toByteArray();
+        //return new BigInteger(buffer.toString(), 2).toByteArray();
+        byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override
@@ -175,8 +184,16 @@ public class Jpeg implements AlgorithmInterface {
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
         // 0. Read JPEG file
-        String binary = new BigInteger(data).toString(2);
-        StringBuffer dataBuffer = new StringBuffer(binary);
+        byte[] heightByte = new byte[1];
+        heightByte[0] = data[0];
+        String heightBinary = new BigInteger(heightByte).toString(2);
+        byte[] widthByte = new byte[1];
+        widthByte[0] = data[1];
+        String widthBinary = new BigInteger(widthByte).toString(2);
+
+        //String binary = new BigInteger(data).toString(2);
+        //StringBuffer dataBuffer = new StringBuffer(binary);
+        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2, data.length)).toString(2));
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
