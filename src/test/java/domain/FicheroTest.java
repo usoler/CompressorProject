@@ -14,7 +14,7 @@ public class FicheroTest {
 
     @Before
     public void setUp() {
-        file = new Fichero(name, format, size, null);
+        file = new Descomprimido(name, format, size, null);
     }
 
     @Test
@@ -25,14 +25,14 @@ public class FicheroTest {
 
     @Test
     public void verify_equals_returnsTrue_whenNotSame() {
-        Fichero file2 = new Fichero(new String(name), new String(format), size, null);
+        Fichero file2 = new Descomprimido(new String(name), new String(format), size, null);
         Assert.assertEquals(file2, file);
     }
 
     @Test
     public void verify_equals_returnsTrue_whenFolderIsDifferent() {
         Carpeta folder = new Carpeta(name, format);
-        Fichero file2 = new Fichero(new String(name), new String(format), size, folder);
+        Fichero file2 = new Descomprimido(new String(name), new String(format), size, folder);
         Assert.assertEquals(file2, file);
     }
 }

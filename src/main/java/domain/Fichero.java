@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public class Fichero {
+abstract class Fichero {
     private String name, format;
     private int size;
     private Carpeta folder;

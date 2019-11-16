@@ -24,7 +24,7 @@ public class CarpetaTest {
         int expected = 0;
         for (int i = 0; i < 5; i++) {
             expected += i;
-            files.add(new Fichero(name, format, i, folder));
+            files.add(new Comprimido(name, format, i, folder));
         }
         folder.setFiles(files);
         Assert.assertEquals(expected, folder.getSize());
@@ -43,7 +43,7 @@ public class CarpetaTest {
 
     @Test
     public void verify_addFile_setThisFolderAsFileFolder() {
-        Fichero file = new Fichero(name, format, 0, null);
+        Fichero file = new Descomprimido(name, format, 0, null);
         folder.addFile(file);
         Assert.assertSame(folder, file.getFolder());
     }

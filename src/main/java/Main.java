@@ -174,22 +174,19 @@ public class Main {
     public static void test2LZWTest() throws IOException{
         System.out.println("----------------------------------------- Test LZW ----------------------------------------");
         String pathnameFolder = "input";
-        String filename = "lotr.txt";
+        String filename = "verybig.txt";
 
         FileManager fileManager = new FileManager();
         fileManager.readFolder(pathnameFolder);
 
-        Lzw algorithm = new Lzw();
-        long start, end;
+        Algorithm algorithm = new Algorithm();
+        algorithm.setAlgorithmInterface(new Lzw());
 
         FileImpl fileTest = fileManager.getFile("input/"+filename);
 
         String pathnameEncoded = "output/LZWTest/"+filename+".LZW";
 
-        start = System.currentTimeMillis();
-        byte[] result = algorithm.encode(fileTest.getData());
-        end = System.currentTimeMillis();
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> t encode: " + (end-start));
+        byte[] result = algorithm.encodeFile(fileTest.getData());
 
         fileManager.createFile(result,pathnameEncoded);
         fileManager.writeFile(pathnameEncoded,false);
@@ -199,10 +196,7 @@ public class Main {
 
         FileImpl fileTest2 = fileManager.getFile("output/LZWTest/"+filename+".LZW");
 
-        start = System.currentTimeMillis();
-        byte[] resultDecoded = algorithm.decode(fileTest2.getData());
-        end = System.currentTimeMillis();
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> t decode: " + (end-start));
+        byte[] resultDecoded = algorithm.decodeFile(fileTest2.getData());
 
         String pathnameDecoded = "output/LZWTest/(Decoded)"+filename;
         fileManager.createFile(resultDecoded,pathnameDecoded);
