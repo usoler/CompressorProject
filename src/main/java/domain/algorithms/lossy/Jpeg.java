@@ -8,8 +8,10 @@ import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import javafx.util.Pair;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class Jpeg implements AlgorithmInterface {
 
         // 0. Read BMP file
         Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte width = (byte) rgbMatrix.getNumberOfRows();
+        byte height = (byte) rgbMatrix.getNumberOfColumns();
+        byteArrayOutputStream.write(width);
+        byteArrayOutputStream.write(height);
 
         // 1. Color conversion
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
@@ -165,7 +172,8 @@ public class Jpeg implements AlgorithmInterface {
         responseBuffer.append(buffer.toString());
 
         return new BigInteger(responseBuffer.toString(), 2).toByteArray();*/
-        return new BigInteger(buffer.toString(), 2).toByteArray();
+        byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override
@@ -176,20 +184,28 @@ public class Jpeg implements AlgorithmInterface {
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
 
         // 0. Read JPEG file
-        String binary = new BigInteger(data).toString(2);
-        StringBuffer dataBuffer = new StringBuffer(binary);
+        byte[] widthByte = new byte[1];
+        widthByte[0] = data[0];
+        String widthBinary = new BigInteger(widthByte).toString(2);
+        byte[] heighthByte = new byte[1];
+        heighthByte[0] = data[1];
+        String heightBinary = new BigInteger(widthByte).toString(2);
+        int numOfRows = Integer.parseInt(widthBinary, 2);
+        int numOfCols = Integer.parseInt(heightBinary, 2);
+
+        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2, data.length)).toString(2));
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
+        List<Matrix<Integer>> quantizedBlocks = new LinkedList<Matrix<Integer>>();
         boolean finish = false;
         int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
         int k = 0;
         while (!finish) {
             workingBuffer = new StringBuffer();
-            
+
             // DC coefficient
             List<Integer> zigZagValues = new LinkedList<Integer>();
-            //int k = 0; -- delete ???
             int numOfBits = -1;
             while (numOfBits == -1) {
                 workingBuffer.append(dataBuffer.charAt(k));
@@ -229,7 +245,7 @@ public class Jpeg implements AlgorithmInterface {
                 }
 
                 if (preZerosAndRow.getKey() == -2) {
-                    // TODO: ZLR, añadir 16 zeros y empezamos nueva iteracion - CHECKEAR
+                    // TODO: ZLR, añadir 16 zeros y empezamos nueva iteracion - check if it works
                     for (int m = 0; m < 16; ++m) {
                         zigZagValues.add(0);
                     }
@@ -253,7 +269,7 @@ public class Jpeg implements AlgorithmInterface {
             }
 
             // TODO: Deshacer zigzag
-            //Matrix<Integer> quantizationBlock = zigZagComponent.undoZigZag(zigZagValues);
+            //quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues, numOfRows, numOfCols));
 
             if (i == 5) {
                 i = 0;

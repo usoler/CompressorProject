@@ -2,6 +2,8 @@ package domain.components;
 
 import domain.dataStructure.Matrix;
 
+import java.util.List;
+
 public class ZigZagComponent {
     private static final int[] is = new int[]{
             0, 0, 1, 2, 1, 0, 0, 1, 2, 3, 4, 3, 2,
@@ -26,5 +28,16 @@ public class ZigZagComponent {
         }
 
         return zigZagVector;
+    }
+
+    // TODO: check if it works
+    public Matrix<Integer> undoZigZag(List<Integer> zigZagVector, int numOfRows, int numOfCols) {
+        Matrix<Integer> matrix8x8 = new Matrix<Integer>(numOfRows, numOfCols, new Integer[numOfRows][numOfCols]);
+
+        for (int k = 0; k < zigZagVector.size(); ++k) {
+            matrix8x8.setElementAt(zigZagVector.get(k), is[k], js[k]);
+        }
+
+        return matrix8x8;
     }
 }
