@@ -3,7 +3,7 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
 
-public class ReadPpmComponent {
+public class PpmComponent {
     private static final int INITIAL_DATA_ROW = 3;
 
     // TODO: DEPRECATED
@@ -54,5 +54,22 @@ public class ReadPpmComponent {
         }
 
         return pixels;
+    }
+
+    public String writePpmFile(int height, int width, Matrix<Pixel> rgbMatrix) {
+        String response = "P3\n" + height + " " + width + "\n255\n";
+        StringBuffer buffer = new StringBuffer(response);
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                int red = Math.round(rgbMatrix.getElementAt(i, j).getX());
+                int green = Math.round(rgbMatrix.getElementAt(i, j).getY());
+                int blue = Math.round(rgbMatrix.getElementAt(i, j).getZ());
+
+                String values = red + " " + green + " " + blue + " ";
+                buffer.append(values);
+            }
+            buffer.append("\n");
+        }
+        return buffer.toString();
     }
 }

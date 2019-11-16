@@ -19,14 +19,18 @@ public class Main {
         //String pathnameEncoded = "output/JPEGTest/blackbuck.ascii.jpeg";
         String pathnameEncoded = "output/JPEGTest/16x16.jpeg";
 
+        String pathnameDecoded = "output/JPEGTest/16x16.ppm";
+
         try {
             // Encoding
-            byte[] response = algorithm.encode(fileManager.getFile(pathTest).getData());
-            fileManager.createFile(response, pathnameEncoded);
+            byte[] responseEncode = algorithm.encode(fileManager.getFile(pathTest).getData());
+            fileManager.createFile(responseEncode, pathnameEncoded);
             fileManager.writeFile(pathnameEncoded, false);
 
             // Decoding
             byte[] responseDecode = algorithm.decode(fileManager.getFile(pathnameEncoded).getData());
+            fileManager.createFile(responseDecode, pathnameDecoded);
+            fileManager.writeFile(pathnameDecoded, false);
 
         } catch (Exception ex) {
             LOGGER.debug(ex.getMessage());

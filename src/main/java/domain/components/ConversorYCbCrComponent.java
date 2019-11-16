@@ -46,7 +46,7 @@ public class ConversorYCbCrComponent {
             for (int j = 0; j < width; ++j) {
                 Pixel pixel = yCbCrMatrix.getElementAt(i, j);
                 float red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
-                float green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (pixel.getZ() - 128f)) * 1000f) / 1000f;
+                float green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (0.714136f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
                 float blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
 
                 if (red < 0) {

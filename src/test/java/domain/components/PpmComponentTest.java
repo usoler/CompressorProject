@@ -3,7 +3,7 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
 
-public class ReadPpmComponentTest {
+public class PpmComponentTest {
     private static final String pathTest = "input/prueba.ppm";
     private static final int NUM_OF_ROWS = 2;
     private static final int NUM_OF_COLUMNS = 3;

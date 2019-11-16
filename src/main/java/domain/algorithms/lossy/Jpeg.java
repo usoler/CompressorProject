@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Jpeg implements AlgorithmInterface {
-    private static final ReadPpmComponent readPpmComponent = new ReadPpmComponent();
+    private static final PpmComponent ppmComponent = new PpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
     private static final DCTComponent dctComponent = new DCTComponent();
@@ -34,7 +34,7 @@ public class Jpeg implements AlgorithmInterface {
         StringBuffer buffer = new StringBuffer();
 
         // 0. Read PPM file
-        Matrix<Pixel> rgbMatrix = readPpmComponent.readPpmFileV2(file);
+        Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFileV2(file);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte height = (byte) rgbMatrix.getNumberOfRows();
         byte width = (byte) rgbMatrix.getNumberOfColumns();
@@ -312,9 +312,10 @@ public class Jpeg implements AlgorithmInterface {
         // TODO: 6. Undo Color Conversion -- Check if it works
         Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(blocksOfPixelMatrix16x16.get(0)); // TODO: change to global matrix yCbCr
 
-        // TODO: 7. Write PPM file
+        // TODO: 7. Write PPM file -- Check if it works
+        String response = ppmComponent.writePpmFile(Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
 
-        return null;
+        return response.getBytes();
     }
 
     private String bitExtension(String bits, int size) {
