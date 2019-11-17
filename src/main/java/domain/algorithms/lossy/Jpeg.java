@@ -33,6 +33,7 @@ public class Jpeg implements AlgorithmInterface {
         System.out.println("Encoding file with JPEG");
         String file = new String(data, StandardCharsets.UTF_8);
 
+        String infoDC;
         int cont = 0;
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
@@ -94,9 +95,6 @@ public class Jpeg implements AlgorithmInterface {
                 List<Matrix<Float>> quantizedBlocks = new LinkedList<Matrix<Float>>();
                 for (int n = 0; n < blocksOf8x8.size(); ++n) {
                     quantizedBlocks.add(quantizationComponent.quantizeMatrix(blocksOf8x8.get(n)));
-                    if (n < 4 && quantizedBlocks.get(n).getElementAt(0, 0) != -64f) {
-                        int o = 2;
-                    }
                 }
 
 
@@ -120,10 +118,6 @@ public class Jpeg implements AlgorithmInterface {
 
                     // 5.2 Huffman Encoding
                     // Process DC value
-                    if (cont == 1064) {
-                        int asdad = 0;
-                    }
-                    ++cont;
                     float dpcmDC = zigZagValues[0] - lastDC[n];
                     lastDC[n] = zigZagValues[0];
 
@@ -144,7 +138,8 @@ public class Jpeg implements AlgorithmInterface {
                     int numOfPreZeros = 0;
                     for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
                         if (numOfPreZeros > 15) { // Catch ZRL case
-                            LOGGER.debug("Add 16 zeros");
+                            LOGGER.debug("Add 16 zeros. Cont: {}", cont);
+                            ++cont;
                             if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
                                 buffer.append("11111111001");
                             } else {
@@ -201,6 +196,7 @@ public class Jpeg implements AlgorithmInterface {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
 
+        int cont = 0;
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
@@ -237,16 +233,9 @@ public class Jpeg implements AlgorithmInterface {
         boolean finish = false;
         int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
         int k = 0;
-        int cont = 0;
         while (!finish) {
             workingBuffer = new StringBuffer();
             // DC coefficient
-            //LOGGER.debug("Dc coefficient. Counter: '{}'", cont);
-            if (cont == 4085) {
-                int asdad = 0;
-            }
-            LOGGER.debug("contador: '{}'", cont);
-            ++cont;
             List<Integer> zigZagValues = new LinkedList<Integer>();
             int numOfBits = -1;
             while (numOfBits == -1) {
@@ -273,14 +262,15 @@ public class Jpeg implements AlgorithmInterface {
 
             zigZagValues.add(dc + lastDC[n]);
             lastDC[n] = dc + lastDC[n];
-            k += numOfBits;
+            if (numOfBits == 0) {
+                ++k;
+            } else {
+                k += numOfBits;
+            }
 
             // AC coefficients
             boolean endOfBlock = false;
             for (int j = 0; j < 63 && !endOfBlock; ++j) {
-                if (cont == 4086 && j == 6) {
-                    LOGGER.debug("AC coefficient #'{}", j);
-                }
                 workingBuffer = new StringBuffer();
                 Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
                 while (preZerosAndRow.getKey() == -1) {
@@ -301,11 +291,9 @@ public class Jpeg implements AlgorithmInterface {
                         zigZagValues.add(0);
                     }
                 } else if (preZerosAndRow.getKey() == -3) {
-                    //LOGGER.debug("End Of Block");
                     for (int m = zigZagValues.size() - 1; m < 63; ++m) {
                         zigZagValues.add(0);
                     }
-
                     endOfBlock = true;
                 } else {
                     for (int m = 0; m < preZerosAndRow.getKey(); ++m) {
@@ -314,7 +302,6 @@ public class Jpeg implements AlgorithmInterface {
 
                     columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
                     int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
-                    //LOGGER.debug("AC value: '{}'", ac);
 
                     zigZagValues.add(ac);
                     k += preZerosAndRow.getValue();
@@ -322,8 +309,12 @@ public class Jpeg implements AlgorithmInterface {
             }
 
             // 1.2 Undo Zig Zag Vector
-            //LOGGER.debug("Undo zig zag vector");
+            LOGGER.debug("cont: {}", cont);
+            if (cont == 410) {
+                String stop = "stop";
+            }
             quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
+            ++cont;
             if (i == 5) {
                 i = 0;
 

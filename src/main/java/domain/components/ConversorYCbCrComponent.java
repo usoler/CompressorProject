@@ -40,22 +40,30 @@ public class ConversorYCbCrComponent {
         return yCbCrMatrix;
     }
 
-    public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) {
+    public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) throws Exception {
         int height = yCbCrMatrix.getNumberOfRows();
         int width = yCbCrMatrix.getNumberOfColumns();
         Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
 
         for (int i = 0; i < height; ++i) {
-            LOGGER.debug("i: {}", i);
+            //LOGGER.debug("i: {}", i);
             for (int j = 0; j < width; ++j) {
-                LOGGER.debug("j: {}", j);
-                if(j == 144 && i == 336){
+                //LOGGER.debug("j: {}", j);
+                if (j == 144 && i == 336) {
                     String o = "o";
                 }
                 Pixel pixel = yCbCrMatrix.getElementAt(i, j);
-                float red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
-                float green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (0.714136f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
-                float blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
+                float red = 0;
+                float green = 0;
+                float blue = 0;
+                try {
+                    red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
+                    green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (0.714136f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
+                    blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
+                } catch (Exception e) {
+                    LOGGER.error("i: {}, j: {}", i, j);
+                    throw new Exception();
+                }
 
                 if (red < 0) {
                     red = 0;
