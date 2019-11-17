@@ -12,7 +12,9 @@ import domain.fileManager.FileManager;
 
 public class Main {
 
+
     public static void main(String[] args) throws IOException {
+        // write your code here
         System.out.println("COMPRESSOR 3000");
         System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
         System.out.println("DEVELOPERS ARE:");
