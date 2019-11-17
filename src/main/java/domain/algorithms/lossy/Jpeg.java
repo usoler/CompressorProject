@@ -7,6 +7,8 @@ import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
@@ -23,6 +25,7 @@ public class Jpeg implements AlgorithmInterface {
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
 
     @Override
     public byte[] encode(byte[] data) throws Exception {
@@ -202,10 +205,16 @@ public class Jpeg implements AlgorithmInterface {
         boolean finish = false;
         int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
         int k = 0;
+        int cont = 0;
         while (!finish) {
             workingBuffer = new StringBuffer();
 
             // DC coefficient
+            //LOGGER.debug("Dc coefficient. Counter: '{}'", cont);
+            if(cont == 1065){
+                int asdad = 0;
+            }
+            ++cont;
             List<Integer> zigZagValues = new LinkedList<Integer>();
             int numOfBits = -1;
             while (numOfBits == -1) {
@@ -233,24 +242,29 @@ public class Jpeg implements AlgorithmInterface {
             // AC coefficients
             boolean endOfBlock = false;
             for (int j = 0; j < 63 && !endOfBlock; ++j) {
+                //LOGGER.debug("AC coefficient #'{}", j);
                 workingBuffer = new StringBuffer();
                 Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
                 while (preZerosAndRow.getKey() == -1) {
                     workingBuffer.append(dataBuffer.charAt(k));
                     if (i < 4) {
+                        //LOGGER.debug("Luminance: '{}'", workingBuffer.toString());
                         preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
                     } else {
+                        //LOGGER.debug("Chromanance: '{}'", workingBuffer.toString());
                         preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueChrominance(workingBuffer.toString());
                     }
                     ++k;
                 }
 
                 if (preZerosAndRow.getKey() == -2) {
+                    LOGGER.debug("Add 16 zeros");
                     // TODO: ZLR, añadir 16 zeros y empezamos nueva iteracion - check if it works
                     for (int m = 0; m < 16; ++m) {
                         zigZagValues.add(0);
                     }
                 } else if (preZerosAndRow.getKey() == -3) {
+                    //LOGGER.debug("End Of Block");
                     for (int m = zigZagValues.size() - 1; m < 63; ++m) {
                         zigZagValues.add(0);
                     }
@@ -263,6 +277,7 @@ public class Jpeg implements AlgorithmInterface {
 
                     columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
                     int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
+                    //LOGGER.debug("AC value: '{}'", ac);
 
                     zigZagValues.add(ac);
                     k += preZerosAndRow.getValue();
@@ -270,18 +285,21 @@ public class Jpeg implements AlgorithmInterface {
             }
 
             // 1.2 Undo Zig Zag Vector
+            //LOGGER.debug("Undo zig zag vector");
             quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
 
             if (i == 5) {
                 i = 0;
 
                 // 2. Desquantization
+                //LOGGER.debug("Undo desquantization");
                 List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
                 for (int m = 0; m < quantizedBlocks.size(); ++m) {
                     blocksOf8x8.add(quantizationComponent.desquantizeMatrix(quantizedBlocks.get(m)));
                 }
 
                 // 3. Undo DCT
+                //LOGGER.debug("Undo DCT");
                 // Y
                 MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
                 for (int m = 0; m < 4; ++m) {
@@ -306,13 +324,35 @@ public class Jpeg implements AlgorithmInterface {
             }
         }
 
-        // TODO: 5. Reconstuct Total Matrix
-        // ...
+        // 5. Reconstuct Total Matrix
+        int height = Integer.parseInt(heightBinary, 2);
+        int width = Integer.parseInt(widthBinary, 2);
+        Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
+        int originS = 0;
+        int originM = 0;
+        int s = 0;
+        int m = 0;
+        for (int n = 0; n < blocksOfPixelMatrix16x16.size(); ++n) {
+            s = originS;
+            for (int y = 0; y < 16; ++y, ++s) {
+                m = originM;
+                for (int x = 0; x < 16; ++x, ++m) {
+                    yCbCrMatrix.setElementAt(blocksOfPixelMatrix16x16.get(n).getElementAt(y, x), s, m); // Check if y and x are correct
+                }
+            }
 
-        // TODO: 6. Undo Color Conversion -- Check if it works
-        Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(blocksOfPixelMatrix16x16.get(0)); // TODO: change to global matrix yCbCr
+            if (m == width) {
+                originM = 0;
+                originS += 16;
+            } else {
+                originM += 16;
+            }
+        }
 
-        // TODO: 7. Write PPM file -- Check if it works
+        // 6. Undo Color Conversion
+        Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(yCbCrMatrix);
+
+        // 7. Write PPM file
         String response = ppmComponent.writePpmFile(Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
 
         return response.getBytes();

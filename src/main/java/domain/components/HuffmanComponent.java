@@ -46,7 +46,7 @@ public class HuffmanComponent {
     public int getNumOfBitsOfColumn(String huffmanValue) {
         switch (huffmanValue) {
             case "0":
-                return 0;
+                return 1;
             case "10":
                 return 1;
             case "110":

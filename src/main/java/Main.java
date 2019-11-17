@@ -7,8 +7,9 @@ import java.io.IOException;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-    //private static final String pathTest = "input/blackbuck.ascii.ppm";
-    private static final String pathTest = "input/16x16.ppm";
+    private static final String pathTest = "input/blackbuck.ascii.ppm";
+    //private static final String pathTest = "input/16x16.ppm";
+    //private static final String pathTest = "input/black16x16.ppm";
 
     public static void main(String[] args) throws IOException {
         FileManager fileManager = new FileManager();
@@ -16,10 +17,13 @@ public class Main {
 
         Jpeg algorithm = new Jpeg();
 
-        //String pathnameEncoded = "output/JPEGTest/blackbuck.ascii.jpeg";
-        String pathnameEncoded = "output/JPEGTest/16x16.jpeg";
+        String pathnameEncoded = "output/JPEGTest/blackbuck.ascii.jpeg";
+        //String pathnameEncoded = "output/JPEGTest/16x16.jpeg";
+        //String pathnameEncoded = "output/JPEGTest/black16x16.jpeg";
 
-        String pathnameDecoded = "output/JPEGTest/16x16.ppm";
+        //String pathnameDecoded = "output/JPEGTest/16x16.ppm";
+        //String pathnameDecoded = "output/JPEGTest/black16x16.ppm";
+        String pathnameDecoded = "output/JPEGTest/blackbuck.ppm";
 
         try {
             // Encoding
