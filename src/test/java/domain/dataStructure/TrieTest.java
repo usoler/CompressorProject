@@ -7,6 +7,7 @@ import org.junit.Test;
 public class TrieTest {
     private static final String word = "example";
     private static final int INDEX_INVALID = -1;
+    private static final int INDEX_VALID = 1;
 
     private Trie trie;
 
@@ -24,17 +25,17 @@ public class TrieTest {
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsEmpty() {
+    public void verify_insert_returnsValidIndex_whenWordIsEmpty() {
         int response = this.trie.insert("");
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsBlank() {
+    public void verify_insert_returnsValidIndex_whenWordIsBlank() {
         int response = this.trie.insert("  ");
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test
@@ -56,15 +57,19 @@ public class TrieTest {
     }
 
     @Test
-    public void verify_contains_returnsNotNull_whenWordIsEmpty() {
+    public void verify_contains_returnsNull_whenWordIsEmpty() {
+        this.trie.insert("");
+
         TrieNode response = this.trie.contains("");
 
-        Assert.assertNotNull(response);
+        Assert.assertNull(response);
     }
 
     @Test
     public void verify_contains_returnsNotNull_whenWordIsBlank() {
-        TrieNode response = this.trie.contains("");
+        this.trie.insert("  ");
+
+        TrieNode response = this.trie.contains("  ");
 
         Assert.assertNotNull(response);
     }
@@ -82,7 +87,7 @@ public class TrieTest {
         this.trie.insert(this.word);
 
         // Test
-        TrieNode response = this.trie.contains("");
+        TrieNode response = this.trie.contains(this.word);
 
         Assert.assertNotNull(response);
     }

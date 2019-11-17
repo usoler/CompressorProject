@@ -7,6 +7,7 @@ import org.junit.Test;
 public class TrieNodeTest {
     private static final String WORD_VALID = "example";
     private static final int INDEX_INVALID = -1;
+    private static final int INDEX_VALID = 1;
 
 
     private TrieNode node;
@@ -32,10 +33,10 @@ public class TrieNodeTest {
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsBlank() {
+    public void verify_insert_returnsValidIndex_whenWordIsBlank() {
         int response = this.node.insert("   ", 0, 1);
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test

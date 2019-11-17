@@ -81,6 +81,7 @@ public class Carpeta {
         file.setFolder(this);
     }
 
+
     public void addFolder(Carpeta folder) {
         folders.add(folder);
         size += folder.getSize();
