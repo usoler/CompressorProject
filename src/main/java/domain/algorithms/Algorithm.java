@@ -39,29 +39,26 @@ public class Algorithm {
     }
 
     private static void printEncodeStatistics(long start, long end, float uncompressedSize, float compressedSize) {
-        System.out.printf("Elapsed time: %d ms\n", end-start);
-        if ((end-start) == 0 && (uncompressedSize-compressedSize) == 0) {
+        System.out.printf("Elapsed time: %d ms\n", end - start);
+        if ((end - start) == 0 && (uncompressedSize - compressedSize) == 0) {
             System.out.println("Compression speed: 0 bytes/ms");
-        }
-        else {
-            System.out.printf("Compression speed: %.2f bytes/ms\n", (uncompressedSize-compressedSize)/(end-start));
+        } else {
+            System.out.printf("Compression speed: %.2f bytes/ms\n", (uncompressedSize - compressedSize) / (end - start));
         }
         if (uncompressedSize == 0 && compressedSize == 0) {
             System.out.println("Compression ratio: 0");
+        } else {
+            System.out.printf("Compress ratio: %.2f\n", uncompressedSize / compressedSize);
         }
-        else {
-            System.out.printf("Compress ratio: %.2f\n", uncompressedSize/compressedSize);
-        }
-        System.out.printf("Space savings: %.2f%%\n", (1.0f - compressedSize/uncompressedSize)*100.0f);
+        System.out.printf("Space savings: %.2f%%\n", (1.0f - compressedSize / uncompressedSize) * 100.0f);
     }
 
     private static void printDecodeStatistics(long start, long end, float compressedSize, float decompressedSize) {
-        System.out.printf("Elapsed time: %d ms\n", end-start);
-        if ((end-start) == 0 && (decompressedSize-compressedSize) == 0) {
+        System.out.printf("Elapsed time: %d ms\n", end - start);
+        if ((end - start) == 0 && (decompressedSize - compressedSize) == 0) {
             System.out.println("Decompression speed: 0 bytes/ms");
-        }
-        else {
-            System.out.printf("Decompression speed: %.2f bytes/ms\n", (decompressedSize-compressedSize)/(end-start));
+        } else {
+            System.out.printf("Decompression speed: %.2f bytes/ms\n", (decompressedSize - compressedSize) / (end - start));
         }
     }
 }
