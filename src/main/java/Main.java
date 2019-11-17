@@ -14,7 +14,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         System.out.println("COMPRESSOR 3000");
-        System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 42-?");
+        System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
+        System.out.println("DEVELOPERS ARE:");
+        System.out.println("GONZALEZ JURADO, ANGEL");
+        System.out.println("MALQUI CRUZ, MIGUEL ANGEL");
+        System.out.println("SOLER CRUZ, LUIS ORIOL");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         System.out.println("THIS VERSION OF THE PROGRAM COMPILES IN THE ALGORITHM LZ78");
         System.out.println("PRESS 1 IF YOU WANT TO TEST OUR FILES");

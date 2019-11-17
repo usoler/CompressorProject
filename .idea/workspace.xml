@@ -2,39 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/LZW/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/2500.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/test2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/testFolder/test 3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/testn.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestFile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/verybig.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/2500.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/(Decoded)verybig.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZ78Test/verybig.txt.LZ78" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/(Decoded)test2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/(Decoded)testn.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/(Decoded)verybig.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/test2.txt.LZW" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/testn.txt.LZW" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/LZWTest/verybig.txt.LZW" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzw.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
