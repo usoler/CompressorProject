@@ -33,8 +33,6 @@ public class Jpeg implements AlgorithmInterface {
         System.out.println("Encoding file with JPEG");
         String file = new String(data, StandardCharsets.UTF_8);
 
-        String infoDC;
-        int cont = 0;
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
@@ -42,13 +40,9 @@ public class Jpeg implements AlgorithmInterface {
         Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFileV2(file);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
-        //byte height = (byte) rgbMatrix.getNumberOfRows();
         byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();
-        //byte width = (byte) rgbMatrix.getNumberOfColumns();
         byte heightSize = (byte) height.length;
         byte widthSize = (byte) width.length;
-        //byteArrayOutputStream.write(height);
-        //byteArrayOutputStream.write(width);
         byteArrayOutputStream.write(heightSize);
         byteArrayOutputStream.write(widthSize);
         byteArrayOutputStream.write(height);
@@ -138,8 +132,6 @@ public class Jpeg implements AlgorithmInterface {
                     int numOfPreZeros = 0;
                     for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
                         if (numOfPreZeros > 15) { // Catch ZRL case
-                            LOGGER.debug("Add 16 zeros. Cont: {}", cont);
-                            ++cont;
                             if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
                                 buffer.append("11111111001");
                             } else {
@@ -170,23 +162,7 @@ public class Jpeg implements AlgorithmInterface {
 
             y += 16;
         }
-/*
-        // TODO: optimizar ??
-        StringBuffer extendedBuffer = new StringBuffer();
-        int counter = 0;
-        while ((buffer.length() + extendedBuffer.length() + 3) % 8 != 0) {
-            extendedBuffer.append("0");
-            ++counter;
-        }
 
-        String extensionOfZeros = bitExtension(Integer.toBinaryString(counter), 3);
-
-        StringBuffer responseBuffer = new StringBuffer(extensionOfZeros);
-        responseBuffer.append(extendedBuffer.toString());
-        responseBuffer.append(buffer.toString());
-
-        return new BigInteger(responseBuffer.toString(), 2).toByteArray();*/
-        //return new BigInteger(buffer.toString(), 2).toByteArray();
         byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
         return byteArrayOutputStream.toByteArray();
     }
@@ -196,7 +172,6 @@ public class Jpeg implements AlgorithmInterface {
         // DECODING WITH JPEG
         System.out.println("Decoding file with JPEG");
 
-        int cont = 0;
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
@@ -213,18 +188,7 @@ public class Jpeg implements AlgorithmInterface {
         byte[] widthBytes = Arrays.copyOfRange(data, 2 + heightNumOfBytes, 2 + heightNumOfBytes + widthNumOfBytes);
         String widthBinary = new BigInteger(widthBytes).toString(2);
 
-
-        //byte[] heightByte = new byte[1];
-        //heightByte[0] = data[0];
-        //String heightBinary = new BigInteger(heightByte).toString(2);
-        //byte[] widthByte = new byte[1];
-        //widthByte[0] = data[1];
-        //String widthBinary = new BigInteger(widthByte).toString(2);
-
-        //String binary = new BigInteger(data).toString(2);
-        //StringBuffer dataBuffer = new StringBuffer(binary);
         StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2 + heightNumOfBytes + widthNumOfBytes, data.length)).toString(2));
-        //StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2, data.length)).toString(2));
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
@@ -276,17 +240,14 @@ public class Jpeg implements AlgorithmInterface {
                 while (preZerosAndRow.getKey() == -1) {
                     workingBuffer.append(dataBuffer.charAt(k));
                     if (i < 4) {
-                        //LOGGER.debug("Luminance: '{}'", workingBuffer.toString());
                         preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
                     } else {
-                        //LOGGER.debug("Chromanance: '{}'", workingBuffer.toString());
                         preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueChrominance(workingBuffer.toString());
                     }
                     ++k;
                 }
 
                 if (preZerosAndRow.getKey() == -2) {
-                    LOGGER.debug("Add 16 zeros");
                     for (int m = 0; m < 16; ++m) {
                         zigZagValues.add(0);
                     }
@@ -309,12 +270,7 @@ public class Jpeg implements AlgorithmInterface {
             }
 
             // 1.2 Undo Zig Zag Vector
-            LOGGER.debug("cont: {}", cont);
-            if (cont == 410) {
-                String stop = "stop";
-            }
             quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
-            ++cont;
             if (i == 5) {
                 i = 0;
 
@@ -385,17 +341,5 @@ public class Jpeg implements AlgorithmInterface {
         String response = ppmComponent.writePpmFile(Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
 
         return response.getBytes();
-    }
-
-    private String bitExtension(String bits, int size) {
-        StringBuffer buffer = new StringBuffer();
-
-        for (int i = 0; i < size - bits.length(); ++i) {
-            buffer.append(0);
-        }
-
-        buffer.append(bits);
-
-        return buffer.toString();
     }
 }
