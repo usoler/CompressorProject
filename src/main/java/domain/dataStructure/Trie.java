@@ -51,10 +51,10 @@ public class Trie {
             return null;
         }
 
-        return contains(word, this.root, 0);
+        return contains(word, this.root,0);
     }
 
-    public TrieNode contains(String word, TrieNode node, int position) {
+    public TrieNode contains(String word, TrieNode node, int position ) {
         if (word == null) {
             return null;
         }
@@ -77,7 +77,7 @@ public class Trie {
             return -1;
         }
 
-        return getIndexOf(word, this.root, 0);
+        return getIndexOf(word,this.root,0);
     }
 
     public int getIndexOf(String word, TrieNode node, int position) {
