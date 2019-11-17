@@ -46,7 +46,7 @@ public class HuffmanComponent {
     public int getNumOfBitsOfColumn(String huffmanValue) {
         switch (huffmanValue) {
             case "0":
-                return 1;
+                return 0;
             case "10":
                 return 1;
             case "110":
@@ -416,7 +416,7 @@ public class HuffmanComponent {
     }
 
     public Pair<Integer, Integer> getPreZerosAndRowOfValueLuminance(String huffmanValue) {
-        switch (huffmanValue) {  // TODO: anadir ZRL y EOB control
+        switch (huffmanValue) {
             case "11111111001": // ZRL
                 return new Pair<Integer, Integer>(-2, -2);
             case "1010": // EOB
@@ -445,7 +445,7 @@ public class HuffmanComponent {
                 return new Pair<Integer, Integer>(1, 1);
             case "11011":
                 return new Pair<Integer, Integer>(1, 2);
-            case "11110001":
+            case "1111001":
                 return new Pair<Integer, Integer>(1, 3);
             case "111110110":
                 return new Pair<Integer, Integer>(1, 4);
@@ -1265,7 +1265,7 @@ public class HuffmanComponent {
             } else if (row == 2) {
                 return "11011";
             } else if (row == 3) {
-                return "11110001";
+                return "1111001";
             } else if (row == 4) {
                 return "111110110";
             } else if (row == 5) {

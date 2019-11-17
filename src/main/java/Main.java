@@ -38,6 +38,7 @@ public class Main {
 
         } catch (Exception ex) {
             LOGGER.debug(ex.getMessage());
+            ex.printStackTrace();
             throw new IOException();
         }
 

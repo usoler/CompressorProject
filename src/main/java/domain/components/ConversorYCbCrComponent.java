@@ -2,8 +2,11 @@ package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConversorYCbCrComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConversorYCbCrComponent.class);
 
     public Matrix<Pixel> convertFromRGB(Matrix<Pixel> rgbMatrix) {
         int height = rgbMatrix.getNumberOfRows();
@@ -43,7 +46,12 @@ public class ConversorYCbCrComponent {
         Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
 
         for (int i = 0; i < height; ++i) {
+            LOGGER.debug("i: {}", i);
             for (int j = 0; j < width; ++j) {
+                LOGGER.debug("j: {}", j);
+                if(j == 144 && i == 336){
+                    String o = "o";
+                }
                 Pixel pixel = yCbCrMatrix.getElementAt(i, j);
                 float red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
                 float green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (0.714136f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
