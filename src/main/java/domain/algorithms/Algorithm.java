@@ -39,7 +39,6 @@ public class Algorithm {
     }
 
     private static void printEncodeStatistics(long start, long end, float uncompressedSize, float compressedSize) {
-        System.out.printf("start %d, end %d, unc %f, compress %f\n", start, end, uncompressedSize, compressedSize);
         System.out.printf("Elapsed time: %d ms\n", end-start);
         if ((end-start) == 0 && (uncompressedSize-compressedSize) == 0) {
             System.out.println("Compression speed: 0 bytes/ms");
@@ -53,7 +52,7 @@ public class Algorithm {
         else {
             System.out.printf("Compress ratio: %.2f\n", uncompressedSize/compressedSize);
         }
-        System.out.printf("Space savings: %.2f\n", 1.0f - compressedSize/uncompressedSize);
+        System.out.printf("Space savings: %.2f%%\n", (1.0f - compressedSize/uncompressedSize)*100.0f);
     }
 
     private static void printDecodeStatistics(long start, long end, float compressedSize, float decompressedSize) {

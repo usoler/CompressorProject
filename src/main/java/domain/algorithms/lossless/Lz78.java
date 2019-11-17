@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,11 +23,11 @@ public class Lz78 extends Lz {
 
 
     @Override
-    public byte[] encode(byte[] data) throws IOException {
+    public byte[] encode(byte[] data) {
         // ENCODING WITH LZ78
         System.out.println("Encoding file with LZ78");
         encodingDictionary = new Trie();
-        String file = new String(data,"UTF-8");
+        String file = new String(data, StandardCharsets.UTF_8);
         int i = 0;
         int length = file.length();
         int extraBytesNeeded = 0;
@@ -163,7 +164,7 @@ public class Lz78 extends Lz {
 
 
     @Override
-    public byte[] decode(byte[] file) throws UnsupportedEncodingException {
+    public byte[] decode(byte[] file) {
         // DECODING WITH LZ78
         System.out.println("Decoding file with LZ78");
         decodingDictionary = new HashMap<>();

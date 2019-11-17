@@ -138,7 +138,7 @@ public class Lzw extends Lz78 {
             addIntToByteArrayList(codes.get(i), 3, arrayList);
         }
         for (; i < codes.size(); ++i) {
-            addIntToByteArrayList(codes.get(i), 1, arrayList);
+            addIntToByteArrayList(codes.get(i), 4, arrayList);
         }
         return ArrayListBytetoByteArray(arrayList);
     }
