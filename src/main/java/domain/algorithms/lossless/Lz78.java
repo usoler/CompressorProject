@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,11 +23,11 @@ public class Lz78 extends Lz {
 
 
     @Override
-    public byte[] encode(byte[] data) throws IOException {
+    public byte[] encode(byte[] data) {
         // ENCODING WITH LZ78
         System.out.println("Encoding file with LZ78");
         encodingDictionary = new Trie();
-        String file = new String(data,"UTF-8");
+        String file = new String(data, StandardCharsets.UTF_8);
         int i = 0;
         int length = file.length();
         int extraBytesNeeded = 0;
@@ -114,6 +115,7 @@ public class Lz78 extends Lz {
             }
 
         }
+        encodingDictionary = null;
 
         byteArray = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(thirdExtraBytePosition).array();
         for (byte b: byteArray) bytes.add(0,b);
@@ -127,7 +129,7 @@ public class Lz78 extends Lz {
         return byteArray;
     }
 
-    static private byte[] ArrayListBytetoByteArray(ArrayList<Byte> bytes)
+    static protected byte[] ArrayListBytetoByteArray(ArrayList<Byte> bytes)
     {
         byte[] result = new byte[bytes.size()];
         for(int j = 0; j < bytes.size(); j++) {
@@ -136,7 +138,7 @@ public class Lz78 extends Lz {
         return result;
     }
 
-    static private byte[] transformIntToByteArray(int index, int extraBytesNeeded)
+    static protected byte[] transformIntToByteArray(int index, int extraBytesNeeded)
     {
         byte[] bytes = ByteBuffer.allocate(4).putInt(index).array();
         switch (extraBytesNeeded)
@@ -162,7 +164,7 @@ public class Lz78 extends Lz {
 
 
     @Override
-    public byte[] decode(byte[] file) throws UnsupportedEncodingException {
+    public byte[] decode(byte[] file) {
         // DECODING WITH LZ78
         System.out.println("Decoding file with LZ78");
         decodingDictionary = new HashMap<>();
@@ -251,6 +253,7 @@ public class Lz78 extends Lz {
             }
 
         }
+        decodingDictionary = null;
 
         return stringBuffer.toString().getBytes();
     }

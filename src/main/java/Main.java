@@ -17,6 +17,8 @@ import domain.fileManager.FileImpl;
 import domain.fileManager.FileManager;
 import domain.dataStructure.Trie;
 
+import javax.sound.midi.Soundbank;
+
 public class Main {
 
     static private void trieTest() throws UnsupportedEncodingException {
@@ -73,6 +75,7 @@ public class Main {
         MyLoggerExample logger = new MyLoggerExample();
         //abracadabraLZ78Test();
         test2LZ78Test();
+        test2LZWTest();
         logger.showLogs();
 
 
@@ -163,6 +166,43 @@ public class Main {
         String pathnameDecoded = "output/LZ78Test/(Decoded)"+filename;
         fileManager.createFile(resultDecoded,pathnameDecoded);
         fileManager.writeFile(pathnameDecoded,false);
+
+
+    }
+
+
+    public static void test2LZWTest() throws IOException{
+        System.out.println("----------------------------------------- Test LZW ----------------------------------------");
+        String pathnameFolder = "input";
+        String filename = "verybig.txt";
+
+        FileManager fileManager = new FileManager();
+        fileManager.readFolder(pathnameFolder);
+
+        Algorithm algorithm = new Algorithm();
+        algorithm.setAlgorithmInterface(new Lzw());
+
+        FileImpl fileTest = fileManager.getFile("input/"+filename);
+
+        String pathnameEncoded = "output/LZWTest/"+filename+".LZW";
+
+        byte[] result = algorithm.encodeFile(fileTest.getData());
+
+        fileManager.createFile(result,pathnameEncoded);
+        fileManager.writeFile(pathnameEncoded,false);
+
+
+        fileManager.readFolder("output");
+
+        FileImpl fileTest2 = fileManager.getFile("output/LZWTest/"+filename+".LZW");
+
+        byte[] resultDecoded = algorithm.decodeFile(fileTest2.getData());
+
+        String pathnameDecoded = "output/LZWTest/(Decoded)"+filename;
+        fileManager.createFile(resultDecoded,pathnameDecoded);
+        fileManager.writeFile(pathnameDecoded,false);
+
+        System.out.println("------------------------------------- End test LZW --------------------------------------");
 
 
     }
