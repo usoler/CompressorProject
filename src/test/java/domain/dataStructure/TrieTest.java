@@ -1,8 +1,6 @@
 package domain.dataStructure;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class TrieTest {
     private static final String word = "example";
@@ -11,9 +9,15 @@ public class TrieTest {
 
     private Trie trie;
 
+    @BeforeClass
+    public static void startUp(){
+        System.out.println("TRIE TEST STARTED");
+    }
+
     @Before
     public void setup() {
         trie = new Trie();
+
     }
 
     // ************************************ INSERT ************************************
@@ -92,4 +96,10 @@ public class TrieTest {
         Assert.assertNotNull(response);
     }
     // ********************************************************************************
+
+    @AfterClass
+    public static void end()
+    {
+        System.out.println("TRIE TEST ENDED");
+    }
 }

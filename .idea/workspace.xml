@@ -7,14 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/MainTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/TestSuite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/Tests/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CompressorProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CompressorProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestSuite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieNodeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/dataStructure/TrieTest.java" afterDir="false" />
     </list>
@@ -65,6 +62,8 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2" />
+      <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\OUTPUT" />
       <recent name="C:\Users\usuario\IdeaProjects\CompressorProject2\src\main\resources" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
@@ -88,10 +87,32 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.LzwTest">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MainTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainTest" />
       <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CarpetaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain" />
+      <option name="MAIN_CLASS_NAME" value="domain.CarpetaTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -106,21 +127,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
       <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieNodeTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -141,29 +147,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrieTest.verify_contains_returnsNotNull_whenIsFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieTest" />
-      <option name="METHOD_NAME" value="verify_contains_returnsNotNull_whenIsFound" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LzwTest" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainTest" />
+        <item itemvalue="JUnit.CarpetaTest" />
+        <item itemvalue="JUnit.LzwTest" />
         <item itemvalue="JUnit.TrieTest" />
-        <item itemvalue="JUnit.TrieTest.verify_contains_returnsNotNull_whenIsFound" />
-        <item itemvalue="JUnit.TrieNodeTest" />
       </list>
     </recent_temporary>
   </component>
