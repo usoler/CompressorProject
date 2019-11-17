@@ -25,23 +25,23 @@ public class LzwTest {
     @Test
     public void verify_encode_encode_whenPassEmptyFile() {
         fileManager.readFolder(inputPathnameFolder);
-        file = fileManager.getFile(inputPathnameFolder+'/'+emptyFile);
+        file = fileManager.getFile(inputPathnameFolder + '/' + emptyFile);
         byte[] result = algorithm.encode(file.getData());
-        byte[] expected = {0,0,0,0,0,0,0,0,0,0,0,0};
+        byte[] expected = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         Assert.assertArrayEquals(expected, result);
     }
 
     @Test(timeout = 10000)
     public void verify_encode__compressQuickly_whenPassVeryBigFile() {
         fileManager.readFolder(inputPathnameFolder);
-        file = fileManager.getFile(inputPathnameFolder+'/'+bigFile);
+        file = fileManager.getFile(inputPathnameFolder + '/' + bigFile);
         byte[] result = algorithm.encode(file.getData());
     }
 
     @Test
     public void verify_encode_encodeCorrectly_whenPassEmptyFile() {
         fileManager.readFolder(inputPathnameFolder);
-        file = fileManager.getFile(inputPathnameFolder+'/'+emptyFile);
+        file = fileManager.getFile(inputPathnameFolder + '/' + emptyFile);
         byte[] result = algorithm.encode(file.getData());
         result = algorithm.decode(result);
         Assert.assertArrayEquals(file.getData(), result);
@@ -50,7 +50,7 @@ public class LzwTest {
     @Test
     public void verify_encode_encodeCorrectly_whenPassNotEmptyFile() {
         fileManager.readFolder(inputPathnameFolder);
-        file = fileManager.getFile(inputPathnameFolder+'/'+bigFile);
+        file = fileManager.getFile(inputPathnameFolder + '/' + bigFile);
         byte[] result = algorithm.encode(file.getData());
         result = algorithm.decode(result);
         Assert.assertArrayEquals(file.getData(), result);

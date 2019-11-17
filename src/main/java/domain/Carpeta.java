@@ -48,12 +48,12 @@ public class Carpeta {
     }
 
     public void setFiles(ArrayList<Fichero> files) {
-        for (Fichero f: this.files) {
+        for (Fichero f : this.files) {
             size -= f.getSize();
         }
         if (!Objects.isNull(files)) {
             this.files = files;
-            for (Fichero f: files) {
+            for (Fichero f : files) {
                 size += f.getSize();
             }
         }
@@ -64,12 +64,12 @@ public class Carpeta {
     }
 
     public void setFolders(ArrayList<Carpeta> folders) {
-        for (Carpeta c: this.folders) {
+        for (Carpeta c : this.folders) {
             size -= c.getSize();
         }
         if (!Objects.isNull(folders)) {
             this.folders = folders;
-            for (Carpeta c: folders){
+            for (Carpeta c : folders) {
                 size += c.getSize();
             }
         }

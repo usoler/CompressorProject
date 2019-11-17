@@ -6,13 +6,12 @@ public class CompressedFile extends FileImpl {
 
     private OutputStream outputStream;
 
-    public CompressedFile( String i_pathname, OutputStream i_outputStream) {
-        super(null, i_pathname);
-        outputStream = i_outputStream;
+    public CompressedFile(String pathname, OutputStream outputStream) {
+        super(null, pathname);
+        this.outputStream = outputStream;
     }
 
-    public OutputStream getOutputStream()
-    {
+    public OutputStream getOutputStream() {
         return outputStream;
     }
 }
