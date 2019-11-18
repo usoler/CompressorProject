@@ -19,6 +19,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+
+// TODO: Javadoc
+// TODO: Sustituir Pair ??.
+// TODO: Refactor tablas huffman a arrays ??.
+// TODO: Permitir lectura de ficheros ppm con comentarios.
+// TODO: Permitir lectura de cualquier tamaño de fichero.
+// TODO: Resolver bugs (Posible fallo ZRL...).
+
 public class Jpeg implements AlgorithmInterface {
     private static final PpmComponent ppmComponent = new PpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
@@ -40,7 +48,7 @@ public class Jpeg implements AlgorithmInterface {
             StringBuffer buffer = new StringBuffer();
 
             // 0. Read PPM file
-            Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFileV2(file);
+            Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFile(file);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
             byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();

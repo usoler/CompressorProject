@@ -2,10 +2,21 @@ package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class HuffmanComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HuffmanComponent.class);
 
-    public StringBuffer encodeAC(int ac, int numOfPreZeros, CoefficientEnum typeOfCoefficient, StringBuffer buffer) throws Exception {
+    public StringBuffer encodeAC(int ac, int numOfPreZeros, CoefficientEnum typeOfCoefficient, StringBuffer buffer) throws IllegalArgumentException {
+        if(Objects.isNull(buffer)){
+            String message = "Param String Buffer could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         Pair<String, Integer> huffmanCodes = getDCValueEncoded(ac);
         int tableRow = getTableRow(huffmanCodes.getKey());
         String binaryTableColumn = Integer.toBinaryString(huffmanCodes.getValue());
@@ -27,7 +38,13 @@ public class HuffmanComponent {
         return buffer;
     }
 
-    public StringBuffer encodeDC(int dc, StringBuffer buffer) throws Exception {
+    public StringBuffer encodeDC(int dc, StringBuffer buffer) throws IllegalArgumentException {
+        if(Objects.isNull(buffer)){
+            String message = "Param String Buffer could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         Pair<String, Integer> huffmanCodes = getDCValueEncoded(dc);
         String huffmanEncoded = huffmanCodes.getKey();
         String binaryTableColumn = Integer.toBinaryString(huffmanCodes.getValue());
@@ -746,6 +763,7 @@ public class HuffmanComponent {
         }
     }
 
+    // TODO: Wrong column should throw an exception
     public int decodeCoefficient(int row, int column) throws Exception {
         switch (row) {
             case 0:
@@ -828,7 +846,9 @@ public class HuffmanComponent {
             case 16:
                 return 32768;
             default:
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
         }
     }
 
@@ -844,7 +864,7 @@ public class HuffmanComponent {
         return buffer.toString();
     }
 
-    private String getChrominanceACEncoded(int row, int numOfPreZeros) throws Exception {
+    private String getChrominanceACEncoded(int row, int numOfPreZeros) throws IllegalArgumentException {
         if (numOfPreZeros == 0) {
             if (row == 1) {
                 return "01";
@@ -867,7 +887,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "111111110100";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 1) {
             if (row == 1) {
@@ -891,7 +913,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "111111110001011";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 2) {
             if (row == 1) {
@@ -915,7 +939,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110010000";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 3) {
             if (row == 1) {
@@ -939,7 +965,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110010110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 4) {
             if (row == 1) {
@@ -963,7 +991,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110011110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 5) {
             if (row == 1) {
@@ -987,7 +1017,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110100110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 6) {
             if (row == 1) {
@@ -1011,7 +1043,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110101110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 7) {
             if (row == 1) {
@@ -1035,7 +1069,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110110110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 8) {
             if (row == 1) {
@@ -1059,7 +1095,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110111111";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 9) {
             if (row == 1) {
@@ -1083,7 +1121,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111001000";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 10) {
             if (row == 1) {
@@ -1107,7 +1147,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111010001";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 11) {
             if (row == 1) {
@@ -1131,7 +1173,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111011010";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 12) {
             if (row == 1) {
@@ -1155,7 +1199,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111100011";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 13) {
             if (row == 1) {
@@ -1179,7 +1225,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111101100";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 14) {
             if (row == 1) {
@@ -1203,7 +1251,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111110101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 15) {
             if (row == 1) {
@@ -1227,14 +1277,18 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111111110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else {
-            throw new Exception();
+            String message = "Num of pre zeros param don't match";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
-    private String getLuminanceACEncoded(int row, int numOfPreZeros) throws Exception { // TODO: Static table vs code ??
+    private String getLuminanceACEncoded(int row, int numOfPreZeros) throws IllegalArgumentException {
         if (numOfPreZeros == 0) {
             if (row == 1) {
                 return "00";
@@ -1257,7 +1311,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110000011";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 1) {
             if (row == 1) {
@@ -1281,7 +1337,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110001000";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 2) {
             if (row == 1) {
@@ -1305,7 +1363,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "111111110001110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 3) {
             if (row == 1) {
@@ -1329,7 +1389,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110010101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 4) {
             if (row == 1) {
@@ -1353,7 +1415,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110011101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 5) {
             if (row == 1) {
@@ -1377,7 +1441,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110100101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 6) {
             if (row == 1) {
@@ -1401,7 +1467,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110101101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 7) {
             if (row == 1) {
@@ -1425,7 +1493,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110110101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 8) {
             if (row == 1) {
@@ -1449,7 +1519,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111110111101";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 9) {
             if (row == 1) {
@@ -1473,7 +1545,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111000110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 10) {
             if (row == 1) {
@@ -1497,7 +1571,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111001111";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 11) {
             if (row == 1) {
@@ -1521,7 +1597,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111011000";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 12) {
             if (row == 1) {
@@ -1545,7 +1623,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111100001";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 13) {
             if (row == 1) {
@@ -1569,7 +1649,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111101010";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 14) {
             if (row == 1) {
@@ -1593,7 +1675,9 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111110100";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else if (numOfPreZeros == 15) {
             if (row == 1) {
@@ -1617,10 +1701,14 @@ public class HuffmanComponent {
             } else if (row == 10) {
                 return "1111111111111110";
             } else {
-                throw new Exception();
+                String message = "Row param don't match";
+                LOGGER.error(message);
+                throw new IllegalArgumentException(message);
             }
         } else {
-            throw new Exception();
+            String message = "Num of pre zeros param don't match";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
@@ -1634,7 +1722,7 @@ public class HuffmanComponent {
         return tableRow;
     }
 
-    private Pair<String, Integer> getDCValueEncoded(int dc) { // TODO: Static table vs code ??
+    private Pair<String, Integer> getDCValueEncoded(int dc) {
         if (dc == 0) {
             return new Pair<String, Integer>("0", 0);
         } else if (dc >= -1 && dc <= 1) {

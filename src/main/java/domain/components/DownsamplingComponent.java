@@ -3,6 +3,10 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class DownsamplingComponent {
     private static final int NUM_8x8_BLOCKS = 4;
@@ -11,7 +15,15 @@ public class DownsamplingComponent {
     private static final int[] is = new int[]{0, 0, 8, 8};
     private static final int[] js = new int[]{0, 8, 0, 8};
 
-    public MacroBlockYCbCr downsampling(Matrix<Pixel> yCbCrMatrix) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DownsamplingComponent.class);
+
+    public MacroBlockYCbCr downsampling(Matrix<Pixel> yCbCrMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(yCbCrMatrix)) {
+            String message = "Param YCbCr Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
         Matrix<Float> cbMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
         Matrix<Float> crMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
@@ -25,6 +37,12 @@ public class DownsamplingComponent {
                 int y = 0;
                 for (int j = js[r]; j < (js[r] + 8); ++j) {
                     Pixel pixel = yCbCrMatrix.getElementAt(i, j);
+
+                    if (Objects.isNull(pixel)) {
+                        String message = String.format("Pixel from param YCbCr Matrix at position (%s,%s) could not be null", i, j);
+                        LOGGER.error(message);
+                        throw new IllegalArgumentException(message);
+                    }
 
                     // Y component
                     yMatrix.setElementAt(pixel.getX(), x, y);
@@ -52,7 +70,10 @@ public class DownsamplingComponent {
         return macroBlockYCbCr;
     }
 
-    public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) {
+    public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) throws IllegalArgumentException {
+
+        validateMacroBlock(macroBlockYCbCr);
+
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
 
         for (int n = 0; n < NUM_8x8_BLOCKS; ++n) {
@@ -81,5 +102,37 @@ public class DownsamplingComponent {
         }
 
         return yCbCrMatrix;
+    }
+
+    private void validateMacroBlock(MacroBlockYCbCr macroBlockYCbCr) {
+        if (Objects.isNull(macroBlockYCbCr)) {
+            String message = "Param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getyBlocks())) {
+            String message = "List of Y block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        if (macroBlockYCbCr.getyBlocks().size() != 4) {
+            String message = "Param MacroBlock YCbCr should have 4 Y blocks";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getCbBlock())) {
+            String message = "Cb block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getCrBlock())) {
+            String message = "Cr block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
     }
 }

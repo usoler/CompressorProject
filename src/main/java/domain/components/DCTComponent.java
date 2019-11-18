@@ -1,10 +1,20 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class DCTComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DCTComponent.class);
 
-    public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) {
+    public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) throws IllegalArgumentException {
+        if (Objects.isNull(matrix8x8)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
         Matrix<Float> dctMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
         for (int i = 0; i < 8; ++i) {
@@ -36,7 +46,13 @@ public class DCTComponent {
         return dctMatrix;
     }
 
-    public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) {
+    public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(dctMatrix)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         Matrix<Float> matrix8x8 = new Matrix<Float>(8, 8, new Float[8][8]);
 
         for (int x = 0; x < 8; ++x) {

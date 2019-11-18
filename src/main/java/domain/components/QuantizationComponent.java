@@ -1,8 +1,13 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class QuantizationComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuantizationComponent.class);
     private static final Matrix<Float> quantizationMatrix = initQuantizationMatrix();
 
     private static Matrix<Float> initQuantizationMatrix() {
@@ -83,7 +88,12 @@ public class QuantizationComponent {
         return quantizationMatrix;
     }
 
-    public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) {
+    public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(dctMatrix)) {
+            String message = "DCT Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
         Matrix<Float> quantizedMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
         for (int i = 0; i < 8; ++i) {
@@ -96,7 +106,12 @@ public class QuantizationComponent {
         return quantizedMatrix;
     }
 
-    public Matrix<Integer> desquantizeMatrix(Matrix<Integer> quantizedMatrix) {
+    public Matrix<Integer> desquantizeMatrix(Matrix<Integer> quantizedMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(quantizedMatrix)) {
+            String message = "Quantized Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
         Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
 
         for (int i = 0; i < 8; ++i) {
