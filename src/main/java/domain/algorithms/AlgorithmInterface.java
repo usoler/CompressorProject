@@ -1,7 +1,9 @@
 package domain.algorithms;
 
-public interface AlgorithmInterface {
-    public byte[] encode(byte[] data) throws Exception;
+import java.io.*;
 
-    public byte[] decode(byte[] data) throws Exception;
+public interface AlgorithmInterface {
+    public byte[] encode(byte[] file) throws IOException;
+
+    public byte[] decode(byte[] file) throws UnsupportedEncodingException;
 }

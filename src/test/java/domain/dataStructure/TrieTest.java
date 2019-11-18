@@ -1,18 +1,23 @@
 package domain.dataStructure;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class TrieTest {
     private static final String word = "example";
     private static final int INDEX_INVALID = -1;
+    private static final int INDEX_VALID = 1;
 
     private Trie trie;
+
+    @BeforeClass
+    public static void startUp(){
+        System.out.println("TRIE TEST STARTED");
+    }
 
     @Before
     public void setup() {
         trie = new Trie();
+
     }
 
     // ************************************ INSERT ************************************
@@ -24,17 +29,17 @@ public class TrieTest {
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsEmpty() {
+    public void verify_insert_returnsValidIndex_whenWordIsEmpty() {
         int response = this.trie.insert("");
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsBlank() {
+    public void verify_insert_returnsValidIndex_whenWordIsBlank() {
         int response = this.trie.insert("  ");
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test
@@ -43,48 +48,58 @@ public class TrieTest {
         int response = this.trie.insert(this.word);
 
         Assert.assertEquals(validIndex, response);
-        Assert.assertTrue(this.trie.contains(this.word));
+        Assert.assertNotNull(this.trie.contains(this.word));
     }
     // ********************************************************************************
 
     // *********************************** CONTAINS ***********************************
     @Test
-    public void verify_contains_returnsFalse_whenWordIsNull() {
-        boolean response = this.trie.contains(null);
+    public void verify_contains_returnsNull_whenWordIsNull() {
+        TrieNode response  = this.trie.contains(null);
 
-        Assert.assertFalse(response);
+        Assert.assertNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenWordIsEmpty() {
-        boolean response = this.trie.contains("");
+    public void verify_contains_returnsNull_whenWordIsEmpty() {
+        this.trie.insert("");
 
-        Assert.assertFalse(response);
+        TrieNode response = this.trie.contains("");
+
+        Assert.assertNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenWordIsBlank() {
-        boolean response = this.trie.contains("   ");
+    public void verify_contains_returnsNotNull_whenWordIsBlank() {
+        this.trie.insert("  ");
 
-        Assert.assertFalse(response);
+        TrieNode response = this.trie.contains("  ");
+
+        Assert.assertNotNull(response);
     }
 
     @Test
-    public void verify_contains_returnsFalse_whenNotFound() {
-        boolean response = this.trie.contains(this.word);
+    public void verify_contains_returnsNull_whenNotFound() {
+        TrieNode response = this.trie.contains("");
 
-        Assert.assertFalse(response);
+        Assert.assertNull(response);
     }
 
     @Test
-    public void verify_contains_returnsTrue_whenIsFound() {
+    public void verify_contains_returnsNotNull_whenIsFound() {
         // Mock
         this.trie.insert(this.word);
 
         // Test
-        boolean response = this.trie.contains(this.word);
+        TrieNode response = this.trie.contains(this.word);
 
-        Assert.assertTrue(response);
+        Assert.assertNotNull(response);
     }
     // ********************************************************************************
+
+    @AfterClass
+    public static void end()
+    {
+        System.out.println("TRIE TEST ENDED");
+    }
 }

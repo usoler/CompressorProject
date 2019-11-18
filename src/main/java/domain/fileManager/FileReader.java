@@ -22,7 +22,7 @@ public class FileReader {
         File file = new File(filePathname);
         if (file.isDirectory())
         {
-            System.out.println("You are reading a Folder. Reading Folder instead");
+            System.out.println("YOU ARE READING A FOLDER. READING A FOLDER INSTEAD");
             readAllFilesFromFolder(filePathname);
         }
         else
@@ -36,9 +36,10 @@ public class FileReader {
                 data = scanner.hasNext() ? scanner.next() : "";
                 fileCreator.createFileImpl(data.getBytes(),filePathname);
                 long timeEnd = System.currentTimeMillis();
-                System.out.println("Time in Scanner: " + (timeEnd-timeStart) );
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("FILE NOT FOUND");
+                System.out.println("DID YOU FORGET THE EXTENSION OF THE FILE?");
+                System.exit(0);
             } finally {
                 try {
                     if (inputStream != null)
@@ -74,7 +75,6 @@ public class FileReader {
                     data = scanner.hasNext() ? scanner.next() : "";
                     fileCreator.createFileImpl(data.getBytes(),filePathname);
                     long timeEnd = System.currentTimeMillis();
-                    System.out.println("Time in Scanner: " + (timeEnd-timeStart) );
                 } catch (IOException e){
                     e.printStackTrace();
                 }finally {
