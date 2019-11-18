@@ -1,8 +1,6 @@
 package domain.algorithms;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -11,6 +9,11 @@ import static org.junit.Assert.*;
 
 public class AlgorithmTest {
     private Algorithm algorithm;
+
+    @BeforeClass
+    public static void startUp(){
+        System.out.println("STARTING ALGORITHMTEST");
+    }
 
     @Before
     public void setUp() {
@@ -34,4 +37,8 @@ public class AlgorithmTest {
         Assert.assertArrayEquals(result, expected);
     }
 
+    @AfterClass
+    public static void end(){
+        System.out.println("ALGORITHM TEST ENDED");
+    }
 }
