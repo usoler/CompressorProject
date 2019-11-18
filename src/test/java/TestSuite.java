@@ -13,7 +13,6 @@ import org.junit.runners.Suite;
         TrieNodeTest.class,
         TrieTest.class,
         FicheroTest.class,
-        //LzwTest.class,
         AlgorithmTest.class,
         ConversorYCbCrComponentTest.class,
         DownsamplingComponentTest.class,
