@@ -2,9 +2,7 @@ package domain.algorithms.lossless;
 
 import domain.fileManager.FileImpl;
 import domain.fileManager.FileManager;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 
@@ -15,6 +13,11 @@ public class LzwTest {
     private String emptyFile = "testn.txt";
     private String bigFile = "verybig.txt";
     private Lzw algorithm;
+
+    @BeforeClass
+    public static void startUp(){
+        System.out.println("STARTING LZWTEST");
+    }
 
     @Before
     public void setUp() {
@@ -56,4 +59,8 @@ public class LzwTest {
         Assert.assertArrayEquals(file.getData(), result);
     }
 
+    @AfterClass
+    public static void end(){
+        System.out.println("LZW TEST ENDED");
+    }
 }

@@ -1,19 +1,24 @@
 package domain.dataStructure;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class TrieNodeTest {
     private static final String WORD_VALID = "example";
     private static final int INDEX_INVALID = -1;
+    private static final int INDEX_VALID = 1;
 
 
     private TrieNode node;
 
+    @BeforeClass
+    public static void startUp(){
+        System.out.println("TRIE NODE TEST STARTED");
+    }
+
     @Before
     public void setUp() {
         node = new TrieNode((char) 0);
+
     }
 
     // ************************************ INSERT ************************************
@@ -32,10 +37,10 @@ public class TrieNodeTest {
     }
 
     @Test
-    public void verify_insert_returnsInvalidIndex_whenWordIsBlank() {
+    public void verify_insert_returnsValidIndex_whenWordIsBlank() {
         int response = this.node.insert("   ", 0, 1);
 
-        Assert.assertEquals(INDEX_INVALID, response);
+        Assert.assertEquals(INDEX_VALID, response);
     }
 
     @Test
@@ -132,4 +137,10 @@ public class TrieNodeTest {
         Assert.assertNotNull(response);
     }
     // ********************************************************************************
+
+    @AfterClass
+    public static void end()
+    {
+        System.out.println("TRIENODE TEST ENDED");
+    }
 }
