@@ -1,4 +1,4 @@
 package domain;
 
-public class Compressor {
+public class Compresor {
 }
