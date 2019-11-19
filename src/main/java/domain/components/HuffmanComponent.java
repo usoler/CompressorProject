@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +12,8 @@ import java.util.Objects;
 public class HuffmanComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(HuffmanComponent.class);
 
-    public StringBuffer encodeAC(int ac, int numOfPreZeros, CoefficientEnum typeOfCoefficient, StringBuffer buffer) throws IllegalArgumentException {
-        if(Objects.isNull(buffer)){
-            String message = "Param String Buffer could not be null";
-            LOGGER.error(message);
-            throw new IllegalArgumentException(message);
-        }
+    public StringBuffer encodeAC(int ac, int numOfPreZeros, CoefficientEnum typeOfCoefficient, StringBuffer buffer) throws CompressorException {
+        checkEncodeBuffer(buffer);
 
         Pair<String, Integer> huffmanCodes = getDCValueEncoded(ac);
         int tableRow = getTableRow(huffmanCodes.getKey());
@@ -38,12 +36,16 @@ public class HuffmanComponent {
         return buffer;
     }
 
-    public StringBuffer encodeDC(int dc, StringBuffer buffer) throws IllegalArgumentException {
-        if(Objects.isNull(buffer)){
+    private void checkEncodeBuffer(StringBuffer buffer) throws CompressorException {
+        if (Objects.isNull(buffer)) {
             String message = "Param String Buffer could not be null";
             LOGGER.error(message);
-            throw new IllegalArgumentException(message);
+            throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
         }
+    }
+
+    public StringBuffer encodeDC(int dc, StringBuffer buffer) throws CompressorException {
+        checkEncodeBuffer(buffer);
 
         Pair<String, Integer> huffmanCodes = getDCValueEncoded(dc);
         String huffmanEncoded = huffmanCodes.getKey();
@@ -764,7 +766,7 @@ public class HuffmanComponent {
     }
 
     // TODO: Wrong column should throw an exception
-    public int decodeCoefficient(int row, int column) throws Exception {
+    public int decodeCoefficient(int row, int column) throws CompressorException {
         switch (row) {
             case 0:
                 return 0;
@@ -848,7 +850,7 @@ public class HuffmanComponent {
             default:
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.DECODE_COEFFICIENT_FAILURE);
         }
     }
 
@@ -864,7 +866,7 @@ public class HuffmanComponent {
         return buffer.toString();
     }
 
-    private String getChrominanceACEncoded(int row, int numOfPreZeros) throws IllegalArgumentException {
+    private String getChrominanceACEncoded(int row, int numOfPreZeros) throws CompressorException {
         if (numOfPreZeros == 0) {
             if (row == 1) {
                 return "01";
@@ -889,7 +891,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 1) {
             if (row == 1) {
@@ -915,7 +917,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 2) {
             if (row == 1) {
@@ -941,7 +943,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 3) {
             if (row == 1) {
@@ -967,7 +969,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 4) {
             if (row == 1) {
@@ -993,7 +995,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 5) {
             if (row == 1) {
@@ -1019,7 +1021,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 6) {
             if (row == 1) {
@@ -1045,7 +1047,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 7) {
             if (row == 1) {
@@ -1071,7 +1073,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 8) {
             if (row == 1) {
@@ -1097,7 +1099,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 9) {
             if (row == 1) {
@@ -1123,7 +1125,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 10) {
             if (row == 1) {
@@ -1149,7 +1151,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 11) {
             if (row == 1) {
@@ -1175,7 +1177,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 12) {
             if (row == 1) {
@@ -1201,7 +1203,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 13) {
             if (row == 1) {
@@ -1227,7 +1229,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 14) {
             if (row == 1) {
@@ -1253,7 +1255,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 15) {
             if (row == 1) {
@@ -1279,16 +1281,16 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else {
             String message = "Num of pre zeros param don't match";
             LOGGER.error(message);
-            throw new IllegalArgumentException(message);
+            throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
         }
     }
 
-    private String getLuminanceACEncoded(int row, int numOfPreZeros) throws IllegalArgumentException {
+    private String getLuminanceACEncoded(int row, int numOfPreZeros) throws CompressorException {
         if (numOfPreZeros == 0) {
             if (row == 1) {
                 return "00";
@@ -1313,7 +1315,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 1) {
             if (row == 1) {
@@ -1339,7 +1341,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 2) {
             if (row == 1) {
@@ -1365,7 +1367,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 3) {
             if (row == 1) {
@@ -1391,7 +1393,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 4) {
             if (row == 1) {
@@ -1417,7 +1419,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 5) {
             if (row == 1) {
@@ -1443,7 +1445,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 6) {
             if (row == 1) {
@@ -1469,7 +1471,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 7) {
             if (row == 1) {
@@ -1495,7 +1497,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 8) {
             if (row == 1) {
@@ -1521,7 +1523,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 9) {
             if (row == 1) {
@@ -1547,7 +1549,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 10) {
             if (row == 1) {
@@ -1573,7 +1575,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 11) {
             if (row == 1) {
@@ -1599,7 +1601,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 12) {
             if (row == 1) {
@@ -1625,7 +1627,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 13) {
             if (row == 1) {
@@ -1651,7 +1653,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 14) {
             if (row == 1) {
@@ -1677,7 +1679,7 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else if (numOfPreZeros == 15) {
             if (row == 1) {
@@ -1703,12 +1705,12 @@ public class HuffmanComponent {
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);
-                throw new IllegalArgumentException(message);
+                throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
             }
         } else {
             String message = "Num of pre zeros param don't match";
             LOGGER.error(message);
-            throw new IllegalArgumentException(message);
+            throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
         }
     }
 

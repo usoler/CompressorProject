@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +10,7 @@ public class DCTComponentTest {
     private static final DCTComponent dctComponent = new DCTComponent();
 
     @Test
-    public void verify_applyDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() {
+    public void verify_applyDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() throws CompressorException {
         // Mock
         Matrix<Float> matrix8x8 = mockMatrixWikipedia();
         Matrix<Float> expected = mockDCTMatrix();
@@ -21,17 +23,18 @@ public class DCTComponentTest {
     }
 
     @Test
-    public void verify_applyDCT_throwsIllegalArgumentException_whenParamMatrix8x8IsNull() {
+    public void verify_applyDCT_throwsCompressorException_whenParamMatrix8x8IsNull() {
         try {
             dctComponent.applyDCT(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param Matrix 8x8 could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.APPLY_DCT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_undoDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() {
+    public void verify_undoDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() throws CompressorException {
         // Mock
         Matrix<Integer> matrix8x8 = mockIntegerDCTMatrix();
         Matrix<Float> expected = mockUndoDCTtMatrixWikipedia();
@@ -44,12 +47,13 @@ public class DCTComponentTest {
     }
 
     @Test
-    public void verify_undoDCT_throwsIllegalArgumentException_whenParamMatrix8x8IsNull() {
+    public void verify_undoDCT_throwsCompressorException_whenParamMatrix8x8IsNull() {
         try {
             dctComponent.undoDCT(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param Matrix 8x8 could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UNDO_DCT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 

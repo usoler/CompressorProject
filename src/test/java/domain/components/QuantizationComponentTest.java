@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +10,7 @@ public class QuantizationComponentTest {
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
 
     @Test
-    public void verify_quantizeMatrix_returnsQuantizedDCTMatrix_whenMatrixParamIsValid() {
+    public void verify_quantizeMatrix_returnsQuantizedDCTMatrix_whenMatrixParamIsValid() throws Exception {
         // Mock
         Matrix<Float> dctMatrix = mockDCTMatrix();
         Matrix<Float> expected = mockQuantizedMatrix();
@@ -21,35 +23,37 @@ public class QuantizationComponentTest {
     }
 
     @Test
-    public void verify_quantizeMatrix_throwsIllegalArgumentException_whenParamDctMatrixIsNull() {
+    public void verify_quantizeMatrix_throwsCompressorException_whenParamDctMatrixIsNull() {
         try {
             quantizationComponent.quantizeMatrix(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("DCT Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.QUANTIZE_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_desquantizeMatrix_returnsDesquantizedMatrix_whenParamQuantizedMatrixIsValid() {
+    public void verify_dequantizeMatrix_returnsDesquantizedMatrix_whenParamQuantizedMatrixIsValid() throws Exception{
         // Mock
         Matrix<Integer> quantizedMatrix = mockIntegerQuantizedMatrix();
         Matrix<Integer> expected = mockIntegerDCTMatrix();
 
         // Test
-        Matrix<Integer> response = quantizationComponent.desquantizeMatrix(quantizedMatrix);
+        Matrix<Integer> response = quantizationComponent.dequantizeMatrix(quantizedMatrix);
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
     }
 
     @Test
-    public void verify_desquantizeMatrix_throwsIllegalArgumentException_whenParamQuantizedMatrixIsNull() {
+    public void verify_dequantizeMatrix_throwsCompressorException_whenParamQuantizedMatrixIsNull() {
         try {
-            quantizationComponent.desquantizeMatrix(null);
+            quantizationComponent.dequantizeMatrix(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Quantized Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.DEQUANTIZE_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 

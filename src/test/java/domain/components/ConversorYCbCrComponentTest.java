@@ -2,8 +2,9 @@ package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ConversorYCbCrComponentTest {
@@ -13,7 +14,7 @@ public class ConversorYCbCrComponentTest {
     private static final ConversorYCbCrComponent conversor = new ConversorYCbCrComponent();
 
     @Test
-    public void verify_convertFromRGB_returnsYCbCrMatrix_whenRgbMatrixIsConverted() {
+    public void verify_convertFromRGB_returnsYCbCrMatrix_whenRgbMatrixIsConverted() throws CompressorException {
         // Mock
         Matrix<Pixel> rgbMatrix = mockValidRgbMatrix();
 
@@ -27,17 +28,18 @@ public class ConversorYCbCrComponentTest {
     }
 
     @Test
-    public void verify_convertFromRGB_throwsIllegalArgumentException_whenParamRgbMatrixIsNull() {
+    public void verify_convertFromRGB_throwsCompressorException_whenParamRgbMatrixIsNull() {
         try {
             conversor.convertFromRGB(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param RGB Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.CONVERT_RGB_TO_YCBCR_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_convertFromRGB_throwsIllegalArgumentException_whenPixelIsNull_fromParamRgbMatrix() {
+    public void verify_convertFromRGB_throwsCompressorException_whenPixelIsNull_fromParamRgbMatrix() {
         // Mock
         Matrix<Pixel> rgbMatrix = mockInvalidMatrix();
 
@@ -45,9 +47,9 @@ public class ConversorYCbCrComponentTest {
         try {
             conversor.convertFromRGB(rgbMatrix);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Pixel from param RGB Matrix at position (0,0) could not be null",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.CONVERT_RGB_TO_YCBCR_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
@@ -67,17 +69,18 @@ public class ConversorYCbCrComponentTest {
     }*/
 
     @Test
-    public void verify_convertToRGB_throwsIllegalArgumentException_whenParamYCbCrMatrixIsNull() {
+    public void verify_convertToRGB_throwsCompressorException_whenParamYCbCrMatrixIsNull() {
         try {
             conversor.convertToRGB(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param YCbCr Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.CONVERT_YCBCR_TO_RGB_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_convertToRGB_throwsIllegalArgumentException_whenPixelIsNull_fromParamRgbMatrix() {
+    public void verify_convertToRGB_throwsCompressorException_whenPixelIsNull_fromParamRgbMatrix() {
         // Mock
         Matrix<Pixel> yCbCrMatrix = mockInvalidMatrix();
 
@@ -85,9 +88,9 @@ public class ConversorYCbCrComponentTest {
         try {
             conversor.convertToRGB(yCbCrMatrix);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Pixel from param YCbCr Matrix at position (0,0) could not be null",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.CONVERT_YCBCR_TO_RGB_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
