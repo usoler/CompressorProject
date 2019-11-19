@@ -50,12 +50,21 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/input" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.19770116" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="domain.algorithms" />
+      <recent name="domain.algorithms.lossless" />
       <recent name="data" />
       <recent name="domain" />
       <recent name="presentation" />
@@ -152,8 +161,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1570887876651</updated>
+      <workItem from="1573498610581" duration="181000" />
+      <workItem from="1573500950382" duration="15560000" />
+      <workItem from="1573556841890" duration="12903000" />
+      <workItem from="1573591779458" duration="4698000" />
+      <workItem from="1573634555189" duration="24391000" />
+      <workItem from="1573755885494" duration="5202000" />
+      <workItem from="1573810774867" duration="6512000" />
+      <workItem from="1573830790035" duration="6125000" />
+      <workItem from="1573915772612" duration="26070000" />
+      <workItem from="1573986876511" duration="15174000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
