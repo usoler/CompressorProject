@@ -24,12 +24,14 @@ import java.util.List;
 // TODO: Sustituir Pair ??.
 // TODO: Refactor tablas huffman a arrays ??.
 
-// DONE: Resolver bugs (Posible fallo ZRL...).
+// DONE: Resolver bug snail. Fallo debido a tabla huffman
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
-// DONE: Bug star_field
+// DONE: Bug star_field. Fallo debido a obtener mal width y height.
 // TODO: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
 
 public class Jpeg implements AlgorithmInterface {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
+
     private static final PpmComponent ppmComponent = new PpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
@@ -37,7 +39,6 @@ public class Jpeg implements AlgorithmInterface {
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
-    private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
 
     @Override
     public byte[] encode(byte[] data) throws IOException {
