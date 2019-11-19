@@ -50,10 +50,22 @@ public enum CompressorErrorCode {
     // Failure to encode coefficient
     ENCODE_COEFFICIENT_FAILURE("1012"),
     // Failure to decode coefficient
-    DECODE_COEFFICIENT_FAILURE("1013");
+    DECODE_COEFFICIENT_FAILURE("1013"),
+    // ******************************************
+    // File Writer Impl
+    // ******************************************
+    // Failure closing file output stream
+    CLOSE_FILE_OUTPUT_STREAM_FAILURE("4000"),
+    // Failure writting into file output stream
+    WRITE_FILE_OUTPUT_STREAM_FAILURE("4001"),
+    // Failure initializing file output stream
+    INIT_FILE_OUTPUT_STREAM_FAILURE("4002"),
+    // Failure initializing file writer
+    INIT_FILE_WRITER_FAILURE("4003");
 
     // LZW error codes (Start from 2000)
     // LZ78 error codes (Start from 3000)
+    // Others (Start from 4000)
 
     private String code;
 

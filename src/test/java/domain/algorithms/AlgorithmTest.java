@@ -1,12 +1,11 @@
 package domain.algorithms;
 
+import domain.exception.CompressorException;
 import org.junit.*;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class AlgorithmTest {
     private Algorithm algorithm;
+    // TODO: corner cases
 
     @BeforeClass
     public static void startUp() {
@@ -25,18 +24,32 @@ public class AlgorithmTest {
     }
 
     @Test
-    public void verify_encodeFile_returnsCompressedFileAsByteArray_whenParamFileAsByteArrayIsValid() throws IOException {
+    public void verify_encodeFile_returnsCompressedFileAsByteArray_whenParamFileAsByteArrayIsValid() throws Exception {
+        // Mock
         String uncompressedFile = "aaaaa";
-        byte[] result = algorithm.encodeFile(uncompressedFile.getBytes());
         byte[] expected = new byte[]{0, 1, 2, 3};
+
+        // Test
+        byte[] result = algorithm.encodeFile(uncompressedFile.getBytes());
+
         Assert.assertArrayEquals(result, expected);
     }
 
+    @Test(expected = CompressorException.class)
+    public void verify_encodeFile_throwsCompressorException_whenEncodeFails() throws Exception {
+        algorithm.encodeFile(null);
+    }
+
     @Test
-    public void verify_decodeFile() throws UnsupportedEncodingException {
+    public void verify_decodeFile() throws Exception {
+        // Mock
         String compressedFile = "aa";
-        byte[] result = algorithm.decodeFile(compressedFile.getBytes());
         byte[] expected = new byte[]{3, 2, 1, 0};
+
+
+        // Test
+        byte[] result = algorithm.decodeFile(compressedFile.getBytes());
+
         Assert.assertArrayEquals(result, expected);
     }
 }

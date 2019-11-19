@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,7 +11,7 @@ public class HuffmanComponentTest {
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
 
     @Test
-    public void verify_encodeDC_returnsDCEncoded_whenParamDCisValid() throws Exception {
+    public void verify_encodeDC_returnsDCEncoded_whenParamDCisValid() throws CompressorException {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int dc = 1118;
@@ -23,18 +25,19 @@ public class HuffmanComponentTest {
     }
 
     @Test
-    public void verify_encodeDC_throwsIllegalArgumentException_whenParamStringBufferIsNull() {
+    public void verify_encodeDC_throwsCompressorException_whenParamStringBufferIsNull() {
         try {
             huffmanComponent.encodeDC(2, null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param String Buffer could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
     public void verify_encodeAC_returnsDCEncoded_whenParamACisValid_AndCoefficientIsLuminance()
-            throws IllegalArgumentException {
+            throws CompressorException {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int ac = 2;
@@ -51,18 +54,18 @@ public class HuffmanComponentTest {
     }
 
     @Test
-    public void verify_encodeAC_throwsIllegalArgumentException_whenParamStringBufferIsNull() {
+    public void verify_encodeAC_throwsCompressorException_whenParamStringBufferIsNull() {
         try {
             huffmanComponent.encodeAC(2, 0, CoefficientEnum.LUMINANCE, null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param String Buffer could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_encodeAC_throwsIllegalArgumentException_whenRowIsInvalid_AndCoefficientIsLuminance()
-            throws IllegalArgumentException {
+    public void verify_encodeAC_throwsCompressorxception_whenRowIsInvalid_AndCoefficientIsLuminance() {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int ac = 8192;
@@ -72,14 +75,14 @@ public class HuffmanComponentTest {
         try {
             huffmanComponent.encodeAC(ac, numberOfZeros, CoefficientEnum.LUMINANCE, buffer);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Row param don't match", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_encodeAC_throwsIllegalArgumentException_whenNumOfPreZerosIsInvalid_AndCoefficientIsLuminance()
-            throws IllegalArgumentException {
+    public void verify_encodeAC_throwsCompressorException_whenNumOfPreZerosIsInvalid_AndCoefficientIsLuminance() {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int ac = -2;
@@ -89,14 +92,15 @@ public class HuffmanComponentTest {
         try {
             huffmanComponent.encodeAC(ac, numberOfZeros, CoefficientEnum.LUMINANCE, buffer);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Num of pre zeros param don't match", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
     public void verify_encodeAC_returnsDCEncoded_whenParamACisValid_AndCoefficientIsChrominance()
-            throws IllegalArgumentException {
+            throws CompressorException {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int ac = -2;
@@ -113,8 +117,7 @@ public class HuffmanComponentTest {
     }
 
     @Test
-    public void verify_encodeAC_throwsIllegalArgumentException_whenRowIsInvalid_AndCoefficientIsChrominance()
-            throws IllegalArgumentException {
+    public void verify_encodeAC_throwsCompressorException_whenRowIsInvalid_AndCoefficientIsChrominance() {
         // Mock
         StringBuffer buffer = new StringBuffer();
         int ac = 8192;
@@ -124,13 +127,14 @@ public class HuffmanComponentTest {
         try {
             huffmanComponent.encodeAC(ac, numberOfZeros, CoefficientEnum.CHROMINANCE, buffer);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Row param don't match", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_encodeAC_throwsIllegalArgumentException_whenNumOfPreZerosIsInvalid_AndCoefficientIsChrominance()
+    public void verify_encodeAC_throwsCompressorException_whenNumOfPreZerosIsInvalid_AndCoefficientIsChrominance()
             throws IllegalArgumentException {
         // Mock
         StringBuffer buffer = new StringBuffer();
@@ -141,8 +145,9 @@ public class HuffmanComponentTest {
         try {
             huffmanComponent.encodeAC(ac, numberOfZeros, CoefficientEnum.CHROMINANCE, buffer);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Num of pre zeros param don't match", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
@@ -183,12 +188,13 @@ public class HuffmanComponentTest {
     }
 
     @Test
-    public void verify_decodeCoefficient_throwsIllegalArgumentException_whenRowIsInvalid() throws Exception {
+    public void verify_decodeCoefficient_throwsCompressorException_whenRowIsInvalid() {
         try {
             huffmanComponent.decodeCoefficient(20, Integer.parseInt("10001011110", 2));
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Row param don't match", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.DECODE_COEFFICIENT_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 

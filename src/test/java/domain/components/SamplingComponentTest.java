@@ -3,49 +3,52 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DownsamplingComponentTest {
+public class SamplingComponentTest {
     private static final int MATRIX_16x16_NUM_OF_ROW_AND_COLUMN = 16;
     private static final int MATRIX_8x8_NUM_OF_ROW_AND_COLUMN = 8;
 
-    private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
+    private static final SamplingComponent SAMPLING_COMPONENT = new SamplingComponent();
 
     @Test
-    public void verify_downsampling_returnsMacroBlockYCbCr_whenIsSuccessful() {
+    public void verify_downsampling_returnsMacroBlockYCbCr_whenIsSuccessful() throws CompressorException {
         // Mock
         Matrix<Pixel> yCbCrMatrix = mockYCbCrMatrix();
         MacroBlockYCbCr expected = mockMacroBlockYCbCr();
 
         // Test
-        MacroBlockYCbCr response = downsamplingComponent.downsampling(yCbCrMatrix);
+        MacroBlockYCbCr response = SAMPLING_COMPONENT.downsampling(yCbCrMatrix);
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
     }
 
     @Test
-    public void verify_downsampling_throwsIllegalArgumentException_whenParamYCbCrMatrixIsNull() {
+    public void verify_downsampling_throwsCompressorException_whenParamYCbCrMatrixIsNull() {
         try {
-            downsamplingComponent.downsampling(null);
+            SAMPLING_COMPONENT.downsampling(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param YCbCr Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.DOWNSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_downsampling_throwsIllegalArgumentException_whenPixelIsNull_fromParamYCbCrMatrix() {
+    public void verify_downsampling_throwsCompressorException_whenPixelIsNull_fromParamYCbCrMatrix() {
         // Mock
         Matrix<Pixel> yCbCrMatrix = mockInvalidMatrix();
 
         // Test
         try {
-            downsamplingComponent.downsampling(yCbCrMatrix);
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Pixel from param YCbCr Matrix at position (0,0) could not be null",
-                    ex.getMessage());
+            SAMPLING_COMPONENT.downsampling(yCbCrMatrix);
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.DOWNSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
@@ -64,47 +67,48 @@ public class DownsamplingComponentTest {
     }*/
 
     @Test
-    public void verify_upsampling_throwsIllegalArgumentException_whenParamMacroBlockYCbCrIsNull() {
+    public void verify_upsampling_throwsCompressorException_whenParamMacroBlockYCbCrIsNull() {
         try {
-            downsamplingComponent.upsampling(null);
+            SAMPLING_COMPONENT.upsampling(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param MacroBlock YCbCr could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UPSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_upsampling_throwsIllegalArgumentException_whenListOfYBlocksIsNull_fromParamMacroBlockYCbCr() {
+    public void verify_upsampling_throwsCompressorException_whenListOfYBlocksIsNull_fromParamMacroBlockYCbCr() {
         // Mock
         MacroBlockYCbCr macroBlock = new MacroBlockYCbCr(null, null, null);
 
         // Test
         try {
-            downsamplingComponent.upsampling(macroBlock);
+            SAMPLING_COMPONENT.upsampling(macroBlock);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("List of Y block from param MacroBlock YCbCr could not be null",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UPSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_upsampling_throwsIllegalArgumentException_whenListOfYBlocksIsLessThan4_fromParamMacroBlockYCbCr() {
+    public void verify_upsampling_throwsCompressorException_whenListOfYBlocksIsLessThan4_fromParamMacroBlockYCbCr() {
         // Mock
         MacroBlockYCbCr macroBlock = new MacroBlockYCbCr();
 
         // Test
         try {
-            downsamplingComponent.upsampling(macroBlock);
+            SAMPLING_COMPONENT.upsampling(macroBlock);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param MacroBlock YCbCr should have 4 Y blocks",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UPSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_upsampling_throwsIllegalArgumentException_whenCbBlockIsNull_fromParamMacroBlockYCbCr() {
+    public void verify_upsampling_throwsCompressorException_whenCbBlockIsNull_fromParamMacroBlockYCbCr() {
         // Mock
         MacroBlockYCbCr macroBlock = new MacroBlockYCbCr();
 
@@ -114,16 +118,16 @@ public class DownsamplingComponentTest {
 
         // Test
         try {
-            downsamplingComponent.upsampling(macroBlock);
+            SAMPLING_COMPONENT.upsampling(macroBlock);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Cb block from param MacroBlock YCbCr could not be null",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UPSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_upsampling_throwsIllegalArgumentException_whenCrBlockIsNull_fromParamMacroBlockYCbCr() {
+    public void verify_upsampling_throwsCompressorException_whenCrBlockIsNull_fromParamMacroBlockYCbCr() {
         // Mock
         MacroBlockYCbCr macroBlock = new MacroBlockYCbCr();
 
@@ -135,11 +139,11 @@ public class DownsamplingComponentTest {
 
         // Test
         try {
-            downsamplingComponent.upsampling(macroBlock);
+            SAMPLING_COMPONENT.upsampling(macroBlock);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Cr block from param MacroBlock YCbCr could not be null",
-                    ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UPSAMPLING_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 

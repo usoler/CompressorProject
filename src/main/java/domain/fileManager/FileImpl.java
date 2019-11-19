@@ -1,25 +1,20 @@
 package domain.fileManager;
 
-
-
-
 public class FileImpl {
 
-    private byte[] data;
     protected String pathname;
+    private byte[] data;
 
-    public FileImpl(byte[] i_data,String i_pathname)
-    {
+    public FileImpl(byte[] i_data, String i_pathname) {
         data = i_data;
-        pathname=i_pathname;
+        pathname = i_pathname;
     }
 
-    public byte[] getData()
-    {
+    public byte[] getData() {
         return data;
     }
-    public String getPathname()
-    {
+
+    public String getPathname() {
         return pathname;
     }
 }

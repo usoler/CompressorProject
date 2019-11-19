@@ -1,19 +1,15 @@
 import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
-
-import java.io.IOException;
+import domain.exception.CompressorException;
+import domain.fileManager.FileManager;
 
 import java.util.Scanner;
-
-
-
-import domain.fileManager.FileManager;
 
 public class Main {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws CompressorException {
         // write your code here
         System.out.println("COMPRESSOR 3000");
         System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
@@ -32,8 +28,7 @@ public class Main {
         FileManager fileManager = new FileManager();
         String path = null;
 
-        switch (command)
-        {
+        switch (command) {
             case 1:
                 System.out.println("OUR FILE IS GOING TO BE USED");
                 path = projectPath + "/TestFile.txt";
@@ -58,8 +53,7 @@ public class Main {
         System.out.println("PRESS 1 IF YOU WANT TO SEE THE CONTENTS OF THE FILE");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
         command = scanner.nextInt();
-        if (command == 1)
-        {
+        if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
             String text = new String(fileManager.getFile(path).getData());
@@ -74,24 +68,22 @@ public class Main {
         System.out.println("COMPRESSION IS GOING TO START");
         System.out.println("PRESS 1 TO CONTINUE");
         command = scanner.nextInt();
-        if (command != 1)
-        {
+        if (command != 1) {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
         byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
-        String compressedName = projectPath + "/output/"+ scanner.next() + ".LZ78";
+        String compressedName = projectPath + "/output/" + scanner.next() + ".LZ78";
 
-        fileManager.createFile(encodingResult,compressedName);
+        fileManager.createFile(encodingResult, compressedName);
 
-        fileManager.writeFile(compressedName,false);
+        fileManager.writeFile(compressedName, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE COMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
         command = scanner.nextInt();
-        if (command == 1)
-        {
+        if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE COMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
             fileManager.readFile(compressedName);
@@ -104,24 +96,22 @@ public class Main {
         System.out.println("DECOMPRESSION IS GOING TO START");
         System.out.println("PRESS 1 TO CONTINUE");
         command = scanner.nextInt();
-        if (command != 1)
-        {
+        if (command != 1) {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
         byte[] decodingResult = algorithm.decodeFile(fileManager.getFile(compressedName).getData());
         System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
-        String decompressedName = projectPath+ "/output/"+ scanner.next();
+        String decompressedName = projectPath + "/output/" + scanner.next();
 
-        fileManager.createFile(decodingResult,decompressedName);
+        fileManager.createFile(decodingResult, decompressedName);
 
-        fileManager.writeFile(decompressedName,false);
+        fileManager.writeFile(decompressedName, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE DECOMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
         command = scanner.nextInt();
-        if (command == 1)
-        {
+        if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE DECOMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
             fileManager.readFile(decompressedName);

@@ -2,6 +2,8 @@ package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,37 +28,40 @@ public class PpmComponentTest {
     }
 
     @Test
-    public void verify_readPpmFile_throwsIllegalArgumentException_whenParamDataIsNull() {
+    public void verify_readPpmFile_throwsCompressorException_whenParamDataIsNull() {
         try {
             ppmComponent.readPpmFile(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param data could not be null, empty or blank", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.READ_PPM_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_readPpmFile_throwsIllegalArgumentException_whenParamDataIsEmpty() {
+    public void verify_readPpmFile_throwsCompressorException_whenParamDataIsEmpty() {
         try {
             ppmComponent.readPpmFile("");
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param data could not be null, empty or blank", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.READ_PPM_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_readPpmFile_throwsIllegalArgumentException_whenParamDataIsBlank() {
+    public void verify_readPpmFile_throwsCompressorException_whenParamDataIsBlank() {
         try {
             ppmComponent.readPpmFile("       ");
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param data could not be null, empty or blank", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.READ_PPM_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_writePpmFile_returnsStringOfMatrixData_whenRgbMatrixIsValid() {
+    public void verify_writePpmFile_returnsStringOfMatrixData_whenRgbMatrixIsValid() throws CompressorException {
         // Mock
         Matrix<Pixel> rgbMatrix = mockValidPixelMatrix();
 
@@ -68,25 +73,26 @@ public class PpmComponentTest {
     }
 
     @Test
-    public void verify_writePpmFile_throwsIllegalArgumentException_whenParamRgbMatrixIsNull() {
+    public void verify_writePpmFile_throwsCompressorException_whenParamRgbMatrixIsNull() {
         try {
             ppmComponent.writePpmFile(2, 2, null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param RGB Matrix could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.WRITE_PPM_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_writePpmFile_throwsIllegalArgumentException_whenPixelFromParamRgbMatrixIsNull() {
-        Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(2,2, new Pixel[2][2]);
+    public void verify_writePpmFile_throwsCompressorException_whenPixelFromParamRgbMatrixIsNull() {
+        Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(2, 2, new Pixel[2][2]);
 
         try {
             ppmComponent.writePpmFile(2, 2, rgbMatrix);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Pixel from param RGB Matrix at position (0,0) could not be " +
-                    "null, empty or blank", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.WRITE_PPM_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 

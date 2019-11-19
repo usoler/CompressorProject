@@ -39,6 +39,7 @@ public class Algorithm {
         this.algorithmInterface = algorithmInterface;
     }
 
+    // TODO: check param file
     public byte[] encodeFile(byte[] file) throws CompressorException {
         int uncompressedSize = file.length;
         long start = System.currentTimeMillis();
@@ -53,6 +54,7 @@ public class Algorithm {
         return compressedFile;
     }
 
+    // TODO: check param file
     public byte[] decodeFile(byte[] file) throws CompressorException {
         int compressedSize = file.length;
         long start = System.currentTimeMillis();

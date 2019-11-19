@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,7 +14,7 @@ public class ZigZagComponentTest {
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
 
     @Test
-    public void verify_makeZigZag_returnsZigZagVector_whenIsValidMatrixParam() {
+    public void verify_makeZigZag_returnsZigZagVector_whenIsValidMatrixParam() throws CompressorException {
         // Mock
         Matrix<Float> matrix = mockQuantizedMatrix();
         float[] expected = mockZigZagVector();
@@ -25,17 +27,18 @@ public class ZigZagComponentTest {
     }
 
     @Test
-    public void verify_makeZigZag_throwsIllegalArgumentException_whenParamMatrix8x8IsNull() {
+    public void verify_makeZigZag_throwsCompressorException_whenParamMatrix8x8IsNull() {
         try {
             zigZagComponent.makeZigZag(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param Matrix 8x8 could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.MAKE_ZIGZAG_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
     @Test
-    public void verify_undoZigZag_returnsQuantizedMatrix_whenZigZagVectorIsValid() {
+    public void verify_undoZigZag_returnsQuantizedMatrix_whenZigZagVectorIsValid() throws CompressorException {
         // Mock
         List<Integer> zigZagVector = mockListZigZagVector();
         Matrix<Integer> expected = mockIntegerQuantizedMatrix();
@@ -49,12 +52,13 @@ public class ZigZagComponentTest {
 
 
     @Test
-    public void verify_undoZigZag_throwsIllegalArgumentException_whenParamZigZagVectorIsNull() {
+    public void verify_undoZigZag_throwsCompressorException_whenParamZigZagVectorIsNull() {
         try {
             zigZagComponent.undoZigZag(null);
             Assert.fail();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Param ZigZag Vector could not be null", ex.getMessage());
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UNDO_ZIGZAG_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
 
