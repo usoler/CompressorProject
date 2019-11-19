@@ -486,17 +486,17 @@ public class HuffmanComponent {
                 return new Pair<Integer, Integer>(2, 3);
             case "111111110100":
                 return new Pair<Integer, Integer>(2, 4);
-            case "111111110001001":
+            case "1111111110001001":
                 return new Pair<Integer, Integer>(2, 5);
-            case "111111110001010":
+            case "1111111110001010":
                 return new Pair<Integer, Integer>(2, 6);
-            case "111111110001011":
+            case "1111111110001011":
                 return new Pair<Integer, Integer>(2, 7);
-            case "111111110001100":
+            case "1111111110001100":
                 return new Pair<Integer, Integer>(2, 8);
-            case "111111110001101":
+            case "1111111110001101":
                 return new Pair<Integer, Integer>(2, 9);
-            case "111111110001110":
+            case "1111111110001110":
                 return new Pair<Integer, Integer>(2, 10);
             case "111010":
                 return new Pair<Integer, Integer>(3, 1);
@@ -1351,17 +1351,17 @@ public class HuffmanComponent {
             } else if (row == 4) {
                 return "111111110100";
             } else if (row == 5) {
-                return "111111110001001";
+                return "1111111110001001";
             } else if (row == 6) {
-                return "111111110001010";
+                return "1111111110001010";
             } else if (row == 7) {
-                return "111111110001011";
+                return "1111111110001011";
             } else if (row == 8) {
-                return "111111110001100";
+                return "1111111110001100";
             } else if (row == 9) {
-                return "111111110001101";
+                return "1111111110001101";
             } else if (row == 10) {
-                return "111111110001110";
+                return "1111111110001110";
             } else {
                 String message = "Row param don't match";
                 LOGGER.error(message);

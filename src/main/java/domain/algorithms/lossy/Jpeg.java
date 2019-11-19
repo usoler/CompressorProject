@@ -23,9 +23,11 @@ import java.util.List;
 // TODO: Javadoc
 // TODO: Sustituir Pair ??.
 // TODO: Refactor tablas huffman a arrays ??.
-// TODO: Permitir lectura de ficheros ppm con comentarios.
-// TODO: Permitir lectura de cualquier tamaño de fichero.
-// TODO: Resolver bugs (Posible fallo ZRL...).
+
+// DONE: Resolver bugs (Posible fallo ZRL...).
+// DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
+// TODO: Bug star_field
+// TODO: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
 
 public class Jpeg implements AlgorithmInterface {
     private static final PpmComponent ppmComponent = new PpmComponent();
@@ -43,7 +45,9 @@ public class Jpeg implements AlgorithmInterface {
             // ENCODING WITH JPEG
             System.out.println("Encoding file with JPEG");
             String file = new String(data, StandardCharsets.UTF_8);
+            StringBuffer testBuffer = new StringBuffer();
 
+            int cont = 0;
             float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
             StringBuffer buffer = new StringBuffer();
 
@@ -123,10 +127,17 @@ public class Jpeg implements AlgorithmInterface {
 
                         // 5.2 Huffman Encoding
                         // Process DC value
+                        if (cont == 410) {
+                            String stop = "stop";
+                        }
                         float dpcmDC = zigZagValues[0] - lastDC[n];
                         lastDC[n] = zigZagValues[0];
+                        ++cont;
 
                         buffer = huffmanComponent.encodeDC(Math.round(dpcmDC), buffer);
+                        if (cont == 410 + 1) {
+                            testBuffer = huffmanComponent.encodeDC(Math.round(dpcmDC), testBuffer);
+                        }
 
                         // Process 63 AC values
                         // First, check EOB
@@ -140,9 +151,20 @@ public class Jpeg implements AlgorithmInterface {
                             }
                         }
 
+                        int cont2 = 0;
+                        if (cont == 410 + 1) {
+                            cont2 = 1;
+                        }
                         int numOfPreZeros = 0;
                         for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
+                            if (cont2 > 0) {
+                                ++cont2;
+                            }
+                            if (cont2 == 32) {
+                                String stop = "stop";
+                            }
                             if (numOfPreZeros > 15) { // Catch ZRL case
+                                LOGGER.debug("ZRL !!!");
                                 if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
                                     buffer.append("11111111001");
                                 } else {
@@ -153,6 +175,9 @@ public class Jpeg implements AlgorithmInterface {
                                 float valueAC = zigZagValues[w];
                                 if (valueAC != 0) {
                                     buffer = huffmanComponent.encodeAC(Math.round(valueAC), numOfPreZeros, coefficientEnum, buffer);
+                                    if (cont == 410 + 1) {
+                                        testBuffer = huffmanComponent.encodeAC(Math.round(valueAC), numOfPreZeros, coefficientEnum, testBuffer);
+                                    }
                                     numOfPreZeros = 0;
                                 } else {
                                     ++numOfPreZeros;
@@ -162,6 +187,9 @@ public class Jpeg implements AlgorithmInterface {
 
                         // Set EOB
                         if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
+                            if (cont == 410 + 1) {
+                                testBuffer.append("1010");
+                            }
                             buffer.append("1010");
                         } else {
                             buffer.append("00");
@@ -187,9 +215,10 @@ public class Jpeg implements AlgorithmInterface {
         try {
             // DECODING WITH JPEG
             System.out.println("Decoding file with JPEG");
-
+            int cont = 0;
             int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
             List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
+            StringBuffer testBuffer = new StringBuffer();
 
             // 0. Read JPEG file
             byte[] heightSize = {data[0]};
@@ -216,18 +245,32 @@ public class Jpeg implements AlgorithmInterface {
             while (!finish) {
                 workingBuffer = new StringBuffer();
                 // DC coefficient
+                LOGGER.debug("Contador: " + cont);
+                if (cont == 410) {
+                    String stop = "stop";
+                }
+                ++cont;
                 List<Integer> zigZagValues = new LinkedList<Integer>();
                 int numOfBits = -1;
                 while (numOfBits == -1) {
                     workingBuffer.append(dataBuffer.charAt(k));
+                    if (cont == 410 + 1) {
+                        testBuffer.append(dataBuffer.charAt(k));
+                    }
                     numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
                     ++k;
                 }
 
                 String columnBinary = dataBuffer.substring(k, k + numOfBits);
+                if (cont == 410 + 1) {
+                    testBuffer.append(dataBuffer.substring(k, k + numOfBits));
+                }
 
                 if (numOfBits == 0) {
                     columnBinary = dataBuffer.substring(k, k + 1);
+                    if(cont == 410 + 1){
+                        testBuffer.append(dataBuffer).substring(k, k + 1);
+                    }
                 }
                 int dc = huffmanComponent.decodeCoefficient(numOfBits, Integer.parseInt(columnBinary, 2));
 
@@ -249,12 +292,26 @@ public class Jpeg implements AlgorithmInterface {
                 }
 
                 // AC coefficients
+                int cont2 = 0;
+                if (cont == 410 + 1) {
+                    cont2 = 1;
+                }
                 boolean endOfBlock = false;
                 for (int j = 0; j < 63 && !endOfBlock; ++j) {
+                    if(cont2 == 32){
+                        String stop = "stop";
+                    }
+                    if (cont2 > 0) {
+                        LOGGER.debug("Cont2: " + (cont2 - 1));
+                        ++cont2;
+                    }
                     workingBuffer = new StringBuffer();
                     Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
                     while (preZerosAndRow.getKey() == -1) {
                         workingBuffer.append(dataBuffer.charAt(k));
+                        if(cont == 410 + 1){
+                            testBuffer.append(dataBuffer.charAt(k));
+                        }
                         if (i < 4) {
                             preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
                         } else {
@@ -278,6 +335,9 @@ public class Jpeg implements AlgorithmInterface {
                         }
 
                         columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
+                        if(cont == 410 + 1){
+                            testBuffer.append(dataBuffer.substring(k, k + preZerosAndRow.getValue()));
+                        }
                         int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
 
                         zigZagValues.add(ac);
