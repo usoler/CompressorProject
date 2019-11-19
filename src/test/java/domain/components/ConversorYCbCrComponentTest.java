@@ -3,18 +3,18 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ConversorYCbCrComponentTest {
     private static final int NUM_OF_ROWS = 2;
     private static final int NUM_OF_COLUMNS = 3;
 
-    // TODO: corner cases
+    private static final ConversorYCbCrComponent conversor = new ConversorYCbCrComponent();
 
     @Test
-    public void verify_convertFromRGB_returnsYCbCrMatrix_whenRgbMatrixIsConverted() throws Exception {
-        // Mocks
-        ConversorYCbCrComponent conversor = new ConversorYCbCrComponent();
+    public void verify_convertFromRGB_returnsYCbCrMatrix_whenRgbMatrixIsConverted() {
+        // Mock
         Matrix<Pixel> rgbMatrix = mockValidRgbMatrix();
 
         Matrix<Pixel> expected = mockValidYCbCrMatrix();
@@ -24,6 +24,71 @@ public class ConversorYCbCrComponentTest {
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_convertFromRGB_throwsIllegalArgumentException_whenParamRgbMatrixIsNull() {
+        try {
+            conversor.convertFromRGB(null);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("Param RGB Matrix could not be null", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void verify_convertFromRGB_throwsIllegalArgumentException_whenPixelIsNull_fromParamRgbMatrix() {
+        // Mock
+        Matrix<Pixel> rgbMatrix = mockInvalidMatrix();
+
+        // Test
+        try {
+            conversor.convertFromRGB(rgbMatrix);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("Pixel from param RGB Matrix at position (0,0) could not be null",
+                    ex.getMessage());
+        }
+    }
+
+    // FIXME
+/*    @Test
+    public void verify_convertToRGB_returnsRgbMatrix_whenYCbCrMatrixIsConverted() {
+        // Mock
+        Matrix<Pixel> yCbCrMatrix = mockValidYCbCrMatrix();
+
+        Matrix<Pixel> expected = mockValidRgbMatrix();
+
+        // Test
+        Matrix<Pixel> response = conversor.convertToRGB(yCbCrMatrix);
+
+        Assert.assertNotNull(response);
+        Assert.assertTrue(expected.equals(response));
+    }*/
+
+    @Test
+    public void verify_convertToRGB_throwsIllegalArgumentException_whenParamYCbCrMatrixIsNull() {
+        try {
+            conversor.convertToRGB(null);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("Param YCbCr Matrix could not be null", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void verify_convertToRGB_throwsIllegalArgumentException_whenPixelIsNull_fromParamRgbMatrix() {
+        // Mock
+        Matrix<Pixel> yCbCrMatrix = mockInvalidMatrix();
+
+        // Test
+        try {
+            conversor.convertToRGB(yCbCrMatrix);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("Pixel from param YCbCr Matrix at position (0,0) could not be null",
+                    ex.getMessage());
+        }
     }
 
     private Matrix<Pixel> mockValidYCbCrMatrix() {
@@ -48,6 +113,13 @@ public class ConversorYCbCrComponentTest {
         pixels.setElementAt(new Pixel(255, 255, 0), 1, 0);
         pixels.setElementAt(new Pixel(255, 255, 255), 1, 1);
         pixels.setElementAt(new Pixel(0, 0, 0), 1, 2);
+
+        return pixels;
+    }
+
+    private Matrix<Pixel> mockInvalidMatrix() {
+        Matrix<Pixel> pixels = new Matrix<Pixel>(NUM_OF_ROWS, NUM_OF_COLUMNS, new Pixel[NUM_OF_ROWS][NUM_OF_COLUMNS]);
+        pixels.setElementAt(null, 0, 0);
 
         return pixels;
     }

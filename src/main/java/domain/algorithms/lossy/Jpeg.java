@@ -19,7 +19,19 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+
+// TODO: Javadoc
+// TODO: Sustituir Pair ??.
+// TODO: Refactor tablas huffman a arrays ??.
+
+// DONE: Resolver bug snail. Fallo debido a tabla huffman
+// DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
+// DONE: Bug star_field. Fallo debido a obtener mal width y height.
+// TODO: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
+
 public class Jpeg implements AlgorithmInterface {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
+
     private static final PpmComponent ppmComponent = new PpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final DownsamplingComponent downsamplingComponent = new DownsamplingComponent();
@@ -27,7 +39,6 @@ public class Jpeg implements AlgorithmInterface {
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
-    private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
 
     @Override
     public byte[] encode(byte[] data) throws IOException {
@@ -40,7 +51,7 @@ public class Jpeg implements AlgorithmInterface {
             StringBuffer buffer = new StringBuffer();
 
             // 0. Read PPM file
-            Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFileV2(file);
+            Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFile(file);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
             byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();
@@ -55,8 +66,8 @@ public class Jpeg implements AlgorithmInterface {
             Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
 
             // 2. Downsampling
-            int numOfMacroBlockByColumn = yCbCrMatrix.getNumberOfColumns() / 16;
-            int numOfMacroBlockByRow = yCbCrMatrix.getNumberOfRows() / 16;
+            int numOfMacroBlockByRow = yCbCrMatrix.getNumberOfColumns() / 16;
+            int numOfMacroBlockByColumn = yCbCrMatrix.getNumberOfRows() / 16;
 
             int y = 0;
             for (int i = 0; i < numOfMacroBlockByColumn; ++i) {
@@ -93,7 +104,6 @@ public class Jpeg implements AlgorithmInterface {
                     for (int n = 0; n < blocksOf8x8.size(); ++n) {
                         quantizedBlocks.add(quantizationComponent.quantizeMatrix(blocksOf8x8.get(n)));
                     }
-
 
                     // 5. Entropy Coding
                     for (int m = 0; m < quantizedBlocks.size(); ++m) {
@@ -179,22 +189,21 @@ public class Jpeg implements AlgorithmInterface {
         try {
             // DECODING WITH JPEG
             System.out.println("Decoding file with JPEG");
-
             int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
             List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
             // 0. Read JPEG file
-            byte[] heightSize = {data[0]};
-            String heightSizeBinary = new BigInteger(heightSize).toString(2);
-            int heightNumOfBytes = Integer.parseInt(heightSizeBinary, 2);
-            byte[] widthSize = {data[1]};
+            byte[] widthSize = {data[0]};
             String widthSizeBinary = new BigInteger(widthSize).toString(2);
             int widthNumOfBytes = Integer.parseInt(widthSizeBinary, 2);
+            byte[] heightSize = {data[1]};
+            String heightSizeBinary = new BigInteger(heightSize).toString(2);
+            int heightNumOfBytes = Integer.parseInt(heightSizeBinary, 2);
 
-            byte[] heightBytes = Arrays.copyOfRange(data, 2, 2 + heightNumOfBytes);
-            String heightBinary = new BigInteger(heightBytes).toString(2);
-            byte[] widthBytes = Arrays.copyOfRange(data, 2 + heightNumOfBytes, 2 + heightNumOfBytes + widthNumOfBytes);
+            byte[] widthBytes = Arrays.copyOfRange(data, 2, 2 + widthNumOfBytes);
             String widthBinary = new BigInteger(widthBytes).toString(2);
+            byte[] heightBytes = Arrays.copyOfRange(data, 2 + widthNumOfBytes, 2 + widthNumOfBytes + heightNumOfBytes);
+            String heightBinary = new BigInteger(heightBytes).toString(2);
 
             StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2 + heightNumOfBytes + widthNumOfBytes, data.length)).toString(2));
             StringBuffer workingBuffer = new StringBuffer();
@@ -270,6 +279,7 @@ public class Jpeg implements AlgorithmInterface {
                         }
 
                         columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
+
                         int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
 
                         zigZagValues.add(ac);

@@ -2,38 +2,20 @@ package domain.components;
 
 import domain.dataObjects.Pixel;
 import domain.dataStructure.Matrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class PpmComponent {
-    private static final int INITIAL_DATA_ROW = 3;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PpmComponent.class);
 
-    // TODO: DEPRECATED
-    public Matrix<Pixel> readPpmFile(String data) throws Exception {
-        String[] lines = data.split("\r?\n");
-        String[] dimensions = lines[1].split(" ");
+    public Matrix<Pixel> readPpmFile(String data) throws IllegalArgumentException {
+        checkData(data);
 
-        int width = Integer.parseInt(dimensions[0]);
-        int height = Integer.parseInt(dimensions[1]);
+        String dataWithoutComments = removeComments(data);
 
-        Matrix<Pixel> pixels = new Matrix<Pixel>(height, width, new Pixel[height][width]);
-
-        for (int i = 0; i < height; ++i) {
-            String[] rows = lines[INITIAL_DATA_ROW + i].split("\\s+");
-
-            for (int j = 0; j < width * 3; j += 3) {
-                float red = Float.parseFloat(rows[j]);
-                float green = Float.parseFloat(rows[j + 1]);
-                float blue = Float.parseFloat(rows[j + 2]);
-
-                Pixel pixel = new Pixel(red, green, blue);
-                pixels.setElementAt(pixel, i, j / 3);
-            }
-        }
-
-        return pixels;
-    }
-
-    public Matrix<Pixel> readPpmFileV2(String data) throws Exception {
-        String[] elements = data.split("\\s+");
+        String[] elements = dataWithoutComments.split("\\s+");
 
         int width = Integer.parseInt(elements[1]);
         int height = Integer.parseInt(elements[2]);
@@ -56,20 +38,68 @@ public class PpmComponent {
         return pixels;
     }
 
-    public String writePpmFile(int height, int width, Matrix<Pixel> rgbMatrix) {
-        String response = "P3\n" + height + " " + width + "\n255\n";
+    private void checkData(String data) {
+        if (Objects.isNull(data) || data.isEmpty() || data.trim().length() == 0) {
+            String message = "Param data could not be null, empty or blank";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    private String removeComments(String data) {
+        return data.replaceAll("#.*\n", "");
+    }
+
+    public String writePpmFile(int height, int width, Matrix<Pixel> rgbMatrix) throws IllegalArgumentException {
+        checkRgbMatrix(rgbMatrix);
+
+        String response = "P3\n" + width + " " + height + "\n255\n";
         StringBuffer buffer = new StringBuffer(response);
+        int cont = 0;
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                int red = Math.round(rgbMatrix.getElementAt(i, j).getX());
-                int green = Math.round(rgbMatrix.getElementAt(i, j).getY());
-                int blue = Math.round(rgbMatrix.getElementAt(i, j).getZ());
+                Pixel pixel = rgbMatrix.getElementAt(i, j);
 
-                String values = red + " " + green + " " + blue + " ";
+                checkPixel(i, j, pixel);
+
+                int red = Math.round(pixel.getX());
+                int green = Math.round(pixel.getY());
+                int blue = Math.round(pixel.getZ());
+
+                String values = values = red + " " + green + " " + blue;
+
+                if (cont == 3) {
+                    values = values + "\n";
+                    cont = 0;
+                } else {
+                    values = values + " ";
+                    ++cont;
+                }
+
                 buffer.append(values);
             }
-            buffer.append("\n");
+
+            if (i < height - 1) {
+                buffer.append("\n");
+            }
         }
         return buffer.toString();
+    }
+
+    private void checkPixel(int i, int j, Pixel pixel) {
+        if (Objects.isNull(pixel)) {
+            String message = String.format("Pixel from param RGB Matrix at position (%s,%s) could not be " +
+                    "null, empty or blank", i, j);
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    private void checkRgbMatrix(Matrix<Pixel> rgbMatrix) {
+        if (Objects.isNull(rgbMatrix)) {
+            String message = "Param RGB Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
     }
 }

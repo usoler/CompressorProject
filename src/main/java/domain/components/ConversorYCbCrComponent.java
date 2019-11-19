@@ -5,10 +5,18 @@ import domain.dataStructure.Matrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class ConversorYCbCrComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConversorYCbCrComponent.class);
 
-    public Matrix<Pixel> convertFromRGB(Matrix<Pixel> rgbMatrix) {
+    public Matrix<Pixel> convertFromRGB(Matrix<Pixel> rgbMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(rgbMatrix)) {
+            String message = "Param RGB Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         int height = rgbMatrix.getNumberOfRows();
         int width = rgbMatrix.getNumberOfColumns();
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
@@ -16,22 +24,21 @@ public class ConversorYCbCrComponent {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 Pixel pixel = rgbMatrix.getElementAt(i, j);
+
+                if (Objects.isNull(pixel)) {
+                    String message = String.format("Pixel from param RGB Matrix at position (%s,%s) could not be null", i, j);
+                    LOGGER.error(message);
+                    throw new IllegalArgumentException(message);
+                }
+
                 float y = Math.round(((0.299f * pixel.getX()) + (0.587f * pixel.getY()) + (0.114f * pixel.getZ())) * 1000f) / 1000f;
                 float cb = Math.round((128f - (0.168736f * pixel.getX()) - (0.331264f * pixel.getY()) + (0.5f * pixel.getZ())) * 1000f) / 1000f;
                 float cr = Math.round((128f + (0.5f * pixel.getX()) - (0.418688f * pixel.getY()) - (0.081312f * pixel.getZ())) * 1000f) /
                         1000f;
 
-                if (y > 255f) {
-                    y = 255f;
-                }
-
-                if (cb > 255f) {
-                    cb = 255f;
-                }
-
-                if (cr > 255f) {
-                    cr = 255f;
-                }
+                y = Math.max(0, Math.min(255f, y));
+                cb = Math.max(0, Math.min(255f, cb));
+                cr = Math.max(0, Math.min(255f, cr));
 
                 yCbCrMatrix.setElementAt(new Pixel(y, cb, cr), i, j);
             }
@@ -40,49 +47,34 @@ public class ConversorYCbCrComponent {
         return yCbCrMatrix;
     }
 
-    public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) throws Exception {
+    public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) throws IllegalArgumentException {
+        if (Objects.isNull(yCbCrMatrix)) {
+            String message = "Param YCbCr Matrix could not be null";
+            LOGGER.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
         int height = yCbCrMatrix.getNumberOfRows();
         int width = yCbCrMatrix.getNumberOfColumns();
         Matrix<Pixel> rgbMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
 
         for (int i = 0; i < height; ++i) {
-            //LOGGER.debug("i: {}", i);
             for (int j = 0; j < width; ++j) {
-                //LOGGER.debug("j: {}", j);
-                if (j == 144 && i == 336) {
-                    String o = "o";
-                }
                 Pixel pixel = yCbCrMatrix.getElementAt(i, j);
-                float red = 0;
-                float green = 0;
-                float blue = 0;
-                try {
-                    red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
-                    green = Math.round((pixel.getX() - (0.344136f * (pixel.getY() - 128f)) - (0.714136f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
-                    blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
-                } catch (Exception e) {
-                    LOGGER.error("i: {}, j: {}", i, j);
-                    throw new Exception();
+
+                if (Objects.isNull(pixel)) {
+                    String message = String.format("Pixel from param YCbCr Matrix at position (%s,%s) could not be null", i, j);
+                    LOGGER.error(message);
+                    throw new IllegalArgumentException(message);
                 }
 
-                if (red < 0) {
-                    red = 0;
-                }
-                if (green < 0) {
-                    green = 0;
-                }
-                if (blue < 0) {
-                    blue = 0;
-                }
-                if (red > 255f) {
-                    red = 255f;
-                }
-                if (green > 255f) {
-                    green = 255f;
-                }
-                if (blue > 255f) {
-                    blue = 255f;
-                }
+                float red = Math.round((pixel.getX() + (1.402f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
+                float green = Math.round((pixel.getX() - (0.34414f * (pixel.getY() - 128f)) - (0.71414f * (pixel.getZ() - 128f))) * 1000f) / 1000f;
+                float blue = Math.round((pixel.getX() + (1.772f * (pixel.getY() - 128f))) * 1000f) / 1000f;
+
+                red = Math.max(0, Math.min(255f, red));
+                green = Math.max(0, Math.min(255f, green));
+                blue = Math.max(0, Math.min(255f, blue));
 
                 rgbMatrix.setElementAt(new Pixel(red, green, blue), i, j);
             }

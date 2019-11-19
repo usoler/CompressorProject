@@ -5,11 +5,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class QuantizationComponentTest {
+    private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
 
     @Test
     public void verify_quantizeMatrix_returnsQuantizedDCTMatrix_whenMatrixParamIsValid() {
         // Mock
-        QuantizationComponent quantizationComponent = new QuantizationComponent();
         Matrix<Float> dctMatrix = mockDCTMatrix();
         Matrix<Float> expected = mockQuantizedMatrix();
 
@@ -18,6 +18,39 @@ public class QuantizationComponentTest {
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_quantizeMatrix_throwsIllegalArgumentException_whenParamDctMatrixIsNull() {
+        try {
+            quantizationComponent.quantizeMatrix(null);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("DCT Matrix could not be null", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void verify_desquantizeMatrix_returnsDesquantizedMatrix_whenParamQuantizedMatrixIsValid() {
+        // Mock
+        Matrix<Integer> quantizedMatrix = mockIntegerQuantizedMatrix();
+        Matrix<Integer> expected = mockIntegerDCTMatrix();
+
+        // Test
+        Matrix<Integer> response = quantizationComponent.desquantizeMatrix(quantizedMatrix);
+
+        Assert.assertNotNull(response);
+        Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_desquantizeMatrix_throwsIllegalArgumentException_whenParamQuantizedMatrixIsNull() {
+        try {
+            quantizationComponent.desquantizeMatrix(null);
+            Assert.fail();
+        } catch (IllegalArgumentException ex) {
+            Assert.assertEquals("Quantized Matrix could not be null", ex.getMessage());
+        }
     }
 
     private Matrix<Float> mockDCTMatrix() {
@@ -98,6 +131,57 @@ public class QuantizationComponentTest {
         return dctMatrix;
     }
 
+    private Matrix<Integer> mockIntegerDCTMatrix() {
+        Matrix<Integer> dctMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
+
+        dctMatrix.setElementAt(-416, 0, 0);
+        dctMatrix.setElementAt(-33, 0, 1);
+        dctMatrix.setElementAt(-60, 0, 2);
+        dctMatrix.setElementAt(32, 0, 3);
+        dctMatrix.setElementAt(48, 0, 4);
+        dctMatrix.setElementAt(-40, 0, 5);
+        dctMatrix.setElementAt(0, 0, 6);
+        dctMatrix.setElementAt(0, 0, 7);
+
+        dctMatrix.setElementAt(0, 1, 0);
+        dctMatrix.setElementAt(-24, 1, 1);
+        dctMatrix.setElementAt(-56, 1, 2);
+        dctMatrix.setElementAt(19, 1, 3);
+        dctMatrix.setElementAt(26, 1, 4);
+        dctMatrix.setElementAt(0, 1, 5);
+        dctMatrix.setElementAt(0, 1, 6);
+        dctMatrix.setElementAt(0, 1, 7);
+
+        dctMatrix.setElementAt(-42, 2, 0);
+        dctMatrix.setElementAt(13, 2, 1);
+        dctMatrix.setElementAt(80, 2, 2);
+        dctMatrix.setElementAt(-24, 2, 3);
+        dctMatrix.setElementAt(-40, 2, 4);
+        dctMatrix.setElementAt(0, 2, 5);
+        dctMatrix.setElementAt(0, 2, 6);
+        dctMatrix.setElementAt(0, 2, 7);
+
+        dctMatrix.setElementAt(-42, 3, 0);
+        dctMatrix.setElementAt(17, 3, 1);
+        dctMatrix.setElementAt(44, 3, 2);
+        dctMatrix.setElementAt(-29, 3, 3);
+        dctMatrix.setElementAt(0, 3, 4);
+        dctMatrix.setElementAt(0, 3, 5);
+        dctMatrix.setElementAt(0, 3, 6);
+        dctMatrix.setElementAt(0, 3, 7);
+
+        for (int i = 4; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                dctMatrix.setElementAt(0, i, j);
+            }
+        }
+
+        dctMatrix.setElementAt(18, 4, 0);
+
+
+        return dctMatrix;
+    }
+
     private Matrix<Float> mockQuantizedMatrix() {
         Matrix<Float> quantizedMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
@@ -144,6 +228,56 @@ public class QuantizationComponentTest {
         }
 
         quantizedMatrix.setElementAt(1f, 4, 0);
+
+        return quantizedMatrix;
+    }
+
+    private Matrix<Integer> mockIntegerQuantizedMatrix() {
+        Matrix<Integer> quantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
+
+        quantizedMatrix.setElementAt(-26, 0, 0);
+        quantizedMatrix.setElementAt(-3, 0, 1);
+        quantizedMatrix.setElementAt(-6, 0, 2);
+        quantizedMatrix.setElementAt(2, 0, 3);
+        quantizedMatrix.setElementAt(2, 0, 4);
+        quantizedMatrix.setElementAt(-1, 0, 5);
+        quantizedMatrix.setElementAt(0, 0, 6);
+        quantizedMatrix.setElementAt(0, 0, 7);
+
+        quantizedMatrix.setElementAt(0, 1, 0);
+        quantizedMatrix.setElementAt(-2, 1, 1);
+        quantizedMatrix.setElementAt(-4, 1, 2);
+        quantizedMatrix.setElementAt(1, 1, 3);
+        quantizedMatrix.setElementAt(1, 1, 4);
+        quantizedMatrix.setElementAt(0, 1, 5);
+        quantizedMatrix.setElementAt(0, 1, 6);
+        quantizedMatrix.setElementAt(0, 1, 7);
+
+        quantizedMatrix.setElementAt(-3, 2, 0);
+        quantizedMatrix.setElementAt(1, 2, 1);
+        quantizedMatrix.setElementAt(5, 2, 2);
+        quantizedMatrix.setElementAt(-1, 2, 3);
+        quantizedMatrix.setElementAt(-1, 2, 4);
+        quantizedMatrix.setElementAt(0, 2, 5);
+        quantizedMatrix.setElementAt(0, 2, 6);
+        quantizedMatrix.setElementAt(0, 2, 7);
+
+        quantizedMatrix.setElementAt(-3, 3, 0);
+        quantizedMatrix.setElementAt(1, 3, 1);
+        quantizedMatrix.setElementAt(2, 3, 2);
+        quantizedMatrix.setElementAt(-1, 3, 3);
+        quantizedMatrix.setElementAt(0, 3, 4);
+        quantizedMatrix.setElementAt(0, 3, 5);
+        quantizedMatrix.setElementAt(0, 3, 6);
+        quantizedMatrix.setElementAt(0, 3, 7);
+
+        for (int i = 4; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                quantizedMatrix.setElementAt(0, i, j);
+            }
+        }
+
+        quantizedMatrix.setElementAt(1, 4, 0);
 
         return quantizedMatrix;
     }
