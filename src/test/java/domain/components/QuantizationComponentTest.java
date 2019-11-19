@@ -37,7 +37,7 @@ public class QuantizationComponentTest {
         Matrix<Integer> expected = mockIntegerDCTMatrix();
 
         // Test
-        Matrix<Integer> response = quantizationComponent.desquantizeMatrix(quantizedMatrix);
+        Matrix<Integer> response = quantizationComponent.dequantizeMatrix(quantizedMatrix);
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
@@ -46,7 +46,7 @@ public class QuantizationComponentTest {
     @Test
     public void verify_desquantizeMatrix_throwsIllegalArgumentException_whenParamQuantizedMatrixIsNull() {
         try {
-            quantizationComponent.desquantizeMatrix(null);
+            quantizationComponent.dequantizeMatrix(null);
             Assert.fail();
         } catch (IllegalArgumentException ex) {
             Assert.assertEquals("Quantized Matrix could not be null", ex.getMessage());

@@ -1,6 +1,8 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,12 +11,8 @@ import java.util.Objects;
 public class DCTComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(DCTComponent.class);
 
-    public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) throws IllegalArgumentException {
-        if (Objects.isNull(matrix8x8)) {
-            String message = "Param Matrix 8x8 could not be null";
-            LOGGER.error(message);
-            throw new IllegalArgumentException(message);
-        }
+    public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) throws CompressorException {
+        checkMatrix(matrix8x8);
         Matrix<Float> dctMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
         for (int i = 0; i < 8; ++i) {
@@ -46,12 +44,16 @@ public class DCTComponent {
         return dctMatrix;
     }
 
-    public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) throws IllegalArgumentException {
-        if (Objects.isNull(dctMatrix)) {
+    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
+        if (Objects.isNull(matrix8x8)) {
             String message = "Param Matrix 8x8 could not be null";
             LOGGER.error(message);
-            throw new IllegalArgumentException(message);
+            throw new CompressorException(message, CompressorErrorCode.APPLY_DCT_FAILURE);
         }
+    }
+
+    public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) throws CompressorException {
+        checkDctMatrix(dctMatrix);
 
         Matrix<Float> matrix8x8 = new Matrix<Float>(8, 8, new Float[8][8]);
 
@@ -86,6 +88,14 @@ public class DCTComponent {
         }
 
         return matrix8x8;
+    }
+
+    private void checkDctMatrix(Matrix<Integer> dctMatrix) throws CompressorException {
+        if (Objects.isNull(dctMatrix)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UNDO_DCT_FAILURE);
+        }
     }
 
     private float getCfValue(int f) {

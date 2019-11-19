@@ -1,7 +1,6 @@
 import domain.CarpetaTest;
 import domain.FicheroTest;
 import domain.algorithms.AlgorithmTest;
-import domain.algorithms.lossless.LzwTest;
 import domain.components.*;
 import domain.dataStructure.TrieNodeTest;
 import domain.dataStructure.TrieTest;
@@ -15,7 +14,7 @@ import org.junit.runners.Suite;
         FicheroTest.class,
         AlgorithmTest.class,
         ConversorYCbCrComponentTest.class,
-        DownsamplingComponentTest.class,
+        SamplingComponentTest.class,
         DCTComponentTest.class,
         HuffmanComponentTest.class,
         QuantizationComponentTest.class,

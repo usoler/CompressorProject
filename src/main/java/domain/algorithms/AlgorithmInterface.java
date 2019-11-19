@@ -1,9 +1,9 @@
 package domain.algorithms;
 
-import java.io.*;
+import domain.exception.CompressorException;
 
 public interface AlgorithmInterface {
-    public byte[] encode(byte[] file) throws IOException;
+    public byte[] encode(byte[] file) throws CompressorException;
 
-    public byte[] decode(byte[] file) throws UnsupportedEncodingException;
+    public byte[] decode(byte[] file) throws CompressorException;
 }
