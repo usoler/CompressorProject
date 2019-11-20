@@ -12,6 +12,13 @@ import java.util.Objects;
 public class ConversorYCbCrComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConversorYCbCrComponent.class);
 
+    /**
+     * Converts a RGB matrix into a YCbCr matrix
+     *
+     * @param rgbMatrix the RGB matrix to coverts
+     * @return the YCbCr matrix converted
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Pixel> convertFromRGB(Matrix<Pixel> rgbMatrix) throws CompressorException {
         checkRgbMatrix(rgbMatrix);
 
@@ -57,6 +64,13 @@ public class ConversorYCbCrComponent {
         }
     }
 
+    /**
+     * Converts a YCbCr matrix into a RGB matrix
+     *
+     * @param yCbCrMatrix the YCbCr matrix to convert
+     * @return the RGB matrix converted
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Pixel> convertToRGB(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
         checkYCbCrMatrix(yCbCrMatrix);
 

@@ -11,6 +11,13 @@ import java.util.Objects;
 public class DCTComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(DCTComponent.class);
 
+    /**
+     * Apply a DCT algorithm to a 8x8 matrix
+     *
+     * @param matrix8x8 the 8x8 matrix to apply the DCT algorithm
+     * @return the 8x8 matrix after to apply the DCT algorithm
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) throws CompressorException {
         checkMatrix(matrix8x8);
         Matrix<Float> dctMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
@@ -52,6 +59,13 @@ public class DCTComponent {
         }
     }
 
+    /**
+     * Undo a DCT algorithm to a 8x8 matrix
+     *
+     * @param dctMatrix the 8x8 matrix to undo the DCT algorithm
+     * @return the 8x8 matrix after undo the DCT algorithm
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) throws CompressorException {
         checkDctMatrix(dctMatrix);
 

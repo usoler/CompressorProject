@@ -12,6 +12,16 @@ import java.util.Objects;
 public class HuffmanComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(HuffmanComponent.class);
 
+    /**
+     * Encode an AC coefficient with the huffman tables
+     *
+     * @param ac                the AC coefficient to encode
+     * @param numOfPreZeros     the number of preceding zeros of the AC coefficient
+     * @param typeOfCoefficient the type of coefficient: luminance or chrominance
+     * @param buffer            the string buffer to write the encoded AC coefficient
+     * @return the string buffer after to write the encoded AC coefficient
+     * @throws CompressorException if any error occurs
+     */
     public StringBuffer encodeAC(int ac, int numOfPreZeros, CoefficientEnum typeOfCoefficient, StringBuffer buffer) throws CompressorException {
         checkEncodeBuffer(buffer);
 
@@ -44,6 +54,14 @@ public class HuffmanComponent {
         }
     }
 
+    /**
+     * Encode the DC coefficient with the huffman table
+     *
+     * @param dc     the DC coefficient to encode
+     * @param buffer the string buffer to write the encoded DC coefficient
+     * @return the string buffer after to write the encoded DC coefficient
+     * @throws CompressorException if any error occurs
+     */
     public StringBuffer encodeDC(int dc, StringBuffer buffer) throws CompressorException {
         checkEncodeBuffer(buffer);
 
@@ -62,6 +80,12 @@ public class HuffmanComponent {
         return buffer;
     }
 
+    /**
+     * Get the number of bits of the column that belongs to the huffman value
+     *
+     * @param huffmanValue the huffman value to get the number of bits of their column
+     * @return the number of bits of the column that belongs to the huffman value, or otherwise -1
+     */
     public int getNumOfBitsOfColumn(String huffmanValue) {
         switch (huffmanValue) {
             case "0":
@@ -103,6 +127,12 @@ public class HuffmanComponent {
         }
     }
 
+    /**
+     * Get the number of preceding zeros and the row in the huffman table of a chrominance huffman value
+     *
+     * @param huffmanValue the huffman value to get their number of preceding zeros and their row in the huffman table
+     * @return the number of preceding zeros and the row in the huffman table
+     */
     public Pair<Integer, Integer> getPreZerosAndRowOfValueChrominance(String huffmanValue) {
         switch (huffmanValue) {
             case "1111111010": // ZRL
@@ -434,6 +464,12 @@ public class HuffmanComponent {
         }
     }
 
+    /**
+     * Get the number of preceding zeros and the row of a luminance huffman value
+     *
+     * @param huffmanValue the huffman value to get the number of preceding zeros and the row in the table
+     * @return the number of preceding zeros and the row in the table
+     */
     public Pair<Integer, Integer> getPreZerosAndRowOfValueLuminance(String huffmanValue) {
         switch (huffmanValue) {
             case "11111111001": // ZRL
@@ -765,6 +801,14 @@ public class HuffmanComponent {
         }
     }
 
+    /**
+     * Decode a coefficient given their number of row and column
+     *
+     * @param row    the number of row that belongs
+     * @param column the number of column that belongs
+     * @return the decoded coefficient value
+     * @throws CompressorException if any error occurs
+     */
     // TODO: Wrong column should throw an exception
     public int decodeCoefficient(int row, int column) throws CompressorException {
         switch (row) {

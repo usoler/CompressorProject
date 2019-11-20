@@ -90,6 +90,13 @@ public class QuantizationComponent {
         return quantizationMatrix;
     }
 
+    /**
+     * Quantize a DCT Matrix
+     *
+     * @param dctMatrix the DCT Matrix to quantize
+     * @return the quantized matrix after quantize the DCT Matrix
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) throws CompressorException {
         checkDctMatrix(dctMatrix);
         Matrix<Float> quantizedMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
@@ -112,6 +119,13 @@ public class QuantizationComponent {
         }
     }
 
+    /**
+     * Dequantize a quantize Matrix
+     *
+     * @param quantizedMatrix the quantized matrix to dequantize
+     * @return the dequantized matrix after dequantize the quantize Matrix
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Integer> dequantizeMatrix(Matrix<Integer> quantizedMatrix) throws CompressorException {
         checkQuantizedMatrix(quantizedMatrix);
         Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);

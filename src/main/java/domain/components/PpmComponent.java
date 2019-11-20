@@ -12,6 +12,13 @@ import java.util.Objects;
 public class PpmComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(PpmComponent.class);
 
+    /**
+     * Read a PPM file and converts it to a pixel matrix
+     *
+     * @param data the PPM file data
+     * @return the pixel matrixof the PPM file data
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Pixel> readPpmFile(String data) throws CompressorException {
         checkData(data);
 
@@ -52,6 +59,15 @@ public class PpmComponent {
         return data.replaceAll("#.*\n", "");
     }
 
+    /**
+     * Write a PPM file given a RGB Matrix
+     *
+     * @param height    the height of the image
+     * @param width     the width of the image
+     * @param rgbMatrix the RGB Matrix to write into the PPM file
+     * @return the PPM file obtained by the RGB Matrix
+     * @throws CompressorException if any error occurs
+     */
     public String writePpmFile(int height, int width, Matrix<Pixel> rgbMatrix) throws CompressorException {
         checkRgbMatrix(rgbMatrix);
 

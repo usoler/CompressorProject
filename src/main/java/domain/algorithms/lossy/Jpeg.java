@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-// TODO: Javadoc
+// DONE: Javadoc
 // TODO: Sustituir Pair ??.
 // TODO: Refactor tablas huffman a arrays ??.
 
@@ -41,10 +41,17 @@ public class Jpeg implements AlgorithmInterface {
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
 
+    /**
+     * Encode a PPM file applying the JPEG algorithm
+     *
+     * @param data the PPM file data to encode
+     * @return the file encoded
+     * @throws CompressorException if any error occurs
+     */
     @Override
     public byte[] encode(byte[] data) throws CompressorException {
         // ENCODING WITH JPEG
-        System.out.println("Encoding file with JPEG");
+        LOGGER.info("Encoding file with JPEG algorithm");
         String file = new String(data, StandardCharsets.UTF_8);
 
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
@@ -189,14 +196,23 @@ public class Jpeg implements AlgorithmInterface {
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.WRITE_PPM_FAILURE);
         }
+
+        LOGGER.info("JPEG algorithm encode finished");
         return byteArrayOutputStream.toByteArray();
 
     }
 
+    /**
+     * Decode a JPEG file applying the JPEG algorithm
+     *
+     * @param data the JPEG file data to decode
+     * @return the file decoded
+     * @throws CompressorException if any error occurs
+     */
     @Override
     public byte[] decode(byte[] data) throws CompressorException {
         // DECODING WITH JPEG
-        System.out.println("Decoding file with JPEG");
+        LOGGER.info("Decoding file with JPEG algorithm");
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
@@ -366,6 +382,7 @@ public class Jpeg implements AlgorithmInterface {
         // 7. Write PPM file
         String response = ppmComponent.writePpmFile(Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
 
+        LOGGER.info("JPEG algorithm decode finished");
         return response.getBytes();
     }
 }

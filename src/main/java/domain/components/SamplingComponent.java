@@ -19,6 +19,13 @@ public class SamplingComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SamplingComponent.class);
 
+    /**
+     * Downsample a YCbCr Matrix
+     *
+     * @param yCbCrMatrix the YCbCr Matrix to downsample
+     * @return the YCbCr MacroBlock after to downsample
+     * @throws CompressorException if any error occurs
+     */
     public MacroBlockYCbCr downsampling(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
         checkYCbCrMatrix(yCbCrMatrix);
 
@@ -80,6 +87,13 @@ public class SamplingComponent {
         }
     }
 
+    /**
+     * Upsample a YCbCr MacroBlock
+     *
+     * @param macroBlockYCbCr the YCbCr MacroBlock to upsample
+     * @return the upsampled matrix
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
         validateMacroBlock(macroBlockYCbCr);
 
