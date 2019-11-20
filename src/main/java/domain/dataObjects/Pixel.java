@@ -11,6 +11,12 @@ public class Pixel {
         this.z = z;
     }
 
+    public Pixel(Pixel pixel) {
+        this.x = pixel.getX();
+        this.y = pixel.getY();
+        this.z = pixel.getZ();
+    }
+
     public float getX() {
         return x;
     }

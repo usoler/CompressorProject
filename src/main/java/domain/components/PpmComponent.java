@@ -1,6 +1,7 @@
 package domain.components;
 
 import domain.dataObjects.Pixel;
+import domain.dataObjects.PpmResponse;
 import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
@@ -19,32 +20,49 @@ public class PpmComponent {
      * @return the pixel matrixof the PPM file data
      * @throws CompressorException if any error occurs
      */
-    public Matrix<Pixel> readPpmFile(String data) throws CompressorException {
+    // TODO: check if it works
+    public PpmResponse readPpmFile(String data) throws CompressorException {
         checkData(data);
 
         String dataWithoutComments = removeComments(data);
 
         String[] elements = dataWithoutComments.split("\\s+");
 
-        int width = Integer.parseInt(elements[1]);
-        int height = Integer.parseInt(elements[2]);
+        int originalWidth = Integer.parseInt(elements[1]);
+        int originalHeight = Integer.parseInt(elements[2]);
+
+        int width = originalWidth;
+        int height = originalHeight;
+
+        while (width % 16 != 0) {
+            ++width;
+        }
+
+        while (height % 16 != 0) {
+            ++height;
+        }
 
         Matrix<Pixel> pixels = new Matrix<Pixel>(height, width, new Pixel[height][width]);
 
         int k = 4;
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width * 3; j += 3) {
-                float red = Float.parseFloat(elements[k]);
-                float green = Float.parseFloat(elements[k + 1]);
-                float blue = Float.parseFloat(elements[k + 2]);
+                if (i < originalHeight && j < originalWidth * 3) {
+                    float red = Float.parseFloat(elements[k]);
+                    float green = Float.parseFloat(elements[k + 1]);
+                    float blue = Float.parseFloat(elements[k + 2]);
 
-                Pixel pixel = new Pixel(red, green, blue);
-                pixels.setElementAt(pixel, i, j / 3);
-                k += 3;
+                    Pixel pixel = new Pixel(red, green, blue);
+                    pixels.setElementAt(pixel, i, j / 3);
+
+                    k += 3;
+                } else {
+                    pixels.setElementAt(new Pixel(pixels.getElementAt(Math.min(i, originalHeight - 1), Math.min(j, originalWidth - 1))), i, j / 3);
+                }
             }
         }
 
-        return pixels;
+        return new PpmResponse(originalWidth, originalHeight, pixels);
     }
 
     private void checkData(String data) throws CompressorException {

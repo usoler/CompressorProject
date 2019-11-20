@@ -4,6 +4,7 @@ import domain.algorithms.AlgorithmInterface;
 import domain.components.*;
 import domain.dataObjects.CoefficientEnum;
 import domain.dataObjects.Pixel;
+import domain.dataObjects.PpmResponse;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
@@ -28,7 +29,9 @@ import java.util.List;
 // DONE: Resolver bug snail. Fallo debido a tabla huffman
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
 // DONE: Bug star_field. Fallo debido a obtener mal width y height.
-// TODO: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
+// DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
+// TODO: maybe bug with feep image?
+// TODO: bug with sines image
 
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
@@ -58,10 +61,13 @@ public class Jpeg implements AlgorithmInterface {
         StringBuffer buffer = new StringBuffer();
 
         // 0. Read PPM file
-        Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFile(file);
+        PpmResponse ppmResponse = ppmComponent.readPpmFile(file);
+        //Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFile(file);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
-        byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();
+        //byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
+        byte[] height = BigInteger.valueOf(ppmResponse.getHeight()).toByteArray();
+        //byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();
+        byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
         byte heightSize = (byte) height.length;
         byte widthSize = (byte) width.length;
         byteArrayOutputStream.write(heightSize);
@@ -76,7 +82,8 @@ public class Jpeg implements AlgorithmInterface {
         }
 
         // 1. Color conversion
-        Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
+        //Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
+        Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(ppmResponse.getMatrix());
 
         // 2. Downsampling
         int numOfMacroBlockByRow = yCbCrMatrix.getNumberOfColumns() / 16;
@@ -352,6 +359,7 @@ public class Jpeg implements AlgorithmInterface {
         }
 
         // 5. Reconstuct Total Matrix
+        // TODO: check if it works
         int height = Integer.parseInt(heightBinary, 2);
         int width = Integer.parseInt(widthBinary, 2);
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
@@ -361,10 +369,10 @@ public class Jpeg implements AlgorithmInterface {
         int m = 0;
         for (int n = 0; n < blocksOfPixelMatrix16x16.size(); ++n) {
             s = originS;
-            for (int y = 0; y < 16; ++y, ++s) {
+            for (int y = 0; y < Math.min(16, height); ++y, ++s) {
                 m = originM;
-                for (int x = 0; x < 16; ++x, ++m) {
-                    yCbCrMatrix.setElementAt(blocksOfPixelMatrix16x16.get(n).getElementAt(y, x), s, m); // Check if y and x are correct
+                for (int x = 0; x < Math.min(16, width); ++x, ++m) {
+                    yCbCrMatrix.setElementAt(blocksOfPixelMatrix16x16.get(n).getElementAt(y, x), s, m);
                 }
             }
 
