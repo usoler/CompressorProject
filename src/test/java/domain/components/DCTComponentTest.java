@@ -1,15 +1,17 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class DCTComponentTest {
+    private static final DCTComponent dctComponent = new DCTComponent();
 
     @Test
-    public void verify_applyDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() {
+    public void verify_applyDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() throws CompressorException {
         // Mock
-        DCTComponent dctComponent = new DCTComponent();
         Matrix<Float> matrix8x8 = mockMatrixWikipedia();
         Matrix<Float> expected = mockDCTMatrix();
 
@@ -18,6 +20,41 @@ public class DCTComponentTest {
 
         Assert.assertNotNull(response);
         Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_applyDCT_throwsCompressorException_whenParamMatrix8x8IsNull() {
+        try {
+            dctComponent.applyDCT(null);
+            Assert.fail();
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.APPLY_DCT_FAILURE.getCode(), ex.getErrorCode().getCode());
+        }
+    }
+
+    @Test
+    public void verify_undoDCT_returnsDCTMatrix_whenParamMatrix8x8IsValid() throws CompressorException {
+        // Mock
+        Matrix<Integer> matrix8x8 = mockIntegerDCTMatrix();
+        Matrix<Float> expected = mockUndoDCTtMatrixWikipedia();
+
+        // Test
+        Matrix<Float> response = dctComponent.undoDCT(matrix8x8);
+
+        Assert.assertNotNull(response);
+        Assert.assertTrue(expected.equals(response));
+    }
+
+    @Test
+    public void verify_undoDCT_throwsCompressorException_whenParamMatrix8x8IsNull() {
+        try {
+            dctComponent.undoDCT(null);
+            Assert.fail();
+        } catch (CompressorException ex) {
+            Assert.assertNotNull(ex.getErrorCode());
+            Assert.assertEquals(CompressorErrorCode.UNDO_DCT_FAILURE.getCode(), ex.getErrorCode().getCode());
+        }
     }
 
     private Matrix<Float> mockMatrixWikipedia() {
@@ -98,6 +135,84 @@ public class DCTComponentTest {
         return matrix8x8;
     }
 
+    private Matrix<Float> mockUndoDCTtMatrixWikipedia() {
+        Matrix<Float> matrix8x8 = new Matrix<Float>(8, 8, new Float[8][8]);
+
+        matrix8x8.setElementAt(62.17f, 0, 0);
+        matrix8x8.setElementAt(65.37f, 0, 1);
+        matrix8x8.setElementAt(56.96f, 0, 2);
+        matrix8x8.setElementAt(59.96f, 0, 3);
+        matrix8x8.setElementAt(72.35f, 0, 4);
+        matrix8x8.setElementAt(63.01f, 0, 5);
+        matrix8x8.setElementAt(59.63f, 0, 6);
+        matrix8x8.setElementAt(82.28f, 0, 7);
+
+        matrix8x8.setElementAt(57.13f, 1, 0);
+        matrix8x8.setElementAt(55.41f, 1, 1);
+        matrix8x8.setElementAt(55.93f, 1, 2);
+        matrix8x8.setElementAt(82.18f, 1, 3);
+        matrix8x8.setElementAt(107.7f, 1, 4);
+        matrix8x8.setElementAt(87.37f, 1, 5);
+        matrix8x8.setElementAt(62.26f, 1, 6);
+        matrix8x8.setElementAt(70.89f, 1, 7);
+
+        matrix8x8.setElementAt(57.6f, 2, 0);
+        matrix8x8.setElementAt(49.88f, 2, 1);
+        matrix8x8.setElementAt(59.87f, 2, 2);
+        matrix8x8.setElementAt(110.6f, 2, 3);
+        matrix8x8.setElementAt(147.72f, 2, 4);
+        matrix8x8.setElementAt(113.55f, 2, 5);
+        matrix8x8.setElementAt(67.16f, 2, 6);
+        matrix8x8.setElementAt(64.62f, 2, 7);
+
+        matrix8x8.setElementAt(65f, 3, 0);
+        matrix8x8.setElementAt(54.79f, 3, 1);
+        matrix8x8.setElementAt(66.22f, 3, 2);
+        matrix8x8.setElementAt(120.44f, 3, 3);
+        matrix8x8.setElementAt(154.97f, 3, 4);
+        matrix8x8.setElementAt(114.41f, 3, 5);
+        matrix8x8.setElementAt(67.79f, 3, 6);
+        matrix8x8.setElementAt(70.25f, 3, 7);
+
+        matrix8x8.setElementAt(69.98f, 4, 0);
+        matrix8x8.setElementAt(62.91f, 4, 1);
+        matrix8x8.setElementAt(66.64f, 4, 2);
+        matrix8x8.setElementAt(100.94f, 4, 3);
+        matrix8x8.setElementAt(121.71f, 4, 4);
+        matrix8x8.setElementAt(87.55f, 4, 5);
+        matrix8x8.setElementAt(60.3f, 4, 6);
+        matrix8x8.setElementAt(77.86f, 4, 7);
+
+        matrix8x8.setElementAt(70.74f, 5, 0);
+        matrix8x8.setElementAt(70.91f, 5, 1);
+        matrix8x8.setElementAt(63.66f, 5, 2);
+        matrix8x8.setElementAt(70.38f, 5, 3);
+        matrix8x8.setElementAt(79.98f, 5, 4);
+        matrix8x8.setElementAt(62.42f, 5, 5);
+        matrix8x8.setElementAt(55.64f, 5, 6);
+        matrix8x8.setElementAt(80.75f, 5, 7);
+
+        matrix8x8.setElementAt(74.55f, 6, 0);
+        matrix8x8.setElementAt(82.48f, 6, 1);
+        matrix8x8.setElementAt(67.11f, 6, 2);
+        matrix8x8.setElementAt(54.4f, 6, 3);
+        matrix8x8.setElementAt(63.45f, 6, 4);
+        matrix8x8.setElementAt(64.57f, 6, 5);
+        matrix8x8.setElementAt(65.79f, 6, 6);
+        matrix8x8.setElementAt(83.33f, 6, 7);
+
+        matrix8x8.setElementAt(80.86f, 7, 0);
+        matrix8x8.setElementAt(93.62f, 7, 1);
+        matrix8x8.setElementAt(74.74f, 7, 2);
+        matrix8x8.setElementAt(54.22f, 7, 3);
+        matrix8x8.setElementAt(67.81f, 7, 4);
+        matrix8x8.setElementAt(80.94f, 7, 5);
+        matrix8x8.setElementAt(81.12f, 7, 6);
+        matrix8x8.setElementAt(87.2f, 7, 7);
+
+        return matrix8x8;
+    }
+
     private Matrix<Float> mockDCTMatrix() {
         Matrix<Float> dctMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
@@ -172,6 +287,63 @@ public class DCTComponentTest {
         dctMatrix.setElementAt(-0.10f, 7, 5);
         dctMatrix.setElementAt(0.50f, 7, 6);
         dctMatrix.setElementAt(1.68f, 7, 7);
+
+        return dctMatrix;
+    }
+
+    private Matrix<Integer> mockIntegerDCTMatrix() {
+        Matrix<Integer> dctMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
+
+        dctMatrix.setElementAt(-416, 0, 0);
+        dctMatrix.setElementAt(-33, 0, 1);
+        dctMatrix.setElementAt(-60, 0, 2);
+        dctMatrix.setElementAt(32, 0, 3);
+        dctMatrix.setElementAt(48, 0, 4);
+        dctMatrix.setElementAt(-40, 0, 5);
+        dctMatrix.setElementAt(0, 0, 6);
+        dctMatrix.setElementAt(0, 0, 7);
+
+        dctMatrix.setElementAt(0, 1, 0);
+        dctMatrix.setElementAt(-24, 1, 1);
+        dctMatrix.setElementAt(-56, 1, 2);
+        dctMatrix.setElementAt(19, 1, 3);
+        dctMatrix.setElementAt(26, 1, 4);
+        dctMatrix.setElementAt(0, 1, 5);
+        dctMatrix.setElementAt(0, 1, 6);
+        dctMatrix.setElementAt(0, 1, 7);
+
+        dctMatrix.setElementAt(-42, 2, 0);
+        dctMatrix.setElementAt(13, 2, 1);
+        dctMatrix.setElementAt(80, 2, 2);
+        dctMatrix.setElementAt(-24, 2, 3);
+        dctMatrix.setElementAt(-40, 2, 4);
+        dctMatrix.setElementAt(0, 2, 5);
+        dctMatrix.setElementAt(0, 2, 6);
+        dctMatrix.setElementAt(0, 2, 7);
+
+        dctMatrix.setElementAt(-42, 3, 0);
+        dctMatrix.setElementAt(17, 3, 1);
+        dctMatrix.setElementAt(44, 3, 2);
+        dctMatrix.setElementAt(-29, 3, 3);
+        dctMatrix.setElementAt(0, 3, 4);
+        dctMatrix.setElementAt(0, 3, 5);
+        dctMatrix.setElementAt(0, 3, 6);
+        dctMatrix.setElementAt(0, 3, 7);
+
+        dctMatrix.setElementAt(18, 4, 0);
+        dctMatrix.setElementAt(0, 4, 1);
+        dctMatrix.setElementAt(0, 4, 2);
+        dctMatrix.setElementAt(0, 4, 3);
+        dctMatrix.setElementAt(0, 4, 4);
+        dctMatrix.setElementAt(0, 4, 5);
+        dctMatrix.setElementAt(0, 4, 6);
+        dctMatrix.setElementAt(0, 4, 7);
+
+        for (int i = 5; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                dctMatrix.setElementAt(0, i, j);
+            }
+        }
 
         return dctMatrix;
     }

@@ -1,18 +1,20 @@
 package domain.algorithms;
 
+import domain.exception.CompressorException;
 import org.junit.*;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import static org.junit.Assert.*;
 
 public class AlgorithmTest {
     private Algorithm algorithm;
+    // TODO: corner cases
 
     @BeforeClass
-    public static void startUp(){
-        System.out.println("STARTING ALGORITHMTEST");
+    public static void startUp() {
+        System.out.println("STARTING ALGORITHM TEST");
+    }
+
+    @AfterClass
+    public static void end() {
+        System.out.println("ALGORITHM TEST ENDED");
     }
 
     @Before
@@ -22,23 +24,32 @@ public class AlgorithmTest {
     }
 
     @Test
-    public void verify_encodeFile() throws IOException {
+    public void verify_encodeFile_returnsCompressedFileAsByteArray_whenParamFileAsByteArrayIsValid() throws Exception {
+        // Mock
         String uncompressedFile = "aaaaa";
+        byte[] expected = new byte[]{0, 1, 2, 3};
+
+        // Test
         byte[] result = algorithm.encodeFile(uncompressedFile.getBytes());
-        byte[] expected = new byte[] {0, 1, 2, 3};
+
         Assert.assertArrayEquals(result, expected);
+    }
+
+    @Test(expected = CompressorException.class)
+    public void verify_encodeFile_throwsCompressorException_whenEncodeFails() throws Exception {
+        algorithm.encodeFile(null);
     }
 
     @Test
-    public void verify_decodeFile() throws UnsupportedEncodingException {
+    public void verify_decodeFile() throws Exception {
+        // Mock
         String compressedFile = "aa";
-        byte[] result = algorithm.decodeFile(compressedFile.getBytes());
-        byte[] expected = new byte[] {3, 2, 1, 0};
-        Assert.assertArrayEquals(result, expected);
-    }
+        byte[] expected = new byte[]{3, 2, 1, 0};
 
-    @AfterClass
-    public static void end(){
-        System.out.println("ALGORITHM TEST ENDED");
+
+        // Test
+        byte[] result = algorithm.decodeFile(compressedFile.getBytes());
+
+        Assert.assertArrayEquals(result, expected);
     }
 }

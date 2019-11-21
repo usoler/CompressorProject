@@ -3,15 +3,25 @@ package domain.components;
 import domain.dataObjects.Pixel;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class DownsamplingComponent {
+import java.util.Objects;
+
+public class SamplingComponent {
     private static final int NUM_8x8_BLOCKS = 4;
     private static final int[] ks = new int[]{0, 0, 4, 4};
     private static final int[] ss = new int[]{0, 4, 0, 4};
     private static final int[] is = new int[]{0, 0, 8, 8};
     private static final int[] js = new int[]{0, 8, 0, 8};
 
-    public MacroBlockYCbCr downsampling(Matrix<Pixel> yCbCrMatrix) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SamplingComponent.class);
+
+    public MacroBlockYCbCr downsampling(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
+        checkYCbCrMatrix(yCbCrMatrix);
+
         MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
         Matrix<Float> cbMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
         Matrix<Float> crMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
@@ -25,6 +35,8 @@ public class DownsamplingComponent {
                 int y = 0;
                 for (int j = js[r]; j < (js[r] + 8); ++j) {
                     Pixel pixel = yCbCrMatrix.getElementAt(i, j);
+
+                    checkYCbCrPixel(i, j, pixel);
 
                     // Y component
                     yMatrix.setElementAt(pixel.getX(), x, y);
@@ -52,7 +64,25 @@ public class DownsamplingComponent {
         return macroBlockYCbCr;
     }
 
-    public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) {
+    private void checkYCbCrPixel(int i, int j, Pixel pixel) throws CompressorException {
+        if (Objects.isNull(pixel)) {
+            String message = String.format("Pixel from param YCbCr Matrix at position (%s,%s) could not be null", i, j);
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
+        }
+    }
+
+    private void checkYCbCrMatrix(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
+        if (Objects.isNull(yCbCrMatrix)) {
+            String message = "Param YCbCr Matrix could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
+        }
+    }
+
+    public Matrix<Pixel> upsampling(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        validateMacroBlock(macroBlockYCbCr);
+
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
 
         for (int n = 0; n < NUM_8x8_BLOCKS; ++n) {
@@ -81,5 +111,37 @@ public class DownsamplingComponent {
         }
 
         return yCbCrMatrix;
+    }
+
+    private void validateMacroBlock(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        if (Objects.isNull(macroBlockYCbCr)) {
+            String message = "Param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UPSAMPLING_FAILURE);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getyBlocks())) {
+            String message = "List of Y block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UPSAMPLING_FAILURE);
+        }
+
+        if (macroBlockYCbCr.getyBlocks().size() != 4) {
+            String message = "Param MacroBlock YCbCr should have 4 Y blocks";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UPSAMPLING_FAILURE);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getCbBlock())) {
+            String message = "Cb block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UPSAMPLING_FAILURE);
+        }
+
+        if (Objects.isNull(macroBlockYCbCr.getCrBlock())) {
+            String message = "Cr block from param MacroBlock YCbCr could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.UPSAMPLING_FAILURE);
+        }
     }
 }

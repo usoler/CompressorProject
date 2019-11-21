@@ -1,8 +1,15 @@
 package domain.components;
 
 import domain.dataStructure.Matrix;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class QuantizationComponent {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuantizationComponent.class);
     private static final Matrix<Float> quantizationMatrix = initQuantizationMatrix();
 
     private static Matrix<Float> initQuantizationMatrix() {
@@ -83,7 +90,8 @@ public class QuantizationComponent {
         return quantizationMatrix;
     }
 
-    public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) {
+    public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) throws CompressorException {
+        checkDctMatrix(dctMatrix);
         Matrix<Float> quantizedMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
 
         for (int i = 0; i < 8; ++i) {
@@ -96,7 +104,16 @@ public class QuantizationComponent {
         return quantizedMatrix;
     }
 
-    public Matrix<Integer> desquantizeMatrix(Matrix<Integer> quantizedMatrix) {
+    private void checkDctMatrix(Matrix<Float> dctMatrix) throws CompressorException {
+        if (Objects.isNull(dctMatrix)) {
+            String message = "DCT Matrix could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.QUANTIZE_FAILURE);
+        }
+    }
+
+    public Matrix<Integer> dequantizeMatrix(Matrix<Integer> quantizedMatrix) throws CompressorException {
+        checkQuantizedMatrix(quantizedMatrix);
         Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
 
         for (int i = 0; i < 8; ++i) {
@@ -107,6 +124,14 @@ public class QuantizationComponent {
         }
 
         return desquantizedMatrix;
+    }
+
+    private void checkQuantizedMatrix(Matrix<Integer> quantizedMatrix) throws CompressorException {
+        if (Objects.isNull(quantizedMatrix)) {
+            String message = "Quantized Matrix could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.DEQUANTIZE_FAILURE);
+        }
     }
 
 }
