@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_compressorproject" default="compile.module.compressorproject">
+  <dirname property="module.compressorproject.basedir" file="${ant.file.module_compressorproject}"/>
+  
+  <property name="module.jdk.home.compressorproject" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.compressorproject" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.compressorproject" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.compressorproject" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="compressorproject.output.dir" value="${module.compressorproject.basedir}/out/production/CompressorProject"/>
+  <property name="compressorproject.testoutput.dir" value="${module.compressorproject.basedir}/out/test/CompressorProject"/>
+  
+  <path id="compressorproject.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="compressorproject.module.production.classpath">
+    <path refid="${module.jdk.classpath.compressorproject}"/>
+    <pathelement location="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-simple-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="compressorproject.runtime.production.module.classpath">
+    <pathelement location="${compressorproject.output.dir}"/>
+    <pathelement location="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-simple-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="compressorproject.module.classpath">
+    <path refid="${module.jdk.classpath.compressorproject}"/>
+    <pathelement location="${compressorproject.output.dir}"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-simple-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="compressorproject.runtime.module.classpath">
+    <pathelement location="${compressorproject.testoutput.dir}"/>
+    <pathelement location="${compressorproject.output.dir}"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-api-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/slf4j-simple-1.7.2.jar"/>
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.compressorproject">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.compressorproject">
+    <patternset refid="excluded.from.module.compressorproject"/>
+  </patternset>
+  
+  <path id="compressorproject.module.sourcepath">
+    <dirset dir="${module.compressorproject.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="compressorproject.module.test.sourcepath">
+    <dirset dir="${module.compressorproject.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.compressorproject" depends="compile.module.compressorproject.production,compile.module.compressorproject.tests" description="Compile module CompressorProject"/>
+  
+  <target name="compile.module.compressorproject.production" depends="register.custom.compilers" description="Compile module CompressorProject; production classes">
+    <mkdir dir="${compressorproject.output.dir}"/>
+    <javac2 destdir="${compressorproject.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.compressorproject}/javac">
+      <compilerarg line="${compiler.args.compressorproject}"/>
+      <bootclasspath refid="compressorproject.module.bootclasspath"/>
+      <classpath refid="compressorproject.module.production.classpath"/>
+      <src refid="compressorproject.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.compressorproject"/>
+    </javac2>
+    
+    <copy todir="${compressorproject.output.dir}">
+      <fileset dir="${module.compressorproject.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.compressorproject.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.compressorproject.tests" depends="register.custom.compilers,compile.module.compressorproject.production" description="compile module CompressorProject; test classes" unless="skip.tests">
+    <mkdir dir="${compressorproject.testoutput.dir}"/>
+    <javac2 destdir="${compressorproject.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.compressorproject}/javac">
+      <compilerarg line="${compiler.args.compressorproject}"/>
+      <bootclasspath refid="compressorproject.module.bootclasspath"/>
+      <classpath refid="compressorproject.module.classpath"/>
+      <src refid="compressorproject.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.compressorproject"/>
+    </javac2>
+    
+    <copy todir="${compressorproject.testoutput.dir}">
+      <fileset dir="${module.compressorproject.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.compressorproject.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.compressorproject" description="cleanup module">
+    <delete dir="${compressorproject.output.dir}"/>
+    <delete dir="${compressorproject.testoutput.dir}"/>
+  </target>
+</project>
