@@ -14,7 +14,6 @@ public class Table extends Panel {
         for (int i = 0; i < params.length; ++i) {
             labels.add(new Label(params[i]));
             labels.get(i).setEnabled(true);
-            labels.get(i).setSize(new Dimension(labels.get(i).getWidth() + 2, labels.get(i).getHeight() + 2));
             add(labels.get(i));
         }
     }

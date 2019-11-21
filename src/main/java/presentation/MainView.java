@@ -3,7 +3,6 @@ package presentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -103,23 +102,52 @@ public class MainView {
     private void initRightPanel() {
         LOGGER.debug("Initiating Right Panel");
 
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
+        rightPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = GridBagConstraints.FIRST_LINE_END;
         initToolBarPanel();
-        initHistoryPanel();
+        rightPanel.add(toolBarPanel, gridBagConstraints);
 
-        rightPanel.add(toolBarPanel);
-        rightPanel.add(historyPanel);
+        initHistoryPanel();
+        gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
+        gridBagConstraints.insets = new Insets(50, 20, 0, 0);
+        rightPanel.add(historyPanel, gridBagConstraints);
+
         //rightPanel.add(dataFilePanel);
     }
 
     private void initLeftPanel() {
         LOGGER.debug("Initiating Left Panel");
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.ipady = 70;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.insets = new Insets(10,10,0,10);
         dragAndDropButtonComponent.setMaximumSize(new Dimension(125, 125));
         stadisticalsButtonComponent.setMaximumSize(new Dimension(125, 30));
-        leftPanel.add(dragAndDropButtonComponent);
-        leftPanel.add(stadisticalsButtonComponent);
+        leftPanel.add(dragAndDropButtonComponent, gridBagConstraints);
+
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new Insets(110,5,0,5);
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.ipady = 1;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 1;
+        leftPanel.add(stadisticalsButtonComponent, gridBagConstraints);
     }
 
     private void initToolBarPanel() {
@@ -131,29 +159,59 @@ public class MainView {
 
     private void initHistoryPanel() {
         LOGGER.debug("Initiating History Panel");
+        historyPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
+        // ALL FILES
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        historyPanel.add(historyLabelComponent, gridBagConstraints);
 
-        ScrollPane scrollPane = new ScrollPane();
+        // Table
+        gridBagConstraints.insets = new Insets(10,0,0,0);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.gridy = 1;
+        Table table = new Table(new String[]{"NAME", "TYPE", "DATE", "SIZE"});
+        table.setLayout(new GridLayout());
+        historyPanel.add(table, gridBagConstraints);
+
+        // ScrollPane
+        gridBagConstraints.insets = new Insets(5,0,0,0);
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 1;
+        ScrollPane scrollPane = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
         String[] params = new String[]{"Filename", "PPM", "12/12/12", "2MB"};
-        Table table = new Table(params);
+
+        Table table1 = new Table(params);
         Table table2 = new Table(params);
         Table table3 = new Table(params);
-        table.setLayout(new GridLayout());
+        Table table4 = new Table(params);
+        Table table5 = new Table(params);
+
+        table1.setLayout(new GridLayout());
         table2.setLayout(new GridLayout());
         table3.setLayout(new GridLayout());
-        Panel gridPanel = new Panel(new GridLayout(0, 1, 2, 2));
-        gridPanel.add(table);
+        table4.setLayout(new GridLayout());
+        table5.setLayout(new GridLayout());
+
+        Panel gridPanel = new Panel(new GridLayout(0, 1, 1, 1));
+        gridPanel.add(table1);
         gridPanel.add(table2);
         gridPanel.add(table3);
+        gridPanel.add(table4);
+        gridPanel.add(table5);
 
-//        table.setPreferredSize(new Dimension(500,400));
         scrollPane.add(gridPanel);
-//        scrollPane.setPreferredSize(new Dimension(500,200));
+        scrollPane.setSize(75,75);
 
-        historyPanel.add(historyLabelComponent);
-        historyPanel.add(new Table(new String[]{"NAME", "TYPE", "DATE", "SIZE"}));
-        historyPanel.add(scrollPane);
-        historyPanel.setLayout(new BoxLayout(historyPanel, BoxLayout.Y_AXIS));
-//        historyPanel.setPreferredSize(new Dimension(500, 200));
+        historyPanel.add(scrollPane, gridBagConstraints);
     }
 }
