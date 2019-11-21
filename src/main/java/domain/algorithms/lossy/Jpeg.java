@@ -30,7 +30,8 @@ import java.util.List;
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
 // DONE: Bug star_field. Fallo debido a obtener mal width y height.
 // DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
-// TODO: maybe bug with feep image?
+// TODO: fix unit test in PPM component
+// TODO: maybe bug with feep image ??.
 // TODO: bug with sines image
 
 public class Jpeg implements AlgorithmInterface {

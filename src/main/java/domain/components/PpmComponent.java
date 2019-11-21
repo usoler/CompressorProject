@@ -20,7 +20,6 @@ public class PpmComponent {
      * @return the pixel matrixof the PPM file data
      * @throws CompressorException if any error occurs
      */
-    // TODO: check if it works
     public PpmResponse readPpmFile(String data) throws CompressorException {
         checkData(data);
 
