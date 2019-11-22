@@ -28,6 +28,12 @@ public class MainView {
     private Button searchButtonComponent;
     private TextField searchTextFieldComponent;
     private Label historyLabelComponent;
+    private Button compressButtonComponent;
+    private Button uncrompressButtonComponent;
+    private Button pauseButtonComponent;
+    private Button stopButtonComponent;
+    private Button restartButtonComponent;
+    private Choice algorithmChoiceComponent;
 
     public MainView(PresentationController controller) {
         LOGGER.debug("Constructing Main View");
@@ -36,11 +42,11 @@ public class MainView {
         viewFrame = new Frame("Compressor Application");
         viewPanel = new Panel(new BorderLayout(4, 4));
 
-//        rightPanel = new Panel(new FlowLayout(FlowLayout.RIGHT));
         rightPanel = new Panel();
         leftPanel = new Panel();
         toolBarPanel = new Panel(new FlowLayout(FlowLayout.RIGHT));
         historyPanel = new Panel();
+        dataFilePanel = new Panel();
 
         dragAndDropButtonComponent = new Button("DRAG & DROP");
         stadisticalsButtonComponent = new Button("STATS");
@@ -48,6 +54,13 @@ public class MainView {
         searchButtonComponent = new Button("SEARCH");
         searchTextFieldComponent = new TextField(20);
         historyLabelComponent = new Label("ALL FILES");
+
+        compressButtonComponent = new Button("Compress");
+        uncrompressButtonComponent = new Button("Uncompress");
+        pauseButtonComponent = new Button("Pause");
+        stopButtonComponent = new Button("Stop");
+        restartButtonComponent = new Button("Restart");
+        algorithmChoiceComponent = new Choice();
 
         initComponents();
 
@@ -119,7 +132,10 @@ public class MainView {
         gridBagConstraints.insets = new Insets(50, 20, 0, 0);
         rightPanel.add(historyPanel, gridBagConstraints);
 
-        //rightPanel.add(dataFilePanel);
+        initDataFilePanel();
+        gridBagConstraints.anchor = GridBagConstraints.SOUTHWEST;
+        gridBagConstraints.insets = new Insets(0, 0, 20, 5);
+        rightPanel.add(dataFilePanel, gridBagConstraints);
     }
 
     private void initLeftPanel() {
@@ -133,13 +149,13 @@ public class MainView {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 3;
-        gridBagConstraints.insets = new Insets(10,10,0,10);
+        gridBagConstraints.insets = new Insets(10, 10, 0, 10);
         dragAndDropButtonComponent.setMaximumSize(new Dimension(125, 125));
         stadisticalsButtonComponent.setMaximumSize(new Dimension(125, 30));
         leftPanel.add(dragAndDropButtonComponent, gridBagConstraints);
 
         gridBagConstraints.anchor = GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new Insets(110,5,0,5);
+        gridBagConstraints.insets = new Insets(110, 5, 0, 5);
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
@@ -173,7 +189,7 @@ public class MainView {
         historyPanel.add(historyLabelComponent, gridBagConstraints);
 
         // Table
-        gridBagConstraints.insets = new Insets(10,0,0,0);
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.gridy = 1;
@@ -182,13 +198,13 @@ public class MainView {
         historyPanel.add(table, gridBagConstraints);
 
         // ScrollPane
-        gridBagConstraints.insets = new Insets(5,0,0,0);
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
         ScrollPane scrollPane = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
-        String[] params = new String[]{"Filename", "PPM", "12/12/12", "2MB"};
+        /*String[] params = new String[]{"Filename", "PPM", "12/12/12", "2MB"};
 
         Table table1 = new Table(params);
         Table table2 = new Table(params);
@@ -200,18 +216,39 @@ public class MainView {
         table2.setLayout(new GridLayout());
         table3.setLayout(new GridLayout());
         table4.setLayout(new GridLayout());
-        table5.setLayout(new GridLayout());
+        table5.setLayout(new GridLayout());*/
 
         Panel gridPanel = new Panel(new GridLayout(0, 1, 1, 1));
-        gridPanel.add(table1);
+        /*gridPanel.add(table1);
         gridPanel.add(table2);
         gridPanel.add(table3);
         gridPanel.add(table4);
-        gridPanel.add(table5);
+        gridPanel.add(table5);*/
 
         scrollPane.add(gridPanel);
-        scrollPane.setSize(75,75);
+        scrollPane.setSize(75, 75);
 
         historyPanel.add(scrollPane, gridBagConstraints);
+    }
+
+    public void initDataFilePanel() {
+        LOGGER.debug("Initiating Data File Panel");
+        dataFilePanel.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.anchor = GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.5;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 1;
+
+        algorithmChoiceComponent.setBounds(100, 100, 75, 75);
+        algorithmChoiceComponent.addItem("LZ78");
+        algorithmChoiceComponent.addItem("LZW");
+        algorithmChoiceComponent.addItem("JPEG");
+
+        dataFilePanel.add(algorithmChoiceComponent, gridBagConstraints);
+        dataFilePanel.add(compressButtonComponent, gridBagConstraints);
+        dataFilePanel.add(uncrompressButtonComponent, gridBagConstraints);
+        dataFilePanel.add(stopButtonComponent, gridBagConstraints);
     }
 }
