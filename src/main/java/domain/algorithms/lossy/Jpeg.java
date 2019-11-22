@@ -21,9 +21,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+// Compresion en carpetas
+// Diseño en 3 capas: presentacion y datos
+// Swing
+// Arreglar JPEG
+// Comprobar que funciona sin intellij/compilacion
 
 // DONE: Javadoc
-// TODO: Sustituir Pair ??.
+// TODO: P6 !!!!
+// TODO: Sustituir Pair !!!.
 // TODO: Refactor tablas huffman a arrays ??.
 
 // DONE: Resolver bug snail. Fallo debido a tabla huffman

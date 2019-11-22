@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainView {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainView.class);
@@ -21,6 +25,8 @@ public class MainView {
     private Panel toolBarPanel;
     private Panel historyPanel;
     private Panel dataFilePanel;
+
+    private Panel tablePanel;
 
     private Button dragAndDropButtonComponent; // TODO: provisional
     private Button stadisticalsButtonComponent;
@@ -47,6 +53,7 @@ public class MainView {
         toolBarPanel = new Panel(new FlowLayout(FlowLayout.RIGHT));
         historyPanel = new Panel();
         dataFilePanel = new Panel();
+        tablePanel = new Panel(new GridLayout(0, 1, 1, 1));
 
         dragAndDropButtonComponent = new Button("DRAG & DROP");
         stadisticalsButtonComponent = new Button("STATS");
@@ -87,7 +94,54 @@ public class MainView {
         initViewPanel();
         initRightPanel();
         initLeftPanel();
+
+        addListeners();
         LOGGER.debug("Graphical components iniciated");
+    }
+
+    private void addListeners() {
+        LOGGER.debug("Adding component listeners");
+        addListenerToAddFileButtonComponent();
+        LOGGER.debug("Component listeners added");
+    }
+
+    private void addListenerToAddFileButtonComponent() {
+        LOGGER.debug("Adding listener to Add File Button Component");
+        addFileButtonComponent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionPerformedAddFile();
+            }
+        });
+        LOGGER.debug("Add File Button Component listener added");
+    }
+
+    private void actionPerformedAddFile() {
+        LOGGER.debug("Executing action performed Add File");
+        FileDialog fileDialog = new FileDialog(viewFrame, "Select file");
+        fileDialog.setVisible(true);
+        String pathname = fileDialog.getDirectory() + fileDialog.getFile();
+        LOGGER.debug("Pathname: {}", pathname);
+        presentationController.addFile(pathname);
+        addFileToHistory(fileDialog.getFile());
+        LOGGER.debug("Action performed Add File executed");
+    }
+
+    // TODO: need refactor
+    private void addFileToHistory(String filename) {
+        LOGGER.debug("Adding file to the history");
+        String name = "";
+        String[] lines = filename.split("\\.");
+        for (int i = 0; i < lines.length - 1; ++i) {
+            name = lines[i];
+        }
+        String type = lines[lines.length - 1];
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = dateFormat.format(new Date());
+        String size = "2MB";
+        Table table = new Table(new String[]{name, type, date, size});
+        tablePanel.add(table);
+        LOGGER.debug("File added to the history");
     }
 
     private void initViewFrame() {
@@ -218,14 +272,14 @@ public class MainView {
         table4.setLayout(new GridLayout());
         table5.setLayout(new GridLayout());*/
 
-        Panel gridPanel = new Panel(new GridLayout(0, 1, 1, 1));
+        //Panel gridPanel = new Panel(new GridLayout(0, 1, 1, 1));
         /*gridPanel.add(table1);
         gridPanel.add(table2);
         gridPanel.add(table3);
         gridPanel.add(table4);
         gridPanel.add(table5);*/
 
-        scrollPane.add(gridPanel);
+        scrollPane.add(tablePanel);
         scrollPane.setSize(75, 75);
 
         historyPanel.add(scrollPane, gridBagConstraints);

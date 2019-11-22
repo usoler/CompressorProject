@@ -23,4 +23,10 @@ public class PresentationController {
         mainView.show();
         LOGGER.debug("Presentation Controller initiated");
     }
+
+    public void addFile(String pathname) {
+        LOGGER.debug("Calling Add File from Domain Controller");
+        domainController.addFile(pathname);
+        LOGGER.debug("Add file from Domain Controller called");
+    }
 }
