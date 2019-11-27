@@ -2,15 +2,11 @@ package domain.algorithms.lossy;
 
 import domain.algorithms.AlgorithmInterface;
 import domain.components.*;
-import domain.dataObjects.CoefficientEnum;
-import domain.dataObjects.Pixel;
-import domain.dataObjects.PpmFile;
-import domain.dataObjects.PpmResponse;
+import domain.dataObjects.*;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +27,7 @@ import java.util.List;
 // DONE: Javadoc
 // DONE: P6 lectura
 // TODO: P6 escritura
-// TODO: Sustituir Pair !!!.
+// DONE: Sustituir Pair
 
 // DONE: Resolver bug snail. Fallo debido a tabla huffman
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
