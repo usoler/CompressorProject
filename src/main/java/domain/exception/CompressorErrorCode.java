@@ -9,6 +9,8 @@ public enum CompressorErrorCode {
     READ_PPM_FAILURE("1000"),
     // Failure to write ppm file
     WRITE_PPM_FAILURE("1001"),
+    // Compatibility magic number failure
+    PPM_COMPATIBILITY_FAILURE("1014"),
     // ******************************************
     // Conversor YCbCr Component
     // ******************************************

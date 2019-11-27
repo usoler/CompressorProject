@@ -4,6 +4,7 @@ import domain.algorithms.AlgorithmInterface;
 import domain.components.*;
 import domain.dataObjects.CoefficientEnum;
 import domain.dataObjects.Pixel;
+import domain.dataObjects.PpmFile;
 import domain.dataObjects.PpmResponse;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
@@ -28,14 +29,15 @@ import java.util.List;
 // Comprobar que funciona sin intellij/compilacion
 
 // DONE: Javadoc
-// TODO: P6 !!!!
+// DONE: P6 lectura
+// TODO: P6 escritura
 // TODO: Sustituir Pair !!!.
-// TODO: Refactor tablas huffman a arrays ??.
 
 // DONE: Resolver bug snail. Fallo debido a tabla huffman
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
 // DONE: Bug star_field. Fallo debido a obtener mal width y height.
 // DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
+// TODO: bug restructuring images not mod 16
 // TODO: fix unit test in PPM component
 // TODO: maybe bug with feep image ??.
 // TODO: bug with sines image
@@ -62,26 +64,27 @@ public class Jpeg implements AlgorithmInterface {
     public byte[] encode(byte[] data) throws CompressorException {
         // ENCODING WITH JPEG
         LOGGER.info("Encoding file with JPEG algorithm");
-        String file = new String(data, StandardCharsets.UTF_8);
+        String file = new String(data, StandardCharsets.US_ASCII);
 
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
         // 0. Read PPM file
-        PpmResponse ppmResponse = ppmComponent.readPpmFile(file);
-        //Matrix<Pixel> rgbMatrix = ppmComponent.readPpmFile(file);
+        PpmResponse ppmResponse = ppmComponent.readPpmFile(data);
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        //byte[] height = BigInteger.valueOf(rgbMatrix.getNumberOfColumns()).toByteArray();
         byte[] height = BigInteger.valueOf(ppmResponse.getHeight()).toByteArray();
-        //byte[] width = BigInteger.valueOf(rgbMatrix.getNumberOfRows()).toByteArray();
         byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
         byte heightSize = (byte) height.length;
         byte widthSize = (byte) width.length;
-        byteArrayOutputStream.write(heightSize);
+        //byteArrayOutputStream.write(heightSize);
         byteArrayOutputStream.write(widthSize);
+        byteArrayOutputStream.write(heightSize);
+
         try {
+            //byteArrayOutputStream.write(height);
+            byteArrayOutputStream.write(width); // TODO: check if it works
             byteArrayOutputStream.write(height);
-            byteArrayOutputStream.write(width);
         } catch (IOException ex) {
             String message = "Error writting bytes into byte array output stream";
             LOGGER.error(message);
@@ -89,7 +92,6 @@ public class Jpeg implements AlgorithmInterface {
         }
 
         // 1. Color conversion
-        //Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(rgbMatrix);
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(ppmResponse.getMatrix());
 
         // 2. Downsampling

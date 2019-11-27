@@ -4,11 +4,13 @@ import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 public class MainJPEG {
 
-    public static void main(String[] args) throws CompressorException {
+    public static void main(String[] args) throws Exception {
         System.out.println("COMPRESSOR 3000");
         System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
         System.out.println("DEVELOPERS ARE:");
@@ -70,7 +72,8 @@ public class MainJPEG {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
-        byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
+        //byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
+        byte[] encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(path).toPath()));
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
         String compressedName = projectPath + "/output/" + scanner.next() + ".JPEG";
 
