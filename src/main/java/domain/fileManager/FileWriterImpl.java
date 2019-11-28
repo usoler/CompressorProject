@@ -51,16 +51,6 @@ public class FileWriterImpl {
         }
     }
 
-    public static void writeCompressedToFile(CompressedFile file, boolean append_value) throws CompressorException {
-        //Removes "input/" from pathname and set its to "output/"
-        String newPathname = "output" + "/" + file.getPathname().substring(6, file.getPathname().length());
-        FileWriter writer = getFileWriter(append_value, newPathname);
-        PrintWriter print_line = new PrintWriter(writer);
-
-        print_line.printf("%s" + "%n", file.getOutputStream());
-
-        print_line.close();
-    }
 
     private static FileWriter getFileWriter(boolean append_value, String newPathname) throws CompressorException {
         try {

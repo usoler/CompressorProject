@@ -16,11 +16,6 @@ public class FileCreator {
         fileManager.setNewFile(file);
     }
 
-    public void createCompressedFile(OutputStream oStream, String pathname) {
-        CompressedFile file = new CompressedFile(pathname, oStream);
-        fileManager.setNewCompressedFile(file);
-    }
-
     public void createWorkingFolder(String path) {
         new File(path + "/OUTPUT").mkdir();
     }

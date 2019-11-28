@@ -2,22 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/input/star_field.ascii.ppm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/JPEGTest/black.ppm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/input/16x16.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/black16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/input/black16x16.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/prueba.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/input/prueba.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/16x16.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/16x16.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/16x16.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/black16x16.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/black16x16.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/black16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/black16x16.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/blackbuck.ascii.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/blackbuck.ascii.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/blackbuck.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/blackbuck.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/pbmlib.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/pbmlib.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/JPEGTest/pbmlib.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/output/JPEGTest/pbmlib.ppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -202,11 +199,6 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java</url>
           <line>52</line>
           <option name="timeStamp" value="174" />
@@ -215,11 +207,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java</url>
           <line>166</line>
           <option name="timeStamp" value="199" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="201" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -233,7 +220,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CompressorProject2$Main.ic" NAME="Main Coverage Results" MODIFIED="1572464417627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/CompressorProject$Main.ic" NAME="Main Coverage Results" MODIFIED="1573984456988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/CompressorProject2$Main.ic" NAME="Main Coverage Results" MODIFIED="1572464417627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -14,11 +14,9 @@ public class FileManager {
     static private FileWriterImpl fileWriter;
     static private FileCreator fileCreator;
     private List<FileImpl> listOfFiles;
-    private List<CompressedFile> listOfCompressedFiles;
 
     public FileManager() {
         listOfFiles = new ArrayList<FileImpl>();
-        listOfCompressedFiles = new ArrayList<CompressedFile>();
         fileCreator = new FileCreator(this);
         fileReader = new FileReader(fileCreator);
         fileWriter = new FileWriterImpl();
@@ -44,23 +42,10 @@ public class FileManager {
         return null;
     }
 
-    private CompressedFile findCompressedFileWithPathname(String pathname) {
-        for (CompressedFile file : listOfCompressedFiles) {
-            if (file.getPathname().equals(pathname)) {
-                return file;
-            }
-        }
-        System.out.println("FILE NOT FOUND");
-        return null;
-    }
-
     public FileImpl getFile(String pathname) {
         return findFileWithPathname(pathname);
     }
 
-    public CompressedFile getCompressedFile(String pathname) {
-        return findCompressedFileWithPathname(pathname);
-    }
 
     public void readFile(String pathname) {
         fileReader.readSpecificFile(pathname);
@@ -70,20 +55,12 @@ public class FileManager {
         fileCreator.createFileImpl(data, pathname);
     }
 
-    public void createCompressedFile(OutputStream oStream, String pathname) {
-        fileCreator.createCompressedFile(oStream, pathname);
-    }
 
     public void writeFile(String pathname, boolean append_value) throws CompressorException {
         FileImpl file = findFileWithPathname(pathname);
         fileWriter.writeToFile(file, append_value);
     }
 
-    public void writeCompressedFile(String pathname, boolean append_value) throws CompressorException {
-        CompressedFile file = findCompressedFileWithPathname(pathname);
-        fileWriter.writeCompressedToFile(file, append_value);
-
-    }
 
     public void readFolder(String pathname) {
         fileReader.readAllFilesFromFolder(pathname);
@@ -93,9 +70,6 @@ public class FileManager {
         listOfFiles.add(file);
     }
 
-    public void setNewCompressedFile(CompressedFile file) {
-        listOfCompressedFiles.add(file);
-    }
 
     public List<FileImpl> getListOfFiles() {
         return listOfFiles;
