@@ -29,17 +29,19 @@ import java.util.List;
 
 // DONE: Javadoc
 // DONE: P6 lectura
-// TODO: P6 escritura
+// DONE: P6 escritura
 // DONE: Sustituir Pair
 
 // DONE: Resolver bug snail. Fallo debido a tabla huffman
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
 // DONE: Bug star_field. Fallo debido a obtener mal width y height.
 // DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
-// TODO: bug restructuring images not mod 16
 // TODO: fix unit test in PPM component
-// TODO: maybe bug with feep image ??.
+// TODO: javadoc
 // TODO: bug with sines image
+
+// BUGS
+// DONE: sign_1.ppm (imagen no mod 16)
 
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
@@ -387,9 +389,9 @@ public class Jpeg implements AlgorithmInterface {
         int m = 0;
         for (int n = 0; n < blocksOfPixelMatrix16x16.size(); ++n) {
             s = originS;
-            for (int y = 0; y < Math.min(16, height); ++y, ++s) {
+            for (int y = 0; (y < Math.min(16, height)) && (s < height); ++y, ++s) {
                 m = originM;
-                for (int x = 0; x < Math.min(16, width); ++x, ++m) {
+                for (int x = 0; (x < Math.min(16, width)) && (m < width); ++x, ++m) {
                     yCbCrMatrix.setElementAt(blocksOfPixelMatrix16x16.get(n).getElementAt(y, x), s, m);
                 }
             }

@@ -33,6 +33,7 @@ public class PpmComponent {
                     character = (char) data[k];
                 }
                 ++k;
+                character = (char) data[k];
             }
 
             // Get value
