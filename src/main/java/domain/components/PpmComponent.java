@@ -9,6 +9,8 @@ import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -45,14 +47,10 @@ public class PpmComponent {
         }
         byte[] content = new byte[data.length - k];
         System.arraycopy(data, k, content, 0, data.length - k);
-        //return new PpmFile(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Arrays.copyOfRange(data, k, data.length));
         return new PpmFile(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), content);
     }
 
     private PpmResponse readPpmFileP6(byte[] data, int originalWidth, int originalHeight, Matrix<Pixel> pixels) {
-        //byte[] data = elements.getBytes();
-        //StringBuffer dataBuffer = new StringBuffer(elements);
-
         int width = pixels.getNumberOfColumns();
         int height = pixels.getNumberOfRows();
 
@@ -60,12 +58,6 @@ public class PpmComponent {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 if (i < originalHeight && j < originalWidth) {
-                    //float red = new Integer(dataBuffer.charAt(k)).floatValue();
-                    //float green = new Integer(dataBuffer.charAt(k + 1)).floatValue();
-                    //float blue = new Integer(dataBuffer.charAt(k + 2)).floatValue();
-                    //int red = data[k] & 0xff;
-                    //int red3 = data[k] + 256;
-                    //float red2 = (float) data[k];
                     float red = data[k] & 0xff;
                     float green = data[k + 1] & 0xff;
                     float blue = data[k + 2] & 0xff;
@@ -80,29 +72,16 @@ public class PpmComponent {
             }
         }
 
-        return new PpmResponse(originalWidth, originalHeight, pixels);
+        return new PpmResponse(6, originalWidth, originalHeight, pixels);
     }
 
     // TODO: javadoc
     public PpmResponse readPpmFile(byte[] data) throws CompressorException {
         //checkData(data); // TODO: check data
 
-        //String dataWithoutComments = removeComments(data);
-
-        //String[] parts = dataWithoutComments.split("\\s+", 5);
-
-        // ------------------------------------------
-        // parts[0] -> magic number (P3/P6)
-        // parts[1] -> image width
-        // parts[2] -> image height
-        // parts[3] -> color max value in a pixel       // ignored
-        // parts[4] -> pixel information
-        // ------------------------------------------
-
         PpmFile ppmFile = readPpmHeader(data);
 
-        //int originalWidth = Integer.parseInt(parts[1]);
-        //int originalHeight = Integer.parseInt(parts[2]);
+
         int originalWidth = ppmFile.getWidth();
         int originalHeight = ppmFile.getHeight();
 
@@ -122,7 +101,6 @@ public class PpmComponent {
         if ("P3".equals(ppmFile.getMagicNumber())) {
             return readPpmFileP3(new String(ppmFile.getImageData(), StandardCharsets.US_ASCII).split("\\s+"), originalWidth, originalHeight, pixels);
         } else if ("P6".equals(ppmFile.getMagicNumber())) {
-            //return readPpmFileP6(parts[4], originalWidth, originalHeight, pixels);
             return readPpmFileP6(ppmFile.getImageData(), originalWidth, originalHeight, pixels);
         } else {
             String message = "PPM magic number is not supported: '{}'";
@@ -153,7 +131,7 @@ public class PpmComponent {
             }
         }
 
-        return new PpmResponse(originalWidth, originalHeight, pixels);
+        return new PpmResponse(3, originalWidth, originalHeight, pixels);
     }
 
     private void checkData(String data) throws CompressorException {
@@ -164,26 +142,7 @@ public class PpmComponent {
         }
     }
 
-    private String removeComments(String data) {
-        return data.replaceAll("#.*\n", "");
-    }
-
-    private String removeLines(String data) {
-        return data.replaceAll("\t?\n?", "");
-    }
-
-    /**
-     * Write a PPM file given a RGB Matrix
-     *
-     * @param height    the height of the image
-     * @param width     the width of the image
-     * @param rgbMatrix the RGB Matrix to write into the PPM file
-     * @return the PPM file obtained by the RGB Matrix
-     * @throws CompressorException if any error occurs
-     */
-    public String writePpmFile(int height, int width, Matrix<Pixel> rgbMatrix) throws CompressorException {
-        checkRgbMatrix(rgbMatrix);
-
+    private byte[] writePpmFileP3(int height, int width, Matrix<Pixel> rgbMatrix) throws CompressorException {
         String response = "P3\n" + width + " " + height + "\n255\n";
         StringBuffer buffer = new StringBuffer(response);
         int cont = 0;
@@ -214,7 +173,63 @@ public class PpmComponent {
                 buffer.append("\n");
             }
         }
-        return buffer.toString();
+
+        return buffer.toString().getBytes();
+    }
+
+    private byte[] writePpmFileP6(int height, int width, Matrix<Pixel> rgbMatrix) throws CompressorException {
+        String response = "P6\n" + width + " " + height + "\n255\n";
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        try {
+            buffer.write(response.getBytes());
+        } catch (IOException ex) {
+            String message = "Error writting buffer into byte array output stream";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.WRITE_PPM_FAILURE);
+        }
+
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                Pixel pixel = rgbMatrix.getElementAt(i, j);
+
+                checkPixel(i, j, pixel);
+
+                int red = Math.round(pixel.getX());
+                int green = Math.round(pixel.getY());
+                int blue = Math.round(pixel.getZ());
+
+                buffer.write(red);
+                buffer.write(green);
+                buffer.write(blue);
+            }
+        }
+        return buffer.toByteArray();
+    }
+
+    /**
+     * Write a PPM file given a RGB Matrix
+     *
+     * @param magicNumber the magic number of the image
+     * @param height      the height of the image
+     * @param width       the width of the image
+     * @param rgbMatrix   the RGB Matrix to write into the PPM file
+     * @return the PPM file obtained by the RGB Matrix
+     * @throws CompressorException if any error occurs
+     */
+    public byte[] writePpmFile(int magicNumber, int height, int width, Matrix<Pixel> rgbMatrix) throws CompressorException {
+        checkRgbMatrix(rgbMatrix);
+
+        switch (magicNumber) {
+            case 3:
+                return writePpmFileP3(height, width, rgbMatrix);
+            case 6:
+                return writePpmFileP6(height, width, rgbMatrix);
+            default:
+                String message = "PPM magic number is not supported: '{}'";
+                LOGGER.error(message, magicNumber);
+                throw new CompressorException(message, CompressorErrorCode.PPM_COMPATIBILITY_FAILURE);
+        }
     }
 
     private void checkPixel(int i, int j, Pixel pixel) throws CompressorException {

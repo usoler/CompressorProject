@@ -2,7 +2,10 @@ package domain.algorithms.lossy;
 
 import domain.algorithms.AlgorithmInterface;
 import domain.components.*;
-import domain.dataObjects.*;
+import domain.dataObjects.CoefficientEnum;
+import domain.dataObjects.Pair;
+import domain.dataObjects.Pixel;
+import domain.dataObjects.PpmResponse;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
@@ -69,6 +72,14 @@ public class Jpeg implements AlgorithmInterface {
         PpmResponse ppmResponse = ppmComponent.readPpmFile(data);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] magicNumber = BigInteger.valueOf(ppmResponse.getMagicNumber()).toByteArray();
+        try {
+            byteArrayOutputStream.write(magicNumber);
+        } catch (IOException e) {
+            String message = "Error writting bytes into byte array output stream";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
+        }
         byte[] height = BigInteger.valueOf(ppmResponse.getHeight()).toByteArray();
         byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
         byte heightSize = (byte) height.length;
@@ -229,19 +240,21 @@ public class Jpeg implements AlgorithmInterface {
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 
         // 0. Read JPEG file
-        byte[] widthSize = {data[0]};
+        byte[] magicNumberByte = {data[0]};
+        int magicNumber = Integer.parseInt(new BigInteger(magicNumberByte).toString(2), 2);
+        byte[] widthSize = {data[1]};
         String widthSizeBinary = new BigInteger(widthSize).toString(2);
         int widthNumOfBytes = Integer.parseInt(widthSizeBinary, 2);
-        byte[] heightSize = {data[1]};
+        byte[] heightSize = {data[2]};
         String heightSizeBinary = new BigInteger(heightSize).toString(2);
         int heightNumOfBytes = Integer.parseInt(heightSizeBinary, 2);
 
-        byte[] widthBytes = Arrays.copyOfRange(data, 2, 2 + widthNumOfBytes);
+        byte[] widthBytes = Arrays.copyOfRange(data, 3, 3 + widthNumOfBytes);
         String widthBinary = new BigInteger(widthBytes).toString(2);
-        byte[] heightBytes = Arrays.copyOfRange(data, 2 + widthNumOfBytes, 2 + widthNumOfBytes + heightNumOfBytes);
+        byte[] heightBytes = Arrays.copyOfRange(data, 3 + widthNumOfBytes, 3 + widthNumOfBytes + heightNumOfBytes);
         String heightBinary = new BigInteger(heightBytes).toString(2);
 
-        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 2 + heightNumOfBytes + widthNumOfBytes, data.length)).toString(2));
+        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 3 + heightNumOfBytes + widthNumOfBytes, data.length)).toString(2));
         StringBuffer workingBuffer = new StringBuffer();
 
         // 1. Entropy decoding
@@ -393,9 +406,6 @@ public class Jpeg implements AlgorithmInterface {
         Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(yCbCrMatrix);
 
         // 7. Write PPM file
-        String response = ppmComponent.writePpmFile(Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
-
-        LOGGER.info("JPEG algorithm decode finished");
-        return response.getBytes();
+        return ppmComponent.writePpmFile(magicNumber, Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
     }
 }
