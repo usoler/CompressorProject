@@ -15,14 +15,14 @@ public class Lzss extends Lz {
     @Override
     public byte[] encode(byte[] data) {
         // ENCODING WITH LZSS
-        System.out.println("Encoding file with LZSS");
+        System.out.println("ENCODING FILE WITH LZSS");
         return null;
     }
 
     @Override
     public byte[] decode(byte[] data) {
         // DECODING WITH LZSS
-        System.out.println("Decoding file with LZSS");
+        System.out.println("DECODING FILE WITH LZSS");
         return null;
     }
 }

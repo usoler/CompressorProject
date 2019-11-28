@@ -1,169 +1,126 @@
 import domain.algorithms.Algorithm;
+import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
-import domain.algorithms.lossless.Lzss;
-import domain.algorithms.lossless.Lzw;
-import domain.algorithms.lossy.Jpeg;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.List;
-
-import domain.fileManager.CompressedFile;
-import domain.fileManager.FileImpl;
-
+import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
-import domain.dataStructure.Trie;
+
+import java.util.Scanner;
 
 public class Main {
 
-    static private void trieTest() throws UnsupportedEncodingException {
-        // Example Trie Data Structure
-        Trie trie = new Trie();
-        System.out.println(String.format("Inserted word 'an' with index %s", trie.insert("an")));
-        System.out.println(String.format("Inserted word 'and' with index %s", trie.insert("and")));
-        trie.insert("hol");
-        System.out.println(String.format("Inserted word 'hol' with index %s", trie.getIndexOf("hol")));
-        trie.insert("hola");
-        System.out.println(String.format("Inserted word 'hola' with index %s", trie.getIndexOf("hola")));
 
-        trie.printTrie();
-
-        System.out.println(String.format("Index of 'an': %s", trie.getIndexOf("an")));
-        System.out.println(String.format("Index of 'and': %s", trie.getIndexOf("and")));
-        System.out.println(String.format("Index of 'hol': %s", trie.getIndexOf("hol")));
-        System.out.println(String.format("Index of 'hola': %s", trie.getIndexOf("hola")));
-
-/*
-
-        Algorithm algorithm = new Algorithm();
-        algorithm.setAlgorithmInterface(new Lz78());
-        algorithm.encodeFile(null);
-
-        algorithm.setAlgorithmInterface(new Lzss());
-        algorithm.decodeFile(null);
-
-        algorithm.setAlgorithmInterface(new Lzw());
-        algorithm.encodeFile(null);
-
-        algorithm.setAlgorithmInterface(new Jpeg());
-        algorithm.decodeFile(null);
-
- */
-    }
-
-/*
-    static public void LZ78Test()
-    {
-        Lz78 algorithm = new Lz78();
-        algorithm.createDictionary("abracadabra");
-        algorithm.printDictionary();
-    }
-    */
-
-    static public void testLZ78()
-    {
-
-    }
-
-    public static void main(String[] args) throws IOException {
-        // Example
-        MyLoggerExample logger = new MyLoggerExample();
-        //abracadabraLZ78Test();
-        test2LZ78Test();
-        logger.showLogs();
-
-
-
-
+    public static void main(String[] args) throws CompressorException {
+        // write your code here
+        System.out.println("COMPRESSOR 3000");
+        System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
+        System.out.println("DEVELOPERS ARE:");
+        System.out.println("GONZALEZ JURADO, ANGEL");
+        System.out.println("MALQUI CRUZ, MIGUEL ANGEL");
+        System.out.println("SOLER CRUZ, LUIS ORIOL");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("THIS VERSION OF THE PROGRAM COMPILES IN THE ALGORITHM LZ78");
+        System.out.println("PRESS 1 IF YOU WANT TO TEST OUR FILES");
+        System.out.println("PRESS 2 IF YOU WANT TO INSERT YOUR LOCAL FILE");
+        Scanner scanner = new Scanner(System.in);
+        int command = scanner.nextInt();
+        //Initialize program
+        String projectPath = System.getProperty("user.dir");
         FileManager fileManager = new FileManager();
-        fileManager.readFolder("input");
-        List<FileImpl> filesRead = null;
-        filesRead = fileManager.getListOfFiles();
+        String path = null;
 
-        if (filesRead.get(0) != null)
-        {
-            System.out.println("Va a escribir archivo");
-            fileManager.writeFile(filesRead.get(0),true);
-            //TODO BETTER VERSION FOR WRITING
+        switch (command) {
+            case 1:
+                System.out.println("OUR FILE IS GOING TO BE USED");
+                path = projectPath + "/TestFile.txt";
+                break;
+            case 2:
+                System.out.println("PLEASE INSERT THE LOCAL PATH OF YOUR FILE");
+                path = scanner.next();
+                System.out.println("YOUR FILE IS GOING TO BE USED");
+
+                break;
+
+            default:
+                System.out.println("ERROR. 1 OR 2 NOT RECEIVED");
+                System.out.println("CLOSING PROGRAM");
+                System.exit(0);
+                break;
+        }
+
+        fileManager.readFile(path);
+
+        System.out.println("FILE READ SUCCESSFULLY");
+        System.out.println("PRESS 1 IF YOU WANT TO SEE THE CONTENTS OF THE FILE");
+        System.out.println("PRESS 2 OR ELSE TO CONTINUE");
+        command = scanner.nextInt();
+        if (command == 1) {
+            System.out.println("THIS ARE THE CONTENTS OF THE FILE:");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+            String text = new String(fileManager.getFile(path).getData());
+            System.out.println(text);
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+        }
+
+        AlgorithmInterface lz78 = new Lz78();
+        Algorithm algorithm = new Algorithm();
+        algorithm.setAlgorithmInterface(lz78);
+
+        System.out.println("COMPRESSION IS GOING TO START");
+        System.out.println("PRESS 1 TO CONTINUE");
+        command = scanner.nextInt();
+        if (command != 1) {
+            System.out.println("CLOSING PROGRAM");
+            System.exit(0);
+        }
+        byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
+        System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
+        String compressedName = projectPath + "/output/" + scanner.next() + ".LZ78";
+
+        fileManager.createFile(encodingResult, compressedName);
+
+        fileManager.writeFile(compressedName, false);
+
+        System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE COMPRESSED");
+        System.out.println("PRESS 2 OR ELSE TO CONTINUE");
+        command = scanner.nextInt();
+        if (command == 1) {
+            System.out.println("THIS ARE THE CONTENTS OF THE FILE COMPRESSED:");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+            fileManager.readFile(compressedName);
+            String text = new String(fileManager.getFile(compressedName).getData());
+            System.out.println(text);
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }
 
 
-        //Algorithm algorithm = new Algorithm();
-        //String result = algorithm.encodeFile("abracadabra");
-        //fileManager.createFile(result,"output/LZ78Test/abracadabra");
-        //fileManager.writeFile("output/LZ78Test/abracadabra",true);
-        //algorithm.decodeFile("0;a0;b0;r1;c1;d1;b3;a");
-        //LZ78Test();
-        //trieTest();
-    }
-
-    public static void abracadabraLZ78Test()throws IOException{
-        FileManager fileManager = new FileManager();
-        Algorithm algorithm = new Algorithm();
-
-        /*
-        String resultEncoding = algorithm.encodeFile("abracadabra");
-        String pathnameEncoded = "output/LZ78Test/Encoded(abracadabra)";
-        fileManager.createFile(resultEncoding,pathnameEncoded);
-        fileManager.writeFile(pathnameEncoded,false);
-
-        FileImpl file = fileManager.getFile(pathnameEncoded);
-
-        String resultDecoding = algorithm.decodeFile(file.GetData());
-        String pathnameDecoded = "output/LZ78Test/Decoded(abracadabra)";
-        fileManager.createFile(resultDecoding,pathnameDecoded);
-        fileManager.writeFile(pathnameDecoded,false);
-
-         */
-    }
-
-
-
-    static private String bytesToBinary(byte[] bytes)
-    {
-        StringBuilder binary = new StringBuilder();
-        for (byte b : bytes)
-        {
-            int val = b;
-            for (int k = 0; k < 8; k++)
-            {
-                binary.append((val & 128) == 0 ? 0 : 1);
-                val <<= 1;
-            }
-            binary.append(' ');
+        System.out.println("DECOMPRESSION IS GOING TO START");
+        System.out.println("PRESS 1 TO CONTINUE");
+        command = scanner.nextInt();
+        if (command != 1) {
+            System.out.println("CLOSING PROGRAM");
+            System.exit(0);
         }
-        return binary.toString();
+        byte[] decodingResult = algorithm.decodeFile(fileManager.getFile(compressedName).getData());
+        System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
+        String decompressedName = projectPath + "/output/" + scanner.next();
+
+        fileManager.createFile(decodingResult, decompressedName);
+
+        fileManager.writeFile(decompressedName, false);
+
+        System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE DECOMPRESSED");
+        System.out.println("PRESS 2 OR ELSE TO CONTINUE");
+        command = scanner.nextInt();
+        if (command == 1) {
+            System.out.println("THIS ARE THE CONTENTS OF THE FILE DECOMPRESSED:");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+            fileManager.readFile(decompressedName);
+            String text = new String(fileManager.getFile(decompressedName).getData());
+            System.out.println(text);
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+        }
+        System.out.println("THANK YOU FOR USING OUR PROGRAM");
+        System.out.println("CLOSING PROGRAM");
     }
 
-    public static void test2LZ78Test() throws IOException{
-        String pathnameFolder = "input";
-        String filename = "verybig.txt";
-
-        FileManager fileManager = new FileManager();
-        fileManager.readFolder(pathnameFolder);
-        Algorithm algorithm = new Algorithm();
-
-        FileImpl fileTest = fileManager.getFile("input/"+filename);
-
-        String pathnameEncoded = "output/LZ78Test/"+filename+".LZ78";
-
-        byte[] result = algorithm.encodeFile(fileTest.getData());
-        fileManager.createFile(result,pathnameEncoded);
-        fileManager.writeFile(pathnameEncoded,false);
-
-
-        fileManager.readFolder("output");
-
-        FileImpl fileTest2 = fileManager.getFile("output/LZ78Test/"+filename+".LZ78");
-        byte[] resultDecoded = algorithm.decodeFile(fileTest2.getData());
-
-        String pathnameDecoded = "output/LZ78Test/(Decoded)"+filename;
-        fileManager.createFile(resultDecoded,pathnameDecoded);
-        fileManager.writeFile(pathnameDecoded,false);
-
-
-    }
 }
