@@ -1,9 +1,9 @@
 package domain.components;
 
 import domain.dataObjects.CoefficientEnum;
+import domain.dataObjects.Pair;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
-import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,89 +1,73 @@
 package domain.fileManager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import domain.exception.CompressorErrorCode;
+import domain.exception.CompressorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.util.Scanner;
 
 public class FileReader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileReader.class);
+    private static Scanner scanner;
+    private static FileCreator fileCreator;
 
-    static private Scanner scanner;
-    static private FileCreator fileCreator;
-
-    public FileReader(FileCreator _fileCreator) {
-        fileCreator = _fileCreator;
+    public FileReader(FileCreator fileCreator) {
+        this.fileCreator = fileCreator;
     }
 
-    public static void readSpecificFile(String filePathname) {
-        File file = new File(filePathname);
+    public static void readSpecificFile(String pathname) throws CompressorException {
+        File file = new File(pathname);
         if (file.isDirectory()) {
-            System.out.println("YOU ARE READING A FOLDER. READING A FOLDER INSTEAD");
-            readAllFilesFromFolder(filePathname);
+            readAllFilesFromFolder(pathname);
         } else {
-            InputStream inputStream = null;
-            String data;
-            try {
-                inputStream = new FileInputStream(file);
-                long timeStart = System.currentTimeMillis();
-                scanner = new Scanner(inputStream).useDelimiter("\\A");
-                data = scanner.hasNext() ? scanner.next() : "";
-                fileCreator.createFileImpl(data.getBytes(), filePathname);
-                long timeEnd = System.currentTimeMillis();
-            } catch (IOException e) {
-                System.out.println("FILE NOT FOUND");
-                System.out.println("DID YOU FORGET THE EXTENSION OF THE FILE?");
-                System.exit(0);
-            } finally {
-                try {
-                    if (inputStream != null)
-                        inputStream.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
+            InputStream inputStream = readFile(file, pathname);
+            closeInputStream(inputStream);
         }
-
-
     }
 
-    public static void readAllFilesFromFolder(String folderPathName) {
+    public static void readAllFilesFromFolder(String folderPathName) throws CompressorException {
         File folder = new File(folderPathName);
-        File[] listOfFiles = folder.listFiles();
-
-        List<String> listOfStrings = new ArrayList<String>();
-        InputStream inputStream = null;
-        String data;
-        String filePathname;
-        for (File file : listOfFiles) {
-            filePathname = folderPathName + "/" + file.getName();
+        for (File file : folder.listFiles()) {
+            String pathname = folderPathName + "/" + file.getName();
             if (file.isFile()) {
-                try {
-
-                    System.out.println(file.getName());
-                    inputStream = new FileInputStream(file);
-                    long timeStart = System.currentTimeMillis();
-                    scanner = new Scanner(inputStream).useDelimiter("\\A");
-                    data = scanner.hasNext() ? scanner.next() : "";
-                    fileCreator.createFileImpl(data.getBytes(), filePathname);
-                    long timeEnd = System.currentTimeMillis();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (Objects.nonNull(inputStream)) {
-                            inputStream.close();
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                InputStream inputStream = readFile(file, pathname);
+                closeInputStream(inputStream);
             } else if (file.isDirectory()) {
-                readAllFilesFromFolder(filePathname);
+                readAllFilesFromFolder(pathname);
             }
         }
+    }
+
+    private static void closeInputStream(InputStream inputStream) throws CompressorException {
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            String message = "Failure to close the input stream";
+            LOGGER.error(message);
+            throw new CompressorException(message, e, CompressorErrorCode.CLOSE_INPUT_STREAM_FAILURE);
+        }
+    }
+
+    private static FileInputStream readFile(File file, String pathname) throws CompressorException {
+        FileInputStream fileInputStream = startInputStream(file);
+        fileCreator.createFileImpl(readDataFromFile(fileInputStream).getBytes(), pathname);
+        return fileInputStream;
+    }
+
+    private static FileInputStream startInputStream(File file) throws CompressorException {
+        try {
+            return new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            String message = "Failure to read the file";
+            LOGGER.error(message);
+            throw new CompressorException(message, e, CompressorErrorCode.READ_INPUT_STREAM_FAILURE);
+        }
+    }
+
+    private static String readDataFromFile(FileInputStream fileInputStream) {
+        scanner = new Scanner(fileInputStream).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
     }
 }

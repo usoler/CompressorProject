@@ -11,6 +11,13 @@ import java.util.Objects;
 public class DCTComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(DCTComponent.class);
 
+    /**
+     * Apply a DCT algorithm to a 8x8 matrix
+     *
+     * @param matrix8x8 the 8x8 matrix to apply the DCT algorithm
+     * @return the 8x8 matrix after to apply the DCT algorithm
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Float> applyDCT(Matrix<Float> matrix8x8) throws CompressorException {
         checkMatrix(matrix8x8);
         Matrix<Float> dctMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
@@ -44,14 +51,13 @@ public class DCTComponent {
         return dctMatrix;
     }
 
-    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
-        if (Objects.isNull(matrix8x8)) {
-            String message = "Param Matrix 8x8 could not be null";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.APPLY_DCT_FAILURE);
-        }
-    }
-
+    /**
+     * Undo a DCT algorithm to a 8x8 matrix
+     *
+     * @param dctMatrix the 8x8 matrix to undo the DCT algorithm
+     * @return the 8x8 matrix after undo the DCT algorithm
+     * @throws CompressorException if any error occurs
+     */
     public Matrix<Float> undoDCT(Matrix<Integer> dctMatrix) throws CompressorException {
         checkDctMatrix(dctMatrix);
 
@@ -88,6 +94,14 @@ public class DCTComponent {
         }
 
         return matrix8x8;
+    }
+
+    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
+        if (Objects.isNull(matrix8x8)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.APPLY_DCT_FAILURE);
+        }
     }
 
     private void checkDctMatrix(Matrix<Integer> dctMatrix) throws CompressorException {

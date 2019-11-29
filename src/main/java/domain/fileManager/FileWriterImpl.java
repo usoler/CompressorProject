@@ -56,9 +56,7 @@ public class FileWriterImpl {
         String newPathname = "output" + "/" + file.getPathname().substring(6, file.getPathname().length());
         FileWriter writer = getFileWriter(append_value, newPathname);
         PrintWriter print_line = new PrintWriter(writer);
-
         print_line.printf("%s" + "%n", file.getOutputStream());
-
         print_line.close();
     }
 
