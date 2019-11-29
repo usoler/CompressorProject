@@ -4,7 +4,7 @@ import org.junit.*;
 
 import java.util.ArrayList;
 
-public class CarpetaTest {
+public class FolderTest {
     private Folder folder;
     private static final String name = "name";
     private static final String format = "txt";

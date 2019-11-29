@@ -2,7 +2,7 @@ package domain;
 
 import org.junit.*;
 
-public class FicheroTest {
+public class FileTest {
     private File file;
     private static final String name = "example";
     private static final String format = "txt";
