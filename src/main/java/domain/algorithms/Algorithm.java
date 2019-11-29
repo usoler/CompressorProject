@@ -1,10 +1,16 @@
 package domain.algorithms;
 
 import domain.algorithms.lossless.Lz78;
+import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 
 public class Algorithm {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Algorithm.class);
     private AlgorithmInterface algorithmInterface;
 
     public Algorithm() {
@@ -35,12 +41,20 @@ public class Algorithm {
         }
     }
 
+    private void checkFile(byte[] file) throws CompressorException {
+        if (Objects.isNull(file)) {
+            String message = "Param file cannot be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, new IllegalArgumentException(), CompressorErrorCode.ILLEGAL_NULL_FILE_FAILURE);
+        }
+    }
+
     public void setAlgorithmInterface(AlgorithmInterface algorithmInterface) {
         this.algorithmInterface = algorithmInterface;
     }
 
-    // TODO: check param file
     public byte[] encodeFile(byte[] file) throws CompressorException {
+        checkFile(file);
         int uncompressedSize = file.length;
         long start = System.currentTimeMillis();
         byte[] compressedFile = this.algorithmInterface.encode(file);
@@ -54,7 +68,6 @@ public class Algorithm {
         return compressedFile;
     }
 
-    // TODO: check param file
     public byte[] decodeFile(byte[] file) throws CompressorException {
         int compressedSize = file.length;
         long start = System.currentTimeMillis();

@@ -46,14 +46,6 @@ public class HuffmanComponent {
         return buffer;
     }
 
-    private void checkEncodeBuffer(StringBuffer buffer) throws CompressorException {
-        if (Objects.isNull(buffer)) {
-            String message = "Param String Buffer could not be null";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
-        }
-    }
-
     /**
      * Encode the DC coefficient with the huffman table
      *
@@ -809,7 +801,6 @@ public class HuffmanComponent {
      * @return the decoded coefficient value
      * @throws CompressorException if any error occurs
      */
-    // TODO: Wrong column should throw an exception
     public int decodeCoefficient(int row, int column) throws CompressorException {
         switch (row) {
             case 0:
@@ -895,6 +886,14 @@ public class HuffmanComponent {
                 String message = "Row param don't match";
                 LOGGER.error(message);
                 throw new CompressorException(message, CompressorErrorCode.DECODE_COEFFICIENT_FAILURE);
+        }
+    }
+
+    private void checkEncodeBuffer(StringBuffer buffer) throws CompressorException {
+        if (Objects.isNull(buffer)) {
+            String message = "Param String Buffer could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
         }
     }
 

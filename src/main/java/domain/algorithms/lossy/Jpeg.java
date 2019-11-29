@@ -36,9 +36,8 @@ import java.util.List;
 // DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
 // DONE: Bug star_field. Fallo debido a obtener mal width y height.
 // DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
-// TODO: fix unit test in PPM component
+// DONE: fix unit test in PPM component
 // TODO: javadoc
-// TODO: bug with sines image
 
 // BUGS
 // DONE: sign_1.ppm (imagen no mod 16)
@@ -86,12 +85,10 @@ public class Jpeg implements AlgorithmInterface {
         byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
         byte heightSize = (byte) height.length;
         byte widthSize = (byte) width.length;
-        //byteArrayOutputStream.write(heightSize);
         byteArrayOutputStream.write(widthSize);
         byteArrayOutputStream.write(heightSize);
 
         try {
-            //byteArrayOutputStream.write(height);
             byteArrayOutputStream.write(width); // TODO: check if it works
             byteArrayOutputStream.write(height);
         } catch (IOException ex) {
@@ -344,14 +341,12 @@ public class Jpeg implements AlgorithmInterface {
                 i = 0;
 
                 // 2. Desquantization
-                //LOGGER.debug("Undo desquantization");
                 List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
                 for (int m = 0; m < quantizedBlocks.size(); ++m) {
                     blocksOf8x8.add(quantizationComponent.dequantizeMatrix(quantizedBlocks.get(m)));
                 }
 
                 // 3. Undo DCT
-                //LOGGER.debug("Undo DCT");
                 // Y
                 MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
                 for (int m = 0; m < 4; ++m) {
@@ -379,7 +374,6 @@ public class Jpeg implements AlgorithmInterface {
         }
 
         // 5. Reconstuct Total Matrix
-        // TODO: check if it works
         int height = Integer.parseInt(heightBinary, 2);
         int width = Integer.parseInt(widthBinary, 2);
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);

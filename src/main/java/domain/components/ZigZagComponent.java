@@ -45,14 +45,6 @@ public class ZigZagComponent {
         return zigZagVector;
     }
 
-    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
-        if (Objects.isNull(matrix8x8)) {
-            String message = "Param Matrix 8x8 could not be null";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.MAKE_ZIGZAG_FAILURE);
-        }
-    }
-
     /**
      * Undo a zig-zag algorithm to a zig-zag vector
      *
@@ -69,6 +61,14 @@ public class ZigZagComponent {
         }
 
         return matrix8x8;
+    }
+
+    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
+        if (Objects.isNull(matrix8x8)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.MAKE_ZIGZAG_FAILURE);
+        }
     }
 
     private void checkZigZagVector(List<Integer> zigZagVector) throws CompressorException {

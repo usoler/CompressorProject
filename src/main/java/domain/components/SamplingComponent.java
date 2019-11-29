@@ -71,22 +71,6 @@ public class SamplingComponent {
         return macroBlockYCbCr;
     }
 
-    private void checkYCbCrPixel(int i, int j, Pixel pixel) throws CompressorException {
-        if (Objects.isNull(pixel)) {
-            String message = String.format("Pixel from param YCbCr Matrix at position (%s,%s) could not be null", i, j);
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
-        }
-    }
-
-    private void checkYCbCrMatrix(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
-        if (Objects.isNull(yCbCrMatrix)) {
-            String message = "Param YCbCr Matrix could not be null";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
-        }
-    }
-
     /**
      * Upsample a YCbCr MacroBlock
      *
@@ -125,6 +109,22 @@ public class SamplingComponent {
         }
 
         return yCbCrMatrix;
+    }
+
+    private void checkYCbCrPixel(int i, int j, Pixel pixel) throws CompressorException {
+        if (Objects.isNull(pixel)) {
+            String message = String.format("Pixel from param YCbCr Matrix at position (%s,%s) could not be null", i, j);
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
+        }
+    }
+
+    private void checkYCbCrMatrix(Matrix<Pixel> yCbCrMatrix) throws CompressorException {
+        if (Objects.isNull(yCbCrMatrix)) {
+            String message = "Param YCbCr Matrix could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.DOWNSAMPLING_FAILURE);
+        }
     }
 
     private void validateMacroBlock(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {

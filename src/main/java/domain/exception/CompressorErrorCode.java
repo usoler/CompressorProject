@@ -63,11 +63,16 @@ public enum CompressorErrorCode {
     // Failure initializing file output stream
     INIT_FILE_OUTPUT_STREAM_FAILURE("4002"),
     // Failure initializing file writer
-    INIT_FILE_WRITER_FAILURE("4003");
+    INIT_FILE_WRITER_FAILURE("4003"),
 
     // LZW error codes (Start from 2000)
     // LZ78 error codes (Start from 3000)
     // Others (Start from 4000)
+    // ******************************************
+    // Algorithm
+    // ******************************************
+    // Param file cannot be null
+    ILLEGAL_NULL_FILE_FAILURE("4000");
 
     private String code;
 

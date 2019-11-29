@@ -51,14 +51,6 @@ public class DCTComponent {
         return dctMatrix;
     }
 
-    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
-        if (Objects.isNull(matrix8x8)) {
-            String message = "Param Matrix 8x8 could not be null";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.APPLY_DCT_FAILURE);
-        }
-    }
-
     /**
      * Undo a DCT algorithm to a 8x8 matrix
      *
@@ -102,6 +94,14 @@ public class DCTComponent {
         }
 
         return matrix8x8;
+    }
+
+    private void checkMatrix(Matrix<Float> matrix8x8) throws CompressorException {
+        if (Objects.isNull(matrix8x8)) {
+            String message = "Param Matrix 8x8 could not be null";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.APPLY_DCT_FAILURE);
+        }
     }
 
     private void checkDctMatrix(Matrix<Integer> dctMatrix) throws CompressorException {
