@@ -45,10 +45,11 @@ public class QuantizationComponent {
      */
     public Matrix<Float> quantizeMatrix(Matrix<Float> dctMatrix) throws CompressorException {
         checkDctMatrix(dctMatrix);
-        Matrix<Float> quantizedMatrix = new Matrix<Float>(8, 8, new Float[8][8]);
+        Matrix<Float> quantizedMatrix = new Matrix<Float>(NUM_OF_ROWS_AND_COLS, NUM_OF_ROWS_AND_COLS,
+                new Float[NUM_OF_ROWS_AND_COLS][NUM_OF_ROWS_AND_COLS]);
 
-        for (int i = 0; i < 8; ++i) {
-            for (int j = 0; j < 8; ++j) {
+        for (int i = 0; i < NUM_OF_ROWS_AND_COLS; ++i) {
+            for (int j = 0; j < NUM_OF_ROWS_AND_COLS; ++j) {
                 float quantizedPixel = Math.round(dctMatrix.getElementAt(i, j) / quantizationMatrix.getElementAt(i, j));
                 quantizedMatrix.setElementAt(quantizedPixel, i, j);
             }
@@ -66,10 +67,11 @@ public class QuantizationComponent {
      */
     public Matrix<Integer> dequantizeMatrix(Matrix<Integer> quantizedMatrix) throws CompressorException {
         checkQuantizedMatrix(quantizedMatrix);
-        Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(8, 8, new Integer[8][8]);
+        Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(NUM_OF_ROWS_AND_COLS, NUM_OF_ROWS_AND_COLS,
+                new Integer[NUM_OF_ROWS_AND_COLS][NUM_OF_ROWS_AND_COLS]);
 
-        for (int i = 0; i < 8; ++i) {
-            for (int j = 0; j < 8; ++j) {
+        for (int i = 0; i < NUM_OF_ROWS_AND_COLS; ++i) {
+            for (int j = 0; j < NUM_OF_ROWS_AND_COLS; ++j) {
                 int desquantizedPixel = Math.round(quantizedMatrix.getElementAt(i, j) * quantizationMatrix.getElementAt(i, j));
                 desquantizedMatrix.setElementAt(desquantizedPixel, i, j);
             }

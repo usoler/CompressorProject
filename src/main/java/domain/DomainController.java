@@ -1,6 +1,7 @@
 package domain;
 
 import data.DataController;
+import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,11 @@ public class DomainController {
 
     public void addFile(String pathname) {
         LOGGER.debug("Adding file to the domain");
-        fileManager.readFile(pathname);
+        try {
+            fileManager.readFile(pathname);
+        } catch (CompressorException e) {
+            e.printStackTrace();
+        }
         LOGGER.debug("File added to the domain");
     }
 }

@@ -2,12 +2,12 @@ package domain;
 
 import java.util.Objects;
 
-abstract class Fichero {
+abstract class File {
     private String name, format;
     private int size;
-    private Carpeta folder;
+    private Folder folder;
 
-    public Fichero(String name, String format, int size, Carpeta folder) {
+    public File(String name, String format, int size, Folder folder) {
         this.name = name;
         this.format = format;
         this.size = size;
@@ -38,11 +38,11 @@ abstract class Fichero {
         this.size = size;
     }
 
-    public Carpeta getFolder() {
+    public Folder getFolder() {
         return folder;
     }
 
-    public void setFolder(Carpeta folder) {
+    public void setFolder(Folder folder) {
         this.folder = folder;
     }
 
@@ -57,8 +57,8 @@ abstract class Fichero {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Fichero)) return false;
-        Fichero fichero = (Fichero) o;
+        if (!(o instanceof File)) return false;
+        File fichero = (File) o;
         return size == fichero.size &&
                 name.equals(fichero.name) &&
                 format.equals(fichero.format);

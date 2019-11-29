@@ -25,22 +25,13 @@ public class FileManager {
         fileCreator.createWorkingFolder(System.getProperty("user.dir"));
     }
 
-    // TODO: DEPRECATED ????
-    public static void writeFile(FileImpl file, boolean append_value) throws CompressorException {
-        fileWriter.writeToFile(file, append_value);
-    }
-
-//    public static void writeFolder(File file, boolean append_value) throws CompressorException {
-//        fileWriter.writeFromFolderToFile(file, append_value);
-//    }
-
     private FileImpl findFileWithPathname(String pathname) {
         for (FileImpl file : listOfFiles) {
             if (file.getPathname().equals(pathname)) {
                 return file;
             }
         }
-        System.out.println("FILE NOT FOUND");
+        LOGGER.warn("File not found with pathname '{}'", pathname);
         return null;
     }
 
@@ -50,7 +41,7 @@ public class FileManager {
                 return file;
             }
         }
-        System.out.println("FILE NOT FOUND");
+        LOGGER.warn("File not found with pathname '{}'", pathname);
         return null;
     }
 
@@ -62,7 +53,7 @@ public class FileManager {
         return findCompressedFileWithPathname(pathname);
     }
 
-    public void readFile(String pathname) {
+    public void readFile(String pathname) throws CompressorException {
         fileReader.readSpecificFile(pathname);
     }
 
@@ -85,7 +76,7 @@ public class FileManager {
 
     }
 
-    public void readFolder(String pathname) {
+    public void readFolder(String pathname) throws CompressorException {
         fileReader.readAllFilesFromFolder(pathname);
     }
 

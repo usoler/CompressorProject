@@ -7,8 +7,8 @@ public class FileCreator {
 
     private FileManager fileManager;
 
-    public FileCreator(FileManager _fileManager) {
-        fileManager = _fileManager;
+    public FileCreator(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
 
     public void createFileImpl(byte[] data, String pathname) {
@@ -16,8 +16,8 @@ public class FileCreator {
         fileManager.setNewFile(file);
     }
 
-    public void createCompressedFile(OutputStream oStream, String pathname) {
-        CompressedFile file = new CompressedFile(pathname, oStream);
+    public void createCompressedFile(OutputStream outputStream, String pathname) {
+        CompressedFile file = new CompressedFile(pathname, outputStream);
         fileManager.setNewCompressedFile(file);
     }
 

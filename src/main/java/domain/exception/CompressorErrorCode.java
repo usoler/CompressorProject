@@ -53,6 +53,10 @@ public enum CompressorErrorCode {
     ENCODE_COEFFICIENT_FAILURE("1012"),
     // Failure to decode coefficient
     DECODE_COEFFICIENT_FAILURE("1013"),
+
+    // LZW error codes (Start from 2000)
+    // LZ78 error codes (Start from 3000)
+    // Others (Start from 4000)
     // ******************************************
     // File Writer Impl
     // ******************************************
@@ -64,15 +68,18 @@ public enum CompressorErrorCode {
     INIT_FILE_OUTPUT_STREAM_FAILURE("4002"),
     // Failure initializing file writer
     INIT_FILE_WRITER_FAILURE("4003"),
-
-    // LZW error codes (Start from 2000)
-    // LZ78 error codes (Start from 3000)
-    // Others (Start from 4000)
     // ******************************************
     // Algorithm
     // ******************************************
     // Param file cannot be null
-    ILLEGAL_NULL_FILE_FAILURE("4000");
+    ILLEGAL_NULL_FILE_FAILURE("4004"),
+    // ******************************************
+    // FileReader
+    // ******************************************
+    // Failure to read the input stream
+    READ_INPUT_STREAM_FAILURE("4005"),
+    // Failure to close the input stream
+    CLOSE_INPUT_STREAM_FAILURE("4006");
 
     private String code;
 
