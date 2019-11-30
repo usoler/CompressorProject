@@ -2,10 +2,7 @@ package domain.algorithms.lossy;
 
 import domain.algorithms.AlgorithmInterface;
 import domain.components.*;
-import domain.dataObjects.CoefficientEnum;
-import domain.dataObjects.Pair;
-import domain.dataObjects.Pixel;
-import domain.dataObjects.PpmResponse;
+import domain.dataObjects.*;
 import domain.dataStructure.MacroBlockYCbCr;
 import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
@@ -19,6 +16,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+// TODO: problemas con el color rojo !!
 
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
@@ -71,6 +70,81 @@ public class Jpeg implements AlgorithmInterface {
         }
 
         return writeBufferToOutputStream(buffer, ppmFileResponse.getValue());
+    }
+
+    /**
+     * Decode a JPEG file applying the JPEG algorithm
+     *
+     * @param data the JPEG file data to decode
+     * @return the file decoded
+     * @throws CompressorException if any error occurs
+     */
+    @Override
+    public byte[] decode(byte[] data) throws CompressorException {
+        LOGGER.info("Decoding data file with JPEG algorithm");
+        int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
+        List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<>();
+
+        // 0. Read JPEG file
+        JpegResponse jpegResponse = readJpegFile(data);
+        int width = jpegResponse.getWidth();
+        int height = jpegResponse.getHeight();
+        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 3 +
+                jpegResponse.getHeightNumOfBytes() + jpegResponse.getWidthNumOfBytes(), data.length)).toString(2));
+
+        // 1. Entropy decoding
+        // 1.1 Huffman decoding
+        List<Matrix<Integer>> quantizedBlocks = new LinkedList<Matrix<Integer>>();
+        boolean finish = false;
+        int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
+        int k = 0;
+        while (!finish) {
+            StringBuffer workingBuffer = new StringBuffer();
+            int numOfBits = -1;
+            while (numOfBits == -1) {
+                workingBuffer.append(dataBuffer.charAt(k));
+                numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
+                ++k;
+            }
+
+            // DC coefficient
+            Pair<Integer, List<Integer>> DCResponse = unprocessDCValue(k, lastDC, i, numOfBits, dataBuffer);
+            k = DCResponse.getKey();
+            List<Integer> zigZagValues = DCResponse.getValue();
+
+            // AC coefficients
+            Pair<Integer, List<Integer>> ACResponse = unprocessACValues(dataBuffer, k, i, zigZagValues);
+            k = ACResponse.getKey();
+            zigZagValues = ACResponse.getValue();
+
+            // 1.2 Undo Zig Zag Vector
+            quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
+            if (i == 5) {
+                // 2. Desquantization
+                List<Matrix<Integer>> blocksOf8x8 = dequantize(quantizedBlocks);
+                // 3. Undo DCT
+                MacroBlockYCbCr macroBlockYCbCr = undoDctProcess(blocksOf8x8);
+                // 4. Undo downsampling
+                Matrix<Pixel> yCbCrMatrix16x16 = samplingComponent.upsampling(macroBlockYCbCr);
+                blocksOfPixelMatrix16x16.add(yCbCrMatrix16x16);
+
+                i = 0;
+                quantizedBlocks = new LinkedList<>();
+            } else {
+                ++i;
+            }
+
+            if (k == dataBuffer.length()) {
+                finish = true;
+            }
+        }
+
+        // 5. Reconstuct Total Matrix
+        Matrix<Pixel> yCbCrMatrix = reconstructTotalMatrix(width, height, blocksOfPixelMatrix16x16);
+        // 6. Undo Color Conversion
+        Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(yCbCrMatrix);
+        // 7. Write PPM file
+        return ppmComponent.writePpmFile(jpegResponse.getMagicNumber(), height, width, rgbMatrix);
     }
 
     private Pair<Matrix<Pixel>, ByteArrayOutputStream> readPpmFile(byte[] data) throws CompressorException {
@@ -264,27 +338,84 @@ public class Jpeg implements AlgorithmInterface {
         return quantizedBlocks;
     }
 
-    /**
-     * Decode a JPEG file applying the JPEG algorithm
-     *
-     * @param data the JPEG file data to decode
-     * @return the file decoded
-     * @throws CompressorException if any error occurs
-     */
-    @Override
-    public byte[] decode(byte[] data) throws CompressorException {
-        LOGGER.info("Decoding data file with JPEG algorithm");
-        int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
-        List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
+    private Pair<Integer, List<Integer>> unprocessDCValue(int k, int[] lastDC, int i, int numOfBits, StringBuffer dataBuffer) throws CompressorException {
+        List<Integer> zigZagValues = new LinkedList<>();
+        String columnBinary = dataBuffer.substring(k, k + numOfBits);
 
-        // 0. Read JPEG file
-        byte[] magicNumberByte = {data[0]};
-        int magicNumber = Integer.parseInt(new BigInteger(magicNumberByte).toString(2), 2);
-        byte[] widthSize = {data[1]};
-        String widthSizeBinary = new BigInteger(widthSize).toString(2);
+        if (numOfBits == 0) {
+            columnBinary = dataBuffer.substring(k, k + 1);
+        }
+
+        int dc = huffmanComponent.decodeCoefficient(numOfBits, Integer.parseInt(columnBinary, 2));
+        int n = chooseNValue(i);
+
+        zigZagValues.add(dc + lastDC[n]);
+        lastDC[n] = dc + lastDC[n];
+        if (numOfBits == 0) {
+            ++k;
+        } else {
+            k += numOfBits;
+        }
+
+        return new Pair<>(k, zigZagValues);
+    }
+
+    private int chooseNValue(int i) {
+        if (i <= 3) {
+            return 0;
+        } else if (i == 4) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    private Pair<Integer, List<Integer>> unprocessACValues(StringBuffer dataBuffer, int k, int i, List<Integer> zigZagValues) throws CompressorException {
+        boolean endOfBlock = false;
+        for (int j = 0; j < 63 && !endOfBlock; ++j) {
+            StringBuffer workingBuffer = new StringBuffer();
+            Pair<Integer, Integer> preZerosAndRow = new Pair<>(-1, -1);
+            while (preZerosAndRow.getKey() == -1) {
+                workingBuffer.append(dataBuffer.charAt(k));
+                if (i < 4) {
+                    preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
+                } else {
+                    preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueChrominance(workingBuffer.toString());
+                }
+                ++k;
+            }
+
+            if (preZerosAndRow.getKey() == -2) {
+                for (int m = 0; m < 16; ++m) {
+                    zigZagValues.add(0);
+                }
+            } else if (preZerosAndRow.getKey() == -3) {
+                for (int m = zigZagValues.size() - 1; m < 63; ++m) {
+                    zigZagValues.add(0);
+                }
+                endOfBlock = true;
+            } else {
+                for (int m = 0; m < preZerosAndRow.getKey(); ++m) {
+                    zigZagValues.add(0);
+                }
+
+                String columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
+
+                int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
+
+                zigZagValues.add(ac);
+                k += preZerosAndRow.getValue();
+            }
+        }
+
+        return new Pair<>(k, zigZagValues);
+    }
+
+    private JpegResponse readJpegFile(byte[] data) {
+        int magicNumber = Integer.parseInt(new BigInteger(new byte[]{data[0]}).toString(2), 2);
+        String widthSizeBinary = new BigInteger(new byte[]{data[1]}).toString(2);
         int widthNumOfBytes = Integer.parseInt(widthSizeBinary, 2);
-        byte[] heightSize = {data[2]};
-        String heightSizeBinary = new BigInteger(heightSize).toString(2);
+        String heightSizeBinary = new BigInteger(new byte[]{data[2]}).toString(2);
         int heightNumOfBytes = Integer.parseInt(heightSizeBinary, 2);
 
         byte[] widthBytes = Arrays.copyOfRange(data, 3, 3 + widthNumOfBytes);
@@ -292,133 +423,46 @@ public class Jpeg implements AlgorithmInterface {
         byte[] heightBytes = Arrays.copyOfRange(data, 3 + widthNumOfBytes, 3 + widthNumOfBytes + heightNumOfBytes);
         String heightBinary = new BigInteger(heightBytes).toString(2);
 
-        StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 3 + heightNumOfBytes + widthNumOfBytes, data.length)).toString(2));
-        StringBuffer workingBuffer = new StringBuffer();
+        return new JpegResponse(magicNumber, widthNumOfBytes, heightNumOfBytes, Integer.parseInt(widthBinary, 2), Integer.parseInt(heightBinary, 2));
+    }
 
-        // 1. Entropy decoding
-        // 1.1 Huffman decoding
-        List<Matrix<Integer>> quantizedBlocks = new LinkedList<Matrix<Integer>>();
-        boolean finish = false;
-        int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
-        int k = 0;
-        while (!finish) {
-            workingBuffer = new StringBuffer();
-            // DC coefficient
-            List<Integer> zigZagValues = new LinkedList<Integer>();
-            int numOfBits = -1;
-            while (numOfBits == -1) {
-                workingBuffer.append(dataBuffer.charAt(k));
-                numOfBits = huffmanComponent.getNumOfBitsOfColumn(workingBuffer.toString());
-                ++k;
-            }
+    private MacroBlockYCbCr undoDctProcess(List<Matrix<Integer>> blocksOf8x8) throws CompressorException {
+        MacroBlockYCbCr macroBlockYCbCr = generateUndoDctLuminance(blocksOf8x8);
+        macroBlockYCbCr = generateUndoDctBlueChrominance(blocksOf8x8, macroBlockYCbCr);
+        return generateUndoDctRedChrominance(blocksOf8x8, macroBlockYCbCr);
+    }
 
-            String columnBinary = dataBuffer.substring(k, k + numOfBits);
-
-            if (numOfBits == 0) {
-                columnBinary = dataBuffer.substring(k, k + 1);
-            }
-            int dc = huffmanComponent.decodeCoefficient(numOfBits, Integer.parseInt(columnBinary, 2));
-
-            int n;
-            if (i <= 3) {
-                n = 0;
-            } else if (i == 4) {
-                n = 1;
-            } else {
-                n = 2;
-            }
-
-            zigZagValues.add(dc + lastDC[n]);
-            lastDC[n] = dc + lastDC[n];
-            if (numOfBits == 0) {
-                ++k;
-            } else {
-                k += numOfBits;
-            }
-
-            // AC coefficients
-            boolean endOfBlock = false;
-            for (int j = 0; j < 63 && !endOfBlock; ++j) {
-                workingBuffer = new StringBuffer();
-                Pair<Integer, Integer> preZerosAndRow = new Pair<Integer, Integer>(-1, -1);
-                while (preZerosAndRow.getKey() == -1) {
-                    workingBuffer.append(dataBuffer.charAt(k));
-                    if (i < 4) {
-                        preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueLuminance(workingBuffer.toString());
-                    } else {
-                        preZerosAndRow = huffmanComponent.getPreZerosAndRowOfValueChrominance(workingBuffer.toString());
-                    }
-                    ++k;
-                }
-
-                if (preZerosAndRow.getKey() == -2) {
-                    for (int m = 0; m < 16; ++m) {
-                        zigZagValues.add(0);
-                    }
-                } else if (preZerosAndRow.getKey() == -3) {
-                    for (int m = zigZagValues.size() - 1; m < 63; ++m) {
-                        zigZagValues.add(0);
-                    }
-                    endOfBlock = true;
-                } else {
-                    for (int m = 0; m < preZerosAndRow.getKey(); ++m) {
-                        zigZagValues.add(0);
-                    }
-
-                    columnBinary = dataBuffer.substring(k, k + preZerosAndRow.getValue());
-
-                    int ac = huffmanComponent.decodeCoefficient(preZerosAndRow.getValue(), Integer.parseInt(columnBinary, 2));
-
-                    zigZagValues.add(ac);
-                    k += preZerosAndRow.getValue();
-                }
-            }
-
-            // 1.2 Undo Zig Zag Vector
-            quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
-            if (i == 5) {
-                i = 0;
-
-                // 2. Desquantization
-                List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
-                for (int m = 0; m < quantizedBlocks.size(); ++m) {
-                    blocksOf8x8.add(quantizationComponent.dequantizeMatrix(quantizedBlocks.get(m)));
-                }
-
-                // 3. Undo DCT
-                // Y
-                MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
-                for (int m = 0; m < 4; ++m) {
-                    macroBlockYCbCr.addYBlock(dctComponent.undoDCT(blocksOf8x8.get(m)));
-                }
-
-                // Cb
-                macroBlockYCbCr.setCbBlock(dctComponent.undoDCT(blocksOf8x8.get(4)));
-
-                // Cr
-                macroBlockYCbCr.setCrBlock(dctComponent.undoDCT(blocksOf8x8.get(5)));
-
-                // 4. Undo downsampling
-                Matrix<Pixel> yCbCrMatrix16x16 = samplingComponent.upsampling(macroBlockYCbCr);
-                blocksOfPixelMatrix16x16.add(yCbCrMatrix16x16);
-
-                quantizedBlocks = new LinkedList<Matrix<Integer>>();
-            } else {
-                ++i;
-            }
-
-            if (k == dataBuffer.length()) {
-                finish = true;
-            }
+    private MacroBlockYCbCr generateUndoDctLuminance(List<Matrix<Integer>> blocksOf8x8) throws CompressorException {
+        MacroBlockYCbCr macroBlockYCbCr = new MacroBlockYCbCr();
+        for (int m = 0; m < 4; ++m) {
+            macroBlockYCbCr.addYBlock(dctComponent.undoDCT(blocksOf8x8.get(m)));
         }
+        return macroBlockYCbCr;
+    }
 
-        // 5. Reconstuct Total Matrix
-        int height = Integer.parseInt(heightBinary, 2);
-        int width = Integer.parseInt(widthBinary, 2);
+    private MacroBlockYCbCr generateUndoDctBlueChrominance(List<Matrix<Integer>> blocksOf8x8, MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        macroBlockYCbCr.setCbBlock(dctComponent.undoDCT(blocksOf8x8.get(4)));
+        return macroBlockYCbCr;
+    }
+
+    private MacroBlockYCbCr generateUndoDctRedChrominance(List<Matrix<Integer>> blocksOf8x8, MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        macroBlockYCbCr.setCrBlock(dctComponent.undoDCT(blocksOf8x8.get(5)));
+        return macroBlockYCbCr;
+    }
+
+    private List<Matrix<Integer>> dequantize(List<Matrix<Integer>> quantizedBlocks) throws CompressorException {
+        List<Matrix<Integer>> blocksOf8x8 = new LinkedList<Matrix<Integer>>();
+        for (int m = 0; m < quantizedBlocks.size(); ++m) {
+            blocksOf8x8.add(quantizationComponent.dequantizeMatrix(quantizedBlocks.get(m)));
+        }
+        return blocksOf8x8;
+    }
+
+    private Matrix<Pixel> reconstructTotalMatrix(int width, int height, List<Matrix<Pixel>> blocksOfPixelMatrix16x16) {
         Matrix<Pixel> yCbCrMatrix = new Matrix<Pixel>(height, width, new Pixel[height][width]);
         int originS = 0;
         int originM = 0;
-        int s = 0;
+        int s;
         int m = 0;
         for (int n = 0; n < blocksOfPixelMatrix16x16.size(); ++n) {
             s = originS;
@@ -436,11 +480,6 @@ public class Jpeg implements AlgorithmInterface {
                 originM += 16;
             }
         }
-
-        // 6. Undo Color Conversion
-        Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(yCbCrMatrix);
-
-        // 7. Write PPM file
-        return ppmComponent.writePpmFile(magicNumber, Integer.parseInt(heightBinary, 2), Integer.parseInt(widthBinary, 2), rgbMatrix);
+        return yCbCrMatrix;
     }
 }
