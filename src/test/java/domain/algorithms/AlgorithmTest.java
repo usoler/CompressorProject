@@ -20,7 +20,7 @@ public class AlgorithmTest {
     @Before
     public void setUp() {
         algorithm = new Algorithm();
-        algorithm.setAlgorithmInterface(new AlgortihmImplStub());
+        algorithm.setAlgorithmInterface(new AlgorithmImplStub());
     }
 
     @Test

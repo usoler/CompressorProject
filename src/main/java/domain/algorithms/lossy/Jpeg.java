@@ -16,31 +16,9 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-// Compresion en carpetas
-// Diseño en 3 capas: presentacion y datos
-// Swing
-// Arreglar JPEG
-// Comprobar que funciona sin intellij/compilacion
-
-// DONE: Javadoc
-// DONE: P6 lectura
-// DONE: P6 escritura
-// DONE: Sustituir Pair
-
-// DONE: Resolver bug snail. Fallo debido a tabla huffman
-// DONE: Permitir lectura de ficheros ppm con comentarios. (Hacer un barrido inicial con regex desde # hasta \n replace por "")
-// DONE: Bug star_field. Fallo debido a obtener mal width y height.
-// DONE: Permitir lectura de cualquier tamaño de fichero. Duplicar ultima fila y ultima columna hasta ser multiplo de 16
-// DONE: fix unit test in PPM component
-// TODO: javadoc
-
-// BUGS
-// DONE: sign_1.ppm (imagen no mod 16)
 
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
@@ -62,45 +40,15 @@ public class Jpeg implements AlgorithmInterface {
      */
     @Override
     public byte[] encode(byte[] data) throws CompressorException {
-        // ENCODING WITH JPEG
-        LOGGER.info("Encoding file with JPEG algorithm");
-        String file = new String(data, StandardCharsets.US_ASCII);
-
+        LOGGER.info("Encoding data file with JPEG algorithm");
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
         // 0. Read PPM file
-        PpmResponse ppmResponse = ppmComponent.readPpmFile(data);
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] magicNumber = BigInteger.valueOf(ppmResponse.getMagicNumber()).toByteArray();
-        try {
-            byteArrayOutputStream.write(magicNumber);
-        } catch (IOException e) {
-            String message = "Error writting bytes into byte array output stream";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
-        }
-        byte[] height = BigInteger.valueOf(ppmResponse.getHeight()).toByteArray();
-        byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
-        byte heightSize = (byte) height.length;
-        byte widthSize = (byte) width.length;
-        byteArrayOutputStream.write(widthSize);
-        byteArrayOutputStream.write(heightSize);
-
-        try {
-            byteArrayOutputStream.write(width); // TODO: check if it works
-            byteArrayOutputStream.write(height);
-        } catch (IOException ex) {
-            String message = "Error writting bytes into byte array output stream";
-            LOGGER.error(message);
-            throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
-        }
-
+        Pair<Matrix<Pixel>, ByteArrayOutputStream> ppmFileResponse = readPpmFile(data);
         // 1. Color conversion
-        Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(ppmResponse.getMatrix());
+        Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(ppmFileResponse.getKey());
 
-        // 2. Downsampling
         int numOfMacroBlockByRow = yCbCrMatrix.getNumberOfColumns() / 16;
         int numOfMacroBlockByColumn = yCbCrMatrix.getNumberOfRows() / 16;
 
@@ -108,109 +56,69 @@ public class Jpeg implements AlgorithmInterface {
         for (int i = 0; i < numOfMacroBlockByColumn; ++i) {
             int x = 0;
             for (int j = 0; j < numOfMacroBlockByRow; ++j) {
-                Matrix<Pixel> matrix16x16 = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
-                int u = 0;
-                for (int k = y; k < y + 16; ++k) {
-                    int v = 0;
-                    for (int s = x; s < x + 16; ++s) {
-                        matrix16x16.setElementAt(yCbCrMatrix.getElementAt(k, s), u, v);
-                        ++v;
-                    }
-                    ++u;
-                }
-
-                MacroBlockYCbCr macroBlockYCbCr = samplingComponent.downsampling(matrix16x16);
-
+                // 2. Downsampling
+                MacroBlockYCbCr macroBlockYCbCr = samplingComponent.downsampling(generateMatrix16x16(yCbCrMatrix, y, x));
                 // 3. Discrete Cosine Transform (DCT)
-                List<Matrix<Float>> blocksOf8x8 = new LinkedList<Matrix<Float>>();
-                // Y Blocks
-                for (int m = 0; m < macroBlockYCbCr.getyBlocks().size(); ++m) {
-                    blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getyBlocks().get(m)));
-                }
-
-                // Cb block
-                blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCbBlock()));
-
-                // Cr block
-                blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCrBlock()));
-
+                List<Matrix<Float>> blocksOf8x8 = applyDCT(macroBlockYCbCr);
                 // 4. Quantization
-                List<Matrix<Float>> quantizedBlocks = new LinkedList<Matrix<Float>>();
-                for (int n = 0; n < blocksOf8x8.size(); ++n) {
-                    quantizedBlocks.add(quantizationComponent.quantizeMatrix(blocksOf8x8.get(n)));
-                }
-
+                List<Matrix<Float>> quantizedBlocks = quantize(blocksOf8x8);
                 // 5. Entropy Coding
-                for (int m = 0; m < quantizedBlocks.size(); ++m) {
-                    // 5.1 Zig Zag Vector
-                    float[] zigZagValues = zigZagComponent.makeZigZag(quantizedBlocks.get(m));
-
-                    int n;
-                    CoefficientEnum coefficientEnum;
-                    if (m < 4) {
-                        n = 0;
-                        coefficientEnum = CoefficientEnum.LUMINANCE;
-                    } else if (m == 4) {
-                        n = 1;
-                        coefficientEnum = CoefficientEnum.CHROMINANCE;
-                    } else {
-                        n = 2;
-                        coefficientEnum = CoefficientEnum.CHROMINANCE;
-                    }
-
-                    // 5.2 Huffman Encoding
-                    // Process DC value
-                    float dpcmDC = zigZagValues[0] - lastDC[n];
-                    lastDC[n] = zigZagValues[0];
-
-                    buffer = huffmanComponent.encodeDC(Math.round(dpcmDC), buffer);
-
-                    // Process 63 AC values
-                    // First, check EOB
-                    int countZerosEOB = 0;
-                    boolean foundEOB = false;
-                    for (int w = zigZagValues.length - 1; w >= 0 && !foundEOB; --w) {
-                        if (zigZagValues[w] == 0) {
-                            ++countZerosEOB;
-                        } else {
-                            foundEOB = true;
-                        }
-                    }
-
-                    int numOfPreZeros = 0;
-                    for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
-                        if (numOfPreZeros > 15) { // Catch ZRL case
-                            if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
-                                buffer.append("11111111001");
-                            } else {
-                                buffer.append("1111111010");
-                            }
-                            numOfPreZeros = 0;
-                        } else {
-                            float valueAC = zigZagValues[w];
-                            if (valueAC != 0) {
-                                buffer = huffmanComponent.encodeAC(Math.round(valueAC), numOfPreZeros, coefficientEnum, buffer);
-                                numOfPreZeros = 0;
-                            } else {
-                                ++numOfPreZeros;
-                            }
-                        }
-                    }
-
-                    // Set EOB
-                    if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
-                        buffer.append("1010");
-                    } else {
-                        buffer.append("00");
-                    }
-                }
+                buffer = entropyCoding(quantizedBlocks, buffer, lastDC);
 
                 x += 16;
             }
-
             y += 16;
         }
 
+        return writeBufferToOutputStream(buffer, ppmFileResponse.getValue());
+    }
+
+    private Pair<Matrix<Pixel>, ByteArrayOutputStream> readPpmFile(byte[] data) throws CompressorException {
+        PpmResponse ppmResponse = ppmComponent.readPpmFile(data);
+
+        byte[] height = BigInteger.valueOf(ppmResponse.getHeight()).toByteArray();
+        byte[] width = BigInteger.valueOf(ppmResponse.getWidth()).toByteArray();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream = writeMagicNumberToStream(byteArrayOutputStream, BigInteger.valueOf(ppmResponse.getMagicNumber()).toByteArray());
+        byteArrayOutputStream = writeWidthSizeAndHeightSizeToStream(byteArrayOutputStream, width, height);
+        byteArrayOutputStream = writeWidthAndHeightToStream(byteArrayOutputStream, width, height);
+
+        return new Pair<>(ppmResponse.getMatrix(), byteArrayOutputStream);
+    }
+
+    private ByteArrayOutputStream writeMagicNumberToStream(ByteArrayOutputStream byteArrayOutputStream, byte[] magicNumber) throws CompressorException {
+        try {
+            byteArrayOutputStream.write(magicNumber);
+            return byteArrayOutputStream;
+        } catch (IOException e) {
+            String message = "Error writting bytes into byte array output stream";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
+        }
+    }
+
+    private ByteArrayOutputStream writeWidthSizeAndHeightSizeToStream(ByteArrayOutputStream byteArrayOutputStream, byte[] width, byte[] height) throws CompressorException {
+        byte heightSize = (byte) height.length;
+        byte widthSize = (byte) width.length;
+        byteArrayOutputStream.write(widthSize);
+        byteArrayOutputStream.write(heightSize);
+        return byteArrayOutputStream;
+    }
+
+    private ByteArrayOutputStream writeWidthAndHeightToStream(ByteArrayOutputStream byteArrayOutputStream, byte[] width, byte[] height) throws CompressorException {
+        try {
+            byteArrayOutputStream.write(width);
+            byteArrayOutputStream.write(height);
+            return byteArrayOutputStream;
+        } catch (IOException ex) {
+            String message = "Error writing bytes into byte array output stream";
+            LOGGER.error(message);
+            throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
+        }
+    }
+
+    private byte[] writeBufferToOutputStream(StringBuffer buffer, ByteArrayOutputStream byteArrayOutputStream) throws CompressorException {
         try {
             byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
         } catch (IOException ex) {
@@ -218,10 +126,142 @@ public class Jpeg implements AlgorithmInterface {
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.WRITE_PPM_FAILURE);
         }
-
-        LOGGER.info("JPEG algorithm encode finished");
         return byteArrayOutputStream.toByteArray();
+    }
 
+    private Matrix<Pixel> generateMatrix16x16(Matrix<Pixel> yCbCrMatrix, int y, int x) {
+        Matrix<Pixel> matrix16x16 = new Matrix<Pixel>(16, 16, new Pixel[16][16]);
+        int u = 0;
+        for (int k = y; k < y + 16; ++k) {
+            int v = 0;
+            for (int s = x; s < x + 16; ++s) {
+                matrix16x16.setElementAt(yCbCrMatrix.getElementAt(k, s), u, v);
+                ++v;
+            }
+            ++u;
+        }
+        return matrix16x16;
+    }
+
+    private Pair<Integer, CoefficientEnum> generateCoefficientEnum(int m) {
+        int n;
+        CoefficientEnum coefficientEnum;
+        if (m < 4) {
+            n = 0;
+            coefficientEnum = CoefficientEnum.LUMINANCE;
+        } else if (m == 4) {
+            n = 1;
+            coefficientEnum = CoefficientEnum.CHROMINANCE;
+        } else {
+            n = 2;
+            coefficientEnum = CoefficientEnum.CHROMINANCE;
+        }
+
+        return new Pair<>(n, coefficientEnum);
+    }
+
+    private StringBuffer entropyCoding(List<Matrix<Float>> quantizedBlocks, StringBuffer buffer, float[] lastDC) throws CompressorException {
+        for (int m = 0; m < quantizedBlocks.size(); ++m) {
+            // 5.1 Zig Zag Vector
+            float[] zigZagValues = zigZagComponent.makeZigZag(quantizedBlocks.get(m));
+
+            Pair<Integer, CoefficientEnum> coefficientResponse = generateCoefficientEnum(m);
+            int n = coefficientResponse.getKey();
+            CoefficientEnum coefficientEnum = coefficientResponse.getValue();
+
+            // 5.2 Huffman Encoding
+            float dpcmDC = zigZagValues[0] - lastDC[n];
+            lastDC[n] = zigZagValues[0];
+            buffer = huffmanComponent.encodeDC(Math.round(dpcmDC), buffer);
+            buffer = processACValues(buffer, zigZagValues, coefficientEnum);
+            buffer = addEOBToBuffer(buffer, coefficientEnum);
+        }
+
+        return buffer;
+    }
+
+    private StringBuffer processACValues(StringBuffer buffer, float[] zigZagValues, CoefficientEnum coefficientEnum) throws CompressorException {
+        int countZerosEOB = checkEOB(zigZagValues);
+
+        int numOfPreZeros = 0;
+        for (int w = 1; w < (zigZagValues.length - countZerosEOB); ++w) {
+            if (numOfPreZeros > 15) {
+                buffer = addZRLToBuffer(buffer, coefficientEnum);
+                numOfPreZeros = 0;
+            } else {
+                float valueAC = zigZagValues[w];
+                if (valueAC != 0) {
+                    buffer = huffmanComponent.encodeAC(Math.round(valueAC), numOfPreZeros, coefficientEnum, buffer);
+                    numOfPreZeros = 0;
+                } else {
+                    ++numOfPreZeros;
+                }
+            }
+        }
+        return buffer;
+    }
+
+    private int checkEOB(float[] zigZagValues) {
+        int countZerosEOB = 0;
+        boolean foundEOB = false;
+        for (int w = zigZagValues.length - 1; w >= 0 && !foundEOB; --w) {
+            if (zigZagValues[w] == 0) {
+                ++countZerosEOB;
+            } else {
+                foundEOB = true;
+            }
+        }
+        return countZerosEOB;
+    }
+
+    private StringBuffer addZRLToBuffer(StringBuffer buffer, CoefficientEnum coefficientEnum) {
+        if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
+            buffer.append("11111111001");
+        } else {
+            buffer.append("1111111010");
+        }
+        return buffer;
+    }
+
+    private StringBuffer addEOBToBuffer(StringBuffer buffer, CoefficientEnum coefficientEnum) {
+        if (coefficientEnum.equals(CoefficientEnum.LUMINANCE)) {
+            buffer.append("1010");
+        } else {
+            buffer.append("00");
+        }
+        return buffer;
+    }
+
+    private List<Matrix<Float>> generateDctLuminance(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        List<Matrix<Float>> blocksOf8x8 = new LinkedList<>();
+        for (int m = 0; m < macroBlockYCbCr.getyBlocks().size(); ++m) {
+            blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getyBlocks().get(m)));
+        }
+        return blocksOf8x8;
+    }
+
+    private List<Matrix<Float>> generateDctBlueChrominance(List<Matrix<Float>> blocksOf8x8, MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCbBlock()));
+        return blocksOf8x8;
+    }
+
+    private List<Matrix<Float>> generateDctRedChrominance(List<Matrix<Float>> blocksOf8x8, MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        blocksOf8x8.add(dctComponent.applyDCT(macroBlockYCbCr.getCrBlock()));
+        return blocksOf8x8;
+    }
+
+    private List<Matrix<Float>> applyDCT(MacroBlockYCbCr macroBlockYCbCr) throws CompressorException {
+        List<Matrix<Float>> blocksOf8x8 = generateDctLuminance(macroBlockYCbCr);
+        blocksOf8x8 = generateDctBlueChrominance(blocksOf8x8, macroBlockYCbCr);
+        return generateDctRedChrominance(blocksOf8x8, macroBlockYCbCr);
+    }
+
+    private List<Matrix<Float>> quantize(List<Matrix<Float>> blocksOf8x8) throws CompressorException {
+        List<Matrix<Float>> quantizedBlocks = new LinkedList<>();
+        for (int n = 0; n < blocksOf8x8.size(); ++n) {
+            quantizedBlocks.add(quantizationComponent.quantizeMatrix(blocksOf8x8.get(n)));
+        }
+        return quantizedBlocks;
     }
 
     /**
@@ -233,8 +273,7 @@ public class Jpeg implements AlgorithmInterface {
      */
     @Override
     public byte[] decode(byte[] data) throws CompressorException {
-        // DECODING WITH JPEG
-        LOGGER.info("Decoding file with JPEG algorithm");
+        LOGGER.info("Decoding data file with JPEG algorithm");
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<Matrix<Pixel>>();
 

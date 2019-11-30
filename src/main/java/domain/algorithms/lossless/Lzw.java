@@ -2,6 +2,8 @@ package domain.algorithms.lossless;
 
 import domain.dataStructure.Trie;
 import domain.dataStructure.TrieNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Lzw extends Lz78 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Lzw.class);
     private static final int ASCII_LENGTH = 256;
 
     private static ArrayList<Integer> dataToCodesArrayList(byte[] bytes) {
@@ -53,7 +56,7 @@ public class Lzw extends Lz78 {
         for (; i < codes.size(); ++i) {
             addIntToByteArrayList(codes.get(i), 4, arrayList);
         }
-        return ArrayListBytetoByteArray(arrayList);
+        return ArrayListByteToByteArray(arrayList);
     }
 
     private static void addIntToByteArrayList(int num, int bytesNeeded, ArrayList<Byte> arrayList) {
@@ -77,8 +80,7 @@ public class Lzw extends Lz78 {
 
     @Override
     public byte[] encode(byte[] data) {
-        // ENCODING WITH LZW
-        System.out.println("ENCODING FILE WITH LZW");
+        LOGGER.debug("Encoding file data with LZW algorithm");
         initializeEncodingDictionary();
         String file = new String(data, StandardCharsets.UTF_8);
         ArrayList<Integer> codes = new ArrayList<>();
@@ -116,8 +118,7 @@ public class Lzw extends Lz78 {
 
     @Override
     public byte[] decode(byte[] file) {
-        // DECODING WITH LZW
-        System.out.println("DECODING FILE WITH LZW");
+        LOGGER.debug("Decoding file data with LZW algorithm");
         initializeDecodingDictionary();
         StringBuilder newText = new StringBuilder();
         ArrayList<Integer> codes = dataToCodesArrayList(file);
