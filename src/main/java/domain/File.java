@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-abstract class File {
+public abstract class File {
     private String name, format;
     private int size;
     private Folder folder;

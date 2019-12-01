@@ -7,67 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/compressorproject.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compressorproject.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/2x2.ppm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/clouds.ppm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/sign_1.ppm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/sines.ascii.ppm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/module_compressorproject.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/MainLZ78.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/PpmFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/PpmResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/MainView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/Table.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/TypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/pbmlib.ppm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/DataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/DCTComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/DCTComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/HuffmanComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/HuffmanComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/QuantizationComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/QuantizationComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/SamplingComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/SamplingComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/ZigZagComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/ZigZagComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pixel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pixel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestSuite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/components/HuffmanComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/components/HuffmanComponentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/components/PpmComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/components/PpmComponentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Tests/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/sample.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/ControladorDeArchivos.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -114,7 +59,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.19770116" />
   </component>
@@ -149,7 +94,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainTest">
+  <component name="RunManager" selected="Application.MainJPEG">
+    <configuration name="MainJPEG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainJPEG" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MainTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainTest" />
       <module name="CompressorProject" />
@@ -198,28 +150,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrieNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieNodeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainJPEG" />
         <item itemvalue="Application.MainTest" />
         <item itemvalue="JUnit.TestSuite" />
         <item itemvalue="JUnit.LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" />
         <item itemvalue="JUnit.LzwTest.verify_encode_encode_whenPassEmptyFile" />
-        <item itemvalue="JUnit.TrieNodeTest" />
       </list>
     </recent_temporary>
   </component>
