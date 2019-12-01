@@ -99,40 +99,38 @@ public class Lz78 extends Lz {
         System.out.println("ENCODING FILE WITH LZ78");
         encodingDictionary = new Trie();
         String file = new String(data, StandardCharsets.UTF_8);
-        int i = 0;
+        int iterator = 0;
         int length = file.length();
         int extraBytesNeeded = 0;
         int mapIndex = 0;
         int firstExtraBytePosition = 0;
         int secondExtraBytePosition = 0;
         int thirdExtraBytePosition = 0;
-        boolean first = true;
         ArrayList<Byte> bytes = new ArrayList<Byte>();
         byte[] byteArray = {};
 
-        while (i < length) {
+        while (iterator < length) {
             int index = 0;
             int position = 0;
-            char c = file.charAt(i);
-            String word = Character.toString(c);
-            TrieNode aux = encodingDictionary.contains(word);
-            while (aux != null && i < length) {
-
-                index = aux.getIndex();
-                if (i + 1 < length) {
-                    ++i;
-                    c = file.charAt(i);
-                    word += c;
+            char characterAtPositionIndex = file.charAt(iterator);
+            String word = Character.toString(characterAtPositionIndex);
+            TrieNode iterationNode = encodingDictionary.contains(word);
+            while (iterationNode != null && iterator < length) {
+                index = iterationNode.getIndex();
+                if (iterator + 1 < length) {
+                    ++iterator;
+                    characterAtPositionIndex = file.charAt(iterator);
+                    word += characterAtPositionIndex;
                 } else {
-                    ++i;
+                    ++iterator;
                 }
                 ++position;
-                aux = encodingDictionary.contains(word, aux, position);
+                iterationNode = encodingDictionary.contains(word, iterationNode, position);
             }
-            if (aux == null) {
+            if (iterationNode == null) {
                 ++mapIndex;
                 encodingDictionary.insert(word);
-                ++i;
+                ++iterator;
                 switch (extraBytesNeeded) {
                     case 0:
                         if (index > 255) //16^2-1
@@ -163,8 +161,8 @@ public class Lz78 extends Lz {
             byteArray = transformIntToByteArray(index, extraBytesNeeded);
             for (byte b : byteArray) bytes.add(b);
 
-            if (aux == null) {
-                byte b = (byte) c;
+            if (iterationNode == null) {
+                byte b = (byte) characterAtPositionIndex;
                 bytes.add(b);
             } else {
                 byte b = 0;
@@ -197,22 +195,21 @@ public class Lz78 extends Lz {
         byte[] thirdInt = {bytes[8], bytes[9], bytes[10], bytes[11]};
 
         int firstChange = ByteBuffer.wrap(firstInt).getInt();
-        ;
         int secondChange = ByteBuffer.wrap(secondInt).getInt();
         int thirdChange = ByteBuffer.wrap(thirdInt).getInt();
 
         int extraBytes = 0;
 
-        int i = 12;
+        int iterator = 12;
         int length = bytes.length;
         int mapIndex = 1;
         byte[] indexByte = {};
         byte character = 0;
-        char c = 0;
+        char characterAtPositionIterator = 0;
         long index = 0;
         int index2 = 0;
         StringBuffer stringBuffer = new StringBuffer();
-        while (i < length) {
+        while (iterator < length) {
 
             if (mapIndex == firstChange) {
                 extraBytes = 1;
@@ -223,46 +220,46 @@ public class Lz78 extends Lz {
             }
             switch (extraBytes) {
                 case 0:
-                    indexByte = new byte[]{bytes[i]};
-                    ++i;
+                    indexByte = new byte[]{bytes[iterator]};
+                    ++iterator;
                     index = unsignedByteToShort(indexByte);
                     break;
                 case 1:
-                    indexByte = new byte[]{bytes[i], bytes[i + 1]};
-                    i += 2;
+                    indexByte = new byte[]{bytes[iterator], bytes[iterator + 1]};
+                    iterator += 2;
                     index = unsignedShortToInt(indexByte);
                     break;
                 case 2:
-                    indexByte = new byte[]{bytes[i], bytes[i + 1], bytes[i + 2]};
-                    i += 3;
+                    indexByte = new byte[]{bytes[iterator], bytes[iterator + 1], bytes[iterator + 2]};
+                    iterator += 3;
                     index = unsigned3bytesTo6bytesLong(indexByte);
                     break;
                 case 3:
-                    indexByte = new byte[]{bytes[i], bytes[i + 1], bytes[i + 2], bytes[i + 3]};
-                    i += 4;
+                    indexByte = new byte[]{bytes[iterator], bytes[iterator + 1], bytes[iterator + 2], bytes[iterator + 3]};
+                    iterator += 4;
                     index = unsignedIntToLong(indexByte);
                     break;
                 default:
-                    indexByte = new byte[]{bytes[i], bytes[i + 1], bytes[i + 2], bytes[i + 3]};
-                    i += 4;
+                    indexByte = new byte[]{bytes[iterator], bytes[iterator + 1], bytes[iterator + 2], bytes[iterator + 3]};
+                    iterator += 4;
                     break;
             }
 
             index2 = (int) index;
-            if (i < length) {
-                character = bytes[i];
-                c = (char) (0xff & character);
+            if (iterator < length) {
+                character = bytes[iterator];
+                characterAtPositionIterator = (char) (0xff & character);
                 String word;
                 if (index != 0) {
                     word = decodingDictionary.get(index2);
-                    word += c;
+                    word += characterAtPositionIterator;
                 } else {
-                    word = Character.toString(c);
+                    word = Character.toString(characterAtPositionIterator);
                 }
                 stringBuffer.append(word);
                 decodingDictionary.put(mapIndex, word);
                 ++mapIndex;
-                ++i;
+                ++iterator;
                 index = -1;
             }
         }

@@ -2,17 +2,32 @@ package domain;
 
 import java.util.Objects;
 
-abstract class Fichero {
+public abstract class Fichero {
     private String name, format;
     private int size;
     private Carpeta folder;
+    protected String pathname;
+    private byte[] data;
 
-    public Fichero(String name, String format, int size, Carpeta folder) {
+    public Fichero(String name, String format, int size, Carpeta folder)
+    {
         this.name = name;
         this.format = format;
         this.size = size;
         this.folder = folder;
     }
+
+
+    public Fichero(byte[] data, String pathname, String nombreFichero, String formatoFichero, int tamañoFichero, Carpeta carpeta)
+    {
+        this.pathname = pathname;
+        this.data = data;
+        this.name = nombreFichero;
+        this.format = formatoFichero;
+        this.size = tamañoFichero;
+        this.folder = carpeta;
+    }
+
 
     public String getName() {
         return name;
@@ -22,13 +37,12 @@ abstract class Fichero {
         this.name = name;
     }
 
-    public String getFormat() {
-        return format;
-    }
+    public String getFormat() { return format; }
 
     public void setFormat(String format) {
         this.format = format;
     }
+
 
     public int getSize() {
         return size;
@@ -40,6 +54,14 @@ abstract class Fichero {
 
     public Carpeta getFolder() {
         return folder;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public String getPathname() {
+        return pathname;
     }
 
     public void setFolder(Carpeta folder) {

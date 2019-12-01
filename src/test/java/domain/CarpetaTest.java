@@ -4,8 +4,6 @@ import org.junit.*;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 public class CarpetaTest {
     private Carpeta folder;
     private static final String name = "name";

@@ -2,7 +2,7 @@ import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
 import domain.exception.CompressorException;
-import domain.fileManager.FileManager;
+import presentation.fileManager.ControladorDeArchivos;
 
 import java.util.Scanner;
 
@@ -25,7 +25,7 @@ public class Main {
         int command = scanner.nextInt();
         //Initialize program
         String projectPath = System.getProperty("user.dir");
-        FileManager fileManager = new FileManager();
+        ControladorDeArchivos controladorDeArchivos = new ControladorDeArchivos();
         String path = null;
 
         switch (command) {
@@ -47,7 +47,7 @@ public class Main {
                 break;
         }
 
-        fileManager.readFile(path);
+        controladorDeArchivos.LeeFichero(path);
 
         System.out.println("FILE READ SUCCESSFULLY");
         System.out.println("PRESS 1 IF YOU WANT TO SEE THE CONTENTS OF THE FILE");
@@ -56,7 +56,7 @@ public class Main {
         if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-            String text = new String(fileManager.getFile(path).getData());
+            String text = new String(controladorDeArchivos.getFile(path).getData());
             System.out.println(text);
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }
@@ -72,13 +72,14 @@ public class Main {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
-        byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
+        byte[] encodingResult = algorithm.encodeFile(controladorDeArchivos.getFile(path).getData());
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
-        String compressedName = projectPath + "/output/" + scanner.next() + ".LZ78";
+        String compressedName = scanner.next();
+        String formato = "LZ78";
+        String compressedPath = projectPath + "/output/" + compressedName + "." + formato;
+        controladorDeArchivos.crearComprimido(encodingResult, compressedPath, compressedName, formato, encodingResult.length, null);
 
-        fileManager.createFile(encodingResult, compressedName);
-
-        fileManager.writeFile(compressedName, false);
+        controladorDeArchivos.escribirFichero(compressedPath, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE COMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
@@ -86,8 +87,8 @@ public class Main {
         if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE COMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-            fileManager.readFile(compressedName);
-            String text = new String(fileManager.getFile(compressedName).getData());
+            controladorDeArchivos.LeeFichero(compressedPath);
+            String text = new String(controladorDeArchivos.getFile(compressedPath).getData());
             System.out.println(text);
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }
@@ -100,13 +101,14 @@ public class Main {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
-        byte[] decodingResult = algorithm.decodeFile(fileManager.getFile(compressedName).getData());
+        byte[] decodingResult = algorithm.decodeFile(controladorDeArchivos.getFile(compressedPath).getData());
         System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
-        String decompressedName = projectPath + "/output/" + scanner.next();
+        String nombreDescomprimido = scanner.next();
+        String decompressedPath = projectPath + "/output/" + nombreDescomprimido;
 
-        fileManager.createFile(decodingResult, decompressedName);
+        controladorDeArchivos.crearDescomprimido(decodingResult, decompressedPath,nombreDescomprimido,"txt",decodingResult.length,null);
 
-        fileManager.writeFile(decompressedName, false);
+        controladorDeArchivos.escribirFichero(decompressedPath, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE DECOMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
@@ -114,8 +116,8 @@ public class Main {
         if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE DECOMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-            fileManager.readFile(decompressedName);
-            String text = new String(fileManager.getFile(decompressedName).getData());
+            controladorDeArchivos.LeeFichero(decompressedPath);
+            String text = new String(controladorDeArchivos.getFile(decompressedPath).getData());
             System.out.println(text);
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }

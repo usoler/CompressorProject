@@ -2,19 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/OUTPUT/1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OUTPUT/1.LZ78" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Compressor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/ControladorDeArchivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -69,6 +78,10 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/input" />
       <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="domain" />
+      <recent name="presentation" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
