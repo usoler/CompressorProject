@@ -1,17 +1,16 @@
-package presentation.fileManager;
+package domain.fileManager;
 
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import domain.Fichero;
 
 import java.io.*;
 
 public class FileWriterImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileWriterImpl.class);
 
-    public static void writeToFile(Fichero file, boolean append_value) throws CompressorException {
+    public static void writeToFile(FileImpl file, boolean append_value) throws CompressorException {
         //Removes "input/" from pathname and set its to "output/"
         String newPathname = file.getPathname();
 
@@ -32,7 +31,7 @@ public class FileWriterImpl {
         }
     }
 
-    private static void writeIntoFileOutputStream(Fichero file, FileOutputStream fileOutputStream) throws CompressorException {
+    private static void writeIntoFileOutputStream(FileImpl file, FileOutputStream fileOutputStream) throws CompressorException {
         try {
             fileOutputStream.write(file.getData());
         } catch (IOException ex) {
@@ -52,6 +51,14 @@ public class FileWriterImpl {
         }
     }
 
+    public static void writeCompressedToFile(CompressedFile file, boolean append_value) throws CompressorException {
+        //Removes "input/" from pathname and set its to "output/"
+        String newPathname = "output" + "/" + file.getPathname().substring(6, file.getPathname().length());
+        FileWriter writer = getFileWriter(append_value, newPathname);
+        PrintWriter print_line = new PrintWriter(writer);
+        print_line.printf("%s" + "%n", file.getOutputStream());
+        print_line.close();
+    }
 
     private static FileWriter getFileWriter(boolean append_value, String newPathname) throws CompressorException {
         try {

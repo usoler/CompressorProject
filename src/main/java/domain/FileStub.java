@@ -1,9 +1,8 @@
 package domain;
 
+public class FileStub extends File {
 
-public class FicheroStub extends Fichero {
-
-    public FicheroStub(String name, String format, int size, Carpeta folder) {
+    public FileStub(String name, String format, int size, Folder folder) {
         super(name, format, size, folder);
     }
 
@@ -23,11 +22,11 @@ public class FicheroStub extends Fichero {
         return 2;
     }
 
-    public Carpeta getFolder() {
+    public Folder getFolder() {
         return super.getFolder();
     }
 
-    public void setFolder(Carpeta folder) {
+    public void setFolder(Folder folder) {
 
     }
 }

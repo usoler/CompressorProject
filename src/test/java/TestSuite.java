@@ -1,5 +1,5 @@
-import domain.CarpetaTest;
-import domain.FicheroTest;
+import domain.FolderTest;
+import domain.FileTest;
 import domain.algorithms.AlgorithmTest;
 import domain.components.*;
 import domain.dataStructure.TrieNodeTest;
@@ -8,10 +8,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        CarpetaTest.class,
+        FolderTest.class,
         TrieNodeTest.class,
         TrieTest.class,
-        FicheroTest.class,
+        FileTest.class,
         AlgorithmTest.class,
         ConversorYCbCrComponentTest.class,
         SamplingComponentTest.class,

@@ -3,13 +3,13 @@ package domain;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Carpeta {
+public class Folder {
     private String name, format;
     private int size;
-    private ArrayList<Fichero> files;
-    private ArrayList<Carpeta> folders;
+    private ArrayList<File> files;
+    private ArrayList<Folder> folders;
 
-    public Carpeta(String name, String format) {
+    public Folder(String name, String format) {
         this.name = name;
         this.format = format;
         this.size = 0;
@@ -17,7 +17,7 @@ public class Carpeta {
         folders = new ArrayList<>();
     }
 
-    public Carpeta(String name, String format, ArrayList<Fichero> files, ArrayList<Carpeta> folders) {
+    public Folder(String name, String format, ArrayList<File> files, ArrayList<Folder> folders) {
         this(name, format);
         setFiles(files);
         setFolders(folders);
@@ -43,46 +43,46 @@ public class Carpeta {
         return size;
     }
 
-    public ArrayList<Fichero> getFiles() {
+    public ArrayList<File> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<Fichero> files) {
-        for (Fichero f: this.files) {
-            size -= f.getSize();
+    public void setFiles(ArrayList<File> files) {
+        for (File file : this.files) {
+            size -= file.getSize();
         }
         if (!Objects.isNull(files)) {
             this.files = files;
-            for (Fichero f: files) {
-                size += f.getSize();
+            for (File file : files) {
+                size += file.getSize();
             }
         }
     }
 
-    public ArrayList<Carpeta> getFolders() {
+    public ArrayList<Folder> getFolders() {
         return folders;
     }
 
-    public void setFolders(ArrayList<Carpeta> folders) {
-        for (Carpeta c: this.folders) {
-            size -= c.getSize();
+    public void setFolders(ArrayList<Folder> folders) {
+        for (Folder folder : this.folders) {
+            size -= folder.getSize();
         }
         if (!Objects.isNull(folders)) {
             this.folders = folders;
-            for (Carpeta c: folders){
-                size += c.getSize();
+            for (Folder folder : folders) {
+                size += folder.getSize();
             }
         }
     }
 
-    public void addFile(Fichero file) {
+    public void addFile(File file) {
         files.add(file);
         size += file.getSize();
         file.setFolder(this);
     }
 
 
-    public void addFolder(Carpeta folder) {
+    public void addFolder(Folder folder) {
         folders.add(folder);
         size += folder.getSize();
     }
@@ -90,17 +90,17 @@ public class Carpeta {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Carpeta)) return false;
-        Carpeta carpeta = (Carpeta) o;
-        return size == carpeta.size &&
-                name.equals(carpeta.name) &&
-                format.equals(carpeta.format) &&
-                Objects.equals(files, carpeta.files) &&
-                Objects.equals(folders, carpeta.folders);
+        if (!(o instanceof Folder)) return false;
+        Folder folder = (Folder) o;
+        return size == folder.size &&
+                name.equals(folder.name) &&
+                format.equals(folder.format) &&
+                Objects.equals(files, folder.files) &&
+                Objects.equals(folders, folder.folders);
     }
 
     @Override
     public String toString() {
-        return String.format("Carpeta{name='%s', format='%s', size=%s}", name, format, size);
+        return String.format("Folder{name='%s', format='%s', size=%s}", name, format, size);
     }
 }

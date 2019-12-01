@@ -2,8 +2,8 @@ package domain;
 
 import org.junit.*;
 
-public class FicheroTest {
-    private Fichero file;
+public class FileTest {
+    private File file;
     private static final String name = "example";
     private static final String format = "txt";
     private static int size = 1;
@@ -15,7 +15,7 @@ public class FicheroTest {
 
     @Before
     public void setUp() {
-        file = new Descomprimido(name, format, size, null);
+        file = new DecompressedFile(name, format, size, null);
 
 
     }
@@ -29,14 +29,14 @@ public class FicheroTest {
 
     @Test
     public void verify_equals_returnsTrue_whenNotSame() {
-        Fichero file2 = new Descomprimido(new String(name), new String(format), size, null);
+        File file2 = new DecompressedFile(new String(name), new String(format), size, null);
         Assert.assertEquals(file2, file);
     }
 
     @Test
     public void verify_equals_returnsTrue_whenFolderIsDifferent() {
-        Carpeta folder = new Carpeta(name, format);
-        Fichero file2 = new Descomprimido(new String(name), new String(format), size, folder);
+        Folder folder = new Folder(name, format);
+        File file2 = new DecompressedFile(new String(name), new String(format), size, folder);
         Assert.assertEquals(file2, file);
     }
 

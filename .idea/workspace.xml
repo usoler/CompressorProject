@@ -1,29 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="CompressorProject:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/OUTPUT/1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OUTPUT/1.LZ78" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compressorproject.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compressorproject.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input/2x2.ppm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input/clouds.ppm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input/sign_1.ppm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input/sines.ascii.ppm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/module_compressorproject.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/MainLZ78.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/PpmFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/PpmResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/MainView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/Table.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presentation/TypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/pbmlib.ppm" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Compressor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/DataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Carpeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Comprimido.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Descomprimido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Fichero.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FicheroStub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lzss.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/ControladorDeArchivos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/DCTComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/DCTComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/HuffmanComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/HuffmanComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/QuantizationComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/QuantizationComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/SamplingComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/SamplingComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/components/ZigZagComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/components/ZigZagComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pixel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataObjects/Pixel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/Trie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/dataStructure/TrieNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestSuite.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/CarpetaTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FicheroTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/components/HuffmanComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/components/HuffmanComponentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/components/PpmComponentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/components/PpmComponentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Tests/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/sample.bmp" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +81,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -52,6 +96,10 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="compressorproject" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
@@ -60,8 +108,11 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/input" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/CompressorProject-master (1)/CompressorProject-master" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -75,19 +126,15 @@
       <recent name="domain" />
       <recent name="presentation" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/input" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="domain" />
-      <recent name="presentation" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/input" />
+      <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -102,62 +149,77 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+  <component name="RunManager" selected="Application.MainTest">
+    <configuration name="MainTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainTest" />
       <module name="CompressorProject" />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in CompressorProject" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.algorithms.lossless.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
+      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
+      <option name="METHOD_NAME" value="verify_encode__compressQuickly_whenPassVeryBigFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LzwTest.verify_encode_encode_whenPassEmptyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.algorithms.lossless.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
+      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
+      <option name="METHOD_NAME" value="verify_encode_encode_whenPassEmptyFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSuite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CompressorProject" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HuffmanComponentTest.verify_getPreZerosAndRowOfValueChrominance_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrieNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CompressorProject" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="domain.components.*" />
+          <option name="PATTERN" value="domain.dataStructure.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="domain.components" />
-      <option name="MAIN_CLASS_NAME" value="domain.components.HuffmanComponentTest" />
-      <option name="METHOD_NAME" value="verify_getPreZerosAndRowOfValueChrominance_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HuffmanComponentTest.verify_getPreZerosAndRowOfValueY_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.components.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.components" />
-      <option name="MAIN_CLASS_NAME" value="domain.components.HuffmanComponentTest" />
-      <option name="METHOD_NAME" value="verify_getPreZerosAndRowOfValueY_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="domain.dataStructure" />
+      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieNodeTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.All in CompressorProject" />
-        <item itemvalue="JUnit.HuffmanComponentTest.verify_getPreZerosAndRowOfValueChrominance_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" />
-        <item itemvalue="JUnit.HuffmanComponentTest.verify_getPreZerosAndRowOfValueY_returnsNumOfPreZerosAndRow_whenParamHuffmanCodeIsValid" />
+        <item itemvalue="Application.MainTest" />
+        <item itemvalue="JUnit.TestSuite" />
+        <item itemvalue="JUnit.LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" />
+        <item itemvalue="JUnit.LzwTest.verify_encode_encode_whenPassEmptyFile" />
+        <item itemvalue="JUnit.TrieNodeTest" />
       </list>
     </recent_temporary>
   </component>
@@ -181,6 +243,9 @@
       <workItem from="1573830790035" duration="6125000" />
       <workItem from="1573915772612" duration="26070000" />
       <workItem from="1573986876511" duration="15174000" />
+      <workItem from="1574075080785" duration="13191000" />
+      <workItem from="1574088745684" duration="2123000" />
+      <workItem from="1574091917269" duration="1004000" />
     </task>
     <servers />
   </component>
@@ -212,6 +277,11 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java</url>
           <line>52</line>
           <option name="timeStamp" value="174" />
@@ -220,6 +290,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java</url>
           <line>166</line>
           <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="201" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -233,7 +308,7 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CompressorProject$Main.ic" NAME="Main Coverage Results" MODIFIED="1573984456988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/CompressorProject2$Main.ic" NAME="Main Coverage Results" MODIFIED="1572464417627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/CompressorProject$Main.ic" NAME="Main Coverage Results" MODIFIED="1573984456988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

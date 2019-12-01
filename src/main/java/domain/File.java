@@ -2,32 +2,17 @@ package domain;
 
 import java.util.Objects;
 
-public abstract class Fichero {
+abstract class File {
     private String name, format;
     private int size;
-    private Carpeta folder;
-    protected String pathname;
-    private byte[] data;
+    private Folder folder;
 
-    public Fichero(String name, String format, int size, Carpeta folder)
-    {
+    public File(String name, String format, int size, Folder folder) {
         this.name = name;
         this.format = format;
         this.size = size;
         this.folder = folder;
     }
-
-
-    public Fichero(byte[] data, String pathname, String nombreFichero, String formatoFichero, int tamañoFichero, Carpeta carpeta)
-    {
-        this.pathname = pathname;
-        this.data = data;
-        this.name = nombreFichero;
-        this.format = formatoFichero;
-        this.size = tamañoFichero;
-        this.folder = carpeta;
-    }
-
 
     public String getName() {
         return name;
@@ -37,12 +22,13 @@ public abstract class Fichero {
         this.name = name;
     }
 
-    public String getFormat() { return format; }
+    public String getFormat() {
+        return format;
+    }
 
     public void setFormat(String format) {
         this.format = format;
     }
-
 
     public int getSize() {
         return size;
@@ -52,19 +38,11 @@ public abstract class Fichero {
         this.size = size;
     }
 
-    public Carpeta getFolder() {
+    public Folder getFolder() {
         return folder;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public String getPathname() {
-        return pathname;
-    }
-
-    public void setFolder(Carpeta folder) {
+    public void setFolder(Folder folder) {
         this.folder = folder;
     }
 
@@ -79,8 +57,8 @@ public abstract class Fichero {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Fichero)) return false;
-        Fichero fichero = (Fichero) o;
+        if (!(o instanceof File)) return false;
+        File fichero = (File) o;
         return size == fichero.size &&
                 name.equals(fichero.name) &&
                 format.equals(fichero.format);

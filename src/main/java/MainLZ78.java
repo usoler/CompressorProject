@@ -1,16 +1,16 @@
 import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
-import domain.algorithms.lossy.Jpeg;
+import domain.algorithms.lossless.Lz78;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Scanner;
 
-public class MainJPEG {
+public class MainLZ78 {
 
-    public static void main(String[] args) throws Exception {
+
+    public static void main(String[] args) throws CompressorException {
+        // write your code here
         System.out.println("COMPRESSOR 3000");
         System.out.println("THIS PROGRAM IS DEVELOPED BY THE GROUP 10-3");
         System.out.println("DEVELOPERS ARE:");
@@ -18,7 +18,7 @@ public class MainJPEG {
         System.out.println("MALQUI CRUZ, MIGUEL ANGEL");
         System.out.println("SOLER CRUZ, LUIS ORIOL");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("THIS VERSION OF THE PROGRAM COMPILES IN THE ALGORITHM JPEG");
+        System.out.println("THIS VERSION OF THE PROGRAM COMPILES IN THE ALGORITHM LZ78");
         System.out.println("PRESS 1 IF YOU WANT TO TEST OUR FILES");
         System.out.println("PRESS 2 IF YOU WANT TO INSERT YOUR LOCAL FILE");
         Scanner scanner = new Scanner(System.in);
@@ -31,7 +31,7 @@ public class MainJPEG {
         switch (command) {
             case 1:
                 System.out.println("OUR FILE IS GOING TO BE USED");
-                path = projectPath + "/TestImage.ppm";
+                path = projectPath + "/TestFile.txt";
                 break;
             case 2:
                 System.out.println("PLEASE INSERT THE LOCAL PATH OF YOUR FILE");
@@ -61,9 +61,9 @@ public class MainJPEG {
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }
 
-        AlgorithmInterface jpeg = new Jpeg();
+        AlgorithmInterface lz78 = new Lz78();
         Algorithm algorithm = new Algorithm();
-        algorithm.setAlgorithmInterface(jpeg);
+        algorithm.setAlgorithmInterface(lz78);
 
         System.out.println("COMPRESSION IS GOING TO START");
         System.out.println("PRESS 1 TO CONTINUE");
@@ -72,10 +72,9 @@ public class MainJPEG {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
-        //byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
-        byte[] encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(path).toPath()));
+        byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
-        String compressedName = projectPath + "/output/" + scanner.next() + ".JPEG";
+        String compressedName = projectPath + "/output/" + scanner.next() + ".LZ78";
 
         fileManager.createFile(encodingResult, compressedName);
 
@@ -123,4 +122,5 @@ public class MainJPEG {
         System.out.println("THANK YOU FOR USING OUR PROGRAM");
         System.out.println("CLOSING PROGRAM");
     }
+
 }
