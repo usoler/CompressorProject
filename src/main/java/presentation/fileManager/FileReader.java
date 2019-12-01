@@ -25,7 +25,7 @@ public class FileReader {
         File file = new File(filePathname);
         if (file.isDirectory()) {
             System.out.println("YOU ARE READING A FOLDER. READING A FOLDER INSTEAD");
-            readAllFilesFromFolder(filePathname,creaCarpeta(file));
+            readAllFilesFromFolder(filePathname,creaCarpeta(file,carpeta));
         } else {
             InputStream inputStream = null;
             String data;
@@ -61,8 +61,6 @@ public class FileReader {
     public static void readAllFilesFromFolder(String folderPathName, Carpeta carpeta) {
         File folder = new File(folderPathName);
         File[] listOfFiles = folder.listFiles();
-
-        List<String> listOfStrings = new ArrayList<String>();
         InputStream inputStream = null;
         String data;
         String filePathname;
@@ -80,6 +78,8 @@ public class FileReader {
 
                     if (estaComprimido(formato)) fileCreator.creaFicheroDescomprimido(data.getBytes(), filePathname,nombre,formato,data.getBytes().length,carpeta);
                     else fileCreator.creaFicheroDescomprimido(data.getBytes(), filePathname,nombre,formato,data.getBytes().length,carpeta);
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -92,7 +92,7 @@ public class FileReader {
                     }
                 }
             } else if (file.isDirectory()) {
-                readAllFilesFromFolder(filePathname, creaCarpeta(file));
+                readAllFilesFromFolder(filePathname, creaCarpeta(file,carpeta));
             }
         }
     }
@@ -136,8 +136,12 @@ public class FileReader {
         return resultado;
     }
 
-    private static Carpeta creaCarpeta(File file)
+    private static Carpeta creaCarpeta(File file, Carpeta _carpeta)
     {
-        return null;
+        String carpetaNombre = file.getName();
+        String formatoCarpeta = obtenerFormatoArchivo(carpetaNombre);
+        Carpeta carpeta = new Carpeta(carpetaNombre,formatoCarpeta);
+        carpeta.setCarpetaMadre(_carpeta);
+        return carpeta;
     }
 }

@@ -7,20 +7,20 @@ public class Carpeta {
     private String name, format;
     private int size;
     private ArrayList<Fichero> files;
-    private ArrayList<Carpeta> folders;
+    private Carpeta carpetaMadre;
 
     public Carpeta(String name, String format) {
         this.name = name;
         this.format = format;
         this.size = 0;
         files = new ArrayList<>();
-        folders = new ArrayList<>();
+        carpetaMadre = null;
     }
 
-    public Carpeta(String name, String format, ArrayList<Fichero> files, ArrayList<Carpeta> folders) {
+    public Carpeta(String name, String format, ArrayList<Fichero> files, Carpeta carpetaMadre) {
         this(name, format);
         setFiles(files);
-        setFolders(folders);
+        this.carpetaMadre = carpetaMadre;
     }
 
     public String getName() {
@@ -59,10 +59,16 @@ public class Carpeta {
         }
     }
 
-    public ArrayList<Carpeta> getFolders() {
-        return folders;
+    public void assignaFichero(Fichero fichero)
+    {
+        files.add(fichero);
     }
 
+    public Carpeta getCarpetaMadre() {
+        return carpetaMadre;
+    }
+
+    /*
     public void setFolders(ArrayList<Carpeta> folders) {
         for (Carpeta c: this.folders) {
             size -= c.getSize();
@@ -74,6 +80,12 @@ public class Carpeta {
             }
         }
     }
+     */
+
+    public void setCarpetaMadre(Carpeta carpeta)
+    {
+        carpetaMadre = carpeta;
+    }
 
     public void addFile(Fichero file) {
         files.add(file);
@@ -82,11 +94,13 @@ public class Carpeta {
     }
 
 
+    /*
     public void addFolder(Carpeta folder) {
         folders.add(folder);
         size += folder.getSize();
     }
 
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,7 +110,7 @@ public class Carpeta {
                 name.equals(carpeta.name) &&
                 format.equals(carpeta.format) &&
                 Objects.equals(files, carpeta.files) &&
-                Objects.equals(folders, carpeta.folders);
+                Objects.equals(carpetaMadre, carpeta.carpetaMadre);
     }
 
     @Override

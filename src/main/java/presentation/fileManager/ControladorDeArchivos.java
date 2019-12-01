@@ -29,11 +29,8 @@ public class ControladorDeArchivos {
         fileWriter.writeToFile(file, append_value);
     }
 
-//    public static void writeFolder(File file, boolean append_value) throws CompressorException {
-//        fileWriter.writeFromFolderToFile(file, append_value);
-//    }
 
-    private Fichero findFileWithPathname(String pathname) {
+    private Fichero encuentraFicheroConPath(String pathname) {
         for (Fichero file : listaDeFicheros) {
             if (file.getPathname().equals(pathname)) {
                 return file;
@@ -44,7 +41,7 @@ public class ControladorDeArchivos {
     }
 
     public Fichero getFile(String pathname) {
-        return findFileWithPathname(pathname);
+        return encuentraFicheroConPath(pathname);
     }
 
 
@@ -61,7 +58,7 @@ public class ControladorDeArchivos {
     }
 
     public void escribirFichero(String pathname, boolean append_value) throws CompressorException {
-        Fichero file = findFileWithPathname(pathname);
+        Fichero file = encuentraFicheroConPath(pathname);
         fileWriter.writeToFile(file, append_value);
     }
 
