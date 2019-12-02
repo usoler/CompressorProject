@@ -99,7 +99,6 @@ public class MainViewSwing {
         historyPanel.add(searchButton);
         historyPanel.add(scrollPane);
         historyTable.setDefaultEditor(Object.class, null);
-        historyTable.setDrop(true);
         LOGGER.debug("History Panel initiated");
     }
 
