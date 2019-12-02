@@ -30,6 +30,7 @@ public class DomainController {
         try {
             fileManager.readFile(pathname);
         } catch (CompressorException e) {
+            // throw exception
             e.printStackTrace();
         }
         LOGGER.debug("File added to the domain");
