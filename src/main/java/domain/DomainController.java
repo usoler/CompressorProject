@@ -52,7 +52,8 @@ public class DomainController {
         try {
             Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
             byte[] encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
-            String compressedPath = System.getProperty("user.dir") + "/output/" + filename + ".lz78";
+            String compressedPath = System.getProperty("user.dir") + "/output/" + filename
+                    + selectCompressedExtension(typeOfAlgorithm);
             fileManager.createFile(encodingResult, compressedPath);
             fileManager.writeFile(compressedPath, false);
             return compressedPath;
@@ -85,7 +86,7 @@ public class DomainController {
         try {
             Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
             byte[] encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
-            String extension = selectExtension(typeOfAlgorithm);
+            String extension = selectUncompressedExtension(typeOfAlgorithm);
             String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename + extension;
             fileManager.createFile(encodingResult, uncompressedPath);
             fileManager.writeFile(uncompressedPath, false);
@@ -97,11 +98,21 @@ public class DomainController {
         return null;
     }
 
-    private String selectExtension(String typeOfAlgorithm) {
+    private String selectUncompressedExtension(String typeOfAlgorithm) {
         if (typeOfAlgorithm.equals("JPEG")) {
             return ".ppm";
         } else {
             return ".txt";
+        }
+    }
+
+    private String selectCompressedExtension(String typeOfAlgorithm) {
+        if (typeOfAlgorithm.equals("JPEG")) {
+            return ".jpeg";
+        } else if (typeOfAlgorithm.equals("LZ78")) {
+            return ".lz78";
+        } else {
+            return ".lzw";
         }
     }
 }
