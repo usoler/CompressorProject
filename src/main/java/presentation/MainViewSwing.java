@@ -10,9 +10,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+// TODO: fix scrolling
 public class MainViewSwing {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
-    private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension"};
+    private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension", "Pathname"};
 
     private PresentationController presentationController;
 
@@ -24,7 +26,6 @@ public class MainViewSwing {
     private JButton addFileButton;
     private JTextField searchTextField;
     private JButton searchButton;
-    private JLabel allFilesLabel;
     private JTable historyTable;
     private JScrollPane scrollPane;
     // -----------------------------------
@@ -36,7 +37,8 @@ public class MainViewSwing {
     private JPanel fileInfoPanel;
     private JLabel filenameLabel;
     private JLabel dateLabel;
-    private JLabel formatLabel;
+    private JLabel extensionLabel;
+    private JLabel pathnameLabel;
 
     private JPanel compressedFileInfoPanel;
     private JLabel compressedLabel;
@@ -74,22 +76,19 @@ public class MainViewSwing {
         viewFrame = new JFrame("Main View");
         viewPanel = new JPanel();
 
-        // History Panel ------------------------------------
-        historyPanel = new JPanel();
-        addFileButton = new JButton("+ Add File");
-        searchTextField = new JTextField(20);
-        searchButton = new JButton("Search");
-        allFilesLabel = new JLabel("All Files");
-        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
-        scrollPane = new JScrollPane(historyTable);
-        // --------------------------------------------------
+        initHistoryInstances();
+        initDataFileInstances();
 
-        // Data File Panel ----------------------------------
+        LOGGER.debug("Instances initiated");
+    }
+
+    private void initDataFileInstances() {
         dataFilePanel = new JPanel();
         fileInfoPanel = new JPanel();
         filenameLabel = new JLabel("Filename: -");
         dateLabel = new JLabel("Date: -");
-        formatLabel = new JLabel("Format: -");
+        extensionLabel = new JLabel("Format: -");
+        pathnameLabel = new JLabel("Pathname: -");
         compressedFileInfoPanel = new JPanel();
         compressedLabel = new JLabel("Compressed");
         originalSizeLabel = new JLabel("Original Size: (*)");
@@ -103,9 +102,15 @@ public class MainViewSwing {
         algorithmComboBox.addItem("LZ78");
         algorithmComboBox.addItem("LZW");
         algorithmComboBox.addItem("JPEG");
-        // --------------------------------------------------
+    }
 
-        LOGGER.debug("Instances initiated");
+    private void initHistoryInstances() {
+        historyPanel = new JPanel();
+        addFileButton = new JButton("+ Add File");
+        searchTextField = new JTextField(20);
+        searchButton = new JButton("Search");
+        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
+        scrollPane = new JScrollPane(historyTable);
     }
 
     private void initComponents() {
@@ -145,9 +150,9 @@ public class MainViewSwing {
         historyPanel.add(addFileButton);
         historyPanel.add(searchTextField);
         historyPanel.add(searchButton);
-        historyPanel.add(allFilesLabel);
         historyPanel.add(scrollPane);
         historyTable.setDefaultEditor(Object.class, null);
+        historyTable.getTableHeader().setReorderingAllowed(false);
         LOGGER.debug("History Panel initiated");
     }
 
@@ -180,7 +185,8 @@ public class MainViewSwing {
         fileInfoPanel.setLayout(new BoxLayout(fileInfoPanel, BoxLayout.Y_AXIS));
         fileInfoPanel.add(filenameLabel);
         fileInfoPanel.add(dateLabel);
-        fileInfoPanel.add(formatLabel);
+        fileInfoPanel.add(extensionLabel);
+        fileInfoPanel.add(pathnameLabel);
     }
 
     private void initCompressedFileInfoPanel() {
@@ -205,13 +211,23 @@ public class MainViewSwing {
         LOGGER.debug("Adding listeners");
         addHistoryTableListeners();
         addAddFileButtonListeners();
+        addCompressButtonListeners();
+        addUncompressButtonListeners();
         LOGGER.debug("Listeners added");
     }
 
     private void addHistoryTableListeners() {
         historyTable.getSelectionModel().addListSelectionListener(event -> {
-            System.out.println(historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString());
+            updateFileInfo();
         });
+    }
+
+    private void updateFileInfo() {
+        filenameLabel.setText(String.format("Filename: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 0)));
+        dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
+        extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
+        pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
+        originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
     }
 
     private void addAddFileButtonListeners() {
@@ -230,50 +246,45 @@ public class MainViewSwing {
         });
     }
 
+    private void addCompressButtonListeners() {
+        compressButton.addActionListener(e -> {
+            String algorithm = algorithmComboBox.getSelectedItem().toString();
+            String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
+            String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
+            String compressedPath = presentationController.compressFile(algorithm, pathname, filename);
+            newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
+            addRowToTableFromFile(new File(compressedPath));
+        });
+    }
+
+    private void addUncompressButtonListeners() {
+        uncompressButton.addActionListener(e -> {
+            String algorithm = algorithmComboBox.getSelectedItem().toString();
+            String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
+            String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
+            String uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename);
+            newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
+            addRowToTableFromFile(new File(uncompressedPath));
+        });
+    }
+
     private void addRowToTableFromFile(File file) {
         String[] fileParts = file.getName().split("\\.");
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        tableModel.addRow(new Object[]{fileParts[0], formatter.format(new Date()), getSizeFromFile(file), fileParts[1]});
+        tableModel.addRow(new Object[]{fileParts[0], formatter.format(new Date()), getSizeFromFile(file), fileParts[1], file.getAbsolutePath()});
     }
 
     private String getSizeFromFile(File file) {
         double bytesSize = (double) (file.length() / (1024 * 1024));
         double roundedSize = (Math.round(bytesSize * 100.0) / 100.0);
         if (roundedSize <= 0.1) {
-            return Double.toString(file.length()) + " B";
+            return Double.toString((double) file.length() / 1000) + " B";
         } else if (roundedSize < 0.5 && roundedSize > 0.1) {
             return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " KB";
         } else {
-            bytesSize = (double) file.length() / 1024;
+            bytesSize = (double) file.length() / (1024000);
             return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " MB";
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -26,8 +26,20 @@ public class PresentationController {
     }
 
     public void addFile(String pathname) {
-        LOGGER.debug("Calling Add File from Domain Controller");
+        LOGGER.debug("Calling Add File from Domain Controller with param pathname '{}'", pathname);
         domainController.addFile(pathname);
         LOGGER.debug("Add file from Domain Controller called");
+    }
+
+    public String compressFile(String algorithm, String pathname, String filename) {
+        LOGGER.debug("Calling Compress File from Domain Controller with params algorithm '{}' and pathname '{}'",
+                algorithm, pathname);
+        return domainController.compressFile(algorithm, pathname, filename);
+    }
+
+    public String uncompressFile(String algorithm, String pathname, String filename) {
+        LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
+                algorithm, pathname);
+        return domainController.uncompressFile(algorithm, pathname, filename);
     }
 }
