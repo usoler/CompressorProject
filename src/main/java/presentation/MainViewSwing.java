@@ -19,6 +19,7 @@ public class MainViewSwing {
     private JFrame viewFrame;
     private JPanel viewPanel;
 
+    // History Panel ----------------------
     private JPanel historyPanel;
     private JButton addFileButton;
     private JTextField searchTextField;
@@ -26,6 +27,30 @@ public class MainViewSwing {
     private JLabel allFilesLabel;
     private JTable historyTable;
     private JScrollPane scrollPane;
+    // -----------------------------------
+
+
+    // File Data Panel ------------------------------
+    private JPanel dataFilePanel;
+
+    private JPanel fileInfoPanel;
+    private JLabel filenameLabel;
+    private JLabel dateLabel;
+    private JLabel formatLabel;
+
+    private JPanel compressedFileInfoPanel;
+    private JLabel compressedLabel;
+    private JLabel originalSizeLabel;
+
+    private JPanel uncompressedFileInfoPanel;
+    private JLabel uncompressedLabel;
+    private JLabel newSizeLabel;
+
+    private JPanel controlComponentsPanel;
+    private JButton compressButton;
+    private JButton uncompressButton;
+    private JComboBox<String> algorithmComboBox;
+    // ---------------------------------------------
 
     public MainViewSwing(PresentationController presentationController) {
         LOGGER.info("Constructing Main View");
@@ -59,6 +84,27 @@ public class MainViewSwing {
         scrollPane = new JScrollPane(historyTable);
         // --------------------------------------------------
 
+        // Data File Panel ----------------------------------
+        dataFilePanel = new JPanel();
+        fileInfoPanel = new JPanel();
+        filenameLabel = new JLabel("Filename: -");
+        dateLabel = new JLabel("Date: -");
+        formatLabel = new JLabel("Format: -");
+        compressedFileInfoPanel = new JPanel();
+        compressedLabel = new JLabel("Compressed");
+        originalSizeLabel = new JLabel("Original Size: (*)");
+        uncompressedFileInfoPanel = new JPanel();
+        uncompressedLabel = new JLabel("Uncompressed");
+        newSizeLabel = new JLabel("New Size: (*)");
+        controlComponentsPanel = new JPanel();
+        compressButton = new JButton("Compress");
+        uncompressButton = new JButton("Uncompress");
+        algorithmComboBox = new JComboBox<>();
+        algorithmComboBox.addItem("LZ78");
+        algorithmComboBox.addItem("LZW");
+        algorithmComboBox.addItem("JPEG");
+        // --------------------------------------------------
+
         LOGGER.debug("Instances initiated");
     }
 
@@ -67,6 +113,7 @@ public class MainViewSwing {
         initViewFrame();
         initViewPanel();
         initHistoryPanel();
+        initDataFilePanel();
 
         addListeners();
         LOGGER.debug("Components initiated");
@@ -87,8 +134,9 @@ public class MainViewSwing {
 
     private void initViewPanel() {
         LOGGER.debug("Initiating View Panel");
-        viewPanel.setLayout(new BorderLayout());
+        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
         viewPanel.add(historyPanel);
+        viewPanel.add(dataFilePanel);
         LOGGER.debug("View Panel initiated");
     }
 
@@ -97,9 +145,60 @@ public class MainViewSwing {
         historyPanel.add(addFileButton);
         historyPanel.add(searchTextField);
         historyPanel.add(searchButton);
+        historyPanel.add(allFilesLabel);
         historyPanel.add(scrollPane);
         historyTable.setDefaultEditor(Object.class, null);
         LOGGER.debug("History Panel initiated");
+    }
+
+    private void initDataFilePanel() {
+        LOGGER.debug("Initiating Data File Panel");
+        dataFilePanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.insets = new Insets(50, 50, 0, 0);
+        dataFilePanel.add(fileInfoPanel, constraints);
+        initFileInfoPanel();
+        constraints.gridx = 1;
+        dataFilePanel.add(compressedFileInfoPanel, constraints);
+        initCompressedFileInfoPanel();
+        constraints.gridx = 2;
+        dataFilePanel.add(uncompressedFileInfoPanel, constraints);
+        initUncompressedFileInfoPanel();
+        constraints.gridwidth = 2;
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        dataFilePanel.add(controlComponentsPanel, constraints);
+        initControlComponentsPanel();
+        LOGGER.debug("Data File Panel initiated");
+    }
+
+    private void initFileInfoPanel() {
+        fileInfoPanel.setLayout(new BoxLayout(fileInfoPanel, BoxLayout.Y_AXIS));
+        fileInfoPanel.add(filenameLabel);
+        fileInfoPanel.add(dateLabel);
+        fileInfoPanel.add(formatLabel);
+    }
+
+    private void initCompressedFileInfoPanel() {
+        compressedFileInfoPanel.setLayout(new BoxLayout(compressedFileInfoPanel, BoxLayout.Y_AXIS));
+        compressedFileInfoPanel.add(originalSizeLabel);
+        compressedFileInfoPanel.add(compressedLabel);
+    }
+
+    private void initUncompressedFileInfoPanel() {
+        uncompressedFileInfoPanel.setLayout(new BoxLayout(uncompressedFileInfoPanel, BoxLayout.Y_AXIS));
+        uncompressedFileInfoPanel.add(newSizeLabel);
+        uncompressedFileInfoPanel.add(uncompressedLabel);
+    }
+
+    private void initControlComponentsPanel() {
+        controlComponentsPanel.add(algorithmComboBox);
+        controlComponentsPanel.add(compressButton);
+        controlComponentsPanel.add(uncompressButton);
     }
 
     private void addListeners() {
