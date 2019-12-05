@@ -93,8 +93,11 @@ public class MainViewSwing {
         newSizeLabel = new JLabel("New Size: (*)");
         controlComponentsPanel = new JPanel();
         compressButton = new JButton("Compress");
+        compressButton.setEnabled(false);
         uncompressButton = new JButton("Uncompress");
+        uncompressButton.setEnabled(false);
         algorithmComboBox = new JComboBox<>();
+        algorithmComboBox.setEnabled(false);
         algorithmComboBox.addItem("LZ78");
         algorithmComboBox.addItem("LZW");
         algorithmComboBox.addItem("JPEG");
@@ -214,6 +217,9 @@ public class MainViewSwing {
 
     private void addHistoryTableListeners() {
         historyTable.getSelectionModel().addListSelectionListener(event -> {
+            compressButton.setEnabled(true);
+            uncompressButton.setEnabled(true);
+            algorithmComboBox.setEnabled(true);
             updateFileInfo();
         });
     }
@@ -237,13 +243,21 @@ public class MainViewSwing {
                 try {
                     presentationController.addFile(file.getAbsolutePath());
                 } catch (CompressorException ex) {
-                    // TODO: show exception
+                    showException(ex);
                 }
                 addRowToTableFromFile(file);
             } else if (selection == JFileChooser.ERROR_OPTION) {
-                // TODO: show exception
+                String message = "Failure to choose a file";
+                LOGGER.error(message);
+                String errorMessage = String.format("Error code: %s.\nMessage: %s", "4009", message);
+                JOptionPane.showMessageDialog(viewFrame, errorMessage);
             }
         });
+    }
+
+    private void showException(CompressorException ex) {
+        String errorMessage = String.format("Error code: %s.\nMessage: %s", ex.getErrorCode().getCode(), ex.getMessage());
+        JOptionPane.showMessageDialog(viewFrame, errorMessage, "Message error", JOptionPane.ERROR_MESSAGE);
     }
 
     private void addCompressButtonListeners() {
@@ -251,14 +265,15 @@ public class MainViewSwing {
             String algorithm = algorithmComboBox.getSelectedItem().toString();
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
-            String compressedPath = null;
+            String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
+            String compressedPath;
             try {
-                compressedPath = presentationController.compressFile(algorithm, pathname, filename);
+                compressedPath = presentationController.compressFile(algorithm, pathname, filename, extension);
+                newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
+                addRowToTableFromFile(new File(compressedPath));
             } catch (CompressorException ex) {
-                // TODO: show exception
+                showException(ex);
             }
-            newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
-            addRowToTableFromFile(new File(compressedPath));
         });
     }
 
@@ -267,14 +282,15 @@ public class MainViewSwing {
             String algorithm = algorithmComboBox.getSelectedItem().toString();
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
-            String uncompressedPath = null;
+            String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
+            String uncompressedPath;
             try {
-                uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename);
+                uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename, extension);
+                newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
+                addRowToTableFromFile(new File(uncompressedPath));
             } catch (CompressorException ex) {
-                // TODO: show exception
+                showException(ex);
             }
-            newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
-            addRowToTableFromFile(new File(uncompressedPath));
         });
     }
 

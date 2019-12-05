@@ -58,7 +58,7 @@ public class PpmComponent {
         }
     }
 
-    private PpmFile readPpmHeader(byte[] data) {
+    private PpmFile readPpmHeader(byte[] data) throws CompressorException {
         String[] values = new String[4];
         int k = 0;
         for (int i = 0; (i < 4) && (k < data.length); ++i) {
@@ -78,8 +78,18 @@ public class PpmComponent {
             ++k;
             values[i] = workingBuffer.toString();
         }
+        int width;
+        int height;
+        try {
+            width = Integer.parseInt(values[1]);
+            height = Integer.parseInt(values[2]);
+        } catch (NumberFormatException e) {
+            String message = "Failure to parse width or height to integer value";
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.PPM_PARSE_FAILURE);
+        }
 
-        return new PpmFile(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), getContentOfColorImage(data, k));
+        return new PpmFile(values[0], width, height, getContentOfColorImage(data, k));
     }
 
     private int skipCommentLines(byte[] data, int k, char character) {

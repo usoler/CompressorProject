@@ -2,6 +2,10 @@ package domain.exception;
 
 public enum CompressorErrorCode {
     // JPEG error codes
+    // Failure to read jpeg file
+    READ_JPEG_FAILURE("1016"),
+    // Extension compatibility failure with Jpeg algorithm
+    JPEG_EXTENSION_COMPATIBILITY_FAILURE("1017"),
     // ******************************************
     // PPM Component
     // ******************************************
@@ -11,6 +15,8 @@ public enum CompressorErrorCode {
     WRITE_PPM_FAILURE("1001"),
     // Compatibility magic number failure
     PPM_COMPATIBILITY_FAILURE("1014"),
+    // Failure to parse width or height from ppm file
+    PPM_PARSE_FAILURE("1015"),
     // ******************************************
     // Conversor YCbCr Component
     // ******************************************
@@ -55,7 +61,11 @@ public enum CompressorErrorCode {
     DECODE_COEFFICIENT_FAILURE("1013"),
 
     // LZW error codes (Start from 2000)
+    // Extension compatibility failure with Lzw algorithm
+    LZW_EXTENSION_COMPATIBILITY_FAILURE("1018"),
     // LZ78 error codes (Start from 3000)
+    // Extension compatibility failure with Lz78 algorithm
+    LZ78_EXTENSION_COMPATIBILITY_FAILURE("1019"),
     // Others (Start from 4000)
     // ******************************************
     // File Writer Impl
@@ -84,7 +94,17 @@ public enum CompressorErrorCode {
     // Stubs
     // ******************************************
     // Failure with interrupted thread
-    THREAD_INTERRUPTED_FAILURE("4007");
+    THREAD_INTERRUPTED_FAILURE("4007"),
+    // ******************************************
+    // DomainController
+    // ******************************************
+    // Failure to read all bytes from file
+    READ_FILE_BYTES_FAILURE("4008"),
+    // ******************************************
+    // MainViewSwing
+    // ******************************************
+    // Failure to choose a file
+    CHOOSE_FILE_FAILURE("4009");
 
     private String code;
 

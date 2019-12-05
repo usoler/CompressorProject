@@ -17,8 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-// TODO: problemas con el color rojo !!
-
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
 
@@ -411,7 +409,7 @@ public class Jpeg implements AlgorithmInterface {
         return new Pair<>(k, zigZagValues);
     }
 
-    private JpegResponse readJpegFile(byte[] data) {
+    private JpegResponse readJpegFile(byte[] data) throws CompressorException {
         int magicNumber = Integer.parseInt(new BigInteger(new byte[]{data[0]}).toString(2), 2);
         String widthSizeBinary = new BigInteger(new byte[]{data[1]}).toString(2);
         int widthNumOfBytes = Integer.parseInt(widthSizeBinary, 2);
@@ -423,7 +421,18 @@ public class Jpeg implements AlgorithmInterface {
         byte[] heightBytes = Arrays.copyOfRange(data, 3 + widthNumOfBytes, 3 + widthNumOfBytes + heightNumOfBytes);
         String heightBinary = new BigInteger(heightBytes).toString(2);
 
-        return new JpegResponse(magicNumber, widthNumOfBytes, heightNumOfBytes, Integer.parseInt(widthBinary, 2), Integer.parseInt(heightBinary, 2));
+        int width;
+        int height;
+        try {
+            width = Integer.parseInt(widthBinary, 2);
+            height = Integer.parseInt(heightBinary, 2);
+        } catch (NumberFormatException e) {
+            String message = "Failure to parse binary width or height to its integer value";
+            LOGGER.error(message);
+            throw new CompressorException(message, e, CompressorErrorCode.READ_JPEG_FAILURE);
+        }
+
+        return new JpegResponse(magicNumber, widthNumOfBytes, heightNumOfBytes, width, height);
     }
 
     private MacroBlockYCbCr undoDctProcess(List<Matrix<Integer>> blocksOf8x8) throws CompressorException {
