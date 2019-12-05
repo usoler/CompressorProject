@@ -79,7 +79,12 @@ public enum CompressorErrorCode {
     // Failure to read the input stream
     READ_INPUT_STREAM_FAILURE("4005"),
     // Failure to close the input stream
-    CLOSE_INPUT_STREAM_FAILURE("4006");
+    CLOSE_INPUT_STREAM_FAILURE("4006"),
+    // ******************************************
+    // Stubs
+    // ******************************************
+    // Failure with interrupted thread
+    THREAD_INTERRUPTED_FAILURE("4007");
 
     private String code;
 

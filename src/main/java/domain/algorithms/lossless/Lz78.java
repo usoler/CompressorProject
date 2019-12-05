@@ -1,8 +1,9 @@
 package domain.algorithms.lossless;
 
-
 import domain.dataStructure.Trie;
 import domain.dataStructure.TrieNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -10,41 +11,35 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class Lz78 extends Lz {
-    static protected byte[] ArrayListBytetoByteArray(ArrayList<Byte> bytes) {
-        byte[] result = new byte[bytes.size()];
-        for (int j = 0; j < bytes.size(); j++) {
-            result[j] = bytes.get(j).byteValue();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Lz78.class);
+
+    protected static byte[] ArrayListByteToByteArray(ArrayList<Byte> listOfBytes) {
+        byte[] byteArray = new byte[listOfBytes.size()];
+        for (int j = 0; j < listOfBytes.size(); j++) {
+            byteArray[j] = listOfBytes.get(j).byteValue();
         }
-        return result;
+        return byteArray;
     }
 
-    static protected byte[] transformIntToByteArray(int index, int extraBytesNeeded) {
+    protected static byte[] transformIntToByteArray(int index, int extraBytesNeeded) {
         byte[] bytes = ByteBuffer.allocate(4).putInt(index).array();
         switch (extraBytesNeeded) {
             case 0:
                 byte b1[] = {bytes[3]};
                 return b1;
-
             case 1:
                 byte b2[] = {bytes[2], bytes[3]};
                 return b2;
-
-
             case 2:
                 byte b3[] = {bytes[1], bytes[2], bytes[3]};
                 return b3;
-
-            case 3:
-                return bytes;
-
             default:
                 return bytes;
         }
     }
 
-    static private String bytesToBinary(byte[] bytes) {
+    private static String bytesToBinary(byte[] bytes) {
         StringBuilder binary = new StringBuilder();
         for (byte b : bytes) {
             int val = b;
@@ -95,8 +90,7 @@ public class Lz78 extends Lz {
 
     @Override
     public byte[] encode(byte[] data) {
-        // ENCODING WITH LZ78
-        System.out.println("ENCODING FILE WITH LZ78");
+        LOGGER.debug("Encoding file data with LZ78 algorithm");
         encodingDictionary = new Trie();
         String file = new String(data, StandardCharsets.UTF_8);
         int i = 0;
@@ -170,7 +164,6 @@ public class Lz78 extends Lz {
                 byte b = 0;
                 bytes.add(b);
             }
-
         }
         encodingDictionary = null;
 
@@ -181,15 +174,13 @@ public class Lz78 extends Lz {
         byteArray = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(firstExtraBytePosition).array();
         for (byte b : byteArray) bytes.add(0, b);
 
-
-        byteArray = ArrayListBytetoByteArray(bytes);
+        byteArray = ArrayListByteToByteArray(bytes);
         return byteArray;
     }
 
     @Override
     public byte[] decode(byte[] file) {
-        // DECODING WITH LZ78
-        System.out.println("DECODING FILE WITH LZ78");
+        LOGGER.debug("Decoding file data with LZ78");
         decodingDictionary = new HashMap<>();
         byte[] bytes = file;
         byte[] firstInt = {bytes[0], bytes[1], bytes[2], bytes[3]};
@@ -213,7 +204,6 @@ public class Lz78 extends Lz {
         int index2 = 0;
         StringBuffer stringBuffer = new StringBuffer();
         while (i < length) {
-
             if (mapIndex == firstChange) {
                 extraBytes = 1;
             } else if (mapIndex == secondChange) {
