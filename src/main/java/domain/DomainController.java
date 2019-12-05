@@ -33,35 +33,51 @@ public class DomainController {
         LOGGER.debug("Domain Controller initiated");
     }
 
-    public void addFile(String pathname) {
+    public void addFile(String pathname) throws CompressorException {
         LOGGER.debug("Adding file to the domain");
-        try {
-            fileManager.readFile(pathname);
-        } catch (CompressorException e) {
-            // throw exception
-            // TODO: implement exception
-            e.printStackTrace();
-        }
+        fileManager.readFile(pathname);
         LOGGER.debug("File added to the domain");
     }
 
-    public String compressFile(String typeOfAlgorithm, String pathname, String filename) {
+    public String compressFile(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
         LOGGER.debug("Compressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
+        Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
 
+        byte[] encodingResult = null;
         try {
-            Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
-            byte[] encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
-            String compressedPath = System.getProperty("user.dir") + "/output/" + filename
-                    + selectCompressedExtension(typeOfAlgorithm);
-            fileManager.createFile(encodingResult, compressedPath);
-            fileManager.writeFile(compressedPath, false);
-            return compressedPath;
-        } catch (IOException | CompressorException e) {
+            encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
+        } catch (IOException e) {
             // TODO: implement exception
+//            String message = "";
+//            LOGGER.error(message);
+//            throw new CompressorException(message, e, CompressorErrorCode.);
         }
-        LOGGER.debug("File compressed");
-        return null;
+        String compressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + selectCompressedExtension(typeOfAlgorithm);
+        fileManager.createFile(encodingResult, compressedPath);
+        fileManager.writeFile(compressedPath, false);
+        return compressedPath;
+    }
+
+    public String uncompressFile(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
+                typeOfAlgorithm, pathname, filename);
+        Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        byte[] encodingResult = null;
+        try {
+            encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
+        } catch (IOException e) {
+            // TODO: implement exception
+//            String message = "";
+//            LOGGER.error(message);
+//            throw new CompressorException(message, e, CompressorErrorCode.);
+        }
+        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + selectUncompressedExtension(typeOfAlgorithm);
+        fileManager.createFile(encodingResult, uncompressedPath);
+        fileManager.writeFile(uncompressedPath, false);
+        return uncompressedPath;
     }
 
     private Algorithm selectAlgorithm(String typeOfAlgorithm) {
@@ -77,25 +93,6 @@ public class DomainController {
             algorithm.setAlgorithmInterface(new Lzw());
         }
         return algorithm;
-    }
-
-    public String uncompressFile(String typeOfAlgorithm, String pathname, String filename) {
-        LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
-                typeOfAlgorithm, pathname, filename);
-
-        try {
-            Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
-            byte[] encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
-            String extension = selectUncompressedExtension(typeOfAlgorithm);
-            String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename + extension;
-            fileManager.createFile(encodingResult, uncompressedPath);
-            fileManager.writeFile(uncompressedPath, false);
-            return uncompressedPath;
-        } catch (IOException | CompressorException e) {
-            // TODO: implement exception
-        }
-        LOGGER.debug("File uncompressed");
-        return null;
     }
 
     private String selectUncompressedExtension(String typeOfAlgorithm) {

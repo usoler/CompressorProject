@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +11,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-// TODO: fix scrolling
 public class MainViewSwing {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
     private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension", "Pathname"};
@@ -29,7 +28,6 @@ public class MainViewSwing {
     private JTable historyTable;
     private JScrollPane scrollPane;
     // -----------------------------------
-
 
     // File Data Panel ------------------------------
     private JPanel dataFilePanel;
@@ -60,7 +58,6 @@ public class MainViewSwing {
 
         initInstances();
         initComponents();
-
         LOGGER.info("Main View constructed");
     }
 
@@ -78,7 +75,6 @@ public class MainViewSwing {
 
         initHistoryInstances();
         initDataFileInstances();
-
         LOGGER.debug("Instances initiated");
     }
 
@@ -238,10 +234,14 @@ public class MainViewSwing {
             if (selection == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 System.out.println("Selected file with pathname: " + file.getAbsolutePath());
-                presentationController.addFile(file.getAbsolutePath());
+                try {
+                    presentationController.addFile(file.getAbsolutePath());
+                } catch (CompressorException ex) {
+                    // TODO: show exception
+                }
                 addRowToTableFromFile(file);
             } else if (selection == JFileChooser.ERROR_OPTION) {
-                // TODO: throw exception
+                // TODO: show exception
             }
         });
     }
@@ -251,7 +251,12 @@ public class MainViewSwing {
             String algorithm = algorithmComboBox.getSelectedItem().toString();
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
-            String compressedPath = presentationController.compressFile(algorithm, pathname, filename);
+            String compressedPath = null;
+            try {
+                compressedPath = presentationController.compressFile(algorithm, pathname, filename);
+            } catch (CompressorException ex) {
+                // TODO: show exception
+            }
             newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
             addRowToTableFromFile(new File(compressedPath));
         });
@@ -262,7 +267,12 @@ public class MainViewSwing {
             String algorithm = algorithmComboBox.getSelectedItem().toString();
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
-            String uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename);
+            String uncompressedPath = null;
+            try {
+                uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename);
+            } catch (CompressorException ex) {
+                // TODO: show exception
+            }
             newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
             addRowToTableFromFile(new File(uncompressedPath));
         });
