@@ -106,12 +106,18 @@ public enum CompressorErrorCode {
     // DataController
     // ******************************************
     // Failure to read all paths from history file
-    READ_HISTORY_PATHS("4010"),
+    READ_HISTORY_PATHS_FAILURE("4010"),
+    // Failure to write in history file
+    WRITE_HISTORY_PATHS_FAILURE("4011"),
+    // Failure to rewrite in history file
+    REWRITE_HISTORY_PATHS_FAILURE("4013"),
     // ******************************************
     // MainViewSwing
     // ******************************************
     // Failure to choose a file
-    CHOOSE_FILE_FAILURE("4009");
+    CHOOSE_FILE_FAILURE("4009"),
+    // Failure to parse the file date
+    PARSE_DATA_FAILURE("4012");
 
     private String code;
 

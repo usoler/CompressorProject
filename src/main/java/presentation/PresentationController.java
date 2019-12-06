@@ -31,20 +31,26 @@ public class PresentationController {
     private void loadHistory() {
         LOGGER.debug("Calling load history to Domain Layer");
         CompressorException exception = null;
-        ArrayList<String> arrayOfFilePaths = new ArrayList<>();
+        ArrayList<String> arrayOfFileData = new ArrayList<>();
         try {
-            arrayOfFilePaths = domainController.loadHistory();
+            arrayOfFileData = domainController.loadHistory();
         } catch (CompressorException e) {
             exception = e;
         } finally {
-            mainView.loadHistoryTable(arrayOfFilePaths, exception);
+            mainView.loadHistoryTable(arrayOfFileData, exception);
         }
     }
 
-    public void addFile(String pathname) throws CompressorException {
+    public void addFile(String pathname, String date) throws CompressorException {
         LOGGER.debug("Calling Add File from Domain Controller with param pathname '{}'", pathname);
-        domainController.addFile(pathname);
+        domainController.addFile(pathname, date, true);
         LOGGER.debug("Add file from Domain Controller called");
+    }
+
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+        LOGGER.debug("Calling Rewrite History File from Domain Controller");
+        domainController.rewriteHistoryFile(linesToRemove);
+        LOGGER.debug("Rewrite from Domain Controller called");
     }
 
     public String compressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {

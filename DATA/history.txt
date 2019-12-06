@@ -1,4 +1,1 @@
-/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/clouds.ppm
-/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/java.ppm
-/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/noexiste.ppm
-/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/myhero.ppm
+02/11/1995 16:58:12 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/clouds.ppm

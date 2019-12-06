@@ -13,6 +13,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -225,7 +226,7 @@ public class MainViewSwing {
         addHistoryTableListeners();
         addAddFileButtonListeners();
         addRemoveFileButtonListeners();
-        addSearhTextFieldListeners();
+        addSearchTextFieldListeners();
         addCompressButtonListeners();
         addUncompressButtonListeners();
         LOGGER.debug("Listeners added");
@@ -248,7 +249,7 @@ public class MainViewSwing {
             extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
             pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
             originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             filenameLabel.setText("Filename: -");
             dateLabel.setText("Date: -");
             extensionLabel.setText("Extension: -");
@@ -265,12 +266,9 @@ public class MainViewSwing {
             if (selection == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 System.out.println("Selected file with pathname: " + file.getAbsolutePath());
-                try {
-                    presentationController.addFile(file.getAbsolutePath());
-                } catch (CompressorException ex) {
-                    showException(ex);
-                }
-                addRowToTableFromFile(file);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+                addNewFile(file, formatter.format(new Date()));
             } else if (selection == JFileChooser.ERROR_OPTION) {
                 String message = "Failure to choose a file";
                 LOGGER.error(message);
@@ -280,15 +278,30 @@ public class MainViewSwing {
         });
     }
 
+    private void addNewFile(File file, String date) {
+        try {
+            presentationController.addFile(file.getAbsolutePath(), date);
+            addRowToTableFromFile(file, date);
+        } catch (CompressorException ex) {
+            showException(ex);
+        }
+    }
+
     private void addRemoveFileButtonListeners() {
         removeFileButton.addActionListener(e -> {
-            ((DefaultTableModel) historyTable.getModel()).removeRow(historyTable.getSelectedRow());
-            historyTable.updateUI();
-            // TODO: remove from persistence layer
+            int modelRow = historyTable.convertRowIndexToModel(historyTable.getSelectedRow());
+            ((DefaultTableModel) historyTable.getModel()).removeRow(modelRow);
+            ArrayList<Integer> lineToRemove = new ArrayList<>();
+            lineToRemove.add(modelRow);
+            try {
+                presentationController.rewriteHistoryFile(lineToRemove);
+            } catch (CompressorException ex) {
+                showException(ex);
+            }
         });
     }
 
-    private void addSearhTextFieldListeners() {
+    private void addSearchTextFieldListeners() {
         searchTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -332,7 +345,7 @@ public class MainViewSwing {
             try {
                 compressedPath = presentationController.compressFile(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
-                addRowToTableFromFile(new File(compressedPath));
+                addRowToTableFromFile(new File(compressedPath), null);
             } catch (CompressorException ex) {
                 showException(ex);
             }
@@ -349,18 +362,31 @@ public class MainViewSwing {
             try {
                 uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
-                addRowToTableFromFile(new File(uncompressedPath));
+                addRowToTableFromFile(new File(uncompressedPath), null);
             } catch (CompressorException ex) {
                 showException(ex);
             }
         });
     }
 
-    private void addRowToTableFromFile(File file) {
+    private void addRowToTableFromFile(File file, String fileDate) {
         String[] fileParts = file.getName().split("\\.");
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        tableModel.addRow(new Object[]{fileParts[0], formatter.format(new Date()), getSizeFromFile(file), fileParts[1], file.getAbsolutePath()});
+        Date date = parseDate(fileDate, formatter);
+        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), getSizeFromFile(file), fileParts[1], file.getAbsolutePath()});
+    }
+
+    private Date parseDate(String fileDate, SimpleDateFormat formatter) {
+        Date date = new Date();
+        try {
+            date = formatter.parse(fileDate);
+        } catch (ParseException e) {
+            String message = "Failure to parse the file date";
+            LOGGER.error(message, e);
+            showException(new CompressorException(message, e, CompressorErrorCode.PARSE_DATA_FAILURE));
+        }
+        return date;
     }
 
     private String getSizeFromFile(File file) {
@@ -376,18 +402,21 @@ public class MainViewSwing {
         }
     }
 
-    public void loadHistoryTable(ArrayList<String> arrayOfFilePaths, CompressorException exception) {
+    public void loadHistoryTable(ArrayList<String> arrayOfFileData, CompressorException exception) {
         if (Objects.isNull(exception)) {
-            addFilesToTable(arrayOfFilePaths);
+            addFilesToTable(arrayOfFileData);
         } else {
             showException(exception);
         }
     }
 
-    private void addFilesToTable(ArrayList<String> arrayOfFilePaths) {
-        for (String pathname : arrayOfFilePaths) {
+    private void addFilesToTable(ArrayList<String> arrayOfFileData) {
+        for (int i = 0; i < arrayOfFileData.size(); ++i) {
+            String[] data = arrayOfFileData.get(i).split(" ");
+            String date = String.format("%s %s", data[0], data[1]);
+            String pathname = data[2];
             File file = new File(pathname);
-            addRowToTableFromFile(file);
+            addRowToTableFromFile(file, date);
         }
     }
 }

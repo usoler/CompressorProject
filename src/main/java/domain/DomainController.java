@@ -37,33 +37,45 @@ public class DomainController {
 
     public ArrayList<String> loadHistory() throws CompressorException {
         LOGGER.debug("Loading history from Persistence Layer");
-        ArrayList<String> arrayOfFilePaths = dataController.getAllFilesFromHistory();
+        ArrayList<String> arrayOfFileData = dataController.getAllFilesFromHistory();
+        ArrayList<String> goodArrayOfFileData = new ArrayList<>();
+        ArrayList<Integer> linesToRemove = new ArrayList<>();
         int index = 0;
-        for (String pathname : arrayOfFilePaths) {
-            if (checkFile(new File(pathname), index)) {
-                addFile(pathname);
-            } else {
-                arrayOfFilePaths.remove(pathname);
+        for (String data : arrayOfFileData) {
+            String pathname = data.split(" ")[2];
+            if (checkFile(new File(pathname))) {
+                addFile(pathname, null, false);
+                goodArrayOfFileData.add(data);
+            }else{
+                linesToRemove.add(index);
             }
             ++index;
         }
-        return arrayOfFilePaths;
+        rewriteHistoryFile(linesToRemove);
+        return goodArrayOfFileData;
     }
 
-    private boolean checkFile(File file, int index) {
+    private boolean checkFile(File file) {
         if (!file.exists()) {
             LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
-            // TODO
-            dataController.removePathAt(index);
             return false;
         }
         return true;
     }
 
-    public void addFile(String pathname) throws CompressorException {
+    public void addFile(String pathname, String date, boolean writeInFile) throws CompressorException {
         LOGGER.debug("Adding file to the domain");
         fileManager.readFile(pathname);
+        if (writeInFile) {
+            dataController.addFileToHistoryFile(pathname, date);
+        }
         LOGGER.debug("File added to the domain");
+    }
+
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+        LOGGER.debug("Rewriting history file");
+        dataController.rewriteHistoryFile(linesToRemove);
+        LOGGER.debug("History file rewrote");
     }
 
     public String compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
