@@ -67,17 +67,17 @@ public class QuantizationComponent {
      */
     public Matrix<Integer> dequantizeMatrix(Matrix<Integer> quantizedMatrix) throws CompressorException {
         checkQuantizedMatrix(quantizedMatrix);
-        Matrix<Integer> desquantizedMatrix = new Matrix<Integer>(NUM_OF_ROWS_AND_COLS, NUM_OF_ROWS_AND_COLS,
+        Matrix<Integer> dequantizedMatrix = new Matrix<Integer>(NUM_OF_ROWS_AND_COLS, NUM_OF_ROWS_AND_COLS,
                 new Integer[NUM_OF_ROWS_AND_COLS][NUM_OF_ROWS_AND_COLS]);
 
         for (int i = 0; i < NUM_OF_ROWS_AND_COLS; ++i) {
             for (int j = 0; j < NUM_OF_ROWS_AND_COLS; ++j) {
-                int desquantizedPixel = Math.round(quantizedMatrix.getElementAt(i, j) * quantizationMatrix.getElementAt(i, j));
-                desquantizedMatrix.setElementAt(desquantizedPixel, i, j);
+                int dequantizedPixel = Math.round(quantizedMatrix.getElementAt(i, j) * quantizationMatrix.getElementAt(i, j));
+                dequantizedMatrix.setElementAt(dequantizedPixel, i, j);
             }
         }
 
-        return desquantizedMatrix;
+        return dequantizedMatrix;
     }
 
     private void checkDctMatrix(Matrix<Float> dctMatrix) throws CompressorException {

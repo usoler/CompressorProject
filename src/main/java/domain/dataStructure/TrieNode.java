@@ -51,22 +51,16 @@ public class TrieNode {
         if (word == null || position >= word.length() || position < 0) {
             return -1;
         }
-
         if (this.children == null) {
-
-            this.children = new HashMap<Character, TrieNode>();
+            this.children = new HashMap<>();
         }
-
         char currentCharacter = word.charAt(position);
         TrieNode node = this.children.get(currentCharacter);
-
         if (Objects.isNull(node)) {
             node = new TrieNode(currentCharacter);
             children.put(currentCharacter, node);
         }
-
         ++this.occurances;
-
         if (position == word.length() - 1) { // Last char
             node.index = index;
             ++node.occurances;
@@ -87,12 +81,10 @@ public class TrieNode {
         if (word == null || position >= word.length() || position < 0 || Objects.isNull(this.children)) {
             return null;
         }
-
         if (position == word.length() - 1) {
             return this.children.get(word.charAt(position));
         } else {
             TrieNode node = this.children.get(word.charAt(position));
-
             if (Objects.isNull(node)) {
                 return null;
             } else {
