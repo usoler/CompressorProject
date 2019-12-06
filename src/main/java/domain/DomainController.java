@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class DomainController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainController.class);
@@ -32,6 +33,31 @@ public class DomainController {
         dataController = DataController.getInstance();
         fileManager = new FileManager();
         LOGGER.debug("Domain Controller initiated");
+    }
+
+    public ArrayList<String> loadHistory() throws CompressorException {
+        LOGGER.debug("Loading history from Persistence Layer");
+        ArrayList<String> arrayOfFilePaths = dataController.getAllFilesFromHistory();
+        int index = 0;
+        for (String pathname : arrayOfFilePaths) {
+            if (checkFile(new File(pathname), index)) {
+                addFile(pathname);
+            } else {
+                arrayOfFilePaths.remove(pathname);
+            }
+            ++index;
+        }
+        return arrayOfFilePaths;
+    }
+
+    private boolean checkFile(File file, int index) {
+        if (!file.exists()) {
+            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
+            // TODO
+            dataController.removePathAt(index);
+            return false;
+        }
+        return true;
     }
 
     public void addFile(String pathname) throws CompressorException {

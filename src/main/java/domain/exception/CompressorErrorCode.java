@@ -103,6 +103,11 @@ public enum CompressorErrorCode {
     // Failure to read all bytes from file
     READ_FILE_BYTES_FAILURE("4008"),
     // ******************************************
+    // DataController
+    // ******************************************
+    // Failure to read all paths from history file
+    READ_HISTORY_PATHS("4010"),
+    // ******************************************
     // MainViewSwing
     // ******************************************
     // Failure to choose a file

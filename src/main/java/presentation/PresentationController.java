@@ -5,6 +5,8 @@ import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 public class PresentationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PresentationController.class);
 
@@ -22,7 +24,21 @@ public class PresentationController {
         LOGGER.debug("Initiating Presentation Controller");
         domainController.init();
         mainView.show();
+        loadHistory();
         LOGGER.debug("Presentation Controller initiated");
+    }
+
+    private void loadHistory() {
+        LOGGER.debug("Calling load history to Domain Layer");
+        CompressorException exception = null;
+        ArrayList<String> arrayOfFilePaths = new ArrayList<>();
+        try {
+            arrayOfFilePaths = domainController.loadHistory();
+        } catch (CompressorException e) {
+            exception = e;
+        } finally {
+            mainView.loadHistoryTable(arrayOfFilePaths, exception);
+        }
     }
 
     public void addFile(String pathname) throws CompressorException {

@@ -1,0 +1,4 @@
+/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/clouds.ppm
+/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/java.ppm
+/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/noexiste.ppm
+/Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/myhero.ppm

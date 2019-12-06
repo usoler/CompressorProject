@@ -14,7 +14,9 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class MainViewSwing {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
@@ -371,6 +373,21 @@ public class MainViewSwing {
         } else {
             bytesSize = (double) file.length() / (1024000);
             return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " MB";
+        }
+    }
+
+    public void loadHistoryTable(ArrayList<String> arrayOfFilePaths, CompressorException exception) {
+        if (Objects.isNull(exception)) {
+            addFilesToTable(arrayOfFilePaths);
+        } else {
+            showException(exception);
+        }
+    }
+
+    private void addFilesToTable(ArrayList<String> arrayOfFilePaths) {
+        for (String pathname : arrayOfFilePaths) {
+            File file = new File(pathname);
+            addRowToTableFromFile(file);
         }
     }
 }

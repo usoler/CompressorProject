@@ -60,7 +60,7 @@ public class FileReader {
         try {
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            String message = "Failure to read the file";
+            String message = String.format("Failure to read the file '%s'", file.getName());
             LOGGER.error(message);
             throw new CompressorException(message, e, CompressorErrorCode.READ_INPUT_STREAM_FAILURE);
         }
