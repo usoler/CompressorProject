@@ -31,16 +31,16 @@ public class PresentationController {
         LOGGER.debug("Add file from Domain Controller called");
     }
 
-    public String compressFile(String algorithm, String pathname, String filename) throws CompressorException {
+    public String compressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Calling Compress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
-        return domainController.compressFile(algorithm, pathname, filename);
+        return domainController.compressFile(algorithm, pathname, filename, extension);
     }
 
-    public String uncompressFile(String algorithm, String pathname, String filename) throws CompressorException {
+    public String uncompressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
-        return domainController.uncompressFile(algorithm, pathname, filename);
+        return domainController.uncompressFile(algorithm, pathname, filename, extension);
     }
 
 }
