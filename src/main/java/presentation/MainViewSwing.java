@@ -24,6 +24,7 @@ public class MainViewSwing {
     // History Panel ----------------------
     private JPanel historyPanel;
     private JButton addFileButton;
+    private JButton removeFileButton;
     private JTextField searchTextField;
     private JButton searchButton;
     private JTable historyTable;
@@ -79,6 +80,17 @@ public class MainViewSwing {
         LOGGER.debug("Instances initiated");
     }
 
+    private void initHistoryInstances() {
+        historyPanel = new JPanel();
+        addFileButton = new JButton("+ Add File");
+        removeFileButton = new JButton("- Remove File");
+        removeFileButton.setEnabled(false);
+        searchTextField = new JTextField(20);
+        searchButton = new JButton("Search");
+        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
+        scrollPane = new JScrollPane(historyTable);
+    }
+
     private void initDataFileInstances() {
         dataFilePanel = new JPanel();
         fileInfoPanel = new JPanel();
@@ -102,15 +114,6 @@ public class MainViewSwing {
         algorithmComboBox.addItem("LZ78");
         algorithmComboBox.addItem("LZW");
         algorithmComboBox.addItem("JPEG");
-    }
-
-    private void initHistoryInstances() {
-        historyPanel = new JPanel();
-        addFileButton = new JButton("+ Add File");
-        searchTextField = new JTextField(20);
-        searchButton = new JButton("Search");
-        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
-        scrollPane = new JScrollPane(historyTable);
     }
 
     private void initComponents() {
@@ -148,6 +151,7 @@ public class MainViewSwing {
     private void initHistoryPanel() {
         LOGGER.debug("Initiating History Panel");
         historyPanel.add(addFileButton);
+        historyPanel.add(removeFileButton);
         historyPanel.add(searchTextField);
         historyPanel.add(searchButton);
         historyPanel.add(scrollPane);
@@ -211,6 +215,7 @@ public class MainViewSwing {
         LOGGER.debug("Adding listeners");
         addHistoryTableListeners();
         addAddFileButtonListeners();
+        addRemoveFileButtonListeners();
         addCompressButtonListeners();
         addUncompressButtonListeners();
         LOGGER.debug("Listeners added");
@@ -221,16 +226,25 @@ public class MainViewSwing {
             compressButton.setEnabled(true);
             uncompressButton.setEnabled(true);
             algorithmComboBox.setEnabled(true);
+            removeFileButton.setEnabled(true);
             updateFileInfo();
         });
     }
 
     private void updateFileInfo() {
-        filenameLabel.setText(String.format("Filename: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 0)));
-        dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
-        extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
-        pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
-        originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
+        try {
+            filenameLabel.setText(String.format("Filename: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 0)));
+            dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
+            extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
+            pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
+            originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            filenameLabel.setText("Filename: -");
+            dateLabel.setText("Date: -");
+            extensionLabel.setText("Extension: -");
+            pathnameLabel.setText("Pathname: -");
+            originalSizeLabel.setText("Size: (*)");
+        }
     }
 
     private void addAddFileButtonListeners() {
@@ -253,6 +267,13 @@ public class MainViewSwing {
                 String errorMessage = String.format("Error code: %s.\nMessage: %s", "4009", CompressorErrorCode.CHOOSE_FILE_FAILURE.getCode(), message);
                 JOptionPane.showMessageDialog(viewFrame, errorMessage);
             }
+        });
+    }
+
+    private void addRemoveFileButtonListeners() {
+        removeFileButton.addActionListener(e -> {
+            ((DefaultTableModel) historyTable.getModel()).removeRow(historyTable.getSelectedRow());
+            historyTable.updateUI();
         });
     }
 
