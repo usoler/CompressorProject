@@ -3,11 +3,12 @@ package domain;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Folder {
+public class Folder implements IFile{
     private String name, format;
     private int size;
     private ArrayList<File> files;
     private ArrayList<Folder> folders;
+    private String pathname;
 
     public Folder(String name, String format) {
         this.name = name;
@@ -26,6 +27,10 @@ public class Folder {
     public String getName() {
         return name;
     }
+
+    public String getPathname(){return pathname;}
+
+    public byte[] getData(){ return null;}
 
     public void setName(String name) {
         this.name = name;

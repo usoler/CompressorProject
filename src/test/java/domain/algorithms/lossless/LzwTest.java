@@ -1,13 +1,13 @@
 package domain.algorithms.lossless;
 
-import domain.fileManager.FileImpl;
+import domain.IFile;
 import domain.fileManager.FileManager;
 import org.junit.*;
 
 public class LzwTest {
     private static String inputPathnameFolder = "input";
     private FileManager fileManager;
-    private FileImpl file;
+    private IFile file;
     private String emptyFile = "testn.txt";
     private String bigFile = "verybig.txt";
     private Lzw algorithm;

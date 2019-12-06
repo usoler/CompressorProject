@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ArrayList;
+
 public class FileStub extends File {
 
     public FileStub(String name, String format, int size, Folder folder) {
@@ -29,4 +31,10 @@ public class FileStub extends File {
     public void setFolder(Folder folder) {
 
     }
+
+    public void setFolders(ArrayList<Folder> folders)
+    {
+
+    }
+
 }

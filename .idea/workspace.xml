@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="508bef8a-b50a-4917-9c17-28a0cdb37f83" name="Default Changelist" comment="">
+    <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1UcNEE1KxpokaZiEmS4EqA0ACzB" />
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="domain" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -22,7 +50,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.MainLZ78">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
@@ -30,8 +58,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainJPEG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainJPEG" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainLZ78" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainLZ78" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainLZ78" />
+        <item itemvalue="Application.MainJPEG" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -41,11 +85,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="508bef8a-b50a-4917-9c17-28a0cdb37f83" name="Default Changelist" comment="" />
-      <created>1575651530516</created>
+      <changelist id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="" />
+      <created>1575651809123</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1575651530516</updated>
+      <updated>1575651809123</updated>
     </task>
     <servers />
   </component>
@@ -54,7 +98,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

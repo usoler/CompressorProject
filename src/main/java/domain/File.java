@@ -1,11 +1,14 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-abstract class File {
+public abstract class File implements IFile{
     private String name, format;
     private int size;
     private Folder folder;
+    private byte[] data;
+    protected String pathname;
 
     public File(String name, String format, int size, Folder folder) {
         this.name = name;
@@ -13,6 +16,26 @@ abstract class File {
         this.size = size;
         this.folder = folder;
     }
+
+    public File(byte[] data, String pathname, String name, String format, int size, Folder folder) {
+        this.name = name;
+        this.format = format;
+        this.size = size;
+        this.folder = folder;
+        this.pathname = pathname;
+        this.folder = folder;
+    }
+
+
+    public File(byte[] data, String pathname){
+        this.data = data;
+        this.pathname = pathname;
+
+    }
+
+    public String getPathname() { return pathname; }
+
+    public byte[] getData() { return data;}
 
     public String getName() {
         return name;
@@ -45,6 +68,8 @@ abstract class File {
     public void setFolder(Folder folder) {
         this.folder = folder;
     }
+
+    public void setFolders(ArrayList<Folder> folder){};
 
     @Override
     public String toString() {
