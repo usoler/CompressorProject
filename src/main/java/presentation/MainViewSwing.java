@@ -6,7 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -24,8 +28,10 @@ public class MainViewSwing {
     // History Panel ----------------------
     private JPanel historyPanel;
     private JButton addFileButton;
+    private JButton removeFileButton;
     private JTextField searchTextField;
-    private JButton searchButton;
+    private JLabel searchLabel;
+    private TableRowSorter<TableModel> rowSorter;
     private JTable historyTable;
     private JScrollPane scrollPane;
     // -----------------------------------
@@ -79,6 +85,18 @@ public class MainViewSwing {
         LOGGER.debug("Instances initiated");
     }
 
+    private void initHistoryInstances() {
+        historyPanel = new JPanel();
+        addFileButton = new JButton("+ Add File");
+        removeFileButton = new JButton("- Remove File");
+        removeFileButton.setEnabled(false);
+        searchTextField = new JTextField(20);
+        searchLabel = new JLabel("Filter: ");
+        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
+        rowSorter = new TableRowSorter<>(historyTable.getModel());
+        scrollPane = new JScrollPane(historyTable);
+    }
+
     private void initDataFileInstances() {
         dataFilePanel = new JPanel();
         fileInfoPanel = new JPanel();
@@ -102,15 +120,6 @@ public class MainViewSwing {
         algorithmComboBox.addItem("LZ78");
         algorithmComboBox.addItem("LZW");
         algorithmComboBox.addItem("JPEG");
-    }
-
-    private void initHistoryInstances() {
-        historyPanel = new JPanel();
-        addFileButton = new JButton("+ Add File");
-        searchTextField = new JTextField(20);
-        searchButton = new JButton("Search");
-        historyTable = new JTable(new DefaultTableModel(new Object[][]{}, COLUMN_NAMES));
-        scrollPane = new JScrollPane(historyTable);
     }
 
     private void initComponents() {
@@ -148,11 +157,13 @@ public class MainViewSwing {
     private void initHistoryPanel() {
         LOGGER.debug("Initiating History Panel");
         historyPanel.add(addFileButton);
+        historyPanel.add(removeFileButton);
+        historyPanel.add(searchLabel);
         historyPanel.add(searchTextField);
-        historyPanel.add(searchButton);
         historyPanel.add(scrollPane);
         historyTable.setDefaultEditor(Object.class, null);
         historyTable.getTableHeader().setReorderingAllowed(false);
+        historyTable.setRowSorter(rowSorter);
         LOGGER.debug("History Panel initiated");
     }
 
@@ -211,6 +222,8 @@ public class MainViewSwing {
         LOGGER.debug("Adding listeners");
         addHistoryTableListeners();
         addAddFileButtonListeners();
+        addRemoveFileButtonListeners();
+        addSearhTextFieldListeners();
         addCompressButtonListeners();
         addUncompressButtonListeners();
         LOGGER.debug("Listeners added");
@@ -221,16 +234,25 @@ public class MainViewSwing {
             compressButton.setEnabled(true);
             uncompressButton.setEnabled(true);
             algorithmComboBox.setEnabled(true);
+            removeFileButton.setEnabled(true);
             updateFileInfo();
         });
     }
 
     private void updateFileInfo() {
-        filenameLabel.setText(String.format("Filename: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 0)));
-        dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
-        extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
-        pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
-        originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
+        try {
+            filenameLabel.setText(String.format("Filename: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 0)));
+            dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
+            extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
+            pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
+            originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            filenameLabel.setText("Filename: -");
+            dateLabel.setText("Date: -");
+            extensionLabel.setText("Extension: -");
+            pathnameLabel.setText("Pathname: -");
+            originalSizeLabel.setText("Size: (*)");
+        }
     }
 
     private void addAddFileButtonListeners() {
@@ -254,6 +276,43 @@ public class MainViewSwing {
                 JOptionPane.showMessageDialog(viewFrame, errorMessage);
             }
         });
+    }
+
+    private void addRemoveFileButtonListeners() {
+        removeFileButton.addActionListener(e -> {
+            ((DefaultTableModel) historyTable.getModel()).removeRow(historyTable.getSelectedRow());
+            historyTable.updateUI();
+            // TODO: remove from persistence layer
+        });
+    }
+
+    private void addSearhTextFieldListeners() {
+        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterRow();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterRow();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Empty on purpose
+            }
+        });
+    }
+
+    private void filterRow() {
+        String text = searchTextField.getText();
+
+        if (text.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+        }
     }
 
     private void showException(CompressorException ex) {
