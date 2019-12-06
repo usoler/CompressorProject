@@ -165,7 +165,7 @@ public class Jpeg implements AlgorithmInterface {
             return byteArrayOutputStream;
         } catch (IOException e) {
             String message = "Error writting bytes into byte array output stream";
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
         }
     }
@@ -183,9 +183,9 @@ public class Jpeg implements AlgorithmInterface {
             byteArrayOutputStream.write(width);
             byteArrayOutputStream.write(height);
             return byteArrayOutputStream;
-        } catch (IOException ex) {
+        } catch (IOException e) {
             String message = "Error writing bytes into byte array output stream";
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, CompressorErrorCode.READ_PPM_FAILURE);
         }
     }
@@ -193,9 +193,9 @@ public class Jpeg implements AlgorithmInterface {
     private byte[] writeBufferToOutputStream(StringBuffer buffer, ByteArrayOutputStream byteArrayOutputStream) throws CompressorException {
         try {
             byteArrayOutputStream.write(new BigInteger(buffer.toString(), 2).toByteArray());
-        } catch (IOException ex) {
+        } catch (IOException e) {
             String message = "Error writting buffer into byte array output stream";
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, CompressorErrorCode.WRITE_PPM_FAILURE);
         }
         return byteArrayOutputStream.toByteArray();
@@ -428,7 +428,7 @@ public class Jpeg implements AlgorithmInterface {
             height = Integer.parseInt(heightBinary, 2);
         } catch (NumberFormatException e) {
             String message = "Failure to parse binary width or height to its integer value";
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.READ_JPEG_FAILURE);
         }
 

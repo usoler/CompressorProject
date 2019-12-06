@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -249,7 +250,7 @@ public class MainViewSwing {
             } else if (selection == JFileChooser.ERROR_OPTION) {
                 String message = "Failure to choose a file";
                 LOGGER.error(message);
-                String errorMessage = String.format("Error code: %s.\nMessage: %s", "4009", message);
+                String errorMessage = String.format("Error code: %s.\nMessage: %s", "4009", CompressorErrorCode.CHOOSE_FILE_FAILURE.getCode(), message);
                 JOptionPane.showMessageDialog(viewFrame, errorMessage);
             }
         });

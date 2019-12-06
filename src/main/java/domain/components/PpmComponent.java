@@ -52,7 +52,7 @@ public class PpmComponent {
             case 6:
                 return writePpmFileP6(height, width, rgbMatrix);
             default:
-                String message = "PPM magic number is not supported: '{}'";
+                String message = String.format("PPM magic number '%s' is not supported", magicNumber);
                 LOGGER.error(message, magicNumber);
                 throw new CompressorException(message, CompressorErrorCode.PPM_COMPATIBILITY_FAILURE);
         }
@@ -84,7 +84,7 @@ public class PpmComponent {
             width = Integer.parseInt(values[1]);
             height = Integer.parseInt(values[2]);
         } catch (NumberFormatException e) {
-            String message = "Failure to parse width or height to integer value";
+            String message = String.format("Failure to parse width ('%s') or height ('%s') to integer value", values[1], values[2]);
             LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.PPM_PARSE_FAILURE);
         }
@@ -103,7 +103,7 @@ public class PpmComponent {
         return k;
     }
 
-    private PpmResponse readPpmFileP3(String[] elements, int originalWidth, int originalHeight, Matrix<Pixel> pixels) {
+    private PpmResponse readPpmFileP3(String[] elements, int originalWidth, int originalHeight, Matrix<Pixel> pixels) throws CompressorException {
         int width = pixels.getNumberOfColumns();
         int height = pixels.getNumberOfRows();
 
@@ -183,8 +183,8 @@ public class PpmComponent {
         try {
             buffer.write(response.getBytes());
         } catch (IOException ex) {
-            String message = "Error writting buffer into byte array output stream";
-            LOGGER.error(message);
+            String message = "Error writing buffer into byte array output stream";
+            LOGGER.error(message, ex);
             throw new CompressorException(message, CompressorErrorCode.WRITE_PPM_FAILURE);
         }
 
@@ -215,10 +215,19 @@ public class PpmComponent {
         }
     }
 
-    private Pixel generatePixel(String[] elements, int k) {
-        float red = Float.parseFloat(elements[k]);
-        float green = Float.parseFloat(elements[k + 1]);
-        float blue = Float.parseFloat(elements[k + 2]);
+    private Pixel generatePixel(String[] elements, int k) throws CompressorException {
+        float red;
+        float green;
+        float blue;
+        try {
+            red = Float.parseFloat(elements[k]);
+            green = Float.parseFloat(elements[k + 1]);
+            blue = Float.parseFloat(elements[k + 2]);
+        } catch (NumberFormatException e) {
+            String message = String.format("Failure to parse pixel from P3 ppm file: red ('%s'), green ('%s'), blue ('%s')", elements[k], elements[k + 1], elements[k + 1]);
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.PPM_P3_PARSE_FAILURE);
+        }
 
         return new Pixel(red, green, blue);
     }
@@ -279,7 +288,7 @@ public class PpmComponent {
         } else if ("P6".equals(ppmFile.getMagicNumber())) {
             return readPpmFileP6(ppmFile.getImageData(), width, height, pixels);
         } else {
-            String message = "PPM magic number is not supported: '{}'";
+            String message = String.format("PPM magic number '%s' is not supported", ppmFile.getMagicNumber());
             LOGGER.error(message, ppmFile.getMagicNumber());
             throw new CompressorException(message, CompressorErrorCode.PPM_COMPATIBILITY_FAILURE);
         }

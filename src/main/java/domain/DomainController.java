@@ -51,7 +51,7 @@ public class DomainController {
             encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
         }
         String compressedPath = System.getProperty("user.dir") + "/output/" + filename
@@ -71,7 +71,7 @@ public class DomainController {
             encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
-            LOGGER.error(message);
+            LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
         }
         String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
@@ -82,15 +82,15 @@ public class DomainController {
     }
 
     private void validateCompressFile(String typeOfAlgorithm, String extension) throws CompressorException {
-        if (typeOfAlgorithm.equals("JPEG") && !extension.equals(".ppm")) {
+        if (typeOfAlgorithm.equals("JPEG") && !extension.equals("ppm")) {
             String message = String.format("Extension '%s' not supported to encode with Jpeg algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.JPEG_EXTENSION_COMPATIBILITY_FAILURE);
-        } else if (typeOfAlgorithm.equals("LZ78") && (!extension.equals(".txt"))) {
+        } else if (typeOfAlgorithm.equals("LZ78") && (!extension.equals("txt"))) {
             String message = String.format("Extension '%s' not supported to encode with Lz78 algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.LZ78_EXTENSION_COMPATIBILITY_FAILURE);
-        } else if (typeOfAlgorithm.equals("LZW") && (!extension.equals(".txt"))) {
+        } else if (typeOfAlgorithm.equals("LZW") && (!extension.equals("txt"))) {
             String message = String.format("Extension '%s' not supported to encode with Lzw algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.LZW_EXTENSION_COMPATIBILITY_FAILURE);
@@ -98,15 +98,15 @@ public class DomainController {
     }
 
     private void validateUncompressFile(String typeOfAlgorithm, String extension) throws CompressorException {
-        if (typeOfAlgorithm.equals("JPEG") && !extension.equals(".jpeg")) {
+        if (typeOfAlgorithm.equals("JPEG") && !extension.equals("jpeg")) {
             String message = String.format("Extension '%s' not supported to decode with Jpeg algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.JPEG_EXTENSION_COMPATIBILITY_FAILURE);
-        } else if (typeOfAlgorithm.equals("LZ78") && (!extension.equals(".lz78"))) {
+        } else if (typeOfAlgorithm.equals("LZ78") && (!extension.equals("lz78"))) {
             String message = String.format("Extension '%s' not supported to decode with Lz78 algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.LZ78_EXTENSION_COMPATIBILITY_FAILURE);
-        } else if (typeOfAlgorithm.equals("LZW") && (!extension.equals(".lzw"))) {
+        } else if (typeOfAlgorithm.equals("LZW") && (!extension.equals("lzw"))) {
             String message = String.format("Extension '%s' not supported to decode with Lzw algorithm", extension);
             LOGGER.error(message);
             throw new CompressorException(message, CompressorErrorCode.LZW_EXTENSION_COMPATIBILITY_FAILURE);

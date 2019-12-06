@@ -17,6 +17,8 @@ public enum CompressorErrorCode {
     PPM_COMPATIBILITY_FAILURE("1014"),
     // Failure to parse width or height from ppm file
     PPM_PARSE_FAILURE("1015"),
+    // Failure to parse pixel from P3 ppm file
+    PPM_P3_PARSE_FAILURE("1020"),
     // ******************************************
     // Conversor YCbCr Component
     // ******************************************
