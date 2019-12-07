@@ -1,7 +1,7 @@
 package domain.algorithms.lossless;
 
 import domain.IFile;
-import domain.fileManager.FileManager;
+import presentation.fileManager.FileManager;
 import org.junit.*;
 
 public class LzwTest {

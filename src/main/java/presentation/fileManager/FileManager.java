@@ -1,12 +1,10 @@
-package domain.fileManager;
+package presentation.fileManager;
 
-import domain.Folder;
 import domain.IFile;
 import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,14 +43,16 @@ public class FileManager {
 
 
     public void readFile(String pathname) throws CompressorException {
-        fileReader.readSpecificFile(pathname);
+        fileReader.readFile(pathname,null);
     }
 
-    public void createFile(byte[] data, String pathname) {
-        fileCreator.createFileImpl(data, pathname);
+    public void createCompressedFile(byte[] data, String pathname) {
+        fileCreator.createCompressedFile(data, pathname,null);
     }
 
-
+    public void createDecompressedFile(byte[] data, String pathname) {
+        fileCreator.createDecompressedFile(data, pathname,null);
+    }
 
     public void writeFile(String pathname, boolean append_value) throws CompressorException {
         IFile file = findFileWithPathname(pathname);
@@ -61,7 +61,7 @@ public class FileManager {
 
 
     public void readFolder(String pathname) throws CompressorException {
-        fileReader.readAllFilesFromFolder(pathname);
+        fileReader.readAllFilesFromFolder(pathname,null);
     }
 
     public void setNewFile(IFile file) {

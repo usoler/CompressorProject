@@ -8,16 +8,16 @@ public interface IFile {
     String getPathname();
 
     byte[] getData();
-    /*
-    String getName();
 
     int getSize();
 
-    String getFormat();
+    //String getName();
 
-    ArrayList<File> getFiles();
+    //String getFormat();
 
-    ArrayList<Folder> getFolders();
+    //ArrayList<File> getFiles();
+
+    //ArrayList<Folder> getFolders();
 
 
 
@@ -25,14 +25,14 @@ public interface IFile {
 
     //Interface Setters
 
-    void addFile(File file);
+    void addFile(IFile file);
 
-    void addFolder(Folder folder);
+    //void addFolder(Folder folder);
 
-    void setFiles(ArrayList<File> files);
+    //void setFiles(ArrayList<File> files);
 
 
 
-     */
+
 
 }

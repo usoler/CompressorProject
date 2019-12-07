@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class FileStub extends File {
 
     public FileStub(String name, String format, int size, Folder folder) {
-        super(name, format, size, folder);
+        super(name, format, size);
     }
 
     public String toString() {
@@ -24,11 +24,8 @@ public class FileStub extends File {
         return 2;
     }
 
-    public Folder getFolder() {
-        return super.getFolder();
-    }
-
-    public void setFolder(Folder folder) {
+    @Override
+    public void addFile(IFile file) {
 
     }
 

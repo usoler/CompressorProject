@@ -7,7 +7,7 @@ import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
-import domain.fileManager.FileManager;
+import presentation.fileManager.FileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +56,7 @@ public class DomainController {
         }
         String compressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectCompressedExtension(typeOfAlgorithm);
-        fileManager.createFile(encodingResult, compressedPath);
+        fileManager.createCompressedFile(encodingResult, compressedPath);
         fileManager.writeFile(compressedPath, false);
         return compressedPath;
     }
@@ -76,7 +76,7 @@ public class DomainController {
         }
         String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectUncompressedExtension(typeOfAlgorithm);
-        fileManager.createFile(encodingResult, uncompressedPath);
+        fileManager.createDecompressedFile(encodingResult, uncompressedPath);
         fileManager.writeFile(uncompressedPath, false);
         return uncompressedPath;
     }

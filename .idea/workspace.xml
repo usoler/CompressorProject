@@ -2,18 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZ78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZ78.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/CompressedFile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/IFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,6 +40,7 @@
   <component name="ProjectId" id="1UcNEE1KxpokaZiEmS4EqA0ACzB" />
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="presentation" />
       <recent name="domain" />
     </key>
   </component>

@@ -6,8 +6,7 @@ import java.util.Objects;
 public class Folder implements IFile{
     private String name, format;
     private int size;
-    private ArrayList<File> files;
-    private ArrayList<Folder> folders;
+    private ArrayList<IFile> files;
     private String pathname;
 
     public Folder(String name, String format) {
@@ -15,20 +14,14 @@ public class Folder implements IFile{
         this.format = format;
         this.size = 0;
         files = new ArrayList<>();
-        folders = new ArrayList<>();
     }
 
-    public Folder(String name, String format, ArrayList<File> files, ArrayList<Folder> folders) {
-        this(name, format);
-        setFiles(files);
-        setFolders(folders);
-    }
 
     public String getName() {
         return name;
     }
 
-    public String getPathname(){return pathname;}
+    public String getPathname(){return null;}
 
     public byte[] getData(){ return null;}
 
@@ -48,49 +41,28 @@ public class Folder implements IFile{
         return size;
     }
 
-    public ArrayList<File> getFiles() {
+    public ArrayList<IFile> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<File> files) {
-        for (File file : this.files) {
+    public void setFiles(ArrayList<IFile> files) {
+        for (IFile file : this.files) {
             size -= file.getSize();
         }
         if (!Objects.isNull(files)) {
             this.files = files;
-            for (File file : files) {
+            for (IFile file : files) {
                 size += file.getSize();
             }
         }
     }
 
-    public ArrayList<Folder> getFolders() {
-        return folders;
-    }
-
-    public void setFolders(ArrayList<Folder> folders) {
-        for (Folder folder : this.folders) {
-            size -= folder.getSize();
-        }
-        if (!Objects.isNull(folders)) {
-            this.folders = folders;
-            for (Folder folder : folders) {
-                size += folder.getSize();
-            }
-        }
-    }
-
-    public void addFile(File file) {
+    public void addFile(IFile file) {
         files.add(file);
         size += file.getSize();
-        file.setFolder(this);
     }
 
 
-    public void addFolder(Folder folder) {
-        folders.add(folder);
-        size += folder.getSize();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -100,8 +72,7 @@ public class Folder implements IFile{
         return size == folder.size &&
                 name.equals(folder.name) &&
                 format.equals(folder.format) &&
-                Objects.equals(files, folder.files) &&
-                Objects.equals(folders, folder.folders);
+                Objects.equals(files, folder.files);
     }
 
     @Override

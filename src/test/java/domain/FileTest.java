@@ -8,6 +8,7 @@ public class FileTest {
     private static final String format = "txt";
     private static int size = 1;
 
+    /*
     @BeforeClass
     public static void startUp(){
         System.out.println("STARTING FICHERO TEST");
@@ -45,4 +46,6 @@ public class FileTest {
     {
         System.out.println("FICHERO TEST ENDED");
     }
+
+     */
 }

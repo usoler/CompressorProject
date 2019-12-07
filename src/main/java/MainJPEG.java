@@ -1,8 +1,7 @@
 import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossy.Jpeg;
-import domain.exception.CompressorException;
-import domain.fileManager.FileManager;
+import presentation.fileManager.FileManager;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -77,7 +76,7 @@ public class MainJPEG {
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
         String compressedName = projectPath + "/output/" + scanner.next() + ".JPEG";
 
-        fileManager.createFile(encodingResult, compressedName);
+        fileManager.createCompressedFile(encodingResult, compressedName);
 
         fileManager.writeFile(compressedName, false);
 
@@ -105,7 +104,7 @@ public class MainJPEG {
         System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
         String decompressedName = projectPath + "/output/" + scanner.next();
 
-        fileManager.createFile(decodingResult, decompressedName);
+        fileManager.createDecompressedFile(decodingResult, decompressedName);
 
         fileManager.writeFile(decompressedName, false);
 

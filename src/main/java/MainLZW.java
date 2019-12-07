@@ -2,7 +2,7 @@ import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lzw;
 import domain.exception.CompressorException;
-import domain.fileManager.FileManager;
+import presentation.fileManager.FileManager;
 
 import java.util.Scanner;
 
@@ -74,7 +74,7 @@ public class MainLZW {
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
         String compressedName = projectPath + "/output/" + scanner.next() + ".LZ78";
 
-        fileManager.createFile(encodingResult, compressedName);
+        fileManager.createCompressedFile(encodingResult, compressedName);
 
         fileManager.writeFile(compressedName, false);
 
@@ -102,7 +102,7 @@ public class MainLZW {
         System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
         String decompressedName = projectPath + "/output/" + scanner.next();
 
-        fileManager.createFile(decodingResult, decompressedName);
+        fileManager.createDecompressedFile(decodingResult, decompressedName);
 
         fileManager.writeFile(decompressedName, false);
 
