@@ -1,1 +1,4 @@
 02/11/1995 16:58:12 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/clouds.ppm
+06/12/2019 21:25:26 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/testImages/comentsTest.ppm
+08/12/2019 19:28:35 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/2500.txt
+08/12/2019 19:44:11 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/java.ppm

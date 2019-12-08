@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/IFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CompressorProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CompressorProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/history.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/stats.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/stats.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/DataController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/exception/CompressorErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/MainViewSwing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/MainViewSwing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/PresentationController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,8 +81,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainSwing" />
-        <item itemvalue="Application.MainLZ78" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MainLZ78" />
         <item itemvalue="Application.MainJPEG" />
       </list>
     </recent_temporary>
