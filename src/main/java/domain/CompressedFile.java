@@ -1,7 +1,15 @@
 package domain;
 
+
 public class CompressedFile extends File {
-    public CompressedFile(String name, String format, int size, Folder folder) {
-        super(name, format, size, folder);
+
+    public CompressedFile(byte[] data, String pathname,String name, int size, String format)
+    {
+        super(data,pathname, name, format,size);
+    }
+
+    @Override
+    public void addFile(IFile file) {
+
     }
 }

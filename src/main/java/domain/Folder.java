@@ -3,29 +3,28 @@ package domain;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Folder {
+public class Folder implements IFile{
     private String name, format;
-    private int size;
-    private ArrayList<File> files;
-    private ArrayList<Folder> folders;
+    private int numberOfFiles;
+    private ArrayList<IFile> files;
+    private String pathname;
 
-    public Folder(String name, String format) {
+    public Folder(String name, String format, String pathname) {
+        this.pathname = pathname;
         this.name = name;
         this.format = format;
-        this.size = 0;
+        this.numberOfFiles = 0;
         files = new ArrayList<>();
-        folders = new ArrayList<>();
     }
 
-    public Folder(String name, String format, ArrayList<File> files, ArrayList<Folder> folders) {
-        this(name, format);
-        setFiles(files);
-        setFolders(folders);
-    }
 
     public String getName() {
         return name;
     }
+
+    public String getPathname(){return null;}
+
+    public byte[] getData(){ return null;}
 
     public void setName(String name) {
         this.name = name;
@@ -39,68 +38,46 @@ public class Folder {
         this.format = format;
     }
 
-    public int getSize() {
-        return size;
+    public int getNumberOfFiles() {
+        return numberOfFiles;
     }
 
-    public ArrayList<File> getFiles() {
+    public ArrayList<IFile> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<File> files) {
-        for (File file : this.files) {
-            size -= file.getSize();
+    public void setFiles(ArrayList<IFile> files) {
+        for (IFile file : this.files) {
+            numberOfFiles -= file.getNumberOfFiles();
         }
         if (!Objects.isNull(files)) {
             this.files = files;
-            for (File file : files) {
-                size += file.getSize();
+            for (IFile file : files) {
+                numberOfFiles += file.getNumberOfFiles();
             }
         }
     }
 
-    public ArrayList<Folder> getFolders() {
-        return folders;
-    }
-
-    public void setFolders(ArrayList<Folder> folders) {
-        for (Folder folder : this.folders) {
-            size -= folder.getSize();
-        }
-        if (!Objects.isNull(folders)) {
-            this.folders = folders;
-            for (Folder folder : folders) {
-                size += folder.getSize();
-            }
-        }
-    }
-
-    public void addFile(File file) {
+    public void addFile(IFile file) {
         files.add(file);
-        size += file.getSize();
-        file.setFolder(this);
+        numberOfFiles += file.getNumberOfFiles();
     }
 
 
-    public void addFolder(Folder folder) {
-        folders.add(folder);
-        size += folder.getSize();
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Folder)) return false;
         Folder folder = (Folder) o;
-        return size == folder.size &&
+        return numberOfFiles == folder.numberOfFiles &&
                 name.equals(folder.name) &&
                 format.equals(folder.format) &&
-                Objects.equals(files, folder.files) &&
-                Objects.equals(folders, folder.folders);
+                Objects.equals(files, folder.files);
     }
 
     @Override
     public String toString() {
-        return String.format("Folder{name='%s', format='%s', size=%s}", name, format, size);
+        return String.format("Folder{name='%s', format='%s', size=%s}", name, format, numberOfFiles);
     }
 }

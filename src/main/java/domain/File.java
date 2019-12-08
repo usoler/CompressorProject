@@ -1,18 +1,23 @@
 package domain;
 
-import java.util.Objects;
-
-abstract class File {
+public abstract class File implements IFile{
     private String name, format;
     private int size;
-    private Folder folder;
+    private byte[] data;
+    protected String pathname;
 
-    public File(String name, String format, int size, Folder folder) {
+
+    public File(byte[] data, String pathname, String name, String format, int size) {
+        this.data = data;
         this.name = name;
         this.format = format;
         this.size = size;
-        this.folder = folder;
+        this.pathname = pathname;
     }
+
+    public String getPathname() { return pathname; }
+
+    public byte[] getData() { return data;}
 
     public String getName() {
         return name;
@@ -30,7 +35,7 @@ abstract class File {
         this.format = format;
     }
 
-    public int getSize() {
+    public int getNumberOfFiles() {
         return size;
     }
 
@@ -38,29 +43,18 @@ abstract class File {
         this.size = size;
     }
 
-    public Folder getFolder() {
-        return folder;
-    }
-
-    public void setFolder(Folder folder) {
-        this.folder = folder;
-    }
-
     @Override
     public String toString() {
-        String folderName;
-        if (Objects.isNull(folder)) folderName = "";
-        else folderName = folder.getName();
-        return String.format("Fichero{name='%s', format='%s', size=%s , folder=%s}", name, format, size, folderName);
+        return String.format("Fichero{name='%s', format='%s', size=%s , folder=%s}", name, format, size);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof File)) return false;
-        File fichero = (File) o;
-        return size == fichero.size &&
-                name.equals(fichero.name) &&
-                format.equals(fichero.format);
+        File file = (File) o;
+        return size == file.size &&
+                name.equals(file.name) &&
+                format.equals(file.format);
     }
 }

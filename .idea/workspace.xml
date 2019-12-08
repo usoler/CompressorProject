@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="CompressorProject:jar" />
-    </artifacts-to-build>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/compressorproject.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compressorproject.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/module_compressorproject.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/META-INF/MANIFEST.MF" afterDir="false" />
+    <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Compressor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Tests/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/sample.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/IFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,66 +16,21 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CoverageViewManager">
-    <option name="myElementSize" value="293" />
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
-        <option value="JUnit4 Test Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1S6dFe0PN9TtUyjCcflLm8845XT" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="true" />
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="compressorproject" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/CompressorProject-master (1)/CompressorProject-master" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.19770116" />
-  </component>
+  <component name="ProjectId" id="1UcNEE1KxpokaZiEmS4EqA0ACzB" />
   <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="domain.algorithms" />
-      <recent name="domain.algorithms.lossless" />
-      <recent name="data" />
-      <recent name="domain" />
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="presentation" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/input" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
+      <recent name="domain" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -96,77 +45,41 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainTest">
-    <configuration name="MainTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="MainTest" />
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MainJPEG" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainJPEG" />
       <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.algorithms.lossless.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
-      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
-      <option name="METHOD_NAME" value="verify_encode__compressQuickly_whenPassVeryBigFile" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LzwTest.verify_encode_encode_whenPassEmptyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MainLZ78" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainLZ78" />
       <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.algorithms.lossless.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
-      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
-      <option name="METHOD_NAME" value="verify_encode_encode_whenPassEmptyFile" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestSuite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MainSwing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainSwing" />
       <module name="CompressorProject" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestSuite" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieNodeTest" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainTest" />
-        <item itemvalue="JUnit.TestSuite" />
-        <item itemvalue="JUnit.LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" />
-        <item itemvalue="JUnit.LzwTest.verify_encode_encode_whenPassEmptyFile" />
-        <item itemvalue="JUnit.TrieNodeTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MainSwing" />
+        <item itemvalue="Application.MainLZ78" />
+        <item itemvalue="Application.MainJPEG" />
       </list>
     </recent_temporary>
   </component>
@@ -175,29 +88,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="" />
-      <created>1570887876651</created>
+      <changelist id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="" />
+      <created>1575651809123</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1570887876651</updated>
-      <workItem from="1573498610581" duration="181000" />
-      <workItem from="1573500950382" duration="15560000" />
-      <workItem from="1573556841890" duration="12903000" />
-      <workItem from="1573591779458" duration="4698000" />
-      <workItem from="1573634555189" duration="24391000" />
-      <workItem from="1573755885494" duration="5202000" />
-      <workItem from="1573810774867" duration="6512000" />
-      <workItem from="1573830790035" duration="6125000" />
-      <workItem from="1573915772612" duration="26070000" />
-      <workItem from="1573986876511" duration="15174000" />
-      <workItem from="1574075080785" duration="13191000" />
-      <workItem from="1574088745684" duration="2123000" />
-      <workItem from="1574091917269" duration="1004000" />
+      <updated>1575651809123</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -212,50 +109,35 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java</url>
+          <line>129</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="32" />
+          <url>file://$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="174" />
+          <url>file://$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="199" />
+          <url>file://$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="201" />
+          <url>file://$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java</url>
+          <line>69</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="quantizedBlocks.get(5)" />
-        <watch expression="quantizedBlocks.get(0)" />
-        <watch expression="quantizedBlocks.get(0).elements" />
-        <watch expression="quantizedBlocks.get(0)" />
-      </configuration>
-    </watches-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CompressorProject$Main.ic" NAME="Main Coverage Results" MODIFIED="1573984456988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/CompressorProject2$Main.ic" NAME="Main Coverage Results" MODIFIED="1572464417627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
