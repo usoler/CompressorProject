@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class FileStub extends File {
 
-    public FileStub(String name, String format, int size, Folder folder) {
-        super(name, format, size);
+    public FileStub(byte[] data, String pathname,String name, int size, String format)
+    {
+        super(data,pathname, name, format,size);
     }
 
     public String toString() {
@@ -29,9 +30,5 @@ public class FileStub extends File {
 
     }
 
-    public void setFolders(ArrayList<Folder> folders)
-    {
-
-    }
 
 }

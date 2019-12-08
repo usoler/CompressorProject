@@ -23,7 +23,7 @@ public class FolderTest {
 
         folder = new Folder(name, format);
     }
-
+/*
     @Test
     public void verify_setFiles_updateSize_whenPassFiles() {
         ArrayList<IFile> files = new ArrayList<>();
@@ -36,6 +36,7 @@ public class FolderTest {
         Assert.assertEquals(expected, folder.getSize());
 
     }
+    */
 
 /*
 
