@@ -74,11 +74,13 @@ public class MainJPEG {
         //byte[] encodingResult = algorithm.encodeFile(fileManager.getFile(path).getData());
         byte[] encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(path).toPath()));
         System.out.println("WRITE THE NEW NAME OF THE COMPRESSED FILE");
-        String compressedName = projectPath + "/output/" + scanner.next() + ".JPEG";
+        String compressedName = scanner.next();
+        String format = "jpeg";
+        String compressedPath= projectPath + "/output/" + compressedName + "." + format;
 
-        fileManager.createCompressedFile(encodingResult, compressedName);
+        fileManager.createCompressedFile(encodingResult, compressedPath, compressedName, encodingResult.length, format);
 
-        fileManager.writeFile(compressedName, false);
+        fileManager.writeFile(compressedPath, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE COMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
@@ -86,8 +88,8 @@ public class MainJPEG {
         if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE COMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-            fileManager.readFile(compressedName);
-            String text = new String(fileManager.getFile(compressedName).getData());
+            fileManager.readFile(compressedPath);
+            String text = new String(fileManager.getFile(compressedPath).getData());
             System.out.println(text);
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }
@@ -100,13 +102,14 @@ public class MainJPEG {
             System.out.println("CLOSING PROGRAM");
             System.exit(0);
         }
-        byte[] decodingResult = algorithm.decodeFile(fileManager.getFile(compressedName).getData());
+        byte[] decodingResult = algorithm.decodeFile(fileManager.getFile(compressedPath).getData());
         System.out.println("WRITE THE NEW NAME OF THE DECOMPRESSED FILE");
-        String decompressedName = projectPath + "/output/" + scanner.next();
+        String decompressedName = scanner.next();
+        String decompressedPath = projectPath + "/output/" + decompressedName;
 
-        fileManager.createDecompressedFile(decodingResult, decompressedName);
+        fileManager.createDecompressedFile(decodingResult, decompressedPath,decompressedName,decodingResult.length,"ppm");
 
-        fileManager.writeFile(decompressedName, false);
+        fileManager.writeFile(decompressedPath, false);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE DECOMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
@@ -114,8 +117,8 @@ public class MainJPEG {
         if (command == 1) {
             System.out.println("THIS ARE THE CONTENTS OF THE FILE DECOMPRESSED:");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
-            fileManager.readFile(decompressedName);
-            String text = new String(fileManager.getFile(decompressedName).getData());
+            fileManager.readFile(decompressedPath);
+            String text = new String(fileManager.getFile(decompressedPath).getData());
             System.out.println(text);
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         }

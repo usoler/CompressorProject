@@ -60,13 +60,14 @@ public class FileReader {
     private static FileInputStream readFile(File file, String pathname, IFile folder) throws CompressorException {
         FileInputStream fileInputStream = startInputStream(file);
         String format =obtainFormatOfFile(file.getName());
+        byte[] binaryData = readDataFromFile(fileInputStream).getBytes();
         if (isCompressed(format))
         {
-            fileCreator.createCompressedFile(readDataFromFile(fileInputStream).getBytes(), pathname, folder);
+            fileCreator.createCompressedFile(binaryData, pathname, folder, file.getName(),binaryData.length ,format);
         }
         else
         {
-            fileCreator.createDecompressedFile(readDataFromFile(fileInputStream).getBytes(), pathname, folder);
+            fileCreator.createDecompressedFile(binaryData, pathname, folder, file.getName(), binaryData.length, format);
         }
         return fileInputStream;
     }
@@ -126,7 +127,7 @@ public class FileReader {
     }
 
     private static boolean isCompressed(String format){
-        if (format == "LZ78" || format == "LZW" || format == "JPEGZ")
+        if (format == "lz78" || format == "lzw" || format == "jpeg")
         {
             return true;
         }

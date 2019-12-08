@@ -46,12 +46,12 @@ public class FileManager {
         fileReader.readFile(pathname,null);
     }
 
-    public void createCompressedFile(byte[] data, String pathname) {
-        fileCreator.createCompressedFile(data, pathname,null);
+    public void createCompressedFile(byte[] data, String pathname, String name, int size, String format) {
+        fileCreator.createCompressedFile(data, pathname,null, name, size, format);
     }
 
-    public void createDecompressedFile(byte[] data, String pathname) {
-        fileCreator.createDecompressedFile(data, pathname,null);
+    public void createDecompressedFile(byte[] data, String pathname, String name, int size, String format) {
+        fileCreator.createDecompressedFile(data, pathname,null, name, size, format);
     }
 
     public void writeFile(String pathname, boolean append_value) throws CompressorException {
@@ -69,7 +69,4 @@ public class FileManager {
     }
 
 
-    public List<IFile> getListOfFiles() {
-        return listOfFiles;
-    }
 }

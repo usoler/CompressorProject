@@ -56,7 +56,7 @@ public class DomainController {
         }
         String compressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectCompressedExtension(typeOfAlgorithm);
-        fileManager.createCompressedFile(encodingResult, compressedPath);
+        fileManager.createCompressedFile(encodingResult, compressedPath,filename,encodingResult.length,typeOfAlgorithm);
         fileManager.writeFile(compressedPath, false);
         return compressedPath;
     }
@@ -76,7 +76,7 @@ public class DomainController {
         }
         String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectUncompressedExtension(typeOfAlgorithm);
-        fileManager.createDecompressedFile(encodingResult, uncompressedPath);
+        fileManager.createDecompressedFile(encodingResult, uncompressedPath,filename,encodingResult.length,typeOfAlgorithm);
         fileManager.writeFile(uncompressedPath, false);
         return uncompressedPath;
     }

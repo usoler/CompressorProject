@@ -16,7 +16,7 @@ public class FileCreator {
     }
 
 
-    public void createCompressedFile(byte[] data, String pathname, IFile folder)
+    public void createCompressedFile(byte[] data, String pathname, IFile folder, String name, int size, String format)
     {
 
         IFile file = new CompressedFile(data, pathname);
@@ -26,7 +26,7 @@ public class FileCreator {
         }
         fileManager.setNewFile(file);
     }
-    public void createDecompressedFile(byte[] data, String pathname, IFile folder)
+    public void createDecompressedFile(byte[] data, String pathname, IFile folder,  String name, int size, String format)
     {
         IFile file = new DecompressedFile(data, pathname);
         if (folder != null)

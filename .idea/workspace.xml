@@ -6,20 +6,10 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainLZ78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZ78.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/IFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FileTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/FolderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +46,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainLZ78">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
@@ -78,11 +68,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainSwing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainSwing" />
+      <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.MainSwing" />
         <item itemvalue="Application.MainLZ78" />
         <item itemvalue="Application.MainJPEG" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
