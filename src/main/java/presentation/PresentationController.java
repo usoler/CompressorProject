@@ -53,13 +53,13 @@ public class PresentationController {
         LOGGER.debug("Rewrite from Domain Controller called");
     }
 
-    public String compressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
+    public String[] compressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Calling Compress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
         return domainController.compressFile(algorithm, pathname, filename, extension);
     }
 
-    public String uncompressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
+    public String[] uncompressFile(String algorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
         return domainController.uncompressFile(algorithm, pathname, filename, extension);

@@ -46,7 +46,7 @@ public class DomainController {
             if (checkFile(new File(pathname))) {
                 addFile(pathname, null, false);
                 goodArrayOfFileData.add(data);
-            }else{
+            } else {
                 linesToRemove.add(index);
             }
             ++index;
@@ -78,15 +78,22 @@ public class DomainController {
         LOGGER.debug("History file rewrote");
     }
 
-    public String compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    public String[] compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Compressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
         validateCompressFile(typeOfAlgorithm, extension);
         Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        String[] response = new String[5];
 
         byte[] encodingResult;
         try {
-            encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
+            byte[] data = Files.readAllBytes(new File(pathname).toPath());
+            int uncompressedSize = data.length;
+            long start = System.currentTimeMillis();
+            encodingResult = algorithm.encodeFile(data);
+            long end = System.currentTimeMillis();
+            int compressedSize = encodingResult.length;
+            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
             LOGGER.error(message, e);
@@ -96,17 +103,55 @@ public class DomainController {
                 + selectCompressedExtension(typeOfAlgorithm);
         fileManager.createFile(encodingResult, compressedPath);
         fileManager.writeFile(compressedPath, false);
-        return compressedPath;
+        response[0] = compressedPath;
+        return response;
     }
 
-    public String uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    private String[] printEncodeStatistics(long start, long end, float uncompressedSize, float compressedSize, String[] response) {
+        LOGGER.debug("Showing the encode statistics:");
+        response[2] = Long.toString(end - start);
+        LOGGER.debug("Elapsed Time: '{}'", response[2]);
+        response[3] = showCompressionSpeed(start, end, uncompressedSize, compressedSize);
+        LOGGER.debug("Compression Speed: '{}'", response[3]);
+        response[1] = showCompressionRatio(uncompressedSize, compressedSize);
+        LOGGER.debug("Compression Ratio: '{}'", response[1]);
+        response[4] = Float.toString((1.0f - compressedSize / uncompressedSize) * 100.0f);
+        LOGGER.debug("Elapsed Time: '{}'", response[4]);
+
+        return response;
+    }
+
+    private String showCompressionSpeed(long start, long end, float uncompressedSize, float compressedSize) {
+        if ((end - start) == 0 && (uncompressedSize - compressedSize) == 0) {
+            return "0";
+        } else {
+            return Float.toString((uncompressedSize - compressedSize) / (end - start));
+        }
+    }
+
+    private String showCompressionRatio(float uncompressedSize, float compressedSize) {
+        if (uncompressedSize == 0 && compressedSize == 0) {
+            return "0";
+        } else {
+            return Float.toString(uncompressedSize / compressedSize);
+        }
+    }
+
+    public String[] uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
         validateUncompressFile(typeOfAlgorithm, extension);
         Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        String[] response = new String[5];
         byte[] encodingResult;
         try {
-            encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
+            byte[] data = Files.readAllBytes(new File(pathname).toPath());
+            int compressedSize = data.length;
+            long start = System.currentTimeMillis();
+            encodingResult = algorithm.decodeFile(data);
+            long end = System.currentTimeMillis();
+            int uncompressedSize = encodingResult.length;
+            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
             LOGGER.error(message, e);
@@ -116,7 +161,9 @@ public class DomainController {
                 + selectUncompressedExtension(typeOfAlgorithm);
         fileManager.createFile(encodingResult, uncompressedPath);
         fileManager.writeFile(uncompressedPath, false);
-        return uncompressedPath;
+        response[0] = uncompressedPath;
+
+        return response;
     }
 
     private void validateCompressFile(String typeOfAlgorithm, String extension) throws CompressorException {

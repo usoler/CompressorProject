@@ -22,11 +22,16 @@ import java.util.Objects;
 public class MainViewSwing {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
     private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension", "Pathname"};
+    private static final String[] STATS_FILES_COLUMN_NAMES = {"Filename", "Algorithm", "Type", "Ratio", "Time", "Speed", "Space"};
+    private static final String[] STATS_ALGORITHMS_COLUMN_NAMES = {"Algorithm", "Type", "Ratio", "Time", "Speed", "Space", "# Files"};
 
     private PresentationController presentationController;
 
     private JFrame viewFrame;
     private JPanel viewPanel;
+    private JTabbedPane tabbedPane;
+    private JPanel filesCardPanel;
+    private JPanel statsCardPanel;
 
     // History Panel ----------------------
     private JPanel historyPanel;
@@ -62,6 +67,19 @@ public class MainViewSwing {
     private JComboBox<String> algorithmComboBox;
     // ---------------------------------------------
 
+    // Stats Files Panel ------------------------------
+    private JPanel statsFilesPanel;
+    private JTable statsFilesTable;
+    private JScrollPane statsFilesScrollPane;
+    // ------------------------------------------------
+
+    // Stats Algorithms Panel -------------------------
+    private JPanel statsAlgorithmsPanel;
+    private JTable statsAlgorithmsTable;
+    private JScrollPane statsAlgorithmsScrollPane;
+    // ------------------------------------------------
+
+
     public MainViewSwing(PresentationController presentationController) {
         LOGGER.info("Constructing Main View");
         this.presentationController = presentationController;
@@ -81,10 +99,15 @@ public class MainViewSwing {
     private void initInstances() {
         LOGGER.debug("Initiating instances");
         viewFrame = new JFrame("Main View");
-        viewPanel = new JPanel();
+        viewPanel = new JPanel(new CardLayout());
+        tabbedPane = new JTabbedPane();
+        filesCardPanel = new JPanel();
+        statsCardPanel = new JPanel();
 
         initHistoryInstances();
         initDataFileInstances();
+        initStatsFilesInstances();
+        initStatsAlgorithmsInstances();
         LOGGER.debug("Instances initiated");
     }
 
@@ -125,12 +148,29 @@ public class MainViewSwing {
         algorithmComboBox.addItem("JPEG");
     }
 
+    private void initStatsFilesInstances() {
+        statsFilesPanel = new JPanel();
+        statsFilesTable = new JTable(new DefaultTableModel(new Object[][]{}, STATS_FILES_COLUMN_NAMES));
+        statsFilesScrollPane = new JScrollPane(statsFilesTable);
+    }
+
+    private void initStatsAlgorithmsInstances() {
+        statsAlgorithmsPanel = new JPanel();
+        statsAlgorithmsTable = new JTable(new DefaultTableModel(new Object[][]{}, STATS_ALGORITHMS_COLUMN_NAMES));
+        statsAlgorithmsScrollPane = new JScrollPane(statsAlgorithmsTable);
+
+    }
+
     private void initComponents() {
         LOGGER.debug("Initiating components");
         initViewFrame();
         initViewPanel();
+        initFilesCardPanel();
+        initStatsCardPanel();
         initHistoryPanel();
         initDataFilePanel();
+        initStatsFilesPanel();
+        initStatsAlgorithmsPanel();
 
         addListeners();
         LOGGER.debug("Components initiated");
@@ -151,10 +191,26 @@ public class MainViewSwing {
 
     private void initViewPanel() {
         LOGGER.debug("Initiating View Panel");
-        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
-        viewPanel.add(historyPanel);
-        viewPanel.add(dataFilePanel);
+        tabbedPane.addTab("Files", filesCardPanel);
+        tabbedPane.addTab("Stats", statsCardPanel);
+        viewPanel.add(tabbedPane);
         LOGGER.debug("View Panel initiated");
+    }
+
+    private void initFilesCardPanel() {
+        LOGGER.debug("Initiating File Card Panel");
+        filesCardPanel.setLayout(new BoxLayout(filesCardPanel, BoxLayout.Y_AXIS));
+        filesCardPanel.add(historyPanel);
+        filesCardPanel.add(dataFilePanel);
+        LOGGER.debug("File Card Panel initiated");
+    }
+
+    private void initStatsCardPanel() {
+        LOGGER.debug("Initiating Stats Card Panel");
+        statsCardPanel.setLayout(new BoxLayout(statsCardPanel, BoxLayout.Y_AXIS));
+        statsCardPanel.add(statsFilesPanel);
+        statsCardPanel.add(statsAlgorithmsPanel);
+        LOGGER.debug("Stats Card Panel initiated");
     }
 
     private void initHistoryPanel() {
@@ -193,6 +249,33 @@ public class MainViewSwing {
         dataFilePanel.add(controlComponentsPanel, constraints);
         initControlComponentsPanel();
         LOGGER.debug("Data File Panel initiated");
+    }
+
+    private void initStatsFilesPanel() {
+        LOGGER.debug("Initiating Stats Files Panel");
+        statsFilesPanel.add(statsFilesScrollPane);
+        statsFilesTable.setDefaultEditor(Object.class, null);
+        statsFilesTable.getTableHeader().setReorderingAllowed(false);
+        LOGGER.debug("Stats Files initiated");
+    }
+
+    private void initStatsAlgorithmsPanel() {
+        LOGGER.debug("Initiating Stats Algorithms Panel");
+        statsAlgorithmsPanel.add(statsAlgorithmsScrollPane);
+        statsAlgorithmsTable.setDefaultEditor(Object.class, null);
+        statsAlgorithmsTable.getTableHeader().setReorderingAllowed(false);
+        initStatsAlgorithmsTable();
+        LOGGER.debug("Stats Algorithms initiated");
+    }
+
+    private void initStatsAlgorithmsTable() {
+        DefaultTableModel tableModel = (DefaultTableModel) statsAlgorithmsTable.getModel();
+        tableModel.addRow(new Object[]{"JPEG", "Encode", 0, 0, 0, 0, 0});
+        tableModel.addRow(new Object[]{"JPEG", "Decode", 0, 0, 0, 0, 0});
+        tableModel.addRow(new Object[]{"LZ78", "Encode", 0, 0, 0, 0, 0});
+        tableModel.addRow(new Object[]{"LZ78", "Decode", 0, 0, 0, 0, 0});
+        tableModel.addRow(new Object[]{"LZW", "Encode", 0, 0, 0, 0, 0});
+        tableModel.addRow(new Object[]{"LZW", "Decode", 0, 0, 0, 0, 0});
     }
 
     private void initFileInfoPanel() {
@@ -341,11 +424,14 @@ public class MainViewSwing {
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
             String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
-            String compressedPath;
+            String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
-                compressedPath = presentationController.compressFile(algorithm, pathname, filename, extension);
-                newSizeLabel.setText(getSizeFromFile(new File(compressedPath)));
-                addRowToTableFromFile(new File(compressedPath), null);
+                String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
+                originalSizeLabel.setText(size);
+                File compressedFile = new File(response[0]);
+                newSizeLabel.setText(getSizeFromFile(compressedFile));
+                addRowToTableFromFile(compressedFile, null);
+                addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
                 showException(ex);
             }
@@ -358,15 +444,76 @@ public class MainViewSwing {
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
             String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
-            String uncompressedPath;
+            String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
-                uncompressedPath = presentationController.uncompressFile(algorithm, pathname, filename, extension);
-                newSizeLabel.setText(getSizeFromFile(new File(uncompressedPath)));
-                addRowToTableFromFile(new File(uncompressedPath), null);
+                String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
+                newSizeLabel.setText(size);
+                File uncompressedPath = new File(response[0]);
+                originalSizeLabel.setText(getSizeFromFile(uncompressedPath));
+                addRowToTableFromFile(uncompressedPath, null);
+                addRowToStatsTable(filename, algorithm, response, false);
             } catch (CompressorException ex) {
                 showException(ex);
             }
         });
+    }
+
+    private void addRowToStatsTable(String filename, String algorithm, String[] stats, boolean encode) {
+        String type;
+        if (encode) {
+            type = "Encode";
+        } else {
+            type = "Decode";
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) statsFilesTable.getModel();
+        tableModel.addRow(new Object[]{filename, algorithm, type, stats[1], stats[2], stats[3], stats[4]});
+
+        int row = selectStatsAlgorithmRow(algorithm, type);
+        updateStatsAlgorithm(row, stats[1], stats[2], stats[3], stats[4]);
+    }
+
+    private void updateStatsAlgorithm(int row, String ratio, String time, String speed, String space) {
+        DefaultTableModel tableModel = (DefaultTableModel) statsAlgorithmsTable.getModel();
+        int numFiles = (Integer) tableModel.getValueAt(row, 6);
+        tableModel.setValueAt(numFiles + 1, row, 6);
+
+        if (numFiles != 0) {
+            String newRatio = String.valueOf((Float.parseFloat(ratio) + (Float.parseFloat((String) tableModel.getValueAt(row, 2)) * (float) numFiles)) / (float) (numFiles + 1));
+            tableModel.setValueAt(newRatio, row, 2);
+
+            String newTime = String.valueOf((Float.parseFloat(time) + (Float.parseFloat((String) tableModel.getValueAt(row, 3)) * (float) numFiles)) / (float) (numFiles + 1));
+            tableModel.setValueAt(newTime, row, 3);
+
+            String newSpeed = String.valueOf((Float.parseFloat(speed) + (Float.parseFloat((String) tableModel.getValueAt(row, 4)) * (float) numFiles)) / (float) (numFiles + 1));
+            tableModel.setValueAt(newSpeed, row, 4);
+
+            String newSpace = String.valueOf((Float.parseFloat(space) + (Float.parseFloat((String) tableModel.getValueAt(row, 5)) * (float) numFiles)) / (float) (numFiles + 1));
+            tableModel.setValueAt(newSpace, row, 5);
+        } else {
+            tableModel.setValueAt(ratio, row, 2);
+            tableModel.setValueAt(time, row, 3);
+            tableModel.setValueAt(speed, row, 4);
+            tableModel.setValueAt(space, row, 5);
+        }
+    }
+
+    private int selectStatsAlgorithmRow(String algorithm, String type) {
+        if (algorithm.equals("JPEG")) {
+            if (type.equals("Encode")) {
+                return 0;
+            }
+            return 1;
+        } else if (algorithm.equals("LZ78")) {
+            if (type.equals("Encode")) {
+                return 2;
+            }
+            return 3;
+        } else {
+            if (type.equals("Encode")) {
+                return 4;
+            }
+            return 5;
+        }
     }
 
     private void addRowToTableFromFile(File file, String fileDate) {
@@ -374,13 +521,15 @@ public class MainViewSwing {
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = parseDate(fileDate, formatter);
-        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), getSizeFromFile(file), fileParts[1], file.getAbsolutePath()});
+        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), getSizeFromFile(file), fileParts[fileParts.length - 1], file.getAbsolutePath()});
     }
 
     private Date parseDate(String fileDate, SimpleDateFormat formatter) {
         Date date = new Date();
         try {
-            date = formatter.parse(fileDate);
+            if (Objects.nonNull(fileDate)) {
+                return formatter.parse(fileDate);
+            }
         } catch (ParseException e) {
             String message = "Failure to parse the file date";
             LOGGER.error(message, e);
