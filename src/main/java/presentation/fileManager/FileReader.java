@@ -31,7 +31,7 @@ public class FileReader {
 
     public static void readAllFilesFromFolder(String folderPathName, IFile i_folder) throws CompressorException {
         File folderFile = new File(folderPathName);
-        IFile folder = createFolder(folderFile);
+        IFile folder = createFolder(folderFile, folderPathName);
         if (i_folder != null)
         {
             i_folder.addFile(folder);
@@ -87,11 +87,11 @@ public class FileReader {
         return scanner.hasNext() ? scanner.next() : "";
     }
 
-    private static Folder createFolder(File file)
+    private static Folder createFolder(File file, String folderPathname)
     {
         String folderName = file.getName();
         String formatFolder = obtainFormatOfFile(folderName);
-        Folder folder = new Folder(folderName,formatFolder);
+        Folder folder = new Folder(folderName,formatFolder, folderPathname);
         return folder;
     }
 

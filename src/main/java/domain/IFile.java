@@ -9,19 +9,13 @@ public interface IFile {
 
     byte[] getData();
 
-    int getSize();
+    int getNumberOfFiles();
 
     //String getName();
 
     //String getFormat();
 
     //ArrayList<File> getFiles();
-
-    //ArrayList<Folder> getFolders();
-
-
-
-
 
     //Interface Setters
 

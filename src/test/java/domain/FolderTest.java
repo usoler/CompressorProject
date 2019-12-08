@@ -8,6 +8,7 @@ public class FolderTest {
     private Folder folder;
     private static final String name = "name";
     private static final String format = "txt";
+    private static final String pathname = "none";
 
 
     @BeforeClass
@@ -21,7 +22,7 @@ public class FolderTest {
     @Before
     public void setUp() {
 
-        folder = new Folder(name, format);
+        folder = new Folder(name, format, pathname);
     }
 /*
     @Test

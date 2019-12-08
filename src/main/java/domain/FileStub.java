@@ -21,7 +21,7 @@ public class FileStub extends File {
         return "format";
     }
 
-    public int getSize() {
+    public int getNumberOfFiles() {
         return 2;
     }
 

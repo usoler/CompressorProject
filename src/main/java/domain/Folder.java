@@ -5,14 +5,15 @@ import java.util.Objects;
 
 public class Folder implements IFile{
     private String name, format;
-    private int size;
+    private int numberOfFiles;
     private ArrayList<IFile> files;
     private String pathname;
 
-    public Folder(String name, String format) {
+    public Folder(String name, String format, String pathname) {
+        this.pathname = pathname;
         this.name = name;
         this.format = format;
-        this.size = 0;
+        this.numberOfFiles = 0;
         files = new ArrayList<>();
     }
 
@@ -37,8 +38,8 @@ public class Folder implements IFile{
         this.format = format;
     }
 
-    public int getSize() {
-        return size;
+    public int getNumberOfFiles() {
+        return numberOfFiles;
     }
 
     public ArrayList<IFile> getFiles() {
@@ -47,19 +48,19 @@ public class Folder implements IFile{
 
     public void setFiles(ArrayList<IFile> files) {
         for (IFile file : this.files) {
-            size -= file.getSize();
+            numberOfFiles -= file.getNumberOfFiles();
         }
         if (!Objects.isNull(files)) {
             this.files = files;
             for (IFile file : files) {
-                size += file.getSize();
+                numberOfFiles += file.getNumberOfFiles();
             }
         }
     }
 
     public void addFile(IFile file) {
         files.add(file);
-        size += file.getSize();
+        numberOfFiles += file.getNumberOfFiles();
     }
 
 
@@ -69,7 +70,7 @@ public class Folder implements IFile{
         if (this == o) return true;
         if (!(o instanceof Folder)) return false;
         Folder folder = (Folder) o;
-        return size == folder.size &&
+        return numberOfFiles == folder.numberOfFiles &&
                 name.equals(folder.name) &&
                 format.equals(folder.format) &&
                 Objects.equals(files, folder.files);
@@ -77,6 +78,6 @@ public class Folder implements IFile{
 
     @Override
     public String toString() {
-        return String.format("Folder{name='%s', format='%s', size=%s}", name, format, size);
+        return String.format("Folder{name='%s', format='%s', size=%s}", name, format, numberOfFiles);
     }
 }

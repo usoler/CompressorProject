@@ -35,7 +35,7 @@ public abstract class File implements IFile{
         this.format = format;
     }
 
-    public int getSize() {
+    public int getNumberOfFiles() {
         return size;
     }
 
