@@ -111,6 +111,10 @@ public enum CompressorErrorCode {
     WRITE_HISTORY_PATHS_FAILURE("4011"),
     // Failure to rewrite in history file
     REWRITE_HISTORY_PATHS_FAILURE("4013"),
+    // Failure to read all stats from stats file
+    READ_STATS_FAILURE("4014"),
+    // Failure to read all stats from stats file
+    WRITE_STATS_FAILURE("4015"),
     // ******************************************
     // MainViewSwing
     // ******************************************

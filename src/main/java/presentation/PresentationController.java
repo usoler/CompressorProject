@@ -25,6 +25,7 @@ public class PresentationController {
         domainController.init();
         mainView.show();
         loadHistory();
+        loadStats();
         LOGGER.debug("Presentation Controller initiated");
     }
 
@@ -41,10 +42,23 @@ public class PresentationController {
         }
     }
 
+    private void loadStats() {
+        LOGGER.debug("Calling load stats to Domain Layer");
+        CompressorException exception = null;
+        ArrayList<String> arrayOfStats = new ArrayList<>();
+        try {
+            arrayOfStats = domainController.loadStats();
+        } catch (CompressorException e) {
+            exception = e;
+        } finally {
+            mainView.loadStatsTable(arrayOfStats, exception);
+        }
+    }
+
     public void addFile(String pathname, String date) throws CompressorException {
         LOGGER.debug("Calling Add File from Domain Controller with param pathname '{}'", pathname);
         domainController.addFile(pathname, date, true);
-        LOGGER.debug("Add file from Domain Controller called");
+        LOGGER.debug("Added file from Domain Controller called");
     }
 
     public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {

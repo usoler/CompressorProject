@@ -34,9 +34,18 @@ public class DataController {
         return singletonDataController;
     }
 
+    public static ArrayList<String> getAllStatsFromStats() throws CompressorException {
+        LOGGER.debug("Reading file '{}' with path '{}'", STATS_FILENAME, STATS_PATH);
+        FileReader fileReader = getFileReaderFromStats();
+        Scanner scanner = new Scanner(fileReader);
+
+        ArrayList<String> arrayOfStats = readAllStatsFromFile(scanner);
+        return arrayOfStats;
+    }
+
     public static ArrayList<String> getAllFilesFromHistory() throws CompressorException {
         LOGGER.debug("Reading file '{}' with path '{}'", HISTORY_FILENAME, HISTORY_PATH);
-        FileReader fileReader = getFileReader();
+        FileReader fileReader = getFileReaderFromHistory();
         Scanner scanner = new Scanner(fileReader);
 
         ArrayList<String> arrayOfFileData = readAllPathsFromFile(scanner);
@@ -56,6 +65,27 @@ public class DataController {
             String message = String.format("Failure to write the pathname '%s' into '%s'", pathname, HISTORY_FILENAME);
             LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.WRITE_HISTORY_PATHS_FAILURE);
+        }
+    }
+
+    public static void addStatsToStatsFile(String[] stats) throws CompressorException {
+        LOGGER.debug("Adding stats to the stats file");
+        try {
+            FileWriter fileWriter = new FileWriter(new File(STATS_PATH), true);
+            BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+            for (int i = 0; i < stats.length; ++i) {
+                bufferWriter.write(String.valueOf(stats[i]));
+                if (i != stats.length - 1) {
+                    bufferWriter.write(" ");
+                }
+            }
+            bufferWriter.write('\n');
+            bufferWriter.close();
+            fileWriter.close();
+        } catch (IOException e) {
+            String message = String.format("Failure to write the stats '%s'", STATS_FILENAME);
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.WRITE_STATS_FAILURE);
         }
     }
 
@@ -101,7 +131,15 @@ public class DataController {
         return arrayOfFilePaths;
     }
 
-    private static FileReader getFileReader() throws CompressorException {
+    private static ArrayList<String> readAllStatsFromFile(Scanner scanner) {
+        ArrayList<String> arrayOfStats = new ArrayList<>();
+        while (scanner.hasNextLine()) {
+            arrayOfStats.add(scanner.nextLine());
+        }
+        return arrayOfStats;
+    }
+
+    private static FileReader getFileReaderFromHistory() throws CompressorException {
         FileReader fileReader;
         try {
             fileReader = new FileReader(HISTORY_PATH);
@@ -109,6 +147,18 @@ public class DataController {
             String message = "Failure to read all paths from history file in database";
             LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.READ_HISTORY_PATHS_FAILURE);
+        }
+        return fileReader;
+    }
+
+    private static FileReader getFileReaderFromStats() throws CompressorException {
+        FileReader fileReader;
+        try {
+            fileReader = new FileReader(STATS_PATH);
+        } catch (FileNotFoundException e) {
+            String message = "Failure to read all stats from stats file in database";
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.READ_STATS_FAILURE);
         }
         return fileReader;
     }

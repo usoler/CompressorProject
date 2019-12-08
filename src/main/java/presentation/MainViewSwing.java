@@ -559,6 +559,14 @@ public class MainViewSwing {
         }
     }
 
+    public void loadStatsTable(ArrayList<String> arrayOfStats, CompressorException exception) {
+        if (Objects.isNull(exception)) {
+            addStatsToTable(arrayOfStats);
+        } else {
+            showException(exception);
+        }
+    }
+
     private void addFilesToTable(ArrayList<String> arrayOfFileData) {
         for (int i = 0; i < arrayOfFileData.size(); ++i) {
             String[] data = arrayOfFileData.get(i).split(" ");
@@ -566,6 +574,14 @@ public class MainViewSwing {
             String pathname = data[2];
             File file = new File(pathname);
             addRowToTableFromFile(file, date);
+        }
+    }
+
+    private void addStatsToTable(ArrayList<String> arrayOfStats) {
+        for (int i = 0; i < arrayOfStats.size(); ++i) {
+            String[] data = arrayOfStats.get(i).split(" ");
+            String[] stats = new String[]{"", data[3], data[4], data[5], data[6]};
+            addRowToStatsTable(data[0], data[1], stats, data[2].equals("Encode"));
         }
     }
 }

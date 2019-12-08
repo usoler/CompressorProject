@@ -55,6 +55,11 @@ public class DomainController {
         return goodArrayOfFileData;
     }
 
+    public ArrayList<String> loadStats() throws CompressorException {
+        LOGGER.debug("Loading stats from Persistence Layer");
+        return dataController.getAllStatsFromStats();
+    }
+
     private boolean checkFile(File file) {
         if (!file.exists()) {
             LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
@@ -70,6 +75,14 @@ public class DomainController {
             dataController.addFileToHistoryFile(pathname, date);
         }
         LOGGER.debug("File added to the domain");
+    }
+
+    private void addStats(String filename, String algorithm, String type, String[] statsValues) throws CompressorException {
+        LOGGER.debug("Adding stats to the Persistence Layer");
+        String[] stats = new String[]{filename, algorithm, type, statsValues[1], statsValues[2],
+                statsValues[3], statsValues[4]};
+        dataController.addStatsToStatsFile(stats);
+        LOGGER.debug("Stats added to the Persistence Layer");
     }
 
     public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
@@ -104,6 +117,7 @@ public class DomainController {
         fileManager.createFile(encodingResult, compressedPath);
         fileManager.writeFile(compressedPath, false);
         response[0] = compressedPath;
+        addStats(filename, typeOfAlgorithm, "Encode", response);
         return response;
     }
 
@@ -162,7 +176,7 @@ public class DomainController {
         fileManager.createFile(encodingResult, uncompressedPath);
         fileManager.writeFile(uncompressedPath, false);
         response[0] = uncompressedPath;
-
+        addStats(filename, typeOfAlgorithm, "Decode", response);
         return response;
     }
 
