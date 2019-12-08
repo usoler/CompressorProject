@@ -45,7 +45,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.MainSwing">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
@@ -76,9 +76,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainSwing" />
         <item itemvalue="Application.MainLZ78" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainJPEG" />
       </list>
     </recent_temporary>
