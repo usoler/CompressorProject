@@ -1,6 +1,7 @@
 package domain.algorithms;
 
 import domain.algorithms.lossless.Lz78;
+import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import domain.dataObjects.Pair;
 import domain.exception.CompressorErrorCode;
@@ -133,7 +134,7 @@ public class Algorithm {
             addStringToByteArrayList(file.getName(), header);
 
             if (getExtension(file.getName()).equals("txt")) {
-                setAlgorithmInterface(new Lz78());
+                setAlgorithmInterface(new Lzw());
             } else if (getExtension(file.getName()).equals("ppm")) {
                 setAlgorithmInterface(new Jpeg());
             }
@@ -186,7 +187,7 @@ public class Algorithm {
             }
 
             if (getExtension(name.toString()).equals("txt")) {
-                setAlgorithmInterface(new Lz78());
+                setAlgorithmInterface(new Lzw());
             } else if (getExtension(name.toString()).equals("ppm")) {
                 setAlgorithmInterface(new Jpeg());
             }

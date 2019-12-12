@@ -17,7 +17,7 @@ public class MainEncodeFolder {
     }
 
     private static void testEncodeFolder() throws IOException, CompressorException {
-        String inputPath = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\input";
+        String inputPath = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\inputTxt";
         File folder = new File(inputPath);
         Algorithm compressor = new Algorithm();
         byte[] encodedFolder = compressor.encodeFolder(folder);
