@@ -1,0 +1,6 @@
+02/11/1995 16:58:12 /Users/luisoriolsolercruz/Documents/GitKraken/CompressorProject/input/clouds.ppm12/12/2019 18:24:17 C:\Users\usuario\Desktop\Nuevo documento de texto.txt
+12/12/2019 18:25:15 C:\Users\usuario\Desktop\test 3000.txt
+12/12/2019 18:27:43 C:\Users\usuario\Desktop\test 3000.txt
+12/12/2019 18:29:17 C:\Users\usuario\Desktop\test 3000.txt
+12/12/2019 19:46:45 C:\Users\usuario\Desktop\test3000.txt
+12/12/2019 20:24:25 C:\Users\usuario\Desktop\test3000.txt

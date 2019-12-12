@@ -2,7 +2,14 @@ package domain;
 
 public class DecompressedFile extends File {
 
-    public DecompressedFile(String name, String format, int size, Folder folder) {
-        super(name, format, size, folder);
+
+    public DecompressedFile(byte[] data, String pathname,String name, int size, String format)
+    {
+        super(data,pathname, name, format,size);
+    }
+
+    @Override
+    public void addFile(IFile file) {
+
     }
 }

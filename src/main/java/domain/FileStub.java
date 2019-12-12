@@ -1,9 +1,12 @@
 package domain;
 
+import java.util.ArrayList;
+
 public class FileStub extends File {
 
-    public FileStub(String name, String format, int size, Folder folder) {
-        super(name, format, size, folder);
+    public FileStub(byte[] data, String pathname,String name, int size, String format)
+    {
+        super(data,pathname, name, format,size);
     }
 
     public String toString() {
@@ -18,15 +21,14 @@ public class FileStub extends File {
         return "format";
     }
 
-    public int getSize() {
+    public int getNumberOfFiles() {
         return 2;
     }
 
-    public Folder getFolder() {
-        return super.getFolder();
-    }
-
-    public void setFolder(Folder folder) {
+    @Override
+    public void addFile(IFile file) {
 
     }
+
+
 }
