@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class DomainController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainController.class);
@@ -34,21 +35,78 @@ public class DomainController {
         LOGGER.debug("Domain Controller initiated");
     }
 
-    public void addFile(String pathname) throws CompressorException {
+    public ArrayList<String> loadHistory() throws CompressorException {
+        LOGGER.debug("Loading history from Persistence Layer");
+        ArrayList<String> arrayOfFileData = dataController.getAllFilesFromHistory();
+        ArrayList<String> goodArrayOfFileData = new ArrayList<>();
+        ArrayList<Integer> linesToRemove = new ArrayList<>();
+        int index = 0;
+        for (String data : arrayOfFileData) {
+            String pathname = data.split(" ")[2];
+            if (checkFile(new File(pathname))) {
+                addFile(pathname, null, false);
+                goodArrayOfFileData.add(data);
+            } else {
+                linesToRemove.add(index);
+            }
+            ++index;
+        }
+        rewriteHistoryFile(linesToRemove);
+        return goodArrayOfFileData;
+    }
+
+    public ArrayList<String> loadStats() throws CompressorException {
+        LOGGER.debug("Loading stats from Persistence Layer");
+        return dataController.getAllStatsFromStats();
+    }
+
+    private boolean checkFile(File file) {
+        if (!file.exists()) {
+            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
+            return false;
+        }
+        return true;
+    }
+
+    public void addFile(String pathname, String date, boolean writeInFile) throws CompressorException {
         LOGGER.debug("Adding file to the domain");
         fileManager.readFile(pathname);
+        if (writeInFile) {
+            dataController.addFileToHistoryFile(pathname, date);
+        }
         LOGGER.debug("File added to the domain");
     }
 
-    public String compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    private void addStats(String filename, String algorithm, String type, String[] statsValues) throws CompressorException {
+        LOGGER.debug("Adding stats to the Persistence Layer");
+        String[] stats = new String[]{filename, algorithm, type, statsValues[1], statsValues[2],
+                statsValues[3], statsValues[4]};
+        dataController.addStatsToStatsFile(stats);
+        LOGGER.debug("Stats added to the Persistence Layer");
+    }
+
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+        LOGGER.debug("Rewriting history file");
+        dataController.rewriteHistoryFile(linesToRemove);
+        LOGGER.debug("History file rewrote");
+    }
+
+    public String[] compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Compressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
         validateCompressFile(typeOfAlgorithm, extension);
         Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        String[] response = new String[5];
 
         byte[] encodingResult;
         try {
-            encodingResult = algorithm.encodeFile(Files.readAllBytes(new File(pathname).toPath()));
+            byte[] data = Files.readAllBytes(new File(pathname).toPath());
+            int uncompressedSize = data.length;
+            long start = System.currentTimeMillis();
+            encodingResult = algorithm.encodeFile(data);
+            long end = System.currentTimeMillis();
+            int compressedSize = encodingResult.length;
+            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
             LOGGER.error(message, e);
@@ -58,17 +116,56 @@ public class DomainController {
                 + selectCompressedExtension(typeOfAlgorithm);
         fileManager.createCompressedFile(encodingResult, compressedPath,filename,encodingResult.length,typeOfAlgorithm);
         fileManager.writeFile(compressedPath, false);
-        return compressedPath;
+        response[0] = compressedPath;
+        addStats(filename, typeOfAlgorithm, "Encode", response);
+        return response;
     }
 
-    public String uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    private String[] printEncodeStatistics(long start, long end, float uncompressedSize, float compressedSize, String[] response) {
+        LOGGER.debug("Showing the encode statistics:");
+        response[2] = Long.toString(end - start);
+        LOGGER.debug("Elapsed Time: '{}'", response[2]);
+        response[3] = showCompressionSpeed(start, end, uncompressedSize, compressedSize);
+        LOGGER.debug("Compression Speed: '{}'", response[3]);
+        response[1] = showCompressionRatio(uncompressedSize, compressedSize);
+        LOGGER.debug("Compression Ratio: '{}'", response[1]);
+        response[4] = Float.toString((1.0f - compressedSize / uncompressedSize) * 100.0f);
+        LOGGER.debug("Elapsed Time: '{}'", response[4]);
+
+        return response;
+    }
+
+    private String showCompressionSpeed(long start, long end, float uncompressedSize, float compressedSize) {
+        if ((end - start) == 0 && (uncompressedSize - compressedSize) == 0) {
+            return "0";
+        } else {
+            return Float.toString((uncompressedSize - compressedSize) / (end - start));
+        }
+    }
+
+    private String showCompressionRatio(float uncompressedSize, float compressedSize) {
+        if (uncompressedSize == 0 && compressedSize == 0) {
+            return "0";
+        } else {
+            return Float.toString(uncompressedSize / compressedSize);
+        }
+    }
+
+    public String[] uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
         validateUncompressFile(typeOfAlgorithm, extension);
         Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        String[] response = new String[5];
         byte[] encodingResult;
         try {
-            encodingResult = algorithm.decodeFile(Files.readAllBytes(new File(pathname).toPath()));
+            byte[] data = Files.readAllBytes(new File(pathname).toPath());
+            int compressedSize = data.length;
+            long start = System.currentTimeMillis();
+            encodingResult = algorithm.decodeFile(data);
+            long end = System.currentTimeMillis();
+            int uncompressedSize = encodingResult.length;
+            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
         } catch (IOException e) {
             String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
             LOGGER.error(message, e);
@@ -78,7 +175,9 @@ public class DomainController {
                 + selectUncompressedExtension(typeOfAlgorithm);
         fileManager.createDecompressedFile(encodingResult, uncompressedPath,filename,encodingResult.length,typeOfAlgorithm);
         fileManager.writeFile(uncompressedPath, false);
-        return uncompressedPath;
+        response[0] = uncompressedPath;
+        addStats(filename, typeOfAlgorithm, "Decode", response);
+        return response;
     }
 
     private void validateCompressFile(String typeOfAlgorithm, String extension) throws CompressorException {
