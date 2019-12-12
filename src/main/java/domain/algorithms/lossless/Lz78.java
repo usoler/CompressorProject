@@ -243,7 +243,9 @@ public class Lz78 extends Lz {
                 String word;
                 if (longIndex != 0) {
                     word = decodingDictionary.get(intIndex);
-                    word += charCharacterAtIterator;
+                    if ( !((iterator + 1 == lengthOfEncoding) && (byteCharacterAtIterator == 0))) {
+                        word += charCharacterAtIterator;
+                    }
                 } else {
                     word = Character.toString(charCharacterAtIterator);
                 }
