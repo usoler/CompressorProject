@@ -5,8 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DATA/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DATA/stats.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/stats.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/1" beforeDir="false" afterPath="$PROJECT_DIR$/OUTPUT/1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/1.LZ78" beforeDir="false" afterPath="$PROJECT_DIR$/OUTPUT/1.LZ78" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OUTPUT/1.LZ78" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.lz78" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.lzw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,8 +85,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainLZ78" />
-        <item itemvalue="Application.MainLZW" />
         <item itemvalue="Application.MainSwing" />
+        <item itemvalue="Application.MainLZW" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainJPEG" />
       </list>
@@ -116,20 +118,7 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java</url>
-          <line>239</line>
-          <option name="timeStamp" value="202" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java</url>
-          <line>155</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CompressorProject2$MainSwing.ic" NAME="MainSwing Coverage Results" MODIFIED="1576178519562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

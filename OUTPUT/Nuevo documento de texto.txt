@@ -1,8 +1,0 @@
-
-Leo Fichero
-	Fichero?
-		Leo e inserto en sistema
-	Carpeta?
-		Creo carpeta y leo ficheros
-				Leo fichero
-
