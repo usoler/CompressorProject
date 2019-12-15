@@ -1,4 +1,4 @@
-package presentation.fileManager;
+package data.fileManager;
 
 import domain.CompressedFile;
 import domain.DecompressedFile;
@@ -34,6 +34,14 @@ public class FileCreator {
             folder.addFile(file);
         }
         fileManager.setNewFile(file);
+    }
+
+    Folder createFolder(File file, String folderPathname)
+    {
+        String folderName = file.getName();
+        Folder folder = new Folder(folderName,"folder", folderPathname);
+        fileManager.setNewFile(folder);
+        return folder;
     }
 
     public void createWorkingFolder(String path) {

@@ -1,4 +1,4 @@
-package presentation.fileManager;
+package data.fileManager;
 
 import domain.IFile;
 import domain.exception.CompressorErrorCode;

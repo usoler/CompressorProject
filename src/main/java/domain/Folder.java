@@ -44,6 +44,12 @@ public class Folder implements IFile{
 
 
     @Override
+    public int getSize() {return 0; }
+    @Override
+    public void setSize(int size) { }
+
+
+    @Override
     public int getNumberOfFiles() {
         return numberOfFiles;
     }
