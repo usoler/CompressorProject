@@ -1,7 +1,7 @@
 import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossy.Jpeg;
-import presentation.fileManager.FileManager;
+import data.fileManager.FileManager;
 
 import java.io.File;
 import java.nio.file.Files;
