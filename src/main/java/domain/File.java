@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.ArrayList;
+
 public abstract class File implements IFile{
     private String name, format;
     private int size;
@@ -15,33 +17,47 @@ public abstract class File implements IFile{
         this.pathname = pathname;
     }
 
+
+    @Override
+    public int getSize() { return this.size; }
+    @Override
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+
+    @Override
+    public void setPathname(String pathname) { this.pathname = pathname;}
+    @Override
     public String getPathname() { return pathname; }
 
+
+    @Override
+    public void setData(byte[] data) { this.data = data;}
+    @Override
     public byte[] getData() { return data;}
 
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
+    @Override
     public String getFormat() {
         return format;
     }
-
+    @Override
     public void setFormat(String format) {
         this.format = format;
     }
 
-    public int getNumberOfFiles() {
-        return size;
-    }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     @Override
     public String toString() {
@@ -57,4 +73,22 @@ public abstract class File implements IFile{
                 name.equals(file.name) &&
                 format.equals(file.format);
     }
+
+
+    //Folder Only functions
+
+    @Override
+    public ArrayList<IFile> getFiles() { return null; }
+
+    @Override
+    public void addFile(IFile file) { }
+
+    @Override
+    public void setFiles(ArrayList<IFile> files) { }
+
+    @Override
+    public void setNumberOfFiles(int numberOfFiles) { }
+
+    @Override
+    public int getNumberOfFiles() { return 0; }
 }

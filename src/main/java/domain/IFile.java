@@ -11,21 +11,31 @@ public interface IFile {
 
     int getNumberOfFiles();
 
-    //String getName();
+    String getName();
 
-    //String getFormat();
+    String getFormat();
 
-    //ArrayList<File> getFiles();
+    ArrayList<IFile> getFiles();
+
+    int getSize();
 
     //Interface Setters
 
     void addFile(IFile file);
 
-    //void addFolder(Folder folder);
+    void setFiles(ArrayList<IFile> files);
 
-    //void setFiles(ArrayList<File> files);
+    void setName(String name);
 
+    void setFormat(String format);
 
+    void setSize(int size);
+
+    void setNumberOfFiles(int numberOfFiles);
+
+    void setPathname(String pathname);
+
+    void setData(byte[] data);
 
 
 
