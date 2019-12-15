@@ -2,6 +2,7 @@ package domain.algorithms;
 
 import domain.Folder;
 import domain.IFile;
+import domain.algorithms.lossless.Lz;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
@@ -23,9 +24,12 @@ import java.util.Objects;
 public class Algorithm {
     private static final Logger LOGGER = LoggerFactory.getLogger(Algorithm.class);
     private AlgorithmInterface algorithmInterface;
-    private static byte FOLDER_CODE = 0;
-    private static byte FILE_CODE = 1;
-    private static byte END_FOLDER_CODE = 2;
+    private static final byte FOLDER_CODE = 0;
+    private static final byte FILE_CODE = 1;
+    private static final byte END_FOLDER_CODE = 2;
+    private static final byte JPEG_CODE = 3;
+    private static final byte LZ78_CODE = 4;
+    private static final byte LZW_CODE = 5;
 
     public Algorithm() {
         this.algorithmInterface = new Lz78();
@@ -61,32 +65,21 @@ public class Algorithm {
 
 
 
-    public byte[] encodeFolder(File folder) throws IOException, CompressorException {
+    public byte[] encodeFolder(File folder, String typeOfTextAlgorithm) throws CompressorException {
         ArrayList<Byte> header = new ArrayList<>();
         ArrayList<Byte> data = new ArrayList<>();
-        recursiveEncodeFolder(folder, header, data);
+        recursiveEncodeFolder(folder, header, data, typeOfTextAlgorithm);
         ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
-        /*byte[] encodedFolder = new byte[header.size() + data.size()];
-        int i = 0;
-        for (Byte aByte : header) {
-            encodedFolder[i++] = aByte;
-        }
-        for (Byte datum : data) {
-            encodedFolder[i++] = datum;
-        }
-        return encodedFolder;*/
         return ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
     }
 
-    private void recursiveEncodeFolder(File file, ArrayList<Byte> header, ArrayList<Byte> data) throws IOException, CompressorException {
+    private void recursiveEncodeFolder(File file, ArrayList<Byte> header, ArrayList<Byte> data, String typeOfTextAlgorithm) throws CompressorException {
         if (file.isDirectory()) {
             header.add(FOLDER_CODE);
             ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
             ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
-//            addIntToByteArrayList(file.getName().length(), 4, header);
-//            addStringToByteArrayList(file.getName(), header);
             for (File f: file.listFiles()) {
-                recursiveEncodeFolder(f, header, data);
+                recursiveEncodeFolder(f, header, data, typeOfTextAlgorithm);
             }
             header.add(END_FOLDER_CODE);
         }
@@ -94,24 +87,21 @@ public class Algorithm {
             header.add(FILE_CODE);
             ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
             ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
-//            addIntToByteArrayList(file.getName().length(), 4, header);
-//            addStringToByteArrayList(file.getName(), header);
+            selectAlgorithmByName(file.getName(), typeOfTextAlgorithm, header);
 
-            if (getExtension(file.getName()).equals("txt")) {
-                setAlgorithmInterface(new Lzw());
-            } else if (getExtension(file.getName()).equals("ppm")) {
-                setAlgorithmInterface(new Jpeg());
+            byte[] encodedFile;
+            try {
+                encodedFile = encodeFile(Files.readAllBytes(file.toPath()));
+            } catch (IOException e) {
+                String message = String.format("Failure to read all bytes in file from path '%s'", file.toPath());
+                LOGGER.error(message, e);
+                throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
             }
-            byte[] encodedFile = encodeFile(Files.readAllBytes(file.toPath()));
+
             for (byte b:encodedFile) {
                 data.add(b);
             }
-            LOGGER.debug(String.format("------------- filename = %s; originalLength = %d; compressedLength = %d",
-                    file.getName(), Files.readAllBytes(file.toPath()).length, encodedFile.length));
-            //int n = file.length();
-
             ByteArrayListUtils.addIntToByteArrayList(encodedFile.length, 4, header);
-//            addIntToByteArrayList(encodedFile.length, 4, header);
         }
     }
 
@@ -125,8 +115,6 @@ public class Algorithm {
 
     public void decodeFolder(byte[] file, String path) throws CompressorException, IOException {
         int headerLength = getNextInt(file, 0).getValue();
-        //int headerLength = ByteBuffer.wrap(new byte[]{file[0], file[1], file[2], file[3]}).getInt();
-        LOGGER.debug("header length: " + headerLength);
         int headerIndex = 4;
         int dataIndex = 4 + headerLength;
         recursiveDecodeFolder(file, headerIndex, dataIndex, path);
@@ -142,13 +130,13 @@ public class Algorithm {
             File folder = new File(newPath);
             folder.mkdir();
             while (file[headerIndex] != END_FOLDER_CODE) {
-                //headerIndex = recursiveDecodeFolder(file, headerIndex, dataIndex, newPath);
                 Pair<Integer, Integer> pair = recursiveDecodeFolder(file, headerIndex, dataIndex, newPath);
                 headerIndex = pair.getKey();
                 dataIndex = pair.getValue();
             }
             ++headerIndex;
         } else {
+            byte algorithmCode = file[headerIndex++];
             File newFile = new File(path + File.separator + name);
             Pair<Integer, Integer> pair = getNextInt(file, headerIndex);
             headerIndex = pair.getKey();
@@ -158,23 +146,16 @@ public class Algorithm {
             for (int i = 0; i < fileLength; i++) {
                 encodedFile[i] = file[dataIndex++];
             }
-
-            if (getExtension(name.toString()).equals("txt")) {
-                setAlgorithmInterface(new Lzw());
-            } else if (getExtension(name.toString()).equals("ppm")) {
-                setAlgorithmInterface(new Jpeg());
-            }
+            selectAlgorithmByCode(algorithmCode);
 
             byte[] decodedFile = decodeFile(encodedFile);
-            LOGGER.debug(String.format("---------------- name = %s; compressedLength = %d, decompressedLength = %d",
-                    newFile.getName(), fileLength, decodedFile.length));
-
             FileOutputStream outputStream = new FileOutputStream(newFile);
             outputStream.write(decodedFile);
             outputStream.close();
         }
         return new Pair<>(headerIndex, dataIndex);
     }
+
 
     private void recursiveEncodeFolderV2(IFile iFile, ArrayList<Byte> header, ArrayList<Byte> data) throws CompressorException {
         if (iFile instanceof Folder) recursiveEncodeFolderV2((Folder) iFile, header, data);
@@ -232,6 +213,31 @@ public class Algorithm {
             return "";
         }
         return name.substring(name.length()-3);
+    }
+
+    private void selectAlgorithmByName(String name, String typeOfTextAlgorithm, ArrayList<Byte> header) {
+        if (getExtension(name).equals("txt")) {
+            if (typeOfTextAlgorithm.equals("LZ78")) {
+                setAlgorithmInterface(new Lz78());
+                header.add(LZ78_CODE);
+            } else if (typeOfTextAlgorithm.equals("LZW")) {
+                setAlgorithmInterface(new Lzw());
+                header.add(LZW_CODE);
+            }
+        } else if (getExtension(name).equals("ppm")) {
+            setAlgorithmInterface(new Jpeg());
+            header.add(JPEG_CODE);
+        }
+    }
+
+    private void selectAlgorithmByCode(byte algorithmCode) {
+        if (algorithmCode == LZ78_CODE) {
+            setAlgorithmInterface(new Lz78());
+        } else if (algorithmCode == LZW_CODE) {
+            setAlgorithmInterface(new Lzw());
+        } else if (algorithmCode == JPEG_CODE) {
+            setAlgorithmInterface(new Jpeg());
+        }
     }
 
     /*private static void addStringToByteArrayList(String s, ArrayList<Byte> arrayList) {

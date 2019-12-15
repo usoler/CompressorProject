@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 public class MainEncodeFolder {
     public static void main(String[] args) throws IOException, CompressorException {
-        //testEncodeFolder();
+        testEncodeFolder();
         //testEncodeJPEG();
         //System.out.println(File.separator);
-        testEncodeFolderWithFolderImpl();
+        //testEncodeFolderWithFolderImpl();
     }
 
     private static void testEncodeFolderWithFolderImpl() throws CompressorException {
@@ -38,10 +38,10 @@ public class MainEncodeFolder {
     }
 
     private static void testEncodeFolder() throws IOException, CompressorException {
-        String inputPath = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\inputTxt";
+        String inputPath = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\input";
         File folder = new File(inputPath);
         Algorithm compressor = new Algorithm();
-        byte[] encodedFolder = compressor.encodeFolder(folder);
+        byte[] encodedFolder = compressor.encodeFolder(folder, "LZ78");
 
         String outputPath = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder";
         File compressedFolder1 = new File(outputPath + '\\' + folder.getName() + ".fl1");
