@@ -1,53 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
+    <list default="true" id="81a13932-e381-4770-84bd-c775dc111602" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MainJPEG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainJPEG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZ78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZ78.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MainLZW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainLZW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DomainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/fileManager/FileCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/fileManager/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/fileManager/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/fileManager/FileWriterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/fileManager/FileWriterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java" afterDir="false" />
->>>>>>> AngelFix
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectId" id="1UcNEE1KxpokaZiEmS4EqA0ACzB" />
-  <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="data" />
-      <recent name="presentation" />
-      <recent name="domain" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -61,7 +23,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
@@ -69,69 +31,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.algorithms.lossless.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
-      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
-      <option name="METHOD_NAME" value="verify_encode__compressQuickly_whenPassVeryBigFile" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LzwTest.verify_encode_encode_whenPassEmptyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.algorithms.lossless.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
-      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
-      <option name="METHOD_NAME" value="verify_encode_encode_whenPassEmptyFile" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestSuite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestSuite" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TrieNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CompressorProject" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domain.dataStructure.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domain.dataStructure" />
-      <option name="MAIN_CLASS_NAME" value="domain.dataStructure.TrieNodeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.TrieNodeTest" />
-        <item itemvalue="JUnit.TestSuite" />
-        <item itemvalue="JUnit.LzwTest.verify_encode_encode_whenPassEmptyFile" />
-        <item itemvalue="JUnit.LzwTest.verify_encode__compressQuickly_whenPassVeryBigFile" />
       </list>
     </recent_temporary>
   </component>
@@ -140,11 +42,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="" />
-      <created>1575651809123</created>
+      <changelist id="81a13932-e381-4770-84bd-c775dc111602" name="Default Changelist" comment="" />
+      <created>1576444792659</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1575651809123</updated>
+      <updated>1576444792659</updated>
     </task>
     <servers />
   </component>
@@ -153,50 +55,10 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/components/ConversorYCbCrComponent.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="174" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/lossy/Jpeg.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="199" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/domain/Folder.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="203" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="quantizedBlocks.get(5)" />
-        <watch expression="quantizedBlocks.get(0)" />
-        <watch expression="quantizedBlocks.get(0).elements" />
-        <watch expression="quantizedBlocks.get(0)" />
-        <watch expression="file" />
-      </configuration>
-    </watches-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/CompressorProject2$MainSwing.ic" NAME="MainSwing Coverage Results" MODIFIED="1576178519562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

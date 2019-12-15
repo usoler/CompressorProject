@@ -42,13 +42,6 @@ public class Folder implements IFile{
         this.format = format;
     }
 
-
-    @Override
-    public int getSize() {return 0; }
-    @Override
-    public void setSize(int size) { }
-
-
     @Override
     public int getNumberOfFiles() {
         return numberOfFiles;
@@ -105,7 +98,7 @@ public class Folder implements IFile{
     public void setData(byte[] data) {}
 
     @Override
-    public int getSize() {return 0; }
+    public int getSize() {return -1; }
     @Override
     public void setSize(int size) { }
 }
