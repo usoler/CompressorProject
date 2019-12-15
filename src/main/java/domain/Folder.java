@@ -28,16 +28,9 @@ public class Folder implements IFile{
 
 
     @Override
-    public String getPathname(){return null;}
+    public String getPathname(){return pathname;}
     @Override
     public void setPathname(String pathname){this.pathname = pathname;}
-
-
-    @Override
-    public byte[] getData(){ return null;}
-    @Override
-    public void setData(byte[] data) {}
-
 
 
     @Override
@@ -48,12 +41,6 @@ public class Folder implements IFile{
     public void setFormat(String format) {
         this.format = format;
     }
-
-
-    @Override
-    public int getSize() {return 0; }
-    @Override
-    public void setSize(int size) { }
 
 
     @Override
@@ -103,4 +90,16 @@ public class Folder implements IFile{
     public String toString() {
         return String.format("Folder{name='%s', format='%s', size=%s}", name, format, numberOfFiles);
     }
+
+
+    //File only functions
+    @Override
+    public byte[] getData(){ return null;}
+    @Override
+    public void setData(byte[] data) {}
+
+    @Override
+    public int getSize() {return 0; }
+    @Override
+    public void setSize(int size) { }
 }
