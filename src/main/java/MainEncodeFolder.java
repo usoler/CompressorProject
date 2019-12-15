@@ -1,6 +1,12 @@
+import domain.Folder;
+import domain.IFile;
 import domain.algorithms.Algorithm;
 import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorException;
+import presentation.fileManager.FileCreator;
+import presentation.fileManager.FileManager;
+import presentation.fileManager.FileReader;
+import presentation.fileManager.FileWriterImpl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,12 +14,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class MainEncodeFolder {
     public static void main(String[] args) throws IOException, CompressorException {
-        testEncodeFolder();
+        //testEncodeFolder();
         //testEncodeJPEG();
         //System.out.println(File.separator);
+        testEncodeFolderWithFolderImpl();
+    }
+
+    private static void testEncodeFolderWithFolderImpl() throws CompressorException {
+        FileManager fileManager = new FileManager();
+
+        String path = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\inputTxt";
+        fileManager.readFolder(path);
+
+
+        IFile file = fileManager.getFile(path);
+        //String data = new String (file.getData());
+        //System.out.println(data);
+
     }
 
     private static void testEncodeFolder() throws IOException, CompressorException {

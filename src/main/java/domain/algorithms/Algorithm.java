@@ -1,8 +1,11 @@
 package domain.algorithms;
 
+import domain.Folder;
+import domain.IFile;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
+import domain.dataObjects.ByteArrayListUtils;
 import domain.dataObjects.Pair;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
@@ -62,8 +65,8 @@ public class Algorithm {
         ArrayList<Byte> header = new ArrayList<>();
         ArrayList<Byte> data = new ArrayList<>();
         recursiveEncodeFolder(folder, header, data);
-        addIntToByteArrayList(header.size(), 4, 0, header);
-        byte[] encodedFolder = new byte[header.size() + data.size()];
+        ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
+        /*byte[] encodedFolder = new byte[header.size() + data.size()];
         int i = 0;
         for (Byte aByte : header) {
             encodedFolder[i++] = aByte;
@@ -71,14 +74,17 @@ public class Algorithm {
         for (Byte datum : data) {
             encodedFolder[i++] = datum;
         }
-        return encodedFolder;
+        return encodedFolder;*/
+        return ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
     }
 
     private void recursiveEncodeFolder(File file, ArrayList<Byte> header, ArrayList<Byte> data) throws IOException, CompressorException {
         if (file.isDirectory()) {
             header.add(FOLDER_CODE);
-            addIntToByteArrayList(file.getName().length(), 4, header);
-            addStringToByteArrayList(file.getName(), header);
+            ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
+            ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
+//            addIntToByteArrayList(file.getName().length(), 4, header);
+//            addStringToByteArrayList(file.getName(), header);
             for (File f: file.listFiles()) {
                 recursiveEncodeFolder(f, header, data);
             }
@@ -86,8 +92,10 @@ public class Algorithm {
         }
         else {
             header.add(FILE_CODE);
-            addIntToByteArrayList(file.getName().length(), 4, header);
-            addStringToByteArrayList(file.getName(), header);
+            ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
+            ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
+//            addIntToByteArrayList(file.getName().length(), 4, header);
+//            addStringToByteArrayList(file.getName(), header);
 
             if (getExtension(file.getName()).equals("txt")) {
                 setAlgorithmInterface(new Lzw());
@@ -102,8 +110,17 @@ public class Algorithm {
                     file.getName(), Files.readAllBytes(file.toPath()).length, encodedFile.length));
             //int n = file.length();
 
-            addIntToByteArrayList(encodedFile.length, 4, header);
+            ByteArrayListUtils.addIntToByteArrayList(encodedFile.length, 4, header);
+//            addIntToByteArrayList(encodedFile.length, 4, header);
         }
+    }
+
+    public byte[] encodeFolderV2(domain.File folder) throws CompressorException {
+        ArrayList<Byte> header = new ArrayList<>();
+        ArrayList<Byte> data = new ArrayList<>();
+        recursiveEncodeFolderV2(folder, header, data);
+        ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
+        return  ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
     }
 
     public void decodeFolder(byte[] file, String path) throws CompressorException, IOException {
@@ -159,6 +176,39 @@ public class Algorithm {
         return new Pair<>(headerIndex, dataIndex);
     }
 
+    private void recursiveEncodeFolderV2(IFile iFile, ArrayList<Byte> header, ArrayList<Byte> data) throws CompressorException {
+        if (iFile instanceof Folder) recursiveEncodeFolderV2((Folder) iFile, header, data);
+        else if (iFile instanceof domain.File) recursiveEncodeFolderV2((domain.File) iFile, header, data);
+    }
+
+    private void recursiveEncodeFolderV2(Folder folder, ArrayList<Byte> header, ArrayList<Byte> data) throws CompressorException {
+        header.add(FOLDER_CODE);
+        ByteArrayListUtils.addIntToByteArrayList(folder.getName().length(), 4, header);
+        ByteArrayListUtils.addStringToByteArrayList(folder.getName(), header);
+        for (IFile f : folder.getFiles()) {
+            recursiveEncodeFolderV2(f, header, data);
+        }
+        header.add(END_FOLDER_CODE);
+    }
+
+    private void recursiveEncodeFolderV2(domain.File file, ArrayList<Byte> header, ArrayList<Byte> data) throws CompressorException {
+        header.add(FILE_CODE);
+        ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
+        ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
+        if (file.getFormat().equals("txt")) {
+            setAlgorithmInterface(new Lzw());
+        } else if (file.getFormat().equals("ppm")) {
+            setAlgorithmInterface(new Jpeg());
+        }
+        byte[] encodedFile = encodeFile(file.getData());
+        for (byte b : encodedFile) {
+            data.add(b);
+        }
+        LOGGER.debug(String.format("------------- filename = %s; originalLength = %d; compressedLength = %d",
+                file.getName(), file.getData().length, encodedFile.length));
+        ByteArrayListUtils.addIntToByteArrayList(encodedFile.length, 4, header);
+    }
+
 
     private static Pair<Integer, Integer> getNextInt(byte[] bytes, int index) {
         int nextInt = ByteBuffer.wrap(new byte[]{bytes[index++], bytes[index++], bytes[index++], bytes[index++]}).getInt();
@@ -184,23 +234,23 @@ public class Algorithm {
         return name.substring(name.length()-3);
     }
 
-    private static void addStringToByteArrayList(String s, ArrayList<Byte> arrayList) {
+    /*private static void addStringToByteArrayList(String s, ArrayList<Byte> arrayList) {
         for (int i = 0; i < s.length(); i++) {
             arrayList.add((byte)s.charAt(i));
         }
-    }
+    }*/
 
-    private static void addIntToByteArrayList(int num, int bytesNeeded, ArrayList<Byte> arrayList) {
+    /*private static void addIntToByteArrayList(int num, int bytesNeeded, ArrayList<Byte> arrayList) {
         byte[] number = transformIntToByteArray(num, bytesNeeded - 1);
         for (byte b : number) arrayList.add(b);
-    }
+    }*/
 
-    private static void addIntToByteArrayList(int num, int bytesNeeded, int index, ArrayList<Byte> arrayList) {
+    /*private static void addIntToByteArrayList(int num, int bytesNeeded, int index, ArrayList<Byte> arrayList) {
         byte[] number = transformIntToByteArray(num, bytesNeeded - 1);
         for (byte b : number) arrayList.add(index++, b);
-    }
+    }*/
 
-    private static byte[] transformIntToByteArray(int index, int extraBytesNeeded) {
+    /*private static byte[] transformIntToByteArray(int index, int extraBytesNeeded) {
         byte[] bytes = ByteBuffer.allocate(4).putInt(index).array();
         switch (extraBytesNeeded) {
             case 0:
@@ -215,5 +265,5 @@ public class Algorithm {
             default:
                 return bytes;
         }
-    }
+    }*/
 }
