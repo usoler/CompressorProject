@@ -28,7 +28,7 @@ public class Folder implements IFile{
 
 
     @Override
-    public String getPathname(){return null;}
+    public String getPathname(){return pathname;}
     @Override
     public void setPathname(String pathname){this.pathname = pathname;}
 
@@ -51,7 +51,7 @@ public class Folder implements IFile{
 
 
     @Override
-    public int getSize() {return 0; }
+    public int getSize() {return -1; }
     @Override
     public void setSize(int size) { }
 

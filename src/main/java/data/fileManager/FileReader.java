@@ -1,4 +1,4 @@
-package presentation.fileManager;
+package data.fileManager;
 
 import domain.Folder;
 import domain.IFile;
@@ -31,7 +31,7 @@ public class FileReader {
 
     public static void readAllFilesFromFolder(String folderPathName, IFile i_folder) throws CompressorException {
         File folderFile = new File(folderPathName);
-        IFile folder = createFolder(folderFile, folderPathName);
+        IFile folder = fileCreator.createFolder(folderFile, folderPathName);
         if (i_folder != null)
         {
             i_folder.addFile(folder);
@@ -87,13 +87,7 @@ public class FileReader {
         return scanner.hasNext() ? scanner.next() : "";
     }
 
-    private static Folder createFolder(File file, String folderPathname)
-    {
-        String folderName = file.getName();
-        String formatFolder = obtainFormatOfFile(folderName);
-        Folder folder = new Folder(folderName,formatFolder, folderPathname);
-        return folder;
-    }
+
 
 
     private static String obtainFormatOfFile(String name)

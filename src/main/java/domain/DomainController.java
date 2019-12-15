@@ -7,7 +7,7 @@ import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
-import presentation.fileManager.FileManager;
+import data.fileManager.FileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

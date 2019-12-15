@@ -90,5 +90,5 @@ public abstract class File implements IFile{
     public void setNumberOfFiles(int numberOfFiles) { }
 
     @Override
-    public int getNumberOfFiles() { return 0; }
+    public int getNumberOfFiles() { return -1; }
 }
