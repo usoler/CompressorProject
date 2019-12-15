@@ -8,8 +8,4 @@ public class CompressedFile extends File {
         super(data,pathname, name, format,size);
     }
 
-    @Override
-    public void addFile(IFile file) {
-
-    }
 }

@@ -21,12 +21,22 @@ public class FileStub extends File {
         return "format";
     }
 
+    @Override
+    public ArrayList<IFile> getFiles() {
+        return null;
+    }
+
     public int getNumberOfFiles() {
         return 2;
     }
 
     @Override
     public void addFile(IFile file) {
+
+    }
+
+    @Override
+    public void setFiles(ArrayList<IFile> files) {
 
     }
 
