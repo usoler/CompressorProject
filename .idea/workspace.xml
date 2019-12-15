@@ -3,13 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="136f73bf-8934-440d-b959-f58a403a4536" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DATA/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/history.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DATA/stats.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/stats.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/1.LZ78" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.lz78" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.lzw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUTPUT/Nuevo documento de texto.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/lossless/Lz78.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/CompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/DecompressedFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/IFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/IFile.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +45,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainLZ78">
+  <component name="RunManager" selected="Application.MainSwing">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="CompressorProject" />
@@ -84,8 +83,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainLZ78" />
         <item itemvalue="Application.MainSwing" />
+        <item itemvalue="Application.MainLZ78" />
         <item itemvalue="Application.MainLZW" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainJPEG" />

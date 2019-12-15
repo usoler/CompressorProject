@@ -1,5 +1,6 @@
 package domain;
 
+
 public class DecompressedFile extends File {
 
 
@@ -8,8 +9,4 @@ public class DecompressedFile extends File {
         super(data,pathname, name, format,size);
     }
 
-    @Override
-    public void addFile(IFile file) {
-
-    }
 }
