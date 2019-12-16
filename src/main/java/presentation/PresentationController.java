@@ -79,4 +79,14 @@ public class PresentationController {
         return domainController.uncompressFile(algorithm, pathname, filename, extension);
     }
 
+    public String getFilenameFromPath(String pathname) {
+        LOGGER.debug("Calling Get Filename from path from Domain Controller with pathname param '{}'", pathname);
+        return domainController.getFilenameFromPath(pathname);
+    }
+
+    public String getFileSizeFromPath(String pathname) {
+        LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
+        return domainController.getFileSizeFromPath(pathname);
+    }
+
 }

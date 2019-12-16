@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -347,11 +346,11 @@ public class MainViewSwing {
             int selection = fileChooser.showOpenDialog(historyPanel);
 
             if (selection == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
+                java.io.File file = fileChooser.getSelectedFile();
                 System.out.println("Selected file with pathname: " + file.getAbsolutePath());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-                addNewFile(file, formatter.format(new Date()));
+                addNewFile(file.getAbsolutePath(), formatter.format(new Date()));
             } else if (selection == JFileChooser.ERROR_OPTION) {
                 String message = "Failure to choose a file";
                 LOGGER.error(message);
@@ -361,10 +360,12 @@ public class MainViewSwing {
         });
     }
 
-    private void addNewFile(File file, String date) {
+    private void addNewFile(String pathname, String date) {
         try {
-            presentationController.addFile(file.getAbsolutePath(), date);
-            addRowToTableFromFile(file, date);
+            presentationController.addFile(pathname, date);
+            String filename = presentationController.getFilenameFromPath(pathname);
+            String fileSize = presentationController.getFileSizeFromPath(pathname);
+            addRowToTable(filename, pathname, fileSize, date);
         } catch (CompressorException ex) {
             showException(ex);
         }
@@ -428,9 +429,9 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
                 originalSizeLabel.setText(size);
-                File compressedFile = new File(response[0]);
-                newSizeLabel.setText(getSizeFromFile(compressedFile));
-                addRowToTableFromFile(compressedFile, null);
+                String compressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                addRowToTable(compressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -448,9 +449,9 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(size);
-                File uncompressedPath = new File(response[0]);
-                originalSizeLabel.setText(getSizeFromFile(uncompressedPath));
-                addRowToTableFromFile(uncompressedPath, null);
+                String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                addRowToTable(uncompressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, false);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -516,12 +517,12 @@ public class MainViewSwing {
         }
     }
 
-    private void addRowToTableFromFile(File file, String fileDate) {
-        String[] fileParts = file.getName().split("\\.");
+    private void addRowToTable(String filename, String pathname, String fileSize, String fileDate) {
+        String[] fileParts = filename.split("\\.");
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = parseDate(fileDate, formatter);
-        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), getSizeFromFile(file), fileParts[fileParts.length - 1], file.getAbsolutePath()});
+        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), fileSize, fileParts[fileParts.length - 1], pathname});
     }
 
     private Date parseDate(String fileDate, SimpleDateFormat formatter) {
@@ -536,19 +537,6 @@ public class MainViewSwing {
             showException(new CompressorException(message, e, CompressorErrorCode.PARSE_DATA_FAILURE));
         }
         return date;
-    }
-
-    private String getSizeFromFile(File file) {
-        double bytesSize = (double) (file.length() / (1024 * 1024));
-        double roundedSize = (Math.round(bytesSize * 100.0) / 100.0);
-        if (roundedSize <= 0.1) {
-            return Double.toString((double) file.length() / 1000) + " B";
-        } else if (roundedSize < 0.5 && roundedSize > 0.1) {
-            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " KB";
-        } else {
-            bytesSize = (double) file.length() / (1024000);
-            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " MB";
-        }
     }
 
     public void loadHistoryTable(ArrayList<String> arrayOfFileData, CompressorException exception) {
@@ -572,8 +560,9 @@ public class MainViewSwing {
             String[] data = arrayOfFileData.get(i).split(" ");
             String date = String.format("%s %s", data[0], data[1]);
             String pathname = data[2];
-            File file = new File(pathname);
-            addRowToTableFromFile(file, date);
+            String filename = presentationController.getFilenameFromPath(pathname);
+            String fileSize = presentationController.getFileSizeFromPath(pathname);
+            addRowToTable(filename, pathname, fileSize, date);
         }
     }
 

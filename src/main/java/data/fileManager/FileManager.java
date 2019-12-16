@@ -5,6 +5,7 @@ import domain.exception.CompressorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class FileManager {
     private List<IFile> listOfFiles;
 
     public FileManager() {
-        listOfFiles = new ArrayList<IFile>();
+        listOfFiles = new ArrayList<>();
         fileCreator = new FileCreator(this);
         fileReader = new FileReader(fileCreator);
         fileWriter = new FileWriterImpl();
