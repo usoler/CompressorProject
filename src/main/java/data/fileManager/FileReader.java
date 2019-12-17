@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 public class FileReader {
@@ -60,7 +61,14 @@ public class FileReader {
     private static FileInputStream readFile(File file, String pathname, IFile folder) throws CompressorException {
         FileInputStream fileInputStream = startInputStream(file);
         String format =obtainFormatOfFile(file.getName());
-        byte[] binaryData = readDataFromFile(fileInputStream).getBytes();
+        byte[] binaryData = {};
+        try {
+            binaryData = Files.readAllBytes(new File(pathname).toPath());
+        } catch (IOException e) {
+            String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
+        }
         if (isCompressed(format))
         {
             fileCreator.createCompressedFile(binaryData, pathname, folder, file.getName(),binaryData.length ,format);
@@ -105,14 +113,13 @@ public class FileReader {
                 else format += name.charAt(iterator);
             }
         }
-        invertString(format);
-        return format;
+        return invertString(format);
     }
 
     private static String invertString(String string)
     {
         String result = null;
-        for (int iterator = 0; iterator < string.length(); ++iterator)
+        for (int iterator = string.length() - 1; iterator >= 0; --iterator)
         {
             if (result==null) result = Character.toString(string.charAt(iterator));
             else result += string.charAt(iterator);
