@@ -64,7 +64,7 @@ public class MainEncodeFolder {
         fileManager.readFolder(path);
         IFile folder = fileManager.getFile(path);
         Algorithm algorithm = new Algorithm();
-        byte[] compressionResult = algorithm.encodeFolder(folder, textAlgorithm);
+        byte[] compressionResult = algorithm.encodeFolder((Folder)folder, textAlgorithm);
         System.out.println(compressionResult.length);
 
         String outputEncode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder" + '\\' + folder.getName() + ".fdr";

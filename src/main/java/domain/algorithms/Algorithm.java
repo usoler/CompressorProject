@@ -62,10 +62,10 @@ public class Algorithm {
     }
 
 
-    public byte[] encodeFolder(IFile iFile, AlgorithmInterface textAlgorithm) throws CompressorException {
+    public byte[] encodeFolder(Folder folder, AlgorithmInterface textAlgorithm) throws CompressorException {
         ArrayList<Byte> header = new ArrayList<>();
         ArrayList<Byte> data = new ArrayList<>();
-        recursiveEncodeFolder(iFile, header, data, textAlgorithm);
+        recursiveEncodeFolder(folder, header, data, textAlgorithm);
         ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
         return  ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
     }
@@ -123,11 +123,11 @@ public class Algorithm {
 
 
 
-    public IFile decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
+    public Folder decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
         int headerLength = getNextIntInFile(fileData);
         headerIndex = 4;
         dataIndex = 4 + headerLength;
-        return recursiveDecodeFolder(fileData, outputPath);
+        return (Folder)recursiveDecodeFolder(fileData, outputPath);
     }
 
     private IFile recursiveDecodeFolder(byte[] fileData, String outputPath) throws CompressorException {
