@@ -1,4 +1,4 @@
-package data.fileManager;
+package domain.fileManager;
 
 import domain.CompressedFile;
 import domain.DecompressedFile;

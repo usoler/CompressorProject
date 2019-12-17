@@ -1,6 +1,5 @@
-package data.fileManager;
+package domain.fileManager;
 
-import domain.Folder;
 import domain.IFile;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
