@@ -1,4 +1,4 @@
-import data.fileManager.FileManager;
+import domain.fileManager.FileManager;
 import domain.Folder;
 import domain.IFile;
 import domain.algorithms.Algorithm;
