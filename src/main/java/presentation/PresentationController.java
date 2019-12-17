@@ -12,11 +12,13 @@ public class PresentationController {
 
     private DomainController domainController;
     private MainViewSwing mainView;
+    private ComparisonViewSwing comparisonView;
 
     public PresentationController() {
         LOGGER.debug("Constructing Presentation Controller");
         domainController = new DomainController();
         mainView = new MainViewSwing(this);
+        comparisonView = new ComparisonViewSwing(this);
         LOGGER.debug("Presentation Controller constructed");
     }
 
@@ -77,6 +79,16 @@ public class PresentationController {
         LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
         return domainController.uncompressFile(algorithm, pathname, filename, extension);
+    }
+
+    public void changeMainViewToComparisonView() {
+        mainView.disable();
+        comparisonView.show();
+    }
+
+    public void changeComparisonViewToMainView() {
+        comparisonView.hide();
+        mainView.enable();
     }
 
 }

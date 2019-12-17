@@ -64,6 +64,7 @@ public class MainViewSwing {
     private JPanel controlComponentsPanel;
     private JButton compressButton;
     private JButton uncompressButton;
+    private JButton compressAndUncompressButton;
     private JComboBox<String> algorithmComboBox;
     // ---------------------------------------------
 
@@ -94,6 +95,14 @@ public class MainViewSwing {
         viewFrame.pack();
         viewFrame.setVisible(true);
         LOGGER.debug("Graphical components showed");
+    }
+
+    public void enable() {
+        viewFrame.setEnabled(true);
+    }
+
+    public void disable() {
+        viewFrame.setEnabled(false);
     }
 
     private void initInstances() {
@@ -141,6 +150,8 @@ public class MainViewSwing {
         compressButton.setEnabled(false);
         uncompressButton = new JButton("Uncompress");
         uncompressButton.setEnabled(false);
+        compressAndUncompressButton = new JButton("Compress and uncompress");
+        compressAndUncompressButton.setEnabled(false);
         algorithmComboBox = new JComboBox<>();
         algorithmComboBox.setEnabled(false);
         algorithmComboBox.addItem("LZ78");
@@ -302,6 +313,7 @@ public class MainViewSwing {
         controlComponentsPanel.add(algorithmComboBox);
         controlComponentsPanel.add(compressButton);
         controlComponentsPanel.add(uncompressButton);
+        controlComponentsPanel.add(compressAndUncompressButton);
     }
 
     private void addListeners() {
@@ -312,6 +324,7 @@ public class MainViewSwing {
         addSearchTextFieldListeners();
         addCompressButtonListeners();
         addUncompressButtonListeners();
+        addCompressAndUncompressButtonListeners();
         LOGGER.debug("Listeners added");
     }
 
@@ -319,6 +332,7 @@ public class MainViewSwing {
         historyTable.getSelectionModel().addListSelectionListener(event -> {
             compressButton.setEnabled(true);
             uncompressButton.setEnabled(true);
+            compressAndUncompressButton.setEnabled(true);
             algorithmComboBox.setEnabled(true);
             removeFileButton.setEnabled(true);
             updateFileInfo();
@@ -455,6 +469,43 @@ public class MainViewSwing {
             } catch (CompressorException ex) {
                 showException(ex);
             }
+        });
+    }
+
+    private void addCompressAndUncompressButtonListeners() {
+        compressAndUncompressButton.addActionListener(e -> {
+            String algorithm = algorithmComboBox.getSelectedItem().toString();
+            String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
+            String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
+            String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
+            String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
+            try {
+                String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
+                originalSizeLabel.setText(size);
+                File compressedFile = new File(response[0]);
+                newSizeLabel.setText(getSizeFromFile(compressedFile));
+                addRowToTableFromFile(compressedFile, null);
+                addRowToStatsTable(filename, algorithm, response, true);
+            } catch (CompressorException ex) {
+                showException(ex);
+            }
+
+            pathname = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 4).toString();
+            filename = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 0).toString();
+            extension = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 3).toString();
+            size = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 2).toString();
+            try {
+                String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
+                newSizeLabel.setText(size);
+                File uncompressedPath = new File(response[0]);
+                originalSizeLabel.setText(getSizeFromFile(uncompressedPath));
+                addRowToTableFromFile(uncompressedPath, null);
+                addRowToStatsTable(filename, algorithm, response, false);
+            } catch (CompressorException ex) {
+                showException(ex);
+            }
+
+            presentationController.changeMainViewToComparisonView();
         });
     }
 
