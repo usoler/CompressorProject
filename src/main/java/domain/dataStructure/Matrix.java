@@ -5,42 +5,57 @@ public class Matrix<Object> {
     private int numberOfRows;
     private int numberOfColumns;
 
+    /**
+     * Constructs a new {@link Matrix}
+     *
+     * @param numberOfRows    the number of rows
+     * @param numberOfColumns the number of columns
+     * @param elements        the matrix elements
+     */
     public Matrix(int numberOfRows, int numberOfColumns, Object[][] elements) {
         this.elements = elements;
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
     }
 
-    public Object[][] getElements() {
-        return this.elements;
-    }
-
-    public void setElements(Object[][] elements) {
-        this.elements = elements;
-    }
-
+    /**
+     * Sets an element at a given position
+     *
+     * @param element the element to add
+     * @param i       the row position index
+     * @param j       the column position index
+     */
     public void setElementAt(Object element, int i, int j) {
         this.elements[i][j] = element;
     }
 
+    /**
+     * Gets an element from a given position
+     *
+     * @param i the row position index
+     * @param j the column position index
+     * @return the element in that position
+     */
     public Object getElementAt(int i, int j) {
         return this.elements[i][j];
     }
 
+    /**
+     * Gets the number of rows
+     *
+     * @return the number of rows
+     */
     public int getNumberOfRows() {
         return this.numberOfRows;
     }
 
-    public void setNumberOfRows(int numberOfRows) {
-        this.numberOfRows = numberOfRows;
-    }
-
+    /**
+     * Gets the number of columns
+     *
+     * @return the number of columns
+     */
     public int getNumberOfColumns() {
         return this.numberOfColumns;
-    }
-
-    public void setNumberOfColumns(int numberOfColumns) {
-        this.numberOfColumns = numberOfColumns;
     }
 
     @Override

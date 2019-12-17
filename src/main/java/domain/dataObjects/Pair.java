@@ -6,25 +6,33 @@ public class Pair<K, V> {
     private K key;
     private V value;
 
+    /**
+     * Constructs a new {@link Pair}
+     *
+     * @param key   the key for this pair
+     * @param value the value to use for this pair
+     */
     public Pair(K key, V value) {
         this.key = key;
         this.value = value;
     }
 
+    /**
+     * Gets the key for this pair
+     *
+     * @return the key for this pair
+     */
     public K getKey() {
         return key;
     }
 
-    public void setKey(K key) {
-        this.key = key;
-    }
-
+    /**
+     * Gets the value for this pair
+     *
+     * @return the value for this pair
+     */
     public V getValue() {
         return value;
-    }
-
-    public void setValue(V value) {
-        this.value = value;
     }
 
     @Override
