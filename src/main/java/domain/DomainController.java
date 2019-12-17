@@ -62,7 +62,7 @@ public class DomainController {
 
     private boolean checkFile(File file) {
         if (!file.exists()) {
-            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
+            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getPath());
             return false;
         }
         return true;
@@ -114,11 +114,34 @@ public class DomainController {
         }
         String compressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectCompressedExtension(typeOfAlgorithm);
-        fileManager.createCompressedFile(encodingResult, compressedPath,filename,encodingResult.length,typeOfAlgorithm);
+        fileManager.createCompressedFile(encodingResult, compressedPath, filename, encodingResult.length, typeOfAlgorithm);
         fileManager.writeFile(compressedPath, false);
         response[0] = compressedPath;
         addStats(filename, typeOfAlgorithm, "Encode", response);
         return response;
+    }
+
+    public String getFilenameFromPath(String pathname) {
+        LOGGER.debug("Calling Get Filename from path from Domain Controller with pathname param '{}'", pathname);
+        return fileManager.getFile(pathname).getName() + '.' + fileManager.getFile(pathname).getFormat().toLowerCase();
+    }
+
+    public String getFileSizeFromPath(String pathname) {
+        LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
+        return formatSize(fileManager.getFile(pathname).getSize());
+    }
+
+    private String formatSize(int size) {
+        double bytesSize = (size / (1024 * 1024));
+        double roundedSize = (Math.round(bytesSize * 100.0) / 100.0);
+        if (roundedSize <= 0.1) {
+            return Double.toString((double) size / 1000) + " B";
+        } else if (roundedSize < 0.5 && roundedSize > 0.1) {
+            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " KB";
+        } else {
+            bytesSize = (double) size / (1024000);
+            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " MB";
+        }
     }
 
     private String[] printEncodeStatistics(long start, long end, float uncompressedSize, float compressedSize, String[] response) {
@@ -173,11 +196,19 @@ public class DomainController {
         }
         String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectUncompressedExtension(typeOfAlgorithm);
-        fileManager.createDecompressedFile(encodingResult, uncompressedPath,filename,encodingResult.length,typeOfAlgorithm);
+        fileManager.createDecompressedFile(encodingResult, uncompressedPath, filename, encodingResult.length, getFormatByTypeOfAlgorithm(typeOfAlgorithm));
         fileManager.writeFile(uncompressedPath, false);
         response[0] = uncompressedPath;
         addStats(filename, typeOfAlgorithm, "Decode", response);
         return response;
+    }
+
+    private String getFormatByTypeOfAlgorithm(String typeOfAlgorithm) throws CompressorException {
+        if (typeOfAlgorithm.equals("JPEG")) {
+            return "ppm";
+        } else {
+            return "txt";
+        }
     }
 
     private void validateCompressFile(String typeOfAlgorithm, String extension) throws CompressorException {

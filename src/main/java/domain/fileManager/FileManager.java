@@ -19,7 +19,7 @@ public class FileManager {
     private List<IFile> listOfFiles;
 
     public FileManager() {
-        listOfFiles = new ArrayList<IFile>();
+        listOfFiles = new ArrayList<>();
         fileCreator = new FileCreator(this);
         fileReader = new FileReader(fileCreator);
         fileWriter = new FileWriterImpl();
