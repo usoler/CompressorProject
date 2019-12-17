@@ -347,10 +347,10 @@ public class MainViewSwing {
 
             if (selection == JFileChooser.APPROVE_OPTION) {
                 java.io.File file = fileChooser.getSelectedFile();
-                System.out.println("Selected file with pathname: " + file.getAbsolutePath());
+                System.out.println("Selected file with pathname: " + file.getPath());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-                addNewFile(file.getAbsolutePath(), formatter.format(new Date()));
+                addNewFile(file.getPath(), formatter.format(new Date()));
             } else if (selection == JFileChooser.ERROR_OPTION) {
                 String message = "Failure to choose a file";
                 LOGGER.error(message);

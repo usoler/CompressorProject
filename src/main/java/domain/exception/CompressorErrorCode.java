@@ -1,7 +1,7 @@
 package domain.exception;
 
 public enum CompressorErrorCode {
-    // JPEG error codes
+    // -------------------------- JPEG error codes --------------------------
     // Failure to read jpeg file
     READ_JPEG_FAILURE("1016"),
     // Extension compatibility failure with Jpeg algorithm
@@ -62,10 +62,11 @@ public enum CompressorErrorCode {
     // Failure to decode coefficient
     DECODE_COEFFICIENT_FAILURE("1013"),
 
-    // LZW error codes (Start from 2000)
+    // -------------------------- LZW error codes (Start from 2000) --------------------------
     // Extension compatibility failure with Lzw algorithm
     LZW_EXTENSION_COMPATIBILITY_FAILURE("1018"),
-    // LZ78 error codes (Start from 3000)
+
+    // -------------------------- LZ78 error codes (Start from 3000) -------------------------
     // Extension compatibility failure with Lz78 algorithm
     LZ78_EXTENSION_COMPATIBILITY_FAILURE("1019"),
     // Others (Start from 4000)

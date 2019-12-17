@@ -1,13 +1,13 @@
 package domain;
 
 import data.DataController;
-import data.fileManager.FileManager;
 import domain.algorithms.Algorithm;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
+import domain.fileManager.FileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +62,7 @@ public class DomainController {
 
     private boolean checkFile(File file) {
         if (!file.exists()) {
-            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getAbsolutePath());
+            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getPath());
             return false;
         }
         return true;
@@ -206,11 +206,8 @@ public class DomainController {
     private String getFormatByTypeOfAlgorithm(String typeOfAlgorithm) throws CompressorException {
         if (typeOfAlgorithm.equals("JPEG")) {
             return "ppm";
-        } else if ((typeOfAlgorithm.equals("LZ78")) || (typeOfAlgorithm.equals("LZW"))) {
-            return "txt";
         } else {
-            // TODO: throw exception
-            throw new CompressorException("Exception", new Exception(), CompressorErrorCode.ENCODE_COEFFICIENT_FAILURE);
+            return "txt";
         }
     }
 

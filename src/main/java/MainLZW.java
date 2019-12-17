@@ -2,7 +2,7 @@ import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lzw;
 import domain.exception.CompressorException;
-import data.fileManager.FileManager;
+import domain.fileManager.FileManager;
 
 import java.util.Scanner;
 

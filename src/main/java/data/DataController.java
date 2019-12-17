@@ -14,9 +14,9 @@ public class DataController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataController.class);
     private static final String HISTORY_FILENAME = "history.txt";
     private static final String STATS_FILENAME = "stats.txt";
-    private static final String HISTORY_PATH = String.format("DATA/%s", HISTORY_FILENAME);
-    private static final String STATS_PATH = String.format("DATA/%s", STATS_FILENAME);
     private static final String DATA_FOLDER_PATH = "DATA/";
+    private static final String HISTORY_PATH = DATA_FOLDER_PATH + HISTORY_FILENAME;
+    private static final String STATS_PATH = DATA_FOLDER_PATH + STATS_FILENAME;
 
     private static DataController singletonDataController;
 
