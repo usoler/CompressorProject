@@ -12,11 +12,13 @@ public class PresentationController {
 
     private DomainController domainController;
     private MainViewSwing mainView;
+    private ComparisonViewSwing comparisonView;
 
     public PresentationController() {
         LOGGER.debug("Constructing Presentation Controller");
         domainController = new DomainController();
         mainView = new MainViewSwing(this);
+        comparisonView = new ComparisonViewSwing(this);
         LOGGER.debug("Presentation Controller constructed");
     }
 
@@ -87,6 +89,16 @@ public class PresentationController {
     public String getFileSizeFromPath(String pathname) {
         LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
         return domainController.getFileSizeFromPath(pathname);
+    }
+
+    public void changeMainViewToComparisonView() {
+        mainView.disable();
+        comparisonView.show();
+    }
+
+    public void changeComparisonViewToMainView() {
+        comparisonView.hide();
+        mainView.enable();
     }
 
 }

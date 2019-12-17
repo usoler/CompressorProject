@@ -36,7 +36,7 @@ public class FileCreator {
         fileManager.setNewFile(file);
     }
 
-    Folder createFolder(File file, String folderPathname)
+    public Folder createFolder(File file, String folderPathname)
     {
         String folderName = file.getName();
         Folder folder = new Folder(folderName,"folder", folderPathname);
