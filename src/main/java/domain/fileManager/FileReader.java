@@ -92,25 +92,8 @@ public class FileReader {
 
 
     private static String obtainFormatOfFile(String name) {
-        String format = null;
-        for (int iterator = name.length() - 1; iterator >= 0; --iterator) {
-            if (name.charAt(iterator) == '.') {
-                break;
-            } else {
-                if (format == null) format = Character.toString(name.charAt(iterator));
-                else format += name.charAt(iterator);
-            }
-        }
-        return invertString(format);
-    }
-
-    private static String invertString(String string) {
-        String result = null;
-        for (int iterator = string.length() - 1; iterator >= 0; --iterator) {
-            if (result == null) result = Character.toString(string.charAt(iterator));
-            else result += string.charAt(iterator);
-        }
-        return result;
+        String[] values = name.split("\\.");
+        return values[values.length - 1];
     }
 
     private static boolean isCompressed(String format) {
