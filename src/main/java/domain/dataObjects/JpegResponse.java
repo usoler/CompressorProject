@@ -3,6 +3,7 @@ package domain.dataObjects;
 import java.util.Objects;
 
 public class JpegResponse {
+
     private int magicNumber;
     private int widthNumOfBytes;
     private int heightNumOfBytes;

@@ -1,6 +1,7 @@
 package domain.dataObjects;
 
 public class PpmFile {
+
     private String magicNumber;
     private int width;
     private int height;

@@ -19,7 +19,6 @@ import java.util.List;
 
 public class Jpeg implements AlgorithmInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(Jpeg.class);
-
     private static final PpmComponent ppmComponent = new PpmComponent();
     private static final ConversorYCbCrComponent conversorYCbCrComponent = new ConversorYCbCrComponent();
     private static final SamplingComponent samplingComponent = new SamplingComponent();
@@ -41,9 +40,9 @@ public class Jpeg implements AlgorithmInterface {
         float[] lastDC = new float[]{0, 0, 0}; // Y, Cb, Cr
         StringBuffer buffer = new StringBuffer();
 
-        // 0. Read PPM file
+        // Read PPM file
         Pair<Matrix<Pixel>, ByteArrayOutputStream> ppmFileResponse = readPpmFile(data);
-        // 1. Color conversion
+        // Color conversion
         Matrix<Pixel> yCbCrMatrix = conversorYCbCrComponent.convertFromRGB(ppmFileResponse.getKey());
 
         int numOfMacroBlockByRow = yCbCrMatrix.getNumberOfColumns() / 16;
@@ -53,13 +52,13 @@ public class Jpeg implements AlgorithmInterface {
         for (int i = 0; i < numOfMacroBlockByColumn; ++i) {
             int x = 0;
             for (int j = 0; j < numOfMacroBlockByRow; ++j) {
-                // 2. Downsampling
+                // Downsampling
                 MacroBlockYCbCr macroBlockYCbCr = samplingComponent.downsampling(generateMatrix16x16(yCbCrMatrix, y, x));
-                // 3. Discrete Cosine Transform (DCT)
+                // Discrete Cosine Transform (DCT)
                 List<Matrix<Float>> blocksOf8x8 = applyDCT(macroBlockYCbCr);
-                // 4. Quantization
+                // Quantization
                 List<Matrix<Float>> quantizedBlocks = quantize(blocksOf8x8);
-                // 5. Entropy Coding
+                // Entropy Coding
                 buffer = entropyCoding(quantizedBlocks, buffer, lastDC);
 
                 x += 16;
@@ -83,15 +82,14 @@ public class Jpeg implements AlgorithmInterface {
         int[] lastDC = new int[]{0, 0, 0}; // Y, Cb, Cr
         List<Matrix<Pixel>> blocksOfPixelMatrix16x16 = new LinkedList<>();
 
-        // 0. Read JPEG file
+        // Read JPEG file
         JpegResponse jpegResponse = readJpegFile(data);
         int width = jpegResponse.getWidth();
         int height = jpegResponse.getHeight();
         StringBuffer dataBuffer = new StringBuffer(new BigInteger(Arrays.copyOfRange(data, 3 +
                 jpegResponse.getHeightNumOfBytes() + jpegResponse.getWidthNumOfBytes(), data.length)).toString(2));
 
-        // 1. Entropy decoding
-        // 1.1 Huffman decoding
+        // Huffman decoding
         List<Matrix<Integer>> quantizedBlocks = new LinkedList<Matrix<Integer>>();
         boolean finish = false;
         int i = 0; // 0 <= i <= 3 -> 4*Y,  i == 4 -> 1*Cb, i == 5 -> 1*Cr
@@ -115,14 +113,14 @@ public class Jpeg implements AlgorithmInterface {
             k = ACResponse.getKey();
             zigZagValues = ACResponse.getValue();
 
-            // 1.2 Undo Zig Zag Vector
+            // Undo Zig Zag Vector
             quantizedBlocks.add(zigZagComponent.undoZigZag(zigZagValues));
             if (i == 5) {
-                // 2. Desquantization
+                // Desquantization
                 List<Matrix<Integer>> blocksOf8x8 = dequantize(quantizedBlocks);
-                // 3. Undo DCT
+                // Undo DCT
                 MacroBlockYCbCr macroBlockYCbCr = undoDctProcess(blocksOf8x8);
-                // 4. Undo downsampling
+                // Undo downsampling
                 Matrix<Pixel> yCbCrMatrix16x16 = samplingComponent.upsampling(macroBlockYCbCr);
                 blocksOfPixelMatrix16x16.add(yCbCrMatrix16x16);
 
@@ -137,11 +135,11 @@ public class Jpeg implements AlgorithmInterface {
             }
         }
 
-        // 5. Reconstuct Total Matrix
+        // Reconstuct Total Matrix
         Matrix<Pixel> yCbCrMatrix = reconstructTotalMatrix(width, height, blocksOfPixelMatrix16x16);
-        // 6. Undo Color Conversion
+        // Undo Color Conversion
         Matrix<Pixel> rgbMatrix = conversorYCbCrComponent.convertToRGB(yCbCrMatrix);
-        // 7. Write PPM file
+        // Write PPM file
         return ppmComponent.writePpmFile(jpegResponse.getMagicNumber(), height, width, rgbMatrix);
     }
 

@@ -1,6 +1,7 @@
 package domain.dataObjects;
 
 public class Pixel {
+
     private float x;
     private float y;
     private float z;

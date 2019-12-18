@@ -3,6 +3,7 @@ package domain.dataObjects;
 import domain.dataStructure.Matrix;
 
 public class PpmResponse {
+
     private final int magicNumber;
     private final int width;
     private final int height;

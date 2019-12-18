@@ -3,6 +3,7 @@ package domain.dataObjects;
 import java.util.Objects;
 
 public class Pair<K, V> {
+
     private K key;
     private V value;
 

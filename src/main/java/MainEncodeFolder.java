@@ -70,17 +70,14 @@ public class MainEncodeFolder {
         System.out.println(compressionResult.length);
 
         String outputEncode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder" + '\\' + folder.getName() + ".fdr";
-        File compressedFolder = new File(outputEncode);
+        File compressedFolder = new File(outputEncode); // TODO: ??
         fileManager.createDecompressedFile(compressionResult, outputEncode, folder.getName(), compressionResult.length, ".jdr");
-        fileManager.writeFile(outputEncode, false);
+        fileManager.writeFile(outputEncode);
 
         fileManager.readFile(outputEncode);
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
         IFile decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
-//        algorithm.decodeFolder(file.getData(), outputDecode);
-//        printTreeWithFileContent(folder, 0);
-//        printTreeWithFileContent(decodedFolder, 0);
         createFileUsingIFile(decodedFolder);
     }
 
@@ -96,7 +93,7 @@ public class MainEncodeFolder {
                     fileManager.createDecompressedFile(((domain.File) f).getData(), newPathname,
                             ((domain.File) f).getName(),
                             ((domain.File) f).getData().length, "." + ((domain.File) f).getFormat());
-                    fileManager.writeFile(newPathname, false);
+                    fileManager.writeFile(newPathname);
                 } else if (f instanceof Folder) {
                     createFileUsingIFile(f);
                 }

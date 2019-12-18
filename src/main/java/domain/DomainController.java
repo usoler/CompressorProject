@@ -17,17 +17,24 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class DomainController {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainController.class);
 
     private DataController dataController;
     private FileManager fileManager;
 
+    /**
+     * Constructs an empty new {@link DomainController}
+     */
     public void DomainController() {
         LOGGER.debug("Constructing Domain Controller");
         init();
         LOGGER.debug("Domain Controller constructed");
     }
 
+    /**
+     * Initializes the {@link DomainController} with their {@link DataController} and {@link FileManager}
+     */
     public void init() {
         LOGGER.debug("Initiating Domain Controller");
         dataController = DataController.getInstance();
@@ -35,6 +42,12 @@ public class DomainController {
         LOGGER.debug("Domain Controller initiated");
     }
 
+    /**
+     * Loads the history from the {@link DataController}
+     *
+     * @return the {@link ArrayList<String>} of history file data
+     * @throws CompressorException If any error occurs
+     */
     public ArrayList<String> loadHistory() throws CompressorException {
         LOGGER.debug("Loading history from Persistence Layer");
         ArrayList<String> arrayOfFileData = dataController.getAllFilesFromHistory();
@@ -55,19 +68,25 @@ public class DomainController {
         return goodArrayOfFileData;
     }
 
+    /**
+     * Loads the stats from the {@link DataController}
+     *
+     * @return the {@link ArrayList<String>} of stats file data
+     * @throws CompressorException If any error occurs
+     */
     public ArrayList<String> loadStats() throws CompressorException {
         LOGGER.debug("Loading stats from Persistence Layer");
         return dataController.getAllStatsFromStats();
     }
 
-    private boolean checkFile(File file) {
-        if (!file.exists()) {
-            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getPath());
-            return false;
-        }
-        return true;
-    }
-
+    /**
+     * Reads a file from a given pathname and adds it to the history file
+     *
+     * @param pathname    the file pathname
+     * @param date        the file date
+     * @param writeInFile if the file should be write in the history file
+     * @throws CompressorException If any error occurs
+     */
     public void addFile(String pathname, String date, boolean writeInFile) throws CompressorException {
         LOGGER.debug("Adding file to the domain");
         fileManager.readFile(pathname);
@@ -75,14 +94,6 @@ public class DomainController {
             dataController.addFileToHistoryFile(pathname, date);
         }
         LOGGER.debug("File added to the domain");
-    }
-
-    private void addStats(String filename, String algorithm, String type, String[] statsValues) throws CompressorException {
-        LOGGER.debug("Adding stats to the Persistence Layer");
-        String[] stats = new String[]{filename, algorithm, type, statsValues[1], statsValues[2],
-                statsValues[3], statsValues[4]};
-        dataController.addStatsToStatsFile(stats);
-        LOGGER.debug("Stats added to the Persistence Layer");
     }
 
     public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
@@ -115,7 +126,7 @@ public class DomainController {
         String compressedPath = System.getProperty("user.dir") + "/output/" + filename
                 + selectCompressedExtension(typeOfAlgorithm);
         fileManager.createCompressedFile(encodingResult, compressedPath, filename, encodingResult.length, typeOfAlgorithm);
-        fileManager.writeFile(compressedPath, false);
+        fileManager.writeFile(compressedPath);
         response[0] = compressedPath;
         addStats(filename, typeOfAlgorithm, "Encode", response);
         return response;
@@ -129,6 +140,51 @@ public class DomainController {
     public String getFileSizeFromPath(String pathname) {
         LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
         return formatSize(fileManager.getFile(pathname).getSize());
+    }
+
+    public String[] uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+        LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
+                typeOfAlgorithm, pathname, filename);
+        validateUncompressFile(typeOfAlgorithm, extension);
+        Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
+        String[] response = new String[5];
+        byte[] encodingResult;
+        try {
+            byte[] data = Files.readAllBytes(new File(pathname).toPath());
+            int compressedSize = data.length;
+            long start = System.currentTimeMillis();
+            encodingResult = algorithm.decodeFile(data);
+            long end = System.currentTimeMillis();
+            int uncompressedSize = encodingResult.length;
+            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
+        } catch (IOException e) {
+            String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
+            LOGGER.error(message, e);
+            throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
+        }
+        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + selectUncompressedExtension(typeOfAlgorithm);
+        fileManager.createDecompressedFile(encodingResult, uncompressedPath, filename, encodingResult.length, getFormatByTypeOfAlgorithm(typeOfAlgorithm));
+        fileManager.writeFile(uncompressedPath);
+        response[0] = uncompressedPath;
+        addStats(filename, typeOfAlgorithm, "Decode", response);
+        return response;
+    }
+
+    private boolean checkFile(File file) {
+        if (!file.exists()) {
+            LOGGER.warn("File '{}' with pathname '{}' does not exist", file.getName(), file.getPath());
+            return false;
+        }
+        return true;
+    }
+
+    private void addStats(String filename, String algorithm, String type, String[] statsValues) throws CompressorException {
+        LOGGER.debug("Adding stats to the Persistence Layer");
+        String[] stats = new String[]{filename, algorithm, type, statsValues[1], statsValues[2],
+                statsValues[3], statsValues[4]};
+        dataController.addStatsToStatsFile(stats);
+        LOGGER.debug("Stats added to the Persistence Layer");
     }
 
     private String formatSize(int size) {
@@ -172,35 +228,6 @@ public class DomainController {
         } else {
             return Float.toString(uncompressedSize / compressedSize);
         }
-    }
-
-    public String[] uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
-        LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
-                typeOfAlgorithm, pathname, filename);
-        validateUncompressFile(typeOfAlgorithm, extension);
-        Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
-        String[] response = new String[5];
-        byte[] encodingResult;
-        try {
-            byte[] data = Files.readAllBytes(new File(pathname).toPath());
-            int compressedSize = data.length;
-            long start = System.currentTimeMillis();
-            encodingResult = algorithm.decodeFile(data);
-            long end = System.currentTimeMillis();
-            int uncompressedSize = encodingResult.length;
-            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
-        } catch (IOException e) {
-            String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
-            LOGGER.error(message, e);
-            throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
-        }
-        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
-                + selectUncompressedExtension(typeOfAlgorithm);
-        fileManager.createDecompressedFile(encodingResult, uncompressedPath, filename, encodingResult.length, getFormatByTypeOfAlgorithm(typeOfAlgorithm));
-        fileManager.writeFile(uncompressedPath, false);
-        response[0] = uncompressedPath;
-        addStats(filename, typeOfAlgorithm, "Decode", response);
-        return response;
     }
 
     private String getFormatByTypeOfAlgorithm(String typeOfAlgorithm) throws CompressorException {

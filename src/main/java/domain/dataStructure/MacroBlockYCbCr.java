@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MacroBlockYCbCr {
+
     private List<Matrix<Float>> yBlocks;
     private Matrix<Float> cbBlock;
     private Matrix<Float> crBlock;

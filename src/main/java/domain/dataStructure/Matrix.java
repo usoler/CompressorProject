@@ -1,6 +1,7 @@
 package domain.dataStructure;
 
 public class Matrix<Object> {
+
     private Object[][] elements;
     private int numberOfRows;
     private int numberOfColumns;
