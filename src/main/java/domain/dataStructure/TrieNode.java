@@ -5,9 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TrieNode {
-    private char character;
+
     private int index;
-    private int occurances;
     private Map<Character, TrieNode> children;
 
     /**
@@ -16,27 +15,18 @@ public class TrieNode {
      * @param character character key of the new node
      */
     TrieNode(char character) {
-        this.character = character;
         this.index = -1; // NULL
-        this.occurances = 0;
         this.children = null;
         this.index = 0;
     }
 
-    public char getCharacter() {
-        return this.character;
-    }
-
+    /**
+     * Gets the node position index
+     *
+     * @return the node position index
+     */
     public int getIndex() {
         return this.index;
-    }
-
-    public int getOccurances() {
-        return this.occurances;
-    }
-
-    public Map<Character, TrieNode> getChildren() {
-        return this.children;
     }
 
     /**
@@ -60,10 +50,8 @@ public class TrieNode {
             node = new TrieNode(currentCharacter);
             children.put(currentCharacter, node);
         }
-        ++this.occurances;
         if (position == word.length() - 1) { // Last char
             node.index = index;
-            ++node.occurances;
             return node.index;
         } else {
             return node.insert(word, position + 1, index);
@@ -93,30 +81,3 @@ public class TrieNode {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

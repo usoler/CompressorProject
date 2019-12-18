@@ -9,10 +9,17 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 public class FileWriterImpl {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FileWriterImpl.class);
 
-    public static void writeToFile(IFile file, boolean append_value) throws CompressorException {
-        //Removes "input/" from pathname and set its to "output/"
+    /**
+     * Writes in a given file
+     *
+     * @param file the file
+     * @throws CompressorException If any error occurs
+     */
+    public static void writeToFile(IFile file) throws CompressorException {
+        //Removes "input/" from pathname and set its to "output/" // TODO: ???
         String newPathname = file.getPathname();
 
         File fileWritten = new File(newPathname);

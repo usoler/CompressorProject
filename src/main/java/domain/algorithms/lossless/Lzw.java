@@ -64,20 +64,6 @@ public class Lzw extends Lz78 {
         for (byte b : number) arrayList.add(b);
     }
 
-    private void initializeDecodingDictionary() {
-        decodingDictionary = new HashMap<>();
-        for (int i = 0; i < ASCII_LENGTH; i++) {
-            decodingDictionary.put(i, Character.toString((char) i));
-        }
-    }
-
-    private void initializeEncodingDictionary() {
-        encodingDictionary = new Trie();
-        for (int i = 0; i < ASCII_LENGTH; i++) {
-            encodingDictionary.insert(Character.toString((char) i));
-        }
-    }
-
     @Override
     public byte[] encode(byte[] data) {
         LOGGER.debug("Encoding file data with LZW algorithm");
@@ -89,15 +75,18 @@ public class Lzw extends Lz78 {
         int threeBytesNumbers = 0;
         int maxCodeAdded = 0;
         int i = 0;
+
         while (i < file.length()) {
             StringBuilder word = new StringBuilder();
             TrieNode node = encodingDictionary.contains(word.append(file.charAt(i)).toString());
             int position = 1;
+
             while (i + 1 < file.length() &&
                     (node = encodingDictionary.contains(word.append(file.charAt(i + 1)).toString(), node, position)) != null) {
                 ++i;
                 ++position;
             }
+
             if (node == null) {
                 encodingDictionary.insert(word.toString());
                 codes.add(encodingDictionary.getIndexOf(word.deleteCharAt(word.length() - 1).toString()) - 1);
@@ -112,6 +101,7 @@ public class Lzw extends Lz78 {
 
             ++i;
         }
+
         encodingDictionary = null;
         return codesToData(codes, oneByteNumbers, twoBytesNumbers, threeBytesNumbers);
     }
@@ -126,6 +116,7 @@ public class Lzw extends Lz78 {
         if (codes.size() > 0) {
             newText.append(decodingDictionary.get(codes.get(0)));
         }
+
         for (int i = 1; i < codes.size(); i++) {
             StringBuilder word = new StringBuilder();
             if (decodingDictionary.containsKey(codes.get(i))) {
@@ -137,7 +128,24 @@ public class Lzw extends Lz78 {
             newText.append(word);
             decodingDictionary.put(decodingDictionary.size(), decodingDictionary.get(codes.get(i - 1)) + word.charAt(0));
         }
+
         decodingDictionary = null;
         return newText.toString().getBytes();
+    }
+
+    private void initializeDecodingDictionary() {
+        decodingDictionary = new HashMap<>();
+
+        for (int i = 0; i < ASCII_LENGTH; i++) {
+            decodingDictionary.put(i, Character.toString((char) i));
+        }
+    }
+
+    private void initializeEncodingDictionary() {
+        encodingDictionary = new Trie();
+
+        for (int i = 0; i < ASCII_LENGTH; i++) {
+            encodingDictionary.insert(Character.toString((char) i));
+        }
     }
 }

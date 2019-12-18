@@ -24,6 +24,11 @@ public class DataController {
         // Intentionally empty
     }
 
+    /**
+     * Gets the single instance of Data Controller
+     *
+     * @return a {@link DataController} instance
+     */
     public static DataController getInstance() {
         LOGGER.debug("Getting Data Controller instance");
         if (Objects.isNull(singletonDataController)) {
@@ -34,6 +39,12 @@ public class DataController {
         return singletonDataController;
     }
 
+    /**
+     * Gets all the persisted stats from the database
+     *
+     * @return a {@link ArrayList<String>} with all the data of the stats
+     * @throws CompressorException If any error occurs
+     */
     public static ArrayList<String> getAllStatsFromStats() throws CompressorException {
         LOGGER.debug("Reading file '{}' with path '{}'", STATS_FILENAME, STATS_PATH);
         FileReader fileReader = getFileReaderFromStats();
@@ -43,6 +54,12 @@ public class DataController {
         return arrayOfStats;
     }
 
+    /**
+     * Gets all the persisted data of files from the database
+     *
+     * @return a {@link ArrayList<String>} with all the data of the files
+     * @throws CompressorException If any error occurs
+     */
     public static ArrayList<String> getAllFilesFromHistory() throws CompressorException {
         LOGGER.debug("Reading file '{}' with path '{}'", HISTORY_FILENAME, HISTORY_PATH);
         FileReader fileReader = getFileReaderFromHistory();
@@ -52,6 +69,13 @@ public class DataController {
         return arrayOfFileData;
     }
 
+    /**
+     * Persists the history file data in the database
+     *
+     * @param pathname the file pathname to persist
+     * @param date     the file date to persist
+     * @throws CompressorException In any error occurs
+     */
     public static void addFileToHistoryFile(String pathname, String date) throws CompressorException {
         LOGGER.debug("Adding pathname to the history file");
         try {
@@ -68,6 +92,12 @@ public class DataController {
         }
     }
 
+    /**
+     * Persists the stats data in the database
+     *
+     * @param stats the stats data to persist
+     * @throws CompressorException If any error occurs
+     */
     public static void addStatsToStatsFile(String[] stats) throws CompressorException {
         LOGGER.debug("Adding stats to the stats file");
         try {
@@ -89,6 +119,12 @@ public class DataController {
         }
     }
 
+    /**
+     * Rewrite the history file data in the database
+     *
+     * @param linesToRemove the lines to remove
+     * @throws CompressorException If any error occurs
+     */
     public static void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
         LOGGER.debug("Rewriting data to the history file");
         try {

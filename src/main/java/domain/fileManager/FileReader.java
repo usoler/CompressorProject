@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FileReader {
@@ -15,10 +16,22 @@ public class FileReader {
     private static Scanner scanner;
     private static FileCreator fileCreator;
 
+    /**
+     * Constructs a new {@link FileReader} with a given {@link FileCreator}
+     *
+     * @param fileCreator the file creator of this file reader
+     */
     public FileReader(FileCreator fileCreator) {
         this.fileCreator = fileCreator;
     }
 
+    /**
+     * Reads a file from a given pathname and folder
+     *
+     * @param pathname the file pathname
+     * @param folder   the folder's file
+     * @throws CompressorException If any error occurs
+     */
     public static void readFile(String pathname, IFile folder) throws CompressorException {
         File file = new File(pathname);
         if (file.isDirectory()) {
@@ -29,10 +42,17 @@ public class FileReader {
         }
     }
 
+    /**
+     * Reads all the files from a given folder pathname
+     *
+     * @param folderPathName the folder pathname
+     * @param i_folder       // TODO ??
+     * @throws CompressorException If any error occurs
+     */
     public static void readAllFilesFromFolder(String folderPathName, IFile i_folder) throws CompressorException {
         File folderFile = new File(folderPathName);
         IFile folder = fileCreator.createFolder(folderFile, folderPathName);
-        if (i_folder != null) {
+        if (Objects.isNull(i_folder)) {
             i_folder.addFile(folder);
         }
         for (File file : folderFile.listFiles()) {

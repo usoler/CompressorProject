@@ -3,12 +3,22 @@ package domain.dataObjects;
 import java.util.Objects;
 
 public class JpegResponse {
+
     private int magicNumber;
     private int widthNumOfBytes;
     private int heightNumOfBytes;
     private int width;
     private int height;
 
+    /**
+     * Constructs a new {@link JpegResponse}
+     *
+     * @param magicNumber      the PPM magic number
+     * @param widthNumOfBytes  the width of number of bytes
+     * @param heightNumOfBytes the height of number of bytes
+     * @param width            the image width
+     * @param height           the image height
+     */
     public JpegResponse(int magicNumber, int widthNumOfBytes, int heightNumOfBytes, int width, int height) {
         this.magicNumber = magicNumber;
         this.widthNumOfBytes = widthNumOfBytes;
@@ -17,22 +27,47 @@ public class JpegResponse {
         this.height = height;
     }
 
+    /**
+     * Gets the PPM magic number
+     *
+     * @return the ppm magic number
+     */
     public int getMagicNumber() {
         return magicNumber;
     }
 
+    /**
+     * Gets the width of number of bytes
+     *
+     * @return the width of number of bytes
+     */
     public int getWidthNumOfBytes() {
         return widthNumOfBytes;
     }
 
+    /**
+     * Gets the height of number of bytes
+     *
+     * @return the height of number of bytes
+     */
     public int getHeightNumOfBytes() {
         return heightNumOfBytes;
     }
 
+    /**
+     * Gets the image width
+     *
+     * @return the image width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Gets the image height
+     *
+     * @return the image height
+     */
     public int getHeight() {
         return height;
     }
