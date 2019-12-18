@@ -52,7 +52,7 @@ public class FileReader {
     public static void readAllFilesFromFolder(String folderPathName, IFile i_folder) throws CompressorException {
         File folderFile = new File(folderPathName);
         IFile folder = fileCreator.createFolder(folderFile, folderPathName);
-        if (Objects.isNull(i_folder)) {
+        if (!Objects.isNull(i_folder)) {
             i_folder.addFile(folder);
         }
         for (File file : folderFile.listFiles()) {

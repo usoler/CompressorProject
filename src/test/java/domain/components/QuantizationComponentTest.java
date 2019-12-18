@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class QuantizationComponentTest {
+
     private static final QuantizationComponent quantizationComponent = new QuantizationComponent();
 
     @Test
@@ -34,7 +35,7 @@ public class QuantizationComponentTest {
     }
 
     @Test
-    public void verify_dequantizeMatrix_returnsDesquantizedMatrix_whenParamQuantizedMatrixIsValid() throws Exception{
+    public void verify_dequantizeMatrix_returnsDesquantizedMatrix_whenParamQuantizedMatrixIsValid() throws Exception {
         // Mock
         Matrix<Integer> quantizedMatrix = mockIntegerQuantizedMatrix();
         Matrix<Integer> expected = mockIntegerDCTMatrix();

@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class HuffmanComponentTest {
+
     private static final HuffmanComponent huffmanComponent = new HuffmanComponent();
 
     @Test

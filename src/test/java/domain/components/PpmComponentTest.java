@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class PpmComponentTest {
+
     private static final PpmComponent ppmComponent = new PpmComponent();
     private static final String pathTest = "input/prueba.ppm";
     private static final int NUM_OF_ROWS = 16;
@@ -165,7 +166,6 @@ public class PpmComponentTest {
                 j = 0;
             }
         }
-
 
         return pixels;
     }

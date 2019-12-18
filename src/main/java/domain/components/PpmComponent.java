@@ -172,7 +172,6 @@ public class PpmComponent {
                 buffer.append(values);
             }
         }
-        buffer.append('\n');
         return buffer.toString().getBytes();
     }
 
