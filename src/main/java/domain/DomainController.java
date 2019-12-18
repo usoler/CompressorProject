@@ -96,12 +96,28 @@ public class DomainController {
         LOGGER.debug("File added to the domain");
     }
 
+    /**
+     * Rewrites the history file without an {@link ArrayList<Integer>} of lines
+     *
+     * @param linesToRemove the lines to remove
+     * @throws CompressorException If any error occurs
+     */
     public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
         LOGGER.debug("Rewriting history file");
         dataController.rewriteHistoryFile(linesToRemove);
         LOGGER.debug("History file rewrote");
     }
 
+    /**
+     * Compress a file with a given pathname, filename, extension and type of algorithm
+     *
+     * @param typeOfAlgorithm the type of algorithm to encode
+     * @param pathname        the file pathname
+     * @param filename        the filename
+     * @param extension       the file extension
+     * @return the compressed file data
+     * @throws CompressorException If any error occurs
+     */
     public String[] compressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Compressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
@@ -132,16 +148,16 @@ public class DomainController {
         return response;
     }
 
-    public String getFilenameFromPath(String pathname) {
-        LOGGER.debug("Calling Get Filename from path from Domain Controller with pathname param '{}'", pathname);
-        return fileManager.getFile(pathname).getName() + '.' + fileManager.getFile(pathname).getFormat().toLowerCase();
-    }
-
-    public String getFileSizeFromPath(String pathname) {
-        LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
-        return formatSize(fileManager.getFile(pathname).getSize());
-    }
-
+    /**
+     * Uncompress a file with a given pathname, filename, extension and  type of algorithm to decode
+     *
+     * @param typeOfAlgorithm the type of algorithm with to decode
+     * @param pathname        the file pathname
+     * @param filename        the filename
+     * @param extension       the file extension
+     * @return the uncompressed file data
+     * @throws CompressorException If any error occurs
+     */
     public String[] uncompressFile(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
         LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
                 typeOfAlgorithm, pathname, filename);
@@ -169,6 +185,28 @@ public class DomainController {
         response[0] = uncompressedPath;
         addStats(filename, typeOfAlgorithm, "Decode", response);
         return response;
+    }
+
+    /**
+     * Gets a filename from a given pathname
+     *
+     * @param pathname the file pathname
+     * @return the filename
+     */
+    public String getFilenameFromPath(String pathname) {
+        LOGGER.debug("Calling Get Filename from path from Domain Controller with pathname param '{}'", pathname);
+        return fileManager.getFile(pathname).getName() + '.' + fileManager.getFile(pathname).getFormat().toLowerCase();
+    }
+
+    /**
+     * Gets a file size from a given pathname
+     *
+     * @param pathname the file pathname
+     * @return the file size
+     */
+    public String getFileSizeFromPath(String pathname) {
+        LOGGER.debug("Calling Get FileSize from path from Domain Controller with pathname param '{}'", pathname);
+        return formatSize(fileManager.getFile(pathname).getSize());
     }
 
     private boolean checkFile(File file) {
