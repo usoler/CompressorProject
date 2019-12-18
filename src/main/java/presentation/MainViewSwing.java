@@ -438,6 +438,7 @@ public class MainViewSwing {
             } catch (CompressorException ex) {
                 showException(ex);
             }
+            removeFileButton.setEnabled(false);
         });
     }
 
