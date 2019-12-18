@@ -61,11 +61,6 @@ public class Folder implements IFile {
     }
 
     @Override
-    public void setNumberOfFiles(int numberOfFiles) {
-        this.numberOfFiles = numberOfFiles;
-    }
-
-    @Override
     public ArrayList<IFile> getFiles() {
         return files;
     }
