@@ -2,7 +2,7 @@ import domain.algorithms.Algorithm;
 import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lzw;
 import domain.exception.CompressorException;
-import data.fileManager.FileManager;
+import domain.fileManager.FileManager;
 
 import java.util.Scanner;
 
@@ -78,7 +78,7 @@ public class MainLZW {
 
         fileManager.createCompressedFile(encodingResult, compressedPath, compressedName, encodingResult.length, format);
 
-        fileManager.writeFile(compressedPath, false);
+        fileManager.writeFile(compressedPath);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE COMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");
@@ -107,7 +107,7 @@ public class MainLZW {
 
         fileManager.createDecompressedFile(decodingResult, decompressedPath,decompressedName,decodingResult.length,"txt");
 
-        fileManager.writeFile(decompressedPath, false);
+        fileManager.writeFile(decompressedPath);
 
         System.out.println("PRESS 1 TO SEE THE CONTENTS OF THE FILE DECOMPRESSED");
         System.out.println("PRESS 2 OR ELSE TO CONTINUE");

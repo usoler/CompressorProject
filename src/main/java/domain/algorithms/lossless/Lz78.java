@@ -39,20 +39,7 @@ public class Lz78 extends Lz {
         }
     }
 
-    private static String bytesToBinary(byte[] bytes) {
-        StringBuilder binary = new StringBuilder();
-        for (byte b : bytes) {
-            int val = b;
-            for (int k = 0; k < 8; k++) {
-                binary.append((val & 128) == 0 ? 0 : 1);
-                val <<= 1;
-            }
-            binary.append(' ');
-        }
-        return binary.toString();
-    }
-
-    public static final long unsignedIntToLong(byte[] b) {
+    private static final long unsignedIntToLong(byte[] b) {
         long l = 0;
         l |= b[0] & 0xFF;
         l <<= 8;
@@ -64,13 +51,13 @@ public class Lz78 extends Lz {
         return l;
     }
 
-    public static final short unsignedByteToShort(byte[] b) {
+    private static final short unsignedByteToShort(byte[] b) {
         short l = 0;
         l |= b[0] & 0xFF;
         return l;
     }
 
-    public static final int unsignedShortToInt(byte[] b) {
+    private static final int unsignedShortToInt(byte[] b) {
         int l = 0;
         l |= b[0] & 0xFF;
         l <<= 8;
@@ -78,7 +65,7 @@ public class Lz78 extends Lz {
         return l;
     }
 
-    public static final long unsigned3bytesTo6bytesLong(byte[] b) {
+    private static final long unsigned3bytesTo6bytesLong(byte[] b) {
         long l = 0;
         l |= b[0] & 0xFF;
         l <<= 8;

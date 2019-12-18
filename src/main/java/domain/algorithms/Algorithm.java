@@ -19,13 +19,13 @@ import java.util.Objects;
 
 public class Algorithm {
     private static final Logger LOGGER = LoggerFactory.getLogger(Algorithm.class);
-    private AlgorithmInterface algorithmInterface;
     private static final byte FOLDER_CODE = 0;
     private static final byte FILE_CODE = 1;
     private static final byte END_FOLDER_CODE = 2;
     private static final byte JPEG_CODE = 3;
     private static final byte LZ78_CODE = 4;
     private static final byte LZW_CODE = 5;
+    private AlgorithmInterface algorithmInterface;
     private int headerIndex = 0;
     private int dataIndex = 0;
 
@@ -37,6 +37,13 @@ public class Algorithm {
         this.algorithmInterface = algorithmInterface;
     }
 
+    /**
+     * Encodes the given data bytes
+     *
+     * @param data the data bytes to encode
+     * @return the encoded data bytes
+     * @throws CompressorException If any error occurs
+     */
     public byte[] encodeFile(byte[] data) throws CompressorException {
         checkFile(data);
         LOGGER.info("Starts to encode");
@@ -45,12 +52,50 @@ public class Algorithm {
         return compressedFile;
     }
 
+    /**
+     * Decodes the given data bytes
+     *
+     * @param data the data bytes to decode
+     * @return the decoded data bytes
+     * @throws CompressorException If any error occurs
+     */
     public byte[] decodeFile(byte[] data) throws CompressorException {
         checkFile(data);
         LOGGER.info("Starts to decode");
         byte[] decompressedFile = this.algorithmInterface.decode(data);
         LOGGER.info("Decode finished");
         return decompressedFile;
+    }
+
+    /**
+     * Encodes the given folder
+     *
+     * @param iFile         the folder to encode
+     * @param textAlgorithm TODO: what ???
+     * @return the encoded data bytes
+     * @throws CompressorException If any error occurs
+     */
+    public byte[] encodeFolder(IFile iFile, AlgorithmInterface textAlgorithm) throws CompressorException {
+        ArrayList<Byte> header = new ArrayList<>();
+        ArrayList<Byte> data = new ArrayList<>();
+        recursiveEncodeFolder(iFile, header, data, textAlgorithm);
+        ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
+        return ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
+    }
+
+    /**
+     * Decodes the given folder data bytes
+     *
+     * @param fileData   the folder data bytes to decode
+     * @param outputPath TODO: what ???
+     * @return the decoded folder
+     * @throws CompressorException If any error occurs
+     */
+    public IFile decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
+        int headerLength = getNextIntInFile(fileData);
+        headerIndex = 4;
+        dataIndex = 4 + headerLength;
+        return recursiveDecodeFolder(fileData, outputPath);
     }
 
     private void checkFile(byte[] file) throws CompressorException {
@@ -61,20 +106,11 @@ public class Algorithm {
         }
     }
 
-
-    public byte[] encodeFolder(Folder folder, AlgorithmInterface textAlgorithm) throws CompressorException {
-        ArrayList<Byte> header = new ArrayList<>();
-        ArrayList<Byte> data = new ArrayList<>();
-        recursiveEncodeFolder(folder, header, data, textAlgorithm);
-        ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
-        return  ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
-    }
-
     private void recursiveEncodeFolder(IFile iFile, ArrayList<Byte> header, ArrayList<Byte> data, AlgorithmInterface textAlgorithm) throws CompressorException {
         if (iFile instanceof Folder) {
-            recursiveEncodeFolder((Folder)iFile, header, data, textAlgorithm);
+            recursiveEncodeFolder((Folder) iFile, header, data, textAlgorithm);
         } else if (iFile instanceof domain.File) {
-            recursiveEncodeFolder((domain.File)iFile, header, data, textAlgorithm);
+            recursiveEncodeFolder((domain.File) iFile, header, data, textAlgorithm);
         }
     }
 
@@ -88,8 +124,8 @@ public class Algorithm {
         header.add(END_FOLDER_CODE);
     }
 
-    // TODO handle exception unsupported file?
-    // TODO solve reversed extension
+    // TODO: handle exception unsupported file?
+    // TODO: solve reversed extension
     private void selectAlgorithmByExtension(String extension, AlgorithmInterface textAlgorithm) {
         if (extension.equals("txt")) {
             setAlgorithmInterface(textAlgorithm);
@@ -121,15 +157,6 @@ public class Algorithm {
         ByteArrayListUtils.addIntToByteArrayList(compressedFile.length, 4, header);
     }
 
-
-
-    public Folder decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
-        int headerLength = getNextIntInFile(fileData);
-        headerIndex = 4;
-        dataIndex = 4 + headerLength;
-        return (Folder)recursiveDecodeFolder(fileData, outputPath);
-    }
-
     private IFile recursiveDecodeFolder(byte[] fileData, String outputPath) throws CompressorException {
         byte code = fileData[headerIndex++];
         String name = getNameInFile(fileData);
@@ -154,7 +181,7 @@ public class Algorithm {
             String[] splitName = name.toString().split("\\.");
             DecompressedFile file = new DecompressedFile(decompressionResult,
                     outputPath + File.separator + name.toString(),
-                    name.toString(), decompressionResult.length, splitName[splitName.length-1]);
+                    name.toString(), decompressionResult.length, splitName[splitName.length - 1]);
             return file;
         }
     }
@@ -167,7 +194,7 @@ public class Algorithm {
         int nameLength = getNextIntInFile(bytes);
         StringBuilder name = new StringBuilder();
         for (int i = 0; i < nameLength; i++) {
-            name.append((char)bytes[headerIndex++]);
+            name.append((char) bytes[headerIndex++]);
         }
         return name.toString();
     }

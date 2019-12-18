@@ -1,4 +1,3 @@
-import data.fileManager.FileManager;
 import domain.Folder;
 import domain.IFile;
 import domain.algorithms.Algorithm;
@@ -7,8 +6,11 @@ import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorException;
+import domain.fileManager.FileManager;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Objects;
@@ -68,33 +70,30 @@ public class MainEncodeFolder {
         System.out.println(compressionResult.length);
 
         String outputEncode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder" + '\\' + folder.getName() + ".fdr";
-        File compressedFolder = new File(outputEncode);
-        fileManager.createDecompressedFile(compressionResult, outputEncode,folder.getName(),compressionResult.length,".jdr");
-        fileManager.writeFile(outputEncode, false);
+        File compressedFolder = new File(outputEncode); // TODO: ??
+        fileManager.createDecompressedFile(compressionResult, outputEncode, folder.getName(), compressionResult.length, ".jdr");
+        fileManager.writeFile(outputEncode);
 
         fileManager.readFile(outputEncode);
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
         IFile decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
-//        algorithm.decodeFolder(file.getData(), outputDecode);
-//        printTreeWithFileContent(folder, 0);
-//        printTreeWithFileContent(decodedFolder, 0);
         createFileUsingIFile(decodedFolder);
     }
 
     private static void createFileUsingIFile(IFile iFile) throws CompressorException {
         if (iFile instanceof Folder) {
-            String pathname = ((Folder)iFile).getPathname();
+            String pathname = ((Folder) iFile).getPathname();
             File folder = new File(pathname);
             folder.mkdir();
-            for (IFile f : ((Folder)iFile).getFiles()) {
-                if (f instanceof  domain.File) {
+            for (IFile f : ((Folder) iFile).getFiles()) {
+                if (f instanceof domain.File) {
                     FileManager fileManager = new FileManager();
-                    String newPathname = pathname + File.separator + ((domain.File)f).getName();
-                    fileManager.createDecompressedFile(((domain.File)f).getData(), newPathname,
-                            ((domain.File)f).getName(),
-                            ((domain.File)f).getData().length,"." + ((domain.File)f).getFormat());
-                    fileManager.writeFile(newPathname, false);
+                    String newPathname = pathname + File.separator + ((domain.File) f).getName();
+                    fileManager.createDecompressedFile(((domain.File) f).getData(), newPathname,
+                            ((domain.File) f).getName(),
+                            ((domain.File) f).getData().length, "." + ((domain.File) f).getFormat());
+                    fileManager.writeFile(newPathname);
                 } else if (f instanceof Folder) {
                     createFileUsingIFile(f);
                 }
@@ -130,7 +129,7 @@ public class MainEncodeFolder {
         outputStream.write(decodeResult);
         outputStream.close();
     }
-    
+
     private static void printTree(IFile iFile, int depth) {
         for (IFile f : iFile.getFiles()) {
             for (int i = 0; i < depth; i++) {
@@ -148,10 +147,10 @@ public class MainEncodeFolder {
             System.out.print("\t");
         }
         if (iFile instanceof domain.File) {
-            System.out.println(((domain.File)iFile).getName() + ", data: " + new String(((domain.File)iFile).getData()));
+            System.out.println(((domain.File) iFile).getName() + ", data: " + new String(((domain.File) iFile).getData()));
         } else if (iFile instanceof Folder) {
-            System.out.println(((Folder)iFile).getName());
-            for (IFile f : ((Folder)iFile).getFiles()) {
+            System.out.println(((Folder) iFile).getName());
+            for (IFile f : ((Folder) iFile).getFiles()) {
                 printTreeWithFileContent(f, depth + 1);
             }
         }

@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class MainViewSwing {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
     private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension", "Pathname"};
     private static final String[] STATS_FILES_COLUMN_NAMES = {"Filename", "Algorithm", "Type", "Ratio", "Time", "Speed", "Space"};
@@ -80,7 +80,11 @@ public class MainViewSwing {
     private JScrollPane statsAlgorithmsScrollPane;
     // ------------------------------------------------
 
-
+    /**
+     * Constructs a new {@link MainViewSwing} with a given {@link PresentationController} and initializes it
+     *
+     * @param presentationController the {@link PresentationController} to link
+     */
     public MainViewSwing(PresentationController presentationController) {
         LOGGER.info("Constructing Main View");
         this.presentationController = presentationController;
@@ -90,6 +94,9 @@ public class MainViewSwing {
         LOGGER.info("Main View constructed");
     }
 
+    /**
+     * Shows the view
+     */
     public void show() {
         LOGGER.debug("Showing graphical components");
         viewFrame.pack();
@@ -97,12 +104,46 @@ public class MainViewSwing {
         LOGGER.debug("Graphical components showed");
     }
 
+    /**
+     * Enables the view
+     */
     public void enable() {
         viewFrame.setEnabled(true);
     }
 
+    /**
+     * Disables the view
+     */
     public void disable() {
         viewFrame.setEnabled(false);
+    }
+
+    /**
+     * Loads the history table with a given {@link ArrayList<String>} of file data
+     *
+     * @param arrayOfFileData the {@link ArrayList<String>} of file data
+     * @param exception       a {@link CompressorException} if any occurs. Otherwise is null
+     */
+    public void loadHistoryTable(ArrayList<String> arrayOfFileData, CompressorException exception) {
+        if (Objects.isNull(exception)) {
+            addFilesToTable(arrayOfFileData);
+        } else {
+            showException(exception);
+        }
+    }
+
+    /**
+     * Loads the stats table with a given {@link ArrayList<String>} of stats data
+     *
+     * @param arrayOfStats the {@link ArrayList<String>} of stats data
+     * @param exception    a {@link CompressorException} if any error occurs. Otherwise is null
+     */
+    public void loadStatsTable(ArrayList<String> arrayOfStats, CompressorException exception) {
+        if (Objects.isNull(exception)) {
+            addStatsToTable(arrayOfStats);
+        } else {
+            showException(exception);
+        }
     }
 
     private void initInstances() {
@@ -361,11 +402,11 @@ public class MainViewSwing {
             int selection = fileChooser.showOpenDialog(historyPanel);
 
             if (selection == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                System.out.println("Selected file with pathname: " + file.getAbsolutePath());
+                java.io.File file = fileChooser.getSelectedFile();
+                System.out.println("Selected file with pathname: " + file.getPath());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-                addNewFile(file, formatter.format(new Date()));
+                addNewFile(file.getPath(), formatter.format(new Date()));
             } else if (selection == JFileChooser.ERROR_OPTION) {
                 String message = "Failure to choose a file";
                 LOGGER.error(message);
@@ -375,10 +416,12 @@ public class MainViewSwing {
         });
     }
 
-    private void addNewFile(File file, String date) {
+    private void addNewFile(String pathname, String date) {
         try {
-            presentationController.addFile(file.getAbsolutePath(), date);
-            addRowToTableFromFile(file, date);
+            presentationController.addFile(pathname, date);
+            String filename = presentationController.getFilenameFromPath(pathname);
+            String fileSize = presentationController.getFileSizeFromPath(pathname);
+            addRowToTable(filename, pathname, fileSize, date);
         } catch (CompressorException ex) {
             showException(ex);
         }
@@ -395,6 +438,7 @@ public class MainViewSwing {
             } catch (CompressorException ex) {
                 showException(ex);
             }
+            removeFileButton.setEnabled(false);
         });
     }
 
@@ -442,9 +486,9 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
                 originalSizeLabel.setText(size);
-                File compressedFile = new File(response[0]);
-                newSizeLabel.setText(getSizeFromFile(compressedFile));
-                addRowToTableFromFile(compressedFile, null);
+                String compressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                addRowToTable(compressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -462,9 +506,9 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(size);
-                File uncompressedPath = new File(response[0]);
-                originalSizeLabel.setText(getSizeFromFile(uncompressedPath));
-                addRowToTableFromFile(uncompressedPath, null);
+                String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                addRowToTable(uncompressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, false);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -482,9 +526,10 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
                 originalSizeLabel.setText(size);
-                File compressedFile = new File(response[0]);
-                newSizeLabel.setText(getSizeFromFile(compressedFile));
-                addRowToTableFromFile(compressedFile, null);
+                String compressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                newSizeLabel.setText(fileSize);
+                addRowToTable(compressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -497,9 +542,10 @@ public class MainViewSwing {
             try {
                 String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(size);
-                File uncompressedPath = new File(response[0]);
-                originalSizeLabel.setText(getSizeFromFile(uncompressedPath));
-                addRowToTableFromFile(uncompressedPath, null);
+                String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
+                String fileSize = presentationController.getFileSizeFromPath(response[0]);
+                originalSizeLabel.setText(fileSize);
+                addRowToTable(uncompressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, false);
             } catch (CompressorException ex) {
                 showException(ex);
@@ -567,12 +613,12 @@ public class MainViewSwing {
         }
     }
 
-    private void addRowToTableFromFile(File file, String fileDate) {
-        String[] fileParts = file.getName().split("\\.");
+    private void addRowToTable(String filename, String pathname, String fileSize, String fileDate) {
+        String[] fileParts = filename.split("\\.");
         DefaultTableModel tableModel = (DefaultTableModel) historyTable.getModel();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = parseDate(fileDate, formatter);
-        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), getSizeFromFile(file), fileParts[fileParts.length - 1], file.getAbsolutePath()});
+        tableModel.addRow(new Object[]{fileParts[0], formatter.format(date), fileSize, fileParts[fileParts.length - 1], pathname});
     }
 
     private Date parseDate(String fileDate, SimpleDateFormat formatter) {
@@ -589,42 +635,14 @@ public class MainViewSwing {
         return date;
     }
 
-    private String getSizeFromFile(File file) {
-        double bytesSize = (double) (file.length() / (1024 * 1024));
-        double roundedSize = (Math.round(bytesSize * 100.0) / 100.0);
-        if (roundedSize <= 0.1) {
-            return Double.toString((double) file.length() / 1000) + " B";
-        } else if (roundedSize < 0.5 && roundedSize > 0.1) {
-            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " KB";
-        } else {
-            bytesSize = (double) file.length() / (1024000);
-            return Double.toString((Math.round(bytesSize * 100.0) / 100.0)) + " MB";
-        }
-    }
-
-    public void loadHistoryTable(ArrayList<String> arrayOfFileData, CompressorException exception) {
-        if (Objects.isNull(exception)) {
-            addFilesToTable(arrayOfFileData);
-        } else {
-            showException(exception);
-        }
-    }
-
-    public void loadStatsTable(ArrayList<String> arrayOfStats, CompressorException exception) {
-        if (Objects.isNull(exception)) {
-            addStatsToTable(arrayOfStats);
-        } else {
-            showException(exception);
-        }
-    }
-
     private void addFilesToTable(ArrayList<String> arrayOfFileData) {
         for (int i = 0; i < arrayOfFileData.size(); ++i) {
             String[] data = arrayOfFileData.get(i).split(" ");
             String date = String.format("%s %s", data[0], data[1]);
             String pathname = data[2];
-            File file = new File(pathname);
-            addRowToTableFromFile(file, date);
+            String filename = presentationController.getFilenameFromPath(pathname);
+            String fileSize = presentationController.getFileSizeFromPath(pathname);
+            addRowToTable(filename, pathname, fileSize, date);
         }
     }
 

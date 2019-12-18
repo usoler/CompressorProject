@@ -1,6 +1,5 @@
-package data.fileManager;
+package domain.fileManager;
 
-import domain.Folder;
 import domain.IFile;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FileReader {
@@ -16,10 +16,22 @@ public class FileReader {
     private static Scanner scanner;
     private static FileCreator fileCreator;
 
+    /**
+     * Constructs a new {@link FileReader} with a given {@link FileCreator}
+     *
+     * @param fileCreator the file creator of this file reader
+     */
     public FileReader(FileCreator fileCreator) {
         this.fileCreator = fileCreator;
     }
 
+    /**
+     * Reads a file from a given pathname and folder
+     *
+     * @param pathname the file pathname
+     * @param folder   the folder's file
+     * @throws CompressorException If any error occurs
+     */
     public static void readFile(String pathname, IFile folder) throws CompressorException {
         File file = new File(pathname);
         if (file.isDirectory()) {
@@ -30,11 +42,17 @@ public class FileReader {
         }
     }
 
+    /**
+     * Reads all the files from a given folder pathname
+     *
+     * @param folderPathName the folder pathname
+     * @param i_folder       // TODO ??
+     * @throws CompressorException If any error occurs
+     */
     public static void readAllFilesFromFolder(String folderPathName, IFile i_folder) throws CompressorException {
         File folderFile = new File(folderPathName);
         IFile folder = fileCreator.createFolder(folderFile, folderPathName);
-        if (i_folder != null)
-        {
+        if (Objects.isNull(i_folder)) {
             i_folder.addFile(folder);
         }
         for (File file : folderFile.listFiles()) {
@@ -43,7 +61,7 @@ public class FileReader {
                 InputStream inputStream = readFile(file, pathname, folder);
                 closeInputStream(inputStream);
             } else if (file.isDirectory()) {
-                readAllFilesFromFolder(pathname,folder);
+                readAllFilesFromFolder(pathname, folder);
             }
         }
     }
@@ -60,7 +78,7 @@ public class FileReader {
 
     private static FileInputStream readFile(File file, String pathname, IFile folder) throws CompressorException {
         FileInputStream fileInputStream = startInputStream(file);
-        String format =obtainFormatOfFile(file.getName());
+        String format = obtainFormatOfFile(file.getName());
         byte[] binaryData = {};
         try {
             binaryData = Files.readAllBytes(new File(pathname).toPath());
@@ -69,12 +87,9 @@ public class FileReader {
             LOGGER.error(message, e);
             throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
         }
-        if (isCompressed(format))
-        {
-            fileCreator.createCompressedFile(binaryData, pathname, folder, file.getName(),binaryData.length ,format);
-        }
-        else
-        {
+        if (isCompressed(format)) {
+            fileCreator.createCompressedFile(binaryData, pathname, folder, file.getName(), binaryData.length, format);
+        } else {
             fileCreator.createDecompressedFile(binaryData, pathname, folder, file.getName(), binaryData.length, format);
         }
         return fileInputStream;
@@ -96,44 +111,15 @@ public class FileReader {
     }
 
 
-
-
-    private static String obtainFormatOfFile(String name)
-    {
-        String format = null;
-        for (int iterator = name.length()-1; iterator >=0; --iterator)
-        {
-            if (name.charAt(iterator) == '.')
-            {
-                break;
-            }
-            else
-            {
-                if (format == null) format = Character.toString(name.charAt(iterator));
-                else format += name.charAt(iterator);
-            }
-        }
-        return invertString(format);
+    private static String obtainFormatOfFile(String name) {
+        String[] values = name.split("\\.");
+        return values[values.length - 1];
     }
 
-    private static String invertString(String string)
-    {
-        String result = null;
-        for (int iterator = string.length() - 1; iterator >= 0; --iterator)
-        {
-            if (result==null) result = Character.toString(string.charAt(iterator));
-            else result += string.charAt(iterator);
-        }
-        return result;
-    }
-
-    private static boolean isCompressed(String format){
-        if (format == "lz78" || format == "lzw" || format == "jpeg")
-        {
+    private static boolean isCompressed(String format) {
+        if (format == "lz78" || format == "lzw" || format == "jpeg") {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
