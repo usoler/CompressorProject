@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.xml.soap.Text;
 import java.awt.*;
 
-public class ComparisonViewSwing {
+public class ComparisonViewSwing { // TODO: Add javadoc
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
 
     private PresentationController presentationController;
@@ -103,7 +103,6 @@ public class ComparisonViewSwing {
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
         viewPanel.add(returnButton, constraints);
-
 
 
         LOGGER.debug("View Panel initiated");
