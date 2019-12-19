@@ -4,6 +4,7 @@ import domain.CompressedFile;
 import domain.DecompressedFile;
 import domain.Folder;
 import domain.IFile;
+import domain.exception.CompressorException;
 
 import java.io.File;
 
@@ -70,6 +71,23 @@ public class FileCreator {
         Folder folder = new Folder(folderName, "folder", folderPathname);
         fileManager.setNewFile(folder);
         return folder;
+    }
+
+
+    public void createFileUsingIFile(IFile iFile) throws CompressorException {
+        if (iFile instanceof Folder) {
+            String pathname = ((Folder) iFile).getPathname();
+            File folder = new File(pathname);
+            folder.mkdir();
+            fileManager.setNewFile(iFile);
+            for (IFile f : ((Folder) iFile).getFiles()) {
+                if (f instanceof domain.File) {
+                    fileManager.setNewFile(f);
+                } else if (f instanceof Folder) {
+                    createFileUsingIFile(f);
+                }
+            }
+        }
     }
 
     /**

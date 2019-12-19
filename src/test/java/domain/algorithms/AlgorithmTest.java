@@ -5,7 +5,6 @@ import org.junit.*;
 
 public class AlgorithmTest {
     private Algorithm algorithm;
-    // TODO: corner cases
 
     @BeforeClass
     public static void startUp() {
@@ -45,8 +44,6 @@ public class AlgorithmTest {
         // Mock
         String compressedFile = "aa";
         byte[] expected = new byte[]{3, 2, 1, 0};
-
-
         // Test
         byte[] result = algorithm.decodeFile(compressedFile.getBytes());
 

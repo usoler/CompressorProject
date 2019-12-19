@@ -3,6 +3,7 @@ package domain.dataStructure;
 import org.junit.*;
 
 public class TrieTest {
+
     private static final String word = "example";
     private static final int INDEX_INVALID = -1;
     private static final int INDEX_VALID = 1;

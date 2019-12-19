@@ -69,8 +69,8 @@ public class Algorithm {
     /**
      * Encodes the given folder
      *
-     * @param folder         the folder to encode
-     * @param textAlgorithm TODO: what ???
+     * @param iFile         the folder to encode
+     * @param textAlgorithm the text algorithm for to encode
      * @return the encoded data bytes
      * @throws CompressorException If any error occurs
      */
@@ -86,7 +86,7 @@ public class Algorithm {
      * Decodes the given folder data bytes
      *
      * @param fileData   the folder data bytes to decode
-     * @param outputPath TODO: what ???
+     * @param outputPath the output path to leave the decoded folder
      * @return the decoded folder
      * @throws CompressorException If any error occurs
      */

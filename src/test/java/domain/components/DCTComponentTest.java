@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class DCTComponentTest {
+
     private static final DCTComponent dctComponent = new DCTComponent();
 
     @Test

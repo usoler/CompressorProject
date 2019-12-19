@@ -105,7 +105,6 @@ public class Folder implements IFile {
         return String.format("Folder{name='%s', format='%s', size=%s}", name, format, numberOfFiles);
     }
 
-    // File only functions // TODO ??
     @Override
     public byte[] getData() {
         return null;
