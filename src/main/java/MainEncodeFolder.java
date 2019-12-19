@@ -8,6 +8,9 @@ import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +26,25 @@ public class MainEncodeFolder {
         //System.out.println(File.separator);
         //testEncodeFolderWithFolderImpl();
         //testEncodeJPEGWithFileManager();
-        testFinal();
+//        testFindFolder();
+//        testFinal();
+        pruebas();
+    }
+
+    private static void pruebas() {
+        try {
+            BufferedImage image = ImageIO.read(new File("C:\\Users\\mique\\OneDrive\\Desktop\\snail.ascii.ppm"));
+            System.out.println(image);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void testFindFolder() throws CompressorException {
+        FileManager fileManager = new FileManager();
+        String path = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\input";
+        fileManager.readFolder(path);
+        IFile folder = fileManager.getFile(path);
     }
 
     private static AlgorithmInterface askAlgorithm() {

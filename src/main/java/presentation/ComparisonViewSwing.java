@@ -5,12 +5,16 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class ComparisonViewSwing { // TODO: Add javadoc
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
 
     private PresentationController presentationController;
+
+    final static String TEXT_PANEL = "Card with textArea";
+    final static String IMAGE_PANEL = "Card with canvas";
 
     private JFrame viewFrame;
     private JPanel viewPanel;
@@ -24,6 +28,7 @@ public class ComparisonViewSwing { // TODO: Add javadoc
     private JTextArea originalText;
     private JTextArea decompressedText;
     private Canvas originalImage;
+//    private PaintImage myImage;
     private Canvas decompressedImage;
 
     public ComparisonViewSwing(PresentationController presentationController) {
@@ -48,6 +53,7 @@ public class ComparisonViewSwing { // TODO: Add javadoc
         originalText = new JTextArea("original text");
         decompressedText = new JTextArea("decompressed text");
         originalImage = new Canvas();
+//        myImage = new PaintImage(matrixToImage());
         decompressedImage = new Canvas();
         LOGGER.debug("Instances initiated");
     }
@@ -95,14 +101,15 @@ public class ComparisonViewSwing { // TODO: Add javadoc
 
     private void initOriginalContentPanel() {
         originalContentPanel.setLayout(leftCardLayout);
-        originalContentPanel.add(new JScrollPane(originalText), "text");
-        originalContentPanel.add(originalImage, "image");
+        originalContentPanel.add(new JScrollPane(originalText), TEXT_PANEL);
+        originalContentPanel.add(originalImage, IMAGE_PANEL);
+//        originalContentPanel.add(new JScrollPane(myImage), IMAGE_PANEL);
     }
 
     private void initCompressedContentPanel() {
         decompressedContentPanel.setLayout(rightCardLayou);
-        decompressedContentPanel.add(new JScrollPane(decompressedText), "text");
-        decompressedContentPanel.add(decompressedImage, "image");
+        decompressedContentPanel.add(new JScrollPane(decompressedText), TEXT_PANEL);
+        decompressedContentPanel.add(decompressedImage, IMAGE_PANEL);
     }
 
     private void initButtonPanel() {
@@ -143,6 +150,22 @@ public class ComparisonViewSwing { // TODO: Add javadoc
     }
 
     public void setOriginalContent(String content) {
+//        leftCardLayout.next(originalContentPanel);
         originalText.setText(content);
+//        originalImage.paint();
     }
+
+    private BufferedImage matrixToImage() {
+        BufferedImage image = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < 300; i++) {
+            for (int j = 0; j < 300; j++) {
+                int a = (i + j)%256;
+                Color newColor = new Color(a,a,a);
+                image.setRGB(j, i, newColor.getRGB());
+            }
+        }
+        return image;
+    }
+
+
 }

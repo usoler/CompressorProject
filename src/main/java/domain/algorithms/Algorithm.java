@@ -6,7 +6,6 @@ import domain.IFile;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
-import domain.dataObjects.ByteArrayListUtils;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
 import org.slf4j.Logger;
@@ -79,8 +78,8 @@ public class Algorithm {
         ArrayList<Byte> header = new ArrayList<>();
         ArrayList<Byte> data = new ArrayList<>();
         recursiveEncodeFolder(iFile, header, data, textAlgorithm);
-        ByteArrayListUtils.addIntToByteArrayList(header.size(), 4, 0, header);
-        return ByteArrayListUtils.mergeTwoBytesArrayList(header, data);
+        addIntToByteArrayList(header.size(), 0, header);
+        return mergeTwoBytesArrayList(header, data);
     }
 
     /**
@@ -116,8 +115,8 @@ public class Algorithm {
 
     private void recursiveEncodeFolder(Folder folder, ArrayList<Byte> header, ArrayList<Byte> data, AlgorithmInterface textAlgorithm) throws CompressorException {
         header.add(FOLDER_CODE);
-        ByteArrayListUtils.addIntToByteArrayList(folder.getName().length(), 4, header);
-        ByteArrayListUtils.addStringToByteArrayList(folder.getName(), header);
+        addIntToByteArrayList(folder.getName().length(), header);
+        addStringToByteArrayList(folder.getName(), header);
         for (IFile iFile : folder.getFiles()) {
             recursiveEncodeFolder(iFile, header, data, textAlgorithm);
         }
@@ -146,15 +145,15 @@ public class Algorithm {
 
     private void recursiveEncodeFolder(domain.File file, ArrayList<Byte> header, ArrayList<Byte> data, AlgorithmInterface textAlgorithm) throws CompressorException {
         header.add(FILE_CODE);
-        ByteArrayListUtils.addIntToByteArrayList(file.getName().length(), 4, header);
-        ByteArrayListUtils.addStringToByteArrayList(file.getName(), header);
+        addIntToByteArrayList(file.getName().length(), header);
+        addStringToByteArrayList(file.getName(), header);
         selectAlgorithmByExtension(file.getFormat(), textAlgorithm);
         addAlgorithmToHeader(header);
         byte[] compressedFile = encodeFile(file.getData());
         for (byte b : compressedFile) {
             data.add(b);
         }
-        ByteArrayListUtils.addIntToByteArrayList(compressedFile.length, 4, header);
+        addIntToByteArrayList(compressedFile.length, header);
     }
 
     private IFile recursiveDecodeFolder(byte[] fileData, String outputPath) throws CompressorException {
@@ -208,5 +207,39 @@ public class Algorithm {
             setAlgorithmInterface(new Jpeg());
         }
     }
+
+    private static byte[] intToByteArray(int number) {
+        return ByteBuffer.allocate(4).putInt(number).array();
+    }
+
+    public static void addIntToByteArrayList(int num, ArrayList<Byte> arrayList) {
+//        byte[] number = intToByteArray(num, bytesNeeded - 1);
+        byte[] number = intToByteArray(num);
+        for (byte b : number) arrayList.add(b);
+    }
+
+    public static void addIntToByteArrayList(int num, int index, ArrayList<Byte> arrayList) {
+        byte[] number = intToByteArray(num);
+        for (byte b : number) arrayList.add(index++, b);
+    }
+
+    public static void addStringToByteArrayList(String string, ArrayList<Byte> arrayList) {
+        for (int i = 0; i < string.length(); i++) {
+            arrayList.add((byte) string.charAt(i));
+        }
+    }
+
+    public static byte[] mergeTwoBytesArrayList(ArrayList<Byte> arrayList1, ArrayList<Byte> arrayList2) {
+        byte[] byteArray = new byte[arrayList1.size() + arrayList2.size()];
+        int i = 0;
+        for (Byte value : arrayList1) {
+            byteArray[i++] = value;
+        }
+        for (Byte value : arrayList2) {
+            byteArray[i++] = value;
+        }
+        return byteArray;
+    }
+
 
 }
