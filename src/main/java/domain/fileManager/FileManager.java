@@ -112,4 +112,14 @@ public class FileManager {
         LOGGER.warn("File not found with pathname '{}'", pathname);
         return null;
     }
+
+    public void removeFile(String pathname)
+    {
+        IFile file = findFileWithPathname(pathname);
+        if (file != null)
+        {
+            listOfFiles.remove(file);
+        }
+    }
+
 }

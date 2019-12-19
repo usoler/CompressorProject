@@ -69,15 +69,15 @@ public class Algorithm {
     /**
      * Encodes the given folder
      *
-     * @param iFile         the folder to encode
+     * @param folder         the folder to encode
      * @param textAlgorithm TODO: what ???
      * @return the encoded data bytes
      * @throws CompressorException If any error occurs
      */
-    public byte[] encodeFolder(IFile iFile, AlgorithmInterface textAlgorithm) throws CompressorException {
+    public byte[] encodeFolder(Folder folder, AlgorithmInterface textAlgorithm) throws CompressorException {
         ArrayList<Byte> header = new ArrayList<>();
         ArrayList<Byte> data = new ArrayList<>();
-        recursiveEncodeFolder(iFile, header, data, textAlgorithm);
+        recursiveEncodeFolder(folder, header, data, textAlgorithm);
         addIntToByteArrayList(header.size(), 0, header);
         return mergeTwoBytesArrayList(header, data);
     }
@@ -90,11 +90,11 @@ public class Algorithm {
      * @return the decoded folder
      * @throws CompressorException If any error occurs
      */
-    public IFile decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
+    public Folder decodeFolder(byte[] fileData, String outputPath) throws CompressorException {
         int headerLength = getNextIntInFile(fileData);
         headerIndex = 4;
         dataIndex = 4 + headerLength;
-        return recursiveDecodeFolder(fileData, outputPath);
+        return (Folder)recursiveDecodeFolder(fileData, outputPath);
     }
 
     private void checkFile(byte[] file) throws CompressorException {
@@ -123,8 +123,6 @@ public class Algorithm {
         header.add(END_FOLDER_CODE);
     }
 
-    // TODO: handle exception unsupported file?
-    // TODO: solve reversed extension
     private void selectAlgorithmByExtension(String extension, AlgorithmInterface textAlgorithm) {
         if (extension.equals("txt")) {
             setAlgorithmInterface(textAlgorithm);
