@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ZigZagComponentTest {
+
     private static final ZigZagComponent zigZagComponent = new ZigZagComponent();
 
     @Test

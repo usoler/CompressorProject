@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class SamplingComponentTest {
+
     private static final int MATRIX_16x16_NUM_OF_ROW_AND_COLUMN = 16;
     private static final int MATRIX_8x8_NUM_OF_ROW_AND_COLUMN = 8;
 

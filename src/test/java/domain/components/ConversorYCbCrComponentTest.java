@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ConversorYCbCrComponentTest {
+
     private static final int NUM_OF_ROWS = 2;
     private static final int NUM_OF_COLUMNS = 3;
 
@@ -17,7 +18,6 @@ public class ConversorYCbCrComponentTest {
     public void verify_convertFromRGB_returnsYCbCrMatrix_whenRgbMatrixIsConverted() throws CompressorException {
         // Mock
         Matrix<Pixel> rgbMatrix = mockValidRgbMatrix();
-
         Matrix<Pixel> expected = mockValidYCbCrMatrix();
 
         // Test
@@ -52,21 +52,6 @@ public class ConversorYCbCrComponentTest {
             Assert.assertEquals(CompressorErrorCode.CONVERT_RGB_TO_YCBCR_FAILURE.getCode(), ex.getErrorCode().getCode());
         }
     }
-
-    // FIXME
-/*    @Test
-    public void verify_convertToRGB_returnsRgbMatrix_whenYCbCrMatrixIsConverted() {
-        // Mock
-        Matrix<Pixel> yCbCrMatrix = mockValidYCbCrMatrix();
-
-        Matrix<Pixel> expected = mockValidRgbMatrix();
-
-        // Test
-        Matrix<Pixel> response = conversor.convertToRGB(yCbCrMatrix);
-
-        Assert.assertNotNull(response);
-        Assert.assertTrue(expected.equals(response));
-    }*/
 
     @Test
     public void verify_convertToRGB_throwsCompressorException_whenParamYCbCrMatrixIsNull() {
