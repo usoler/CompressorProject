@@ -15,7 +15,6 @@ import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -460,13 +459,17 @@ public class MainViewSwing {
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
             String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
-            String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
-                String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
+                String[] response;
+                if (!extension.equals("folder")) {
+                    response = presentationController.compressFile(algorithm, pathname, filename, extension);
+                    addRowToStatsTable(filename, algorithm, response, true);
+                } else {
+                    response = presentationController.compressFolder(algorithm, pathname, filename, extension);
+                }
                 String compressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
                 addRowToTable(compressedFilename, response[0], fileSize, null);
-                addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
                 showException(ex);
             }

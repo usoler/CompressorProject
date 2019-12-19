@@ -69,7 +69,7 @@ public class Algorithm {
     /**
      * Encodes the given folder
      *
-     * @param iFile         the folder to encode
+     * @param folder         the folder to encode
      * @param textAlgorithm the text algorithm for to encode
      * @return the encoded data bytes
      * @throws CompressorException If any error occurs

@@ -2,6 +2,7 @@ package domain;
 
 import data.DataController;
 import domain.algorithms.Algorithm;
+import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
@@ -20,7 +21,6 @@ import java.util.Objects;
 public class DomainController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainController.class);
-
     private DataController dataController;
     private FileManager fileManager;
 
@@ -151,6 +151,32 @@ public class DomainController {
         response[0] = compressedPath;
         addStats(filename, typeOfAlgorithm, "Encode", response);
         return response;
+    }
+
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+        LOGGER.debug("Compressing folder with algorithm '{}', pathanme '{}' and filename '{}'",
+                pathname, filename);
+        String[] response = new String[5];
+        Algorithm algorithm = new Algorithm();
+        Folder folder = (Folder) fileManager.getFile(pathname);
+        byte[] encodingResult = algorithm.encodeFolder(folder, getTextAlgorithm(typeOfAlgorithm));
+
+        String compressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + ".folderzip";
+        fileManager.createCompressedFile(encodingResult, compressedPath, filename, encodingResult.length, "folderzip");
+        fileManager.writeFile(compressedPath);
+        response[0] = compressedPath;
+        LOGGER.debug("Folder compressed");
+
+        return response;
+    }
+
+    private AlgorithmInterface getTextAlgorithm(String typeOfAlgorithm) {
+        if (typeOfAlgorithm.equals("LZW")) {
+            return new Lzw();
+        } else {
+            return new Lz78();
+        }
     }
 
     /**

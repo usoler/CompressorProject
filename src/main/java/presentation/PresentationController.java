@@ -81,6 +81,12 @@ public class PresentationController {
         return domainController.compressFile(algorithm, pathname, filename, extension);
     }
 
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+        LOGGER.debug("Calling Compress Folder from Domain Controller with params algorithm '{}' and pathname '{}'",
+                pathname);
+        return domainController.compressFolder(typeOfAlgorithm, pathname, filename, extension);
+    }
+
     /**
      * Uncompress a file with a given pathname, filename, extension and algorithm
      *
