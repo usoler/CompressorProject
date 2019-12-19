@@ -341,36 +341,6 @@ public class DomainController {
         }
     }
 
-    public String[] uncompressFileAndReturnResult(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
-        LOGGER.debug("Uncompressing file with algorithm '{}', pathanme '{}' and filename '{}'",
-                typeOfAlgorithm, pathname, filename);
-        validateUncompressFile(typeOfAlgorithm, extension);
-        Algorithm algorithm = selectAlgorithm(typeOfAlgorithm);
-        String[] response = new String[6];
-        byte[] encodingResult;
-        try {
-            byte[] data = Files.readAllBytes(new File(pathname).toPath());
-            int compressedSize = data.length;
-            long start = System.currentTimeMillis();
-            encodingResult = algorithm.decodeFile(data);
-            long end = System.currentTimeMillis();
-            int uncompressedSize = encodingResult.length;
-            response = printEncodeStatistics(start, end, uncompressedSize, compressedSize, response);
-            response[5] = new String(encodingResult);
-        } catch (IOException e) {
-            String message = String.format("Failure to read all bytes in file from path '%s'", pathname);
-            LOGGER.error(message, e);
-            throw new CompressorException(message, e, CompressorErrorCode.READ_FILE_BYTES_FAILURE);
-        }
-        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
-                + selectUncompressedExtension(typeOfAlgorithm);
-        fileManager.createDecompressedFile(encodingResult, uncompressedPath, filename, encodingResult.length, getFormatByTypeOfAlgorithm(typeOfAlgorithm));
-        fileManager.writeFile(uncompressedPath);
-        response[0] = uncompressedPath;
-        addStats(filename, typeOfAlgorithm, "Decode", response);
-        return response;
-    }
-
     /**
      * Gets the content from a given pathname
      *
