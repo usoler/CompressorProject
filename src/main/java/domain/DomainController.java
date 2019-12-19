@@ -246,7 +246,7 @@ public class DomainController {
         LOGGER.debug("Compression Speed: '{}'", response[3]);
         response[1] = showCompressionRatio(uncompressedSize, compressedSize);
         LOGGER.debug("Compression Ratio: '{}'", response[1]);
-        response[4] = Float.toString((1.0f - compressedSize / uncompressedSize) * 100.0f);
+        response[4] = Float.toString(avoidNegativeValues((1.0f - compressedSize / uncompressedSize) * 100.0f));
         LOGGER.debug("Elapsed Time: '{}'", response[4]);
 
         return response;
@@ -256,7 +256,7 @@ public class DomainController {
         if ((end - start) == 0 && (uncompressedSize - compressedSize) == 0) {
             return "0";
         } else {
-            return Float.toString((uncompressedSize - compressedSize) / (end - start));
+            return Float.toString(avoidNegativeValues((uncompressedSize - compressedSize) / (end - start)));
         }
     }
 
@@ -264,8 +264,15 @@ public class DomainController {
         if (uncompressedSize == 0 && compressedSize == 0) {
             return "0";
         } else {
-            return Float.toString(uncompressedSize / compressedSize);
+            return Float.toString(avoidNegativeValues(uncompressedSize / compressedSize));
         }
+    }
+
+    private float avoidNegativeValues(float value) {
+        if (value < 0.0f) {
+            value = 0.0f;
+        }
+        return value;
     }
 
     private String getFormatByTypeOfAlgorithm(String typeOfAlgorithm) throws CompressorException {
