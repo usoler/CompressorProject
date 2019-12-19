@@ -340,4 +340,15 @@ public class DomainController {
             return ".lzw";
         }
     }
+
+    /**
+     * Gets the content from a given pathname
+     *
+     * @param pathname the file pathname
+     * @return the filename
+     */
+    public String getContentFromPath(String pathname) {
+        LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
+        return new String(fileManager.getFile(pathname).getData());
+    }
 }

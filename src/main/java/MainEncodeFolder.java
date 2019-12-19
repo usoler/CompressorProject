@@ -8,6 +8,9 @@ import domain.algorithms.lossy.Jpeg;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,8 +26,11 @@ public class MainEncodeFolder {
         //System.out.println(File.separator);
         //testEncodeFolderWithFolderImpl();
         //testEncodeJPEGWithFileManager();
+//        testFindFolder();
         testFinal();
+//        pruebas();
     }
+
 
     private static AlgorithmInterface askAlgorithm() {
         Scanner scanner = new Scanner(System.in);
@@ -66,8 +72,7 @@ public class MainEncodeFolder {
         fileManager.readFolder(path);
         IFile folder = fileManager.getFile(path);
         Algorithm algorithm = new Algorithm();
-        byte[] compressionResult = algorithm.encodeFolder(folder, textAlgorithm);
-        System.out.println(compressionResult.length);
+        byte[] compressionResult = algorithm.encodeFolder((Folder)folder, textAlgorithm);
 
         String outputEncode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder" + '\\' + folder.getName() + ".fdr";
         File compressedFolder = new File(outputEncode); // TODO: ??
@@ -77,7 +82,7 @@ public class MainEncodeFolder {
         fileManager.readFile(outputEncode);
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
-        IFile decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
+        Folder decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
         createFileUsingIFile(decodedFolder);
     }
 

@@ -15,6 +15,7 @@ import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -520,7 +521,13 @@ public class MainViewSwing {
                 showException(ex);
             }
 
-            presentationController.changeMainViewToComparisonView();
+            String originalPath = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
+            LOGGER.debug(String.format("Getting the content form: %s", originalPath));
+            String originalContent = presentationController.getContentFromPath(originalPath);
+            String decompressionPath = historyTable.getValueAt(historyTable.getSelectedRow() + 2, 4).toString();
+            LOGGER.debug(String.format("Getting the content form: %s", decompressionPath));
+            String decompressionResult = presentationController.getContentFromPath(decompressionPath);
+            presentationController.changeMainViewToComparisonView(originalContent, decompressionResult);
         });
     }
 

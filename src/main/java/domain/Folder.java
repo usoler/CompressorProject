@@ -9,6 +9,7 @@ public class Folder implements IFile {
     private int numberOfFiles;
     private ArrayList<IFile> files;
     private String pathname;
+    private int size;
 
     /**
      * Constructs a new {@link Folder}
@@ -23,6 +24,7 @@ public class Folder implements IFile {
         this.format = format;
         this.numberOfFiles = 0;
         files = new ArrayList<>();
+        this.size = 0;
     }
 
     @Override
@@ -70,10 +72,12 @@ public class Folder implements IFile {
         for (IFile file : this.files) {
             numberOfFiles -= file.getNumberOfFiles();
         }
+        size = 0;
         if (!Objects.isNull(files)) {
             this.files = files;
             for (IFile file : files) {
                 numberOfFiles += file.getNumberOfFiles();
+                size += file.getSize();
             }
         }
     }
@@ -82,6 +86,7 @@ public class Folder implements IFile {
     public void addFile(IFile file) {
         files.add(file);
         numberOfFiles += file.getNumberOfFiles();
+        size += file.getSize();
     }
 
     @Override
@@ -112,10 +117,11 @@ public class Folder implements IFile {
 
     @Override
     public int getSize() {
-        return -1;
+        return size;
     }
 
     @Override
     public void setSize(int size) {
+        this.size = size;
     }
 }
