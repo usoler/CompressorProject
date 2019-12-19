@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.Objects;
 
 public class MainViewSwing {
+    // Green color: 075E54
+    // Green light color: 25D366
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
     private static final String[] COLUMN_NAMES = {"Name", "Date", "Size", "Extension", "Pathname"};
@@ -35,6 +37,7 @@ public class MainViewSwing {
 
     // History Panel ----------------------
     private JPanel historyPanel;
+    private JPanel historyControlComponentsPanel;
     private JButton addFileButton;
     private JButton removeFileButton;
     private JTextField searchTextField;
@@ -52,14 +55,6 @@ public class MainViewSwing {
     private JLabel dateLabel;
     private JLabel extensionLabel;
     private JLabel pathnameLabel;
-
-    private JPanel compressedFileInfoPanel;
-    private JLabel compressedLabel;
-    private JLabel originalSizeLabel;
-
-    private JPanel uncompressedFileInfoPanel;
-    private JLabel uncompressedLabel;
-    private JLabel newSizeLabel;
 
     private JPanel controlComponentsPanel;
     private JButton compressButton;
@@ -163,6 +158,7 @@ public class MainViewSwing {
 
     private void initHistoryInstances() {
         historyPanel = new JPanel();
+        historyControlComponentsPanel = new JPanel();
         addFileButton = new JButton("+ Add File");
         removeFileButton = new JButton("- Remove File");
         removeFileButton.setEnabled(false);
@@ -180,12 +176,6 @@ public class MainViewSwing {
         dateLabel = new JLabel("Date: -");
         extensionLabel = new JLabel("Format: -");
         pathnameLabel = new JLabel("Pathname: -");
-        compressedFileInfoPanel = new JPanel();
-        compressedLabel = new JLabel("Compressed");
-        originalSizeLabel = new JLabel("Original Size: (*)");
-        uncompressedFileInfoPanel = new JPanel();
-        uncompressedLabel = new JLabel("Uncompressed");
-        newSizeLabel = new JLabel("New Size: (*)");
         controlComponentsPanel = new JPanel();
         compressButton = new JButton("Compress");
         compressButton.setEnabled(false);
@@ -210,7 +200,6 @@ public class MainViewSwing {
         statsAlgorithmsPanel = new JPanel();
         statsAlgorithmsTable = new JTable(new DefaultTableModel(new Object[][]{}, STATS_ALGORITHMS_COLUMN_NAMES));
         statsAlgorithmsScrollPane = new JScrollPane(statsAlgorithmsTable);
-
     }
 
     private void initComponents() {
@@ -219,8 +208,10 @@ public class MainViewSwing {
         initViewPanel();
         initFilesCardPanel();
         initStatsCardPanel();
+        initHistoryControlComponentsPanel();
         initHistoryPanel();
         initDataFilePanel();
+        initControlComponentsPanel();
         initStatsFilesPanel();
         initStatsAlgorithmsPanel();
 
@@ -252,8 +243,10 @@ public class MainViewSwing {
     private void initFilesCardPanel() {
         LOGGER.debug("Initiating File Card Panel");
         filesCardPanel.setLayout(new BoxLayout(filesCardPanel, BoxLayout.Y_AXIS));
+        filesCardPanel.add(historyControlComponentsPanel);
         filesCardPanel.add(historyPanel);
         filesCardPanel.add(dataFilePanel);
+        filesCardPanel.add(controlComponentsPanel);
         LOGGER.debug("File Card Panel initiated");
     }
 
@@ -265,12 +258,15 @@ public class MainViewSwing {
         LOGGER.debug("Stats Card Panel initiated");
     }
 
+    private void initHistoryControlComponentsPanel() {
+        historyControlComponentsPanel.add(addFileButton);
+        historyControlComponentsPanel.add(removeFileButton);
+        historyControlComponentsPanel.add(searchLabel);
+        historyControlComponentsPanel.add(searchTextField);
+    }
+
     private void initHistoryPanel() {
         LOGGER.debug("Initiating History Panel");
-        historyPanel.add(addFileButton);
-        historyPanel.add(removeFileButton);
-        historyPanel.add(searchLabel);
-        historyPanel.add(searchTextField);
         historyPanel.add(scrollPane);
         historyTable.setDefaultEditor(Object.class, null);
         historyTable.getTableHeader().setReorderingAllowed(false);
@@ -289,17 +285,6 @@ public class MainViewSwing {
         constraints.insets = new Insets(50, 50, 0, 0);
         dataFilePanel.add(fileInfoPanel, constraints);
         initFileInfoPanel();
-        constraints.gridx = 1;
-        dataFilePanel.add(compressedFileInfoPanel, constraints);
-        initCompressedFileInfoPanel();
-        constraints.gridx = 2;
-        dataFilePanel.add(uncompressedFileInfoPanel, constraints);
-        initUncompressedFileInfoPanel();
-        constraints.gridwidth = 2;
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        dataFilePanel.add(controlComponentsPanel, constraints);
-        initControlComponentsPanel();
         LOGGER.debug("Data File Panel initiated");
     }
 
@@ -338,18 +323,6 @@ public class MainViewSwing {
         fileInfoPanel.add(pathnameLabel);
     }
 
-    private void initCompressedFileInfoPanel() {
-        compressedFileInfoPanel.setLayout(new BoxLayout(compressedFileInfoPanel, BoxLayout.Y_AXIS));
-        compressedFileInfoPanel.add(originalSizeLabel);
-        compressedFileInfoPanel.add(compressedLabel);
-    }
-
-    private void initUncompressedFileInfoPanel() {
-        uncompressedFileInfoPanel.setLayout(new BoxLayout(uncompressedFileInfoPanel, BoxLayout.Y_AXIS));
-        uncompressedFileInfoPanel.add(newSizeLabel);
-        uncompressedFileInfoPanel.add(uncompressedLabel);
-    }
-
     private void initControlComponentsPanel() {
         controlComponentsPanel.add(algorithmComboBox);
         controlComponentsPanel.add(compressButton);
@@ -386,13 +359,11 @@ public class MainViewSwing {
             dateLabel.setText(String.format("Date: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 1)));
             extensionLabel.setText(String.format("Extension: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 3)));
             pathnameLabel.setText(String.format("Pathname: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 4)));
-            originalSizeLabel.setText(String.format("Size: %s", historyTable.getValueAt(historyTable.getSelectedRow(), 2)));
         } catch (IndexOutOfBoundsException e) {
             filenameLabel.setText("Filename: -");
             dateLabel.setText("Date: -");
             extensionLabel.setText("Extension: -");
             pathnameLabel.setText("Pathname: -");
-            originalSizeLabel.setText("Size: (*)");
         }
     }
 
@@ -439,6 +410,10 @@ public class MainViewSwing {
                 showException(ex);
             }
             removeFileButton.setEnabled(false);
+            compressButton.setEnabled(false);
+            uncompressButton.setEnabled(false);
+            compressAndUncompressButton.setEnabled(false);
+            algorithmComboBox.setEnabled(false);
         });
     }
 
@@ -485,7 +460,6 @@ public class MainViewSwing {
             String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
-                originalSizeLabel.setText(size);
                 String compressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
                 addRowToTable(compressedFilename, response[0], fileSize, null);
@@ -505,7 +479,6 @@ public class MainViewSwing {
             String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
                 String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
-                newSizeLabel.setText(size);
                 String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
                 addRowToTable(uncompressedFilename, response[0], fileSize, null);
@@ -525,10 +498,8 @@ public class MainViewSwing {
             String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
-                originalSizeLabel.setText(size);
                 String compressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
-                newSizeLabel.setText(fileSize);
                 addRowToTable(compressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, true);
             } catch (CompressorException ex) {
@@ -541,10 +512,8 @@ public class MainViewSwing {
             size = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 2).toString();
             try {
                 String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
-                newSizeLabel.setText(size);
                 String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
-                originalSizeLabel.setText(fileSize);
                 addRowToTable(uncompressedFilename, response[0], fileSize, null);
                 addRowToStatsTable(filename, algorithm, response, false);
             } catch (CompressorException ex) {
