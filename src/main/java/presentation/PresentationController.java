@@ -163,12 +163,6 @@ public class PresentationController {
         }
     }
 
-    public String[] uncompressFileAndReturnResult(String algorithm, String pathname, String filename, String extension) throws CompressorException {
-        LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
-                algorithm, pathname);
-        return domainController.uncompressFileAndReturnResult(algorithm, pathname, filename, extension);
-    }
-
     /**
      * Gets the filename from a given pathname
      *
