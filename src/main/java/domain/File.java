@@ -91,7 +91,6 @@ public abstract class File implements IFile {
                 format.equals(file.format);
     }
 
-    // Folder Only functions // TODO: ??
     @Override
     public ArrayList<IFile> getFiles() {
         return null;
