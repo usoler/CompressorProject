@@ -122,9 +122,11 @@ public class PresentationController {
     /**
      * Changes the main view to the comparison view
      */
-    public void changeMainViewToComparisonView() {
+    public void changeMainViewToComparisonView(String originalContent, String decompressedContent) {
         mainView.disable();
         comparisonView.show();
+        comparisonView.setOriginalContent(originalContent);
+        comparisonView.setDecompressionResult(decompressedContent);
     }
 
     /**
@@ -159,5 +161,22 @@ public class PresentationController {
         } finally {
             mainView.loadStatsTable(arrayOfStats, exception);
         }
+    }
+
+    public String[] uncompressFileAndReturnResult(String algorithm, String pathname, String filename, String extension) throws CompressorException {
+        LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
+                algorithm, pathname);
+        return domainController.uncompressFileAndReturnResult(algorithm, pathname, filename, extension);
+    }
+
+    /**
+     * Gets the filename from a given pathname
+     *
+     * @param pathname the file pathname
+     * @return the filename
+     */
+    public String getContentFromPath(String pathname) {
+        LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
+        return domainController.getContentFromPath(pathname);
     }
 }
