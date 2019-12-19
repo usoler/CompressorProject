@@ -150,8 +150,9 @@ public class ComparisonViewSwing {
     }
 
     public void setOriginalContent(String content) {
-//        leftCardLayout.next(originalContentPanel);
+        leftCardLayout.next(originalContentPanel);
         originalText.setText(content);
+        originalImage.getGraphics().drawImage(matrixToImage(), 0, 0, null);
 //        originalImage.paint();
     }
 
