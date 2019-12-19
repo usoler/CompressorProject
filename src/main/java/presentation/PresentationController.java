@@ -59,9 +59,9 @@ public class PresentationController {
      * @param linesToRemove the lines to remove
      * @throws CompressorException If any error occurs
      */
-    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove, String pathname) throws CompressorException {
         LOGGER.debug("Calling Rewrite History File from Domain Controller");
-        domainController.rewriteHistoryFile(linesToRemove);
+        domainController.rewriteHistoryFile(linesToRemove, pathname);
         LOGGER.debug("Rewrite from Domain Controller called");
     }
 

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DomainController {
 
@@ -64,7 +65,7 @@ public class DomainController {
             }
             ++index;
         }
-        rewriteHistoryFile(linesToRemove);
+        rewriteHistoryFile(linesToRemove, null);
         return goodArrayOfFileData;
     }
 
@@ -102,8 +103,12 @@ public class DomainController {
      * @param linesToRemove the lines to remove
      * @throws CompressorException If any error occurs
      */
-    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove, String pathname) throws CompressorException {
         LOGGER.debug("Rewriting history file");
+        if (!Objects.isNull(pathname)) {
+            fileManager.removeFile(pathname);
+        }
+
         dataController.rewriteHistoryFile(linesToRemove);
         LOGGER.debug("History file rewrote");
     }

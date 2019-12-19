@@ -403,11 +403,12 @@ public class MainViewSwing {
     private void addRemoveFileButtonListeners() {
         removeFileButton.addActionListener(e -> {
             int modelRow = historyTable.convertRowIndexToModel(historyTable.getSelectedRow());
+            String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             ((DefaultTableModel) historyTable.getModel()).removeRow(modelRow);
             ArrayList<Integer> lineToRemove = new ArrayList<>();
             lineToRemove.add(modelRow);
             try {
-                presentationController.rewriteHistoryFile(lineToRemove);
+                presentationController.rewriteHistoryFile(lineToRemove, pathname);
             } catch (CompressorException ex) {
                 showException(ex);
             }
