@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ComparisonViewSwing { // TODO: Add javadoc
+public class ComparisonViewSwing {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MainViewSwing.class);
 

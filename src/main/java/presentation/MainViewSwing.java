@@ -371,6 +371,7 @@ public class MainViewSwing {
     private void addAddFileButtonListeners() {
         addFileButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             int selection = fileChooser.showOpenDialog(historyPanel);
 
             if (selection == JFileChooser.APPROVE_OPTION) {

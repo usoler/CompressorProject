@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="d1a5c2dd-3f7a-4f54-8d95-21883a03b4fc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input/16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/input/16x16.ppm" afterDir="false" />
@@ -17,20 +18,48 @@
       <change beforePath="$PROJECT_DIR$/input/white16x16.ppm" beforeDir="false" afterPath="$PROJECT_DIR$/input/white16x16.ppm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainEncodeFolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainEncodeFolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
+=======
+    <list default="true" id="81a13932-e381-4770-84bd-c775dc111602" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/history.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/stats.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/stats.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input/test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/FileStub.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Folder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Folder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/fileManager/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/ComparisonViewSwing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/ComparisonViewSwing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presentation/MainViewSwing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presentation/MainViewSwing.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< Updated upstream
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1VAGxUJzBkCEvyr5LnlFZldKUaP" />
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+>>>>>>> Stashed changes
       <list>
         <option value="JUnit4 Test Class" />
         <option value="Class" />
       </list>
     </option>
   </component>
+<<<<<<< Updated upstream
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -77,7 +106,67 @@
   <component name="RunManager" selected="Application.MyLoggerExample">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
+=======
+  <component name="RunManager" selected="Application.MainSwing">
+    <configuration name="MainSwing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainSwing" />
       <module name="CompressorProject" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in CompressorProject" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LzwTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+>>>>>>> Stashed changes
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.algorithms.lossless.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
+      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LzwTest.verify_encode_encode_whenPassEmptyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.algorithms.lossless.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.algorithms.lossless" />
+      <option name="MAIN_CLASS_NAME" value="domain.algorithms.lossless.LzwTest" />
+      <option name="METHOD_NAME" value="verify_encode_encode_whenPassEmptyFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PpmComponentTest.verify_writePpmFile_returnsStringOfMatrixData_whenRgbMatrixIsValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CompressorProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domain.components.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domain.components" />
+      <option name="MAIN_CLASS_NAME" value="domain.components.PpmComponentTest" />
+      <option name="METHOD_NAME" value="verify_writePpmFile_returnsStringOfMatrixData_whenRgbMatrixIsValid" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -114,11 +203,19 @@
     </configuration>
     <recent_temporary>
       <list>
+<<<<<<< Updated upstream
         <item itemvalue="Application.MyLoggerExample" />
         <item itemvalue="Application.MainEncodeFolder" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.MainTest" />
         <item itemvalue="JUnit.TestSuite" />
+=======
+        <item itemvalue="Application.MainSwing" />
+        <item itemvalue="JUnit.All in CompressorProject" />
+        <item itemvalue="JUnit.LzwTest" />
+        <item itemvalue="JUnit.LzwTest.verify_encode_encode_whenPassEmptyFile" />
+        <item itemvalue="JUnit.PpmComponentTest.verify_writePpmFile_returnsStringOfMatrixData_whenRgbMatrixIsValid" />
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
@@ -178,6 +275,7 @@
       </map>
     </option>
   </component>
+<<<<<<< Updated upstream
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
@@ -207,10 +305,13 @@
     </state>
     <state x="401" y="189" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1576176380015" />
   </component>
+=======
+>>>>>>> Stashed changes
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
+<<<<<<< Updated upstream
           <url>file://$PROJECT_DIR$/src/main/java/domain/components/PpmComponent.java</url>
           <line>10</line>
           <option name="timeStamp" value="4" />
@@ -248,5 +349,18 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CompressorProject2$MainSwing.ic" NAME="MainSwing Coverage Results" MODIFIED="1576178519562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+=======
+          <url>file://$PROJECT_DIR$/src/test/java/domain/algorithms/lossless/LzwTest.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/domain/algorithms/Algorithm.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+>>>>>>> Stashed changes
   </component>
 </project>

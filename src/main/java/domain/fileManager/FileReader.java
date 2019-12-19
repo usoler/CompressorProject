@@ -79,7 +79,7 @@ public class FileReader {
     private static FileInputStream readFile(File file, String pathname, IFile folder) throws CompressorException {
         FileInputStream fileInputStream = startInputStream(file);
         String format = obtainFormatOfFile(file.getName());
-        byte[] binaryData = {};
+        byte[] binaryData;
         try {
             binaryData = Files.readAllBytes(new File(pathname).toPath());
         } catch (IOException e) {
