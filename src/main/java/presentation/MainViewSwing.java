@@ -15,6 +15,7 @@ import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -523,6 +524,7 @@ public class MainViewSwing {
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
             String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
             String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
+            String originalContent = presentationController.getContentFromPath(pathname);
             try {
                 String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
                 originalSizeLabel.setText(size);
@@ -539,19 +541,22 @@ public class MainViewSwing {
             filename = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 0).toString();
             extension = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 3).toString();
             size = historyTable.getValueAt(historyTable.getSelectedRow() + 1, 2).toString();
+            String decompressionResult = new String();
             try {
-                String[] response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
+                String[] response = presentationController.uncompressFileAndReturnResult(algorithm, pathname, filename, extension);
                 newSizeLabel.setText(size);
                 String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
                 originalSizeLabel.setText(fileSize);
                 addRowToTable(uncompressedFilename, response[0], fileSize, null);
-                addRowToStatsTable(filename, algorithm, response, false);
+                addRowToStatsTable(filename, algorithm, Arrays.copyOfRange(response, 0, 5), false);
+                decompressionResult = response[5];
+//                LOGGER.debug(String.format("Getting the content form: %s", ));
             } catch (CompressorException ex) {
                 showException(ex);
             }
 
-            presentationController.changeMainViewToComparisonView();
+            presentationController.changeMainViewToComparisonView(originalContent, decompressionResult);
         });
     }
 
