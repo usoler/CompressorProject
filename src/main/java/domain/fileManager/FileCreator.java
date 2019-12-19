@@ -83,6 +83,7 @@ public class FileCreator {
             for (IFile f : ((Folder) iFile).getFiles()) {
                 if (f instanceof domain.File) {
                     fileManager.setNewFile(f);
+                    fileManager.writeFile(f.getPathname());
                 } else if (f instanceof Folder) {
                     createFileUsingIFile(f);
                 }
