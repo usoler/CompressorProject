@@ -27,25 +27,10 @@ public class MainEncodeFolder {
         //testEncodeFolderWithFolderImpl();
         //testEncodeJPEGWithFileManager();
 //        testFindFolder();
-//        testFinal();
-        pruebas();
+        testFinal();
+//        pruebas();
     }
 
-    private static void pruebas() {
-        try {
-            BufferedImage image = ImageIO.read(new File("C:\\Users\\mique\\OneDrive\\Desktop\\snail.ascii.ppm"));
-            System.out.println(image);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private static void testFindFolder() throws CompressorException {
-        FileManager fileManager = new FileManager();
-        String path = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\input";
-        fileManager.readFolder(path);
-        IFile folder = fileManager.getFile(path);
-    }
 
     private static AlgorithmInterface askAlgorithm() {
         Scanner scanner = new Scanner(System.in);
@@ -88,7 +73,6 @@ public class MainEncodeFolder {
         IFile folder = fileManager.getFile(path);
         Algorithm algorithm = new Algorithm();
         byte[] compressionResult = algorithm.encodeFolder((Folder)folder, textAlgorithm);
-        System.out.println(compressionResult.length);
 
         String outputEncode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputEncodeFolder" + '\\' + folder.getName() + ".fdr";
         File compressedFolder = new File(outputEncode); // TODO: ??
@@ -98,7 +82,7 @@ public class MainEncodeFolder {
         fileManager.readFile(outputEncode);
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
-        IFile decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
+        Folder decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
         createFileUsingIFile(decodedFolder);
     }
 
