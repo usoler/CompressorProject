@@ -83,7 +83,7 @@ public class MainEncodeFolder {
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
         Folder decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
-        //createFileUsingIFile(decodedFolder);
+        fileManager.createFolderFromIFile(decodedFolder);
     }
 
 
