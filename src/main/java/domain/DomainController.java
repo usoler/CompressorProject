@@ -2,6 +2,7 @@ package domain;
 
 import data.DataController;
 import domain.algorithms.Algorithm;
+import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
@@ -17,12 +18,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 public class DomainController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DomainController.class);
-
     private DataController dataController;
     private FileManager fileManager;
 
@@ -67,7 +70,7 @@ public class DomainController {
             }
             ++index;
         }
-        rewriteHistoryFile(linesToRemove);
+        rewriteHistoryFile(linesToRemove, null);
         return goodArrayOfFileData;
     }
 
@@ -105,8 +108,12 @@ public class DomainController {
      * @param linesToRemove the lines to remove
      * @throws CompressorException If any error occurs
      */
-    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove, String pathname) throws CompressorException {
         LOGGER.debug("Rewriting history file");
+        if (!Objects.isNull(pathname)) {
+            fileManager.removeFile(pathname);
+        }
+
         dataController.rewriteHistoryFile(linesToRemove);
         LOGGER.debug("History file rewrote");
     }
@@ -148,7 +155,57 @@ public class DomainController {
         fileManager.writeFile(compressedPath);
         response[0] = compressedPath;
         addStats(filename, typeOfAlgorithm, "Encode", response);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(compressedPath, formatter.format(new Date()));
         return response;
+    }
+
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Compressing folder with algorithm '{}', pathanme '{}' and filename '{}'",
+                pathname, filename);
+        String[] response = new String[5];
+        Algorithm algorithm = new Algorithm();
+        Folder folder = (Folder) fileManager.getFile(pathname);
+        byte[] encodingResult = algorithm.encodeFolder(folder, getTextAlgorithm(typeOfAlgorithm));
+
+        String compressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + ".folderzip";
+        fileManager.createCompressedFile(encodingResult, compressedPath, filename, encodingResult.length, "folderzip");
+        fileManager.writeFile(compressedPath);
+        response[0] = compressedPath;
+        LOGGER.debug("Folder compressed");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(compressedPath, formatter.format(new Date()));
+        return response;
+    }
+
+    public String[] uncompressFolder(String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Uncompressing folder with pathname '{}' and filename '{}'", pathname, filename);
+        String[] response = new String[5];
+        Algorithm algorithm = new Algorithm();
+        fileManager.readFile(pathname);
+        IFile folder = fileManager.getFile(pathname);
+        Folder decodedFolder = algorithm.decodeFolder(folder.getData(), System.getProperty("user.dir") + "/output");
+
+        fileManager.createFolderFromIFile(decodedFolder);
+
+        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename;
+
+        response[0] = uncompressedPath;
+        LOGGER.debug("Folder uncompressed");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(uncompressedPath, formatter.format(new Date()));
+        return response;
+    }
+
+    private AlgorithmInterface getTextAlgorithm(String typeOfAlgorithm) {
+        if (typeOfAlgorithm.equals("LZW")) {
+            return new Lzw();
+        } else {
+            return new Lz78();
+        }
     }
 
     /**
@@ -187,6 +244,8 @@ public class DomainController {
         fileManager.writeFile(uncompressedPath);
         response[0] = uncompressedPath;
         addStats(filename, typeOfAlgorithm, "Decode", response);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(uncompressedPath, formatter.format(new Date()));
         return response;
     }
 
@@ -369,9 +428,9 @@ public class DomainController {
         for (int i = 0; i < pixelMatrix.getNumberOfRows(); i++) {
             for (int j = 0; j < pixelMatrix.getNumberOfColumns(); j++) {
                 Pixel pixel = pixelMatrix.getElementAt(i, j);
-                matrix[i][j][0] = (int)pixel.getX();
-                matrix[i][j][1] = (int)pixel.getY();
-                matrix[i][j][2] = (int)pixel.getZ();
+                matrix[i][j][0] = (int) pixel.getX();
+                matrix[i][j][1] = (int) pixel.getY();
+                matrix[i][j][2] = (int) pixel.getZ();
             }
         }
         return matrix;

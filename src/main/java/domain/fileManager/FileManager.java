@@ -113,11 +113,9 @@ public class FileManager {
         return null;
     }
 
-    public void removeFile(String pathname)
-    {
+    public void removeFile(String pathname) {
         IFile file = findFileWithPathname(pathname);
-        if (file != null)
-        {
+        if (file != null) {
             listOfFiles.remove(file);
         }
     }

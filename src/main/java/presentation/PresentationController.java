@@ -59,9 +59,9 @@ public class PresentationController {
      * @param linesToRemove the lines to remove
      * @throws CompressorException If any error occurs
      */
-    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove) throws CompressorException {
+    public void rewriteHistoryFile(ArrayList<Integer> linesToRemove, String pathname) throws CompressorException {
         LOGGER.debug("Calling Rewrite History File from Domain Controller");
-        domainController.rewriteHistoryFile(linesToRemove);
+        domainController.rewriteHistoryFile(linesToRemove, pathname);
         LOGGER.debug("Rewrite from Domain Controller called");
     }
 
@@ -82,6 +82,21 @@ public class PresentationController {
     }
 
     /**
+     * Compress a folder with a given path, filename, extension and algorithm
+     *
+     * @param typeOfAlgorithm the algorithm to encode
+     * @param pathname        the file pathname
+     * @param filename        the filename
+     * @return the compressed file data
+     * @throws CompressorException If any error occurs
+     */
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Calling Compress Folder from Domain Controller with params algorithm '{}' and pathname '{}'",
+                pathname);
+        return domainController.compressFolder(typeOfAlgorithm, pathname, filename);
+    }
+
+    /**
      * Uncompress a file with a given pathname, filename, extension and algorithm
      *
      * @param algorithm the algorithm to decode
@@ -95,6 +110,20 @@ public class PresentationController {
         LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
         return domainController.uncompressFile(algorithm, pathname, filename, extension);
+    }
+
+    /**
+     * Uncompress a folder with a given pathname, filename, extension and algorithm
+     *
+     * @param pathname the file pathname
+     * @param filename the filename
+     * @return the uncompressed file data
+     * @throws CompressorException If any error occurs
+     */
+    public String[] uncompressFolder(String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Calling Uncompress Folder from Domain Controller with params pathname '{}' and filename '{}'",
+                filename, pathname);
+        return domainController.uncompressFolder(pathname, filename);
     }
 
     /**
