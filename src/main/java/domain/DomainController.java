@@ -5,6 +5,9 @@ import domain.algorithms.Algorithm;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
+import domain.components.PpmComponent;
+import domain.dataObjects.Pixel;
+import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
@@ -357,5 +360,20 @@ public class DomainController {
     public String getContentFromPath(String pathname) {
         LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
         return new String(fileManager.getFile(pathname).getData());
+    }
+
+    public int[][][] readPpmImage(String pathname) throws CompressorException {
+        LOGGER.debug("Calling Read Content from path from Domain Controller with pathname param '{}'", pathname);
+        Matrix<Pixel> pixelMatrix = new PpmComponent().readPpmFile(fileManager.getFile(pathname).getData()).getMatrix();
+        int[][][] matrix = new int[pixelMatrix.getNumberOfRows()][pixelMatrix.getNumberOfColumns()][3];
+        for (int i = 0; i < pixelMatrix.getNumberOfRows(); i++) {
+            for (int j = 0; j < pixelMatrix.getNumberOfColumns(); j++) {
+                Pixel pixel = pixelMatrix.getElementAt(i, j);
+                matrix[i][j][0] = (int)pixel.getX();
+                matrix[i][j][1] = (int)pixel.getY();
+                matrix[i][j][2] = (int)pixel.getZ();
+            }
+        }
+        return matrix;
     }
 }

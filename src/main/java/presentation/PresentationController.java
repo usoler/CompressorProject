@@ -173,4 +173,9 @@ public class PresentationController {
         LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
         return domainController.getContentFromPath(pathname);
     }
+
+    public int[][][] readPpmImage(String pathname) throws CompressorException {
+        LOGGER.debug("Calling Read PPM Image from path from Domain Controller with pathname param {}", pathname);
+        return domainController.readPpmImage(pathname);
+    }
 }
