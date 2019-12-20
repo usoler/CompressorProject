@@ -119,6 +119,8 @@ public class ComparisonViewSwing {
 
     private void initOriginalContentPanel() {
         originalContentPanel.setLayout(leftCardLayout);
+        originalText.setEnabled(false);
+        originalText.setDisabledTextColor(Color.BLACK);
         JScrollPane originalTextScrollPanel = new JScrollPane(originalText);
         originalTextVerticalModel = originalTextScrollPanel.getVerticalScrollBar().getModel();
         originalTextHorizontalModel = originalTextScrollPanel.getHorizontalScrollBar().getModel();
@@ -131,6 +133,8 @@ public class ComparisonViewSwing {
 
     private void initCompressedContentPanel() {
         decompressedContentPanel.setLayout(rightCardLayout);
+        decompressedText.setEnabled(false);
+        decompressedText.setDisabledTextColor(Color.BLACK);
         JScrollPane decompressedTextScrollPanel = new JScrollPane(decompressedText);
         decompressedTextScrollPanel.getVerticalScrollBar().setModel(originalTextVerticalModel);
         decompressedTextScrollPanel.getHorizontalScrollBar().setModel(originalTextHorizontalModel);
