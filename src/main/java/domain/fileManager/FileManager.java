@@ -119,4 +119,14 @@ public class FileManager {
             listOfFiles.remove(file);
         }
     }
+
+    /**
+     * Adds a new file in the list of files
+     *
+     * @param ifile the folder file
+     */
+    public void createFolderFromIFile(IFile ifile) throws CompressorException {
+        fileCreator.createFileUsingIFile(ifile);
+    }
+
 }

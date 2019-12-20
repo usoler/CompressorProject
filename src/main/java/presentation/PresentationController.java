@@ -81,10 +81,19 @@ public class PresentationController {
         return domainController.compressFile(algorithm, pathname, filename, extension);
     }
 
-    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    /**
+     * Compress a folder with a given path, filename, extension and algorithm
+     *
+     * @param typeOfAlgorithm the algorithm to encode
+     * @param pathname        the file pathname
+     * @param filename        the filename
+     * @return the compressed file data
+     * @throws CompressorException If any error occurs
+     */
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
         LOGGER.debug("Calling Compress Folder from Domain Controller with params algorithm '{}' and pathname '{}'",
                 pathname);
-        return domainController.compressFolder(typeOfAlgorithm, pathname, filename, extension);
+        return domainController.compressFolder(typeOfAlgorithm, pathname, filename);
     }
 
     /**
@@ -101,6 +110,20 @@ public class PresentationController {
         LOGGER.debug("Calling Uncompress File from Domain Controller with params algorithm '{}' and pathname '{}'",
                 algorithm, pathname);
         return domainController.uncompressFile(algorithm, pathname, filename, extension);
+    }
+
+    /**
+     * Uncompress a folder with a given pathname, filename, extension and algorithm
+     *
+     * @param pathname the file pathname
+     * @param filename the filename
+     * @return the uncompressed file data
+     * @throws CompressorException If any error occurs
+     */
+    public String[] uncompressFolder(String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Calling Uncompress Folder from Domain Controller with params pathname '{}' and filename '{}'",
+                filename, pathname);
+        return domainController.uncompressFolder(pathname, filename);
     }
 
     /**
@@ -178,5 +201,10 @@ public class PresentationController {
     public String getContentFromPath(String pathname) {
         LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
         return domainController.getContentFromPath(pathname);
+    }
+
+    public int[][][] readPpmImage(String pathname) throws CompressorException {
+        LOGGER.debug("Calling Read PPM Image from path from Domain Controller with pathname param {}", pathname);
+        return domainController.readPpmImage(pathname);
     }
 }

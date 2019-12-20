@@ -6,6 +6,9 @@ import domain.algorithms.AlgorithmInterface;
 import domain.algorithms.lossless.Lz78;
 import domain.algorithms.lossless.Lzw;
 import domain.algorithms.lossy.Jpeg;
+import domain.components.PpmComponent;
+import domain.dataObjects.Pixel;
+import domain.dataStructure.Matrix;
 import domain.exception.CompressorErrorCode;
 import domain.exception.CompressorException;
 import domain.fileManager.FileManager;
@@ -153,7 +156,7 @@ public class DomainController {
         return response;
     }
 
-    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename, String extension) throws CompressorException {
+    public String[] compressFolder(String typeOfAlgorithm, String pathname, String filename) throws CompressorException {
         LOGGER.debug("Compressing folder with algorithm '{}', pathanme '{}' and filename '{}'",
                 pathname, filename);
         String[] response = new String[5];
@@ -168,6 +171,24 @@ public class DomainController {
         response[0] = compressedPath;
         LOGGER.debug("Folder compressed");
 
+        return response;
+    }
+
+    public String[] uncompressFolder(String pathname, String filename) throws CompressorException {
+        LOGGER.debug("Uncompressing folder with pathname '{}' and filename '{}'", pathname, filename);
+        String[] response = new String[5];
+        Algorithm algorithm = new Algorithm();
+        fileManager.readFile(pathname);
+        IFile folder = fileManager.getFile(pathname);
+        Folder decodedFolder = algorithm.decodeFolder(folder.getData(), "output/");
+
+        fileManager.createFolderFromIFile(folder);
+
+        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
+                + ".folder";
+
+        response[0] = uncompressedPath;
+        LOGGER.debug("Folder uncompressed");
         return response;
     }
 
@@ -277,7 +298,7 @@ public class DomainController {
         LOGGER.debug("Compression Speed: '{}'", response[3]);
         response[1] = showCompressionRatio(uncompressedSize, compressedSize);
         LOGGER.debug("Compression Ratio: '{}'", response[1]);
-        response[4] = Float.toString((1.0f - compressedSize / uncompressedSize) * 100.0f);
+        response[4] = Float.toString(avoidNegativeValues((1.0f - compressedSize / uncompressedSize) * 100.0f));
         LOGGER.debug("Elapsed Time: '{}'", response[4]);
 
         return response;
@@ -287,7 +308,7 @@ public class DomainController {
         if ((end - start) == 0 && (uncompressedSize - compressedSize) == 0) {
             return "0";
         } else {
-            return Float.toString((uncompressedSize - compressedSize) / (end - start));
+            return Float.toString(avoidNegativeValues((uncompressedSize - compressedSize) / (end - start)));
         }
     }
 
@@ -295,8 +316,15 @@ public class DomainController {
         if (uncompressedSize == 0 && compressedSize == 0) {
             return "0";
         } else {
-            return Float.toString(uncompressedSize / compressedSize);
+            return Float.toString(avoidNegativeValues(uncompressedSize / compressedSize));
         }
+    }
+
+    private float avoidNegativeValues(float value) {
+        if (value < 0.0f) {
+            value = 0.0f;
+        }
+        return value;
     }
 
     private String getFormatByTypeOfAlgorithm(String typeOfAlgorithm) throws CompressorException {
@@ -381,5 +409,20 @@ public class DomainController {
     public String getContentFromPath(String pathname) {
         LOGGER.debug("Calling Get Content from path from Domain Controller with pathname param '{}'", pathname);
         return new String(fileManager.getFile(pathname).getData());
+    }
+
+    public int[][][] readPpmImage(String pathname) throws CompressorException {
+        LOGGER.debug("Calling Read Content from path from Domain Controller with pathname param '{}'", pathname);
+        Matrix<Pixel> pixelMatrix = new PpmComponent().readPpmFile(fileManager.getFile(pathname).getData()).getMatrix();
+        int[][][] matrix = new int[pixelMatrix.getNumberOfRows()][pixelMatrix.getNumberOfColumns()][3];
+        for (int i = 0; i < pixelMatrix.getNumberOfRows(); i++) {
+            for (int j = 0; j < pixelMatrix.getNumberOfColumns(); j++) {
+                Pixel pixel = pixelMatrix.getElementAt(i, j);
+                matrix[i][j][0] = (int) pixel.getX();
+                matrix[i][j][1] = (int) pixel.getY();
+                matrix[i][j][2] = (int) pixel.getZ();
+            }
+        }
+        return matrix;
     }
 }

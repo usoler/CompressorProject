@@ -83,28 +83,10 @@ public class MainEncodeFolder {
         IFile file = fileManager.getFile(outputEncode);
         String outputDecode = "C:\\Users\\mique\\OneDrive\\Desktop\\ComprimirCarpeta\\outputDecodeFolder";
         Folder decodedFolder = algorithm.decodeFolder(file.getData(), outputDecode);
-        createFileUsingIFile(decodedFolder);
+        fileManager.createFolderFromIFile(decodedFolder);
     }
 
-    private static void createFileUsingIFile(IFile iFile) throws CompressorException {
-        if (iFile instanceof Folder) {
-            String pathname = ((Folder) iFile).getPathname();
-            File folder = new File(pathname);
-            folder.mkdir();
-            for (IFile f : ((Folder) iFile).getFiles()) {
-                if (f instanceof domain.File) {
-                    FileManager fileManager = new FileManager();
-                    String newPathname = pathname + File.separator + ((domain.File) f).getName();
-                    fileManager.createDecompressedFile(((domain.File) f).getData(), newPathname,
-                            ((domain.File) f).getName(),
-                            ((domain.File) f).getData().length, "." + ((domain.File) f).getFormat());
-                    fileManager.writeFile(newPathname);
-                } else if (f instanceof Folder) {
-                    createFileUsingIFile(f);
-                }
-            }
-        }
-    }
+
 
 
     private static void testEncodeJPEG() throws IOException, CompressorException {
