@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class DomainController {
@@ -153,6 +155,9 @@ public class DomainController {
         fileManager.writeFile(compressedPath);
         response[0] = compressedPath;
         addStats(filename, typeOfAlgorithm, "Encode", response);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(compressedPath, formatter.format(new Date()));
         return response;
     }
 
@@ -171,6 +176,8 @@ public class DomainController {
         response[0] = compressedPath;
         LOGGER.debug("Folder compressed");
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(compressedPath, formatter.format(new Date()));
         return response;
     }
 
@@ -180,15 +187,16 @@ public class DomainController {
         Algorithm algorithm = new Algorithm();
         fileManager.readFile(pathname);
         IFile folder = fileManager.getFile(pathname);
-        Folder decodedFolder = algorithm.decodeFolder(folder.getData(), "output/");
+        Folder decodedFolder = algorithm.decodeFolder(folder.getData(), System.getProperty("user.dir") + "/output");
 
-        fileManager.createFolderFromIFile(folder);
+        fileManager.createFolderFromIFile(decodedFolder);
 
-        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename
-                + ".folder";
+        String uncompressedPath = System.getProperty("user.dir") + "/output/" + filename;
 
         response[0] = uncompressedPath;
         LOGGER.debug("Folder uncompressed");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(uncompressedPath, formatter.format(new Date()));
         return response;
     }
 
@@ -236,6 +244,8 @@ public class DomainController {
         fileManager.writeFile(uncompressedPath);
         response[0] = uncompressedPath;
         addStats(filename, typeOfAlgorithm, "Decode", response);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dataController.addFileToHistoryFile(uncompressedPath, formatter.format(new Date()));
         return response;
     }
 

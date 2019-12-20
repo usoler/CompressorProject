@@ -501,28 +501,38 @@ public class MainViewSwing {
             String algorithm = algorithmComboBox.getSelectedItem().toString();
             String pathname = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
             String filename = historyTable.getValueAt(historyTable.getSelectedRow(), 0).toString();
-            String extension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
-            String size = historyTable.getValueAt(historyTable.getSelectedRow(), 2).toString();
+            String originalExtension = historyTable.getValueAt(historyTable.getSelectedRow(), 3).toString();
             try {
-                String[] response = presentationController.compressFile(algorithm, pathname, filename, extension);
+                String[] response;
+                if (!originalExtension.equals("folder")) {
+                    response = presentationController.compressFile(algorithm, pathname, filename, originalExtension);
+                    addRowToStatsTable(filename, algorithm, response, true);
+                } else {
+                    response = presentationController.compressFolder(algorithm, pathname, filename);
+                }
                 String compressedFilename = presentationController.getFilenameFromPath(response[0]);
                 String fileSize = presentationController.getFileSizeFromPath(response[0]);
                 addRowToTable(compressedFilename, response[0], fileSize, null);
-                addRowToStatsTable(filename, algorithm, response, true);
 
                 pathname = historyTable.getValueAt(historyTable.getRowCount() - 1, 4).toString();
                 filename = historyTable.getValueAt(historyTable.getRowCount() - 1, 0).toString();
-                extension = historyTable.getValueAt(historyTable.getRowCount() - 1, 3).toString();
-                size = historyTable.getValueAt(historyTable.getRowCount() - 1, 2).toString();
-                response = presentationController.uncompressFile(algorithm, pathname, filename, extension);
+                String newExtension = historyTable.getValueAt(historyTable.getRowCount() - 1, 3).toString();
+
+                if (!newExtension.equals("folderzip")) {
+                    response = presentationController.uncompressFile(algorithm, pathname, filename, newExtension);
+                    addRowToStatsTable(filename, algorithm, response, false);
+                } else {
+                    response = presentationController.uncompressFolder(pathname, filename);
+                }
                 String uncompressedFilename = presentationController.getFilenameFromPath(response[0]);
                 fileSize = presentationController.getFileSizeFromPath(response[0]);
                 addRowToTable(uncompressedFilename, response[0], fileSize, null);
-                addRowToStatsTable(filename, algorithm, response, false);
 
                 String originalPath = historyTable.getValueAt(historyTable.getSelectedRow(), 4).toString();
                 String decompressionPath = historyTable.getValueAt(historyTable.getRowCount() - 1, 4).toString();
-                presentationController.changeMainViewToComparisonView(originalPath, decompressionPath);
+                if (!originalExtension.equals("folder")) {
+                    presentationController.changeMainViewToComparisonView(originalPath, decompressionPath);
+                }
             } catch (CompressorException ex) {
                 showException(ex);
             }
